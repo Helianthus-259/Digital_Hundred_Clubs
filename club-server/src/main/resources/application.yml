@@ -1,0 +1,19 @@
+#服务端口，随便起
+server:
+  port: 8082
+#服务名称
+spring:
+  application:
+    name: club-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/digital_club_db?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: a123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:11011/eureka/
+
