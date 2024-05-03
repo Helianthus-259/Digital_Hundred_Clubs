@@ -11,7 +11,6 @@ import lombok.val;
 import org.example.vo.SendMsg;
 import org.example.vo.LRSuccess;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.example.entity.Student;
 
