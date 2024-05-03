@@ -19,4 +19,9 @@ public class StudentController {
     public Object register(@RequestParam("email") String email, @RequestParam("verifyCode") String verifyCode, @RequestParam("password") String password){
         return studentClientService.register(email,verifyCode,password);
     }
+
+    @GetMapping("/api/verifyCode")
+    Object login(@RequestParam("email") String email){
+        return studentClientService.sendVerifyCode(email);
+    }
 }

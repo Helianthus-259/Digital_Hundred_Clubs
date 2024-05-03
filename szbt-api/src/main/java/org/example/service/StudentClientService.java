@@ -10,6 +10,9 @@ public interface StudentClientService {
     @PostMapping("/student/login")
     public Object login(@RequestParam("email") String email,@RequestParam("password") String password);
 
-    @RequestMapping("/student/register")
+    @PostMapping("/student/register")
     public Object register(@RequestParam("email") String email, @RequestParam("verifyCode") String verifyCode, @RequestParam("password") String password);
+
+    @GetMapping("/student/verifyCode")
+    public Object sendVerifyCode(@RequestParam("email") String email);
 }

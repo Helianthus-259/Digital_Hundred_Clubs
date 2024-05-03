@@ -11,4 +11,6 @@ import org.example.entity.Student;
 public interface StudentService extends IService<Student> {
     Object login(String email, String password);
     Object register(String email, String verifyCode, String password);
+
+    Object sendVerifyCode(String email);
 }

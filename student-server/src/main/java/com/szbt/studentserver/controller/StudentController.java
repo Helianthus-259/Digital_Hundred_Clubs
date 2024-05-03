@@ -16,10 +16,6 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-//    @RequestMapping("/login")
-//    public Object login(HttpServletRequest request, String email, String password){
-//        return studentService.login(email,password);
-//    }
 
     @PostMapping("/login")
     public Object login(String email, String password)
@@ -30,5 +26,10 @@ public class StudentController {
     @PostMapping("/register")
     public Object register(String email, String verifyCode, String password){
         return studentService.register(email,verifyCode,password);
+    }
+
+    @GetMapping("/verifyCode")
+    public Object sendVerifyCode(String email){
+        return studentService.sendVerifyCode(email);
     }
 }
