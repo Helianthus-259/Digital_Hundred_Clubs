@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.clubserver.dao.mapper.ClubMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Club">
+            <id property="clubId" column="club_id" jdbcType="INTEGER"/>
+            <result property="clubName" column="club_name" jdbcType="VARCHAR"/>
+            <result property="establishmentDate" column="establishment_date" jdbcType="DATE"/>
+            <result property="responsibleDepartmentId" column="responsible_department_id" jdbcType="INTEGER"/>
+            <result property="clubDescription" column="club_description" jdbcType="VARCHAR"/>
+            <result property="clubCategory" column="club_category" jdbcType="INTEGER"/>
+            <result property="administrativeGuideTeacherName" column="administrative_guide_teacher_name" jdbcType="VARCHAR"/>
+            <result property="businessGuideTeacherName" column="business_guide_teacher_name" jdbcType="VARCHAR"/>
+            <result property="contactPersonId" column="contact_person_id" jdbcType="INTEGER"/>
+            <result property="clubStatus" column="club_status" jdbcType="TINYINT"/>
+            <result property="mainCampus" column="main_campus" jdbcType="INTEGER"/>
+            <result property="totalMembers" column="total_members" jdbcType="INTEGER"/>
+            <result property="isFinancialInformationPublic" column="is_financial_information_public" jdbcType="INTEGER"/>
+            <result property="publicityManagementInfo" column="publicity_management_info" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        club_id,club_name,establishment_date,
+        responsible_department_id,club_description,club_category,
+        administrative_guide_teacher_name,business_guide_teacher_name,contact_person_id,
+        club_status,main_campus,total_members,
+        is_financial_information_public,publicity_management_info
+    </sql>
+</mapper>

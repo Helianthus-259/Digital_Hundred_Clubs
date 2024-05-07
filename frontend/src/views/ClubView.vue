@@ -1,0 +1,107 @@
+<style scoped>
+/* 顶部固定标签栏样式 */
+.backBox {
+    width: 10%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.labels {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.joinBox {
+    width: 10%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+/* 内容区样式 */
+.contentBox {
+    margin-top: 50px;
+}
+</style>
+
+<template>
+    <FixedLabelBar>
+        <div class="backBox">
+            <t-button theme="primary" variant="outline" size="small" @click="back2Home">返回首页</t-button>
+        </div>
+        <div class="labels">
+            <t-tabs :value="routerNames" @change="onNextChange">
+                <t-tab-panel v-for="(item, index) in tabPanelsNext" :key="index" :value="item.value"
+                    :label="item.label" />
+            </t-tabs>
+        </div>
+        <div class="joinBox">
+            <t-button theme="primary" variant="outline" size="small" @click="openDialog">加入我们</t-button>
+        </div>
+    </FixedLabelBar>
+    <div class="contentBox">
+        <RouterView />
+    </div>
+
+    <!-- 申请加入社团弹窗 -->
+    <myDialog ref="dialogRef">
+        <template #header>
+            加入社团申请表
+        </template>
+        <template #footer>
+            <t-button style="margin: 0 10px;" theme="primary" size="small">发送</t-button>
+            <t-button style="margin: 0 10px;" theme="light" size="small" @click="closeDialog">关闭</t-button>
+        </template>
+    </myDialog>
+</template>
+
+<script setup>
+import { RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
+import FixedLabelBar from '@/components/FixedLabelBar.vue';
+import myDialog from '@/components/myDialog.vue';
+import store from '@/store';
+import eventEmitter from '@/utils/eventEmitter';
+import { ref } from 'vue';
+
+const routerNames = ref(store.state.routeTabs.clubTabs);
+// 社团标签页
+const tabPanelsNext = [
+    {
+        value: '',
+        label: '社团简介',
+    },
+    {
+        value: 'clubActivities',
+        label: '社团动态',
+    },
+    {
+        value: 'clubMembers',
+        label: '成员组成',
+    },
+];
+const onNextChange = (value) => {
+    routerNames.value = value
+    const parentRoute = store.state.parentRoute.club
+    const selfRoute = parentRoute + value
+    eventEmitter.emit(RouterEventEnum.push, selfRoute)
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'clubTabs', value: value })
+};
+
+
+// 申请加入社团弹窗
+const dialogRef = ref(null);
+const openDialog = () => {
+    dialogRef.value.openDialog()
+};
+const closeDialog = () => {
+    dialogRef.value.closeDialog()
+}
+
+// 返回首页
+const back2Home = () => {
+    eventEmitter.emit(RouterEventEnum.push, '/')
+}
+</script>
