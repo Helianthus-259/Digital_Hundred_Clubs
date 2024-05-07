@@ -9,6 +9,7 @@ const base = {
     newClubApply: '/api/newClubApply', // 提交新社团申请
     clubActAndNtc: '/api/clubActAndNtc', // 获取社团活动通知
     clubIntroduction: '/api/clubIntroduction', // 获取社团简介
+    clubMembers: '/api/clubMembers', // 获取社团成员
 }
 
 export default base;
