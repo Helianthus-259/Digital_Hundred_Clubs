@@ -33,8 +33,8 @@ function successHandler(response) {
         if (response.data.code === 1) { // 登录成功
             const { token, uid } = response.data
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, uid })
-            eventEmitter.emit(RouterEventEnum.go, -1)
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'firstPageTabs', value: 'home' })
+            eventEmitter.emit(APIEventEnum.loginSuccess)
         } else if (response.data.code === 2) { // 获取社团信息成功
             const { data } = response.data
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubsData, data)

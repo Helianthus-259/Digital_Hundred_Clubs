@@ -159,7 +159,7 @@
 import fixedLabelBar from '../components/FixedLabelBar.vue';
 import { reactive, ref, computed } from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
-import { APIEnum, APIEventEnum } from '../Enum'
+import { APIEnum, APIEventEnum, RouterEventEnum } from '../Enum'
 
 // 登录和注册
 
@@ -230,6 +230,11 @@ const handleLogin = () => {
     }
 }
 
+
+// 监听登录成功时间
+eventEmitter.on(APIEventEnum.loginSuccess, () => {
+    eventEmitter.emit(RouterEventEnum.push, '/')
+})
 // 监听登录失败事件
 eventEmitter.on(APIEventEnum.incorrectInput, (msg) => {
     alert(msg)
