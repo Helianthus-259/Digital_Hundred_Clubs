@@ -260,3 +260,38 @@ mock.onGet(path.clubIntroduction).reply((config) => {
         ]
     }]
 })
+
+// 获取社团成员mock
+mock.onGet(path.clubMembers).reply((config) => {
+    return [200, {
+        code: 8, // 8代表获取社团成员
+        members: {
+            president: {
+                name: '张三',
+                position: '社长',
+                phone: '12345678901',
+                image: 'https://loremflickr.com/300/300',
+            },
+            executives: [
+                {
+                    name: '李四',
+                    position: '副社长',
+                    image: 'https://loremflickr.com/300/300',
+                },
+                {
+                    name: '王五',
+                    position: '干部',
+                    image: 'https://loremflickr.com/300/300',
+                },
+                {
+                    name: '赵六',
+                    position: '干部',
+                    image: 'https://loremflickr.com/300/300',
+                }
+            ],
+            others: {
+                number: 100,
+            }
+        }
+    }]
+})

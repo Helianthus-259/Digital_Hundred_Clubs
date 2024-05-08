@@ -61,6 +61,11 @@ const api = {
         params: {
             clubID: params.clubID,
         }
+    }),
+    'getClubMembers': (params) => axios.get(path.clubMembers, { // 获取社团成员
+        params: {
+            clubID: params.clubID,
+        }
     })
 }
 

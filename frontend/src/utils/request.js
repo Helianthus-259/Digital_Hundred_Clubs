@@ -54,6 +54,9 @@ function successHandler(response) {
         } else if (response.data.code === 7) { // 获取社团简介成功
             const { introduction } = response.data
             eventEmitter.emit(APIEventEnum.getClubIntroductionSuccess, introduction)
+        } else if (response.data.code === 8) { // 获取社团成员成功
+            const { members } = response.data
+            eventEmitter.emit(APIEventEnum.getClubMembersSuccess, members)
         }
     }
 }
