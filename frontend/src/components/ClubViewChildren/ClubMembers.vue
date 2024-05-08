@@ -18,7 +18,7 @@
     flex: 1;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 
@@ -30,15 +30,20 @@
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.president-section:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .president-section img {
     max-width: 100%;
     max-height: 200px;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 其他干部框 */
@@ -49,28 +54,33 @@
     border-radius: 8px;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
     white-space: nowrap;
+    transition: box-shadow 0.3s ease;
+}
+
+.executive-section:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* 横向滚动条样式 */
 .executive-section::-webkit-scrollbar {
     height: 8px;
-    /* 修改滚动条宽度为6px */
+
     background-color: transparent;
 }
 
 .executive-section::-webkit-scrollbar-thumb {
-    background-color: #999;
+    background-color: #ccc;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 .executive-section::-webkit-scrollbar-thumb:hover,
 .executive-section::-webkit-scrollbar-thumb:active {
-    background-color: #555;
+    background-color: #999;
 }
 
 .executive-section div {
@@ -83,14 +93,19 @@
     box-sizing: border-box;
     margin-right: 20px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.executive-section div:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .executive-section div img {
     max-width: 100%;
     max-height: 150px;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 下半部分 */
@@ -101,14 +116,19 @@
     background-color: #fff;
     border-radius: 8px;
     margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.member-section:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .charts {
     margin-top: 20px;
 }
 
-/* 新增样式 */
+/* 文字 */
 h2,
 h3,
 h4 {
@@ -118,13 +138,34 @@ h4 {
 p {
     color: #666;
 }
+
+/* 骨架屏样式 */
+.skeleton {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    animation: skeleton-loading 1s infinite alternate;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #f0f0f0;
+    }
+
+    100% {
+        background-color: #e0e0e0;
+    }
+}
 </style>
 
 <template>
     <div class="container">
         <div class="upper-section">
             <div class="president-section">
-                <img :src="president.image" />
+                <span v-show="!president.imageLoaded" class="skeleton"
+                    :style="{ width: '200px', height: '200px' }"></span>
+                <img v-show="president.imageLoaded" :src="president.image" @load="president.imageLoaded = true" />
                 <h2>{{ president.name }}</h2>
                 <p>联系方式: {{ president.phone }}</p>
             </div>
@@ -132,7 +173,10 @@ p {
             <div class="executive-section">
                 <h3>其他干部</h3>
                 <div v-for="executive in executives" :key="executive.name">
-                    <img :src="executive.image" :alt="executive.name" />
+                    <span v-show="!executive.imageLoaded" class="skeleton"
+                        :style="{ width: '150px', height: '150px' }"></span>
+                    <img v-show="executive.imageLoaded" :src="executive.image" :alt="executive.name"
+                        @load="executive.imageLoaded = true" />
                     <h4>{{ executive.name }}</h4>
                     <p>职位: {{ executive.position }}</p>
                 </div>
@@ -154,9 +198,14 @@ p {
 import { APIEnum, APIEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
-const president = ref({})
+const president = reactive({
+    image: '',
+    name: '',
+    phone: '',
+    imageLoaded: false
+})
 const executives = ref([]);
 
 const memberCount = ref(0);
@@ -165,8 +214,10 @@ const memberComposition = ref('');
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubID: store.state.clubID })
 
 eventEmitter.on(APIEventEnum.getClubMembersSuccess, (members) => {
-    president.value = members.president
-    executives.value = members.executives
+    president.image = members.president.image;
+    president.name = members.president.name;
+    president.phone = members.president.phone;
+    executives.value = members.executives.map(exec => ({ ...exec, imageLoaded: false }));
     memberCount.value = members.others.number
     memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + members.others.number + '人'
 })
