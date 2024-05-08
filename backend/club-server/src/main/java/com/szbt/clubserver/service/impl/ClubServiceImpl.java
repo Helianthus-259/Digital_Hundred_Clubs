@@ -1,5 +1,6 @@
 package com.szbt.clubserver.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.clubserver.service.ClubService;
 
@@ -35,6 +36,17 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         System.out.println(new ClubInfosSuccess(2,clubInfos));
         return Result.success(new ClubInfosSuccess(2,clubInfos));
     }
+
+    @Override
+    public Object queryClubsByName(String name) {
+        QueryWrapper wapper = new QueryWrapper();
+        wapper.eq("club_name",name);
+        val clublist = clubMapper.selectList(wapper);
+        System.out.println(new ClubInfosSuccess(2, clublist));
+        return Result.success(new ClubInfosSuccess(2,clublist));
+    }
+
+
 }
 
 

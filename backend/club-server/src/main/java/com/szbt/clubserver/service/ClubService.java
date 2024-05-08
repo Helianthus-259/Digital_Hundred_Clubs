@@ -10,5 +10,7 @@ import org.example.entity.Club;
 * @createDate 2024-05-03 03:11:18
 */
 public interface ClubService extends IService<Club> {
-    public Object queryAllClubs();
+    Object queryAllClubs();
+
+    Object queryClubsByName(String name);
 }

@@ -23,4 +23,5 @@ public class ClubController {
     {
         return clubService.queryAllClubs();
     }
+    public Object queryClubsByName(String name){return clubService.queryClubsByName(name);}
 }
