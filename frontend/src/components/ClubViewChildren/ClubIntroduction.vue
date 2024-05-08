@@ -147,9 +147,30 @@ const moveToActiveSideBar = (index) => {
     }
 }
 
-onUpdated(() => {
-    getOffsetTopList();
+// 监听图片加载完成事件，等图片加载完后再获取偏移量，锚点不会出现bug
+const handleImageLoad = () => {
+    // 移除所有事件监听器
+    const imgs = wrapper.value.querySelectorAll('img')
+    imgs.forEach(img => {
+        img.removeEventListener('load', handleImageLoad)
+    });
+
+    // 图片加载完成后获取偏移量
+    getOffsetTopList()
     moveToActiveSideBar(sideBarIndex.value)
+}
+
+onUpdated(() => {
+    const imgs = wrapper.value.querySelectorAll('img');
+    imgs.forEach(img => {
+        // 如果图片已经加载完成，直接执行回调函数
+        if (img.complete) {
+            handleImageLoad()
+        } else {
+            // 否则，监听图片加载完成事件
+            img.addEventListener('load', handleImageLoad);
+        }
+    })
 })
 
 const onScroll = (e) => {
