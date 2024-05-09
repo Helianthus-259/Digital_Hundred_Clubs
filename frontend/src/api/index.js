@@ -51,17 +51,17 @@ const api = {
     }),
     'getClubActAndNtc': (params) => axios.get(path.clubActAndNtc, { // 获取社团活动通知
         params: {
-            clubId: params.clubID,
+            clubId: params.clubId,
         }
     }),
     'getClubIntroduction': (params) => axios.get(path.clubIntroduction, { // 获取社团简介
         params: {
-            clubId: params.clubID,
+            clubId: params.clubId,
         }
     }),
     'getClubMembers': (params) => axios.get(path.clubMembers, { // 获取社团成员
         params: {
-            clubId: params.clubID,
+            clubId: params.clubId,
         }
     })
 }
