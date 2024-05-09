@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName backboneevaluation
  */
 @TableName(value ="backboneevaluation")
+@Data
 public class Backboneevaluation implements Serializable {
     /**
      * 
@@ -61,132 +63,6 @@ public class Backboneevaluation implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    /**
-     * 
-     */
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getDeclarationYear() {
-        return declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public void setDeclarationYear(Integer declarationYear) {
-        this.declarationYear = declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getTenurePeriod() {
-        return tenurePeriod;
-    }
-
-    /**
-     * 
-     */
-    public void setTenurePeriod(Integer tenurePeriod) {
-        this.tenurePeriod = tenurePeriod;
-    }
-
-    /**
-     * 
-     */
-    public Object getAchievements() {
-        return achievements;
-    }
-
-    /**
-     * 
-     */
-    public void setAchievements(Object achievements) {
-        this.achievements = achievements;
-    }
-
-    /**
-     * 
-     */
-    public Object getTrainingParticipation() {
-        return trainingParticipation;
-    }
-
-    /**
-     * 
-     */
-    public void setTrainingParticipation(Object trainingParticipation) {
-        this.trainingParticipation = trainingParticipation;
-    }
-
-    /**
-     * 
-     */
-    public Object getAwards() {
-        return awards;
-    }
-
-    /**
-     * 
-     */
-    public void setAwards(Object awards) {
-        this.awards = awards;
-    }
-
-    /**
-     * 
-     */
-    public String getClubWorkStatus() {
-        return clubWorkStatus;
-    }
-
-    /**
-     * 
-     */
-    public void setClubWorkStatus(String clubWorkStatus) {
-        this.clubWorkStatus = clubWorkStatus;
-    }
 
     @Override
     public boolean equals(Object that) {

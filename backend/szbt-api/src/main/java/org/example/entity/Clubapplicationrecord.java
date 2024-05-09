@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName clubapplicationrecord
  */
 @TableName(value ="clubapplicationrecord")
+@Data
 public class Clubapplicationrecord implements Serializable {
     /**
      * 
@@ -27,7 +29,12 @@ public class Clubapplicationrecord implements Serializable {
     /**
      * 
      */
-    private Integer reviewStatus;
+    private Integer collegeReviewStatus;
+
+    /**
+     * 
+     */
+    private Integer universityStudentUnionReviewStatus;
 
     /**
      * 
@@ -57,118 +64,6 @@ public class Clubapplicationrecord implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    /**
-     * 
-     */
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getReviewStatus() {
-        return reviewStatus;
-    }
-
-    /**
-     * 
-     */
-    public void setReviewStatus(Integer reviewStatus) {
-        this.reviewStatus = reviewStatus;
-    }
-
-    /**
-     * 
-     */
-    public String getCollegeReviewOpinion() {
-        return collegeReviewOpinion;
-    }
-
-    /**
-     * 
-     */
-    public void setCollegeReviewOpinion(String collegeReviewOpinion) {
-        this.collegeReviewOpinion = collegeReviewOpinion;
-    }
-
-    /**
-     * 
-     */
-    public String getUniversityStudentUnionReviewOpinion() {
-        return universityStudentUnionReviewOpinion;
-    }
-
-    /**
-     * 
-     */
-    public void setUniversityStudentUnionReviewOpinion(String universityStudentUnionReviewOpinion) {
-        this.universityStudentUnionReviewOpinion = universityStudentUnionReviewOpinion;
-    }
-
-    /**
-     * 
-     */
-    public String getAttachmentUrl() {
-        return attachmentUrl;
-    }
-
-    /**
-     * 
-     */
-    public void setAttachmentUrl(String attachmentUrl) {
-        this.attachmentUrl = attachmentUrl;
-    }
-
-    /**
-     * 
-     */
-    public String getAdvisorResumeAttachmentUrl() {
-        return advisorResumeAttachmentUrl;
-    }
-
-    /**
-     * 
-     */
-    public void setAdvisorResumeAttachmentUrl(String advisorResumeAttachmentUrl) {
-        this.advisorResumeAttachmentUrl = advisorResumeAttachmentUrl;
-    }
-
-    /**
-     * 
-     */
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -183,7 +78,8 @@ public class Clubapplicationrecord implements Serializable {
         Clubapplicationrecord other = (Clubapplicationrecord) that;
         return (this.getRecordId() == null ? other.getRecordId() == null : this.getRecordId().equals(other.getRecordId()))
             && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getReviewStatus() == null ? other.getReviewStatus() == null : this.getReviewStatus().equals(other.getReviewStatus()))
+            && (this.getCollegeReviewStatus() == null ? other.getCollegeReviewStatus() == null : this.getCollegeReviewStatus().equals(other.getCollegeReviewStatus()))
+            && (this.getUniversityStudentUnionReviewStatus() == null ? other.getUniversityStudentUnionReviewStatus() == null : this.getUniversityStudentUnionReviewStatus().equals(other.getUniversityStudentUnionReviewStatus()))
             && (this.getCollegeReviewOpinion() == null ? other.getCollegeReviewOpinion() == null : this.getCollegeReviewOpinion().equals(other.getCollegeReviewOpinion()))
             && (this.getUniversityStudentUnionReviewOpinion() == null ? other.getUniversityStudentUnionReviewOpinion() == null : this.getUniversityStudentUnionReviewOpinion().equals(other.getUniversityStudentUnionReviewOpinion()))
             && (this.getAttachmentUrl() == null ? other.getAttachmentUrl() == null : this.getAttachmentUrl().equals(other.getAttachmentUrl()))
@@ -197,7 +93,8 @@ public class Clubapplicationrecord implements Serializable {
         int result = 1;
         result = prime * result + ((getRecordId() == null) ? 0 : getRecordId().hashCode());
         result = prime * result + ((getClubId() == null) ? 0 : getClubId().hashCode());
-        result = prime * result + ((getReviewStatus() == null) ? 0 : getReviewStatus().hashCode());
+        result = prime * result + ((getCollegeReviewStatus() == null) ? 0 : getCollegeReviewStatus().hashCode());
+        result = prime * result + ((getUniversityStudentUnionReviewStatus() == null) ? 0 : getUniversityStudentUnionReviewStatus().hashCode());
         result = prime * result + ((getCollegeReviewOpinion() == null) ? 0 : getCollegeReviewOpinion().hashCode());
         result = prime * result + ((getUniversityStudentUnionReviewOpinion() == null) ? 0 : getUniversityStudentUnionReviewOpinion().hashCode());
         result = prime * result + ((getAttachmentUrl() == null) ? 0 : getAttachmentUrl().hashCode());
@@ -214,7 +111,8 @@ public class Clubapplicationrecord implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", recordId=").append(recordId);
         sb.append(", clubId=").append(clubId);
-        sb.append(", reviewStatus=").append(reviewStatus);
+        sb.append(", collegeReviewStatus=").append(collegeReviewStatus);
+        sb.append(", universityStudentUnionReviewStatus=").append(universityStudentUnionReviewStatus);
         sb.append(", collegeReviewOpinion=").append(collegeReviewOpinion);
         sb.append(", universityStudentUnionReviewOpinion=").append(universityStudentUnionReviewOpinion);
         sb.append(", attachmentUrl=").append(attachmentUrl);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName configuration
  */
 @TableName(value ="configuration")
+@Data
 public class Configuration implements Serializable {
     /**
      * 
@@ -36,62 +38,6 @@ public class Configuration implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getConfigId() {
-        return configId;
-    }
-
-    /**
-     * 
-     */
-    public void setConfigId(Integer configId) {
-        this.configId = configId;
-    }
-
-    /**
-     * 
-     */
-    public String getConfigName() {
-        return configName;
-    }
-
-    /**
-     * 
-     */
-    public void setConfigName(String configName) {
-        this.configName = configName;
-    }
-
-    /**
-     * 
-     */
-    public Object getConfigContent() {
-        return configContent;
-    }
-
-    /**
-     * 
-     */
-    public void setConfigContent(Object configContent) {
-        this.configContent = configContent;
-    }
-
-    /**
-     * 
-     */
-    public String getDetail() {
-        return detail;
-    }
-
-    /**
-     * 
-     */
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
 
     @Override
     public boolean equals(Object that) {

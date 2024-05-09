@@ -3,6 +3,7 @@ package org.example.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @TableName activitymember
  */
 @TableName(value ="activitymember")
+@Data
 public class Activitymember implements Serializable {
     /**
      * 
@@ -36,62 +38,6 @@ public class Activitymember implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getActivityId() {
-        return activityId;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-
-    /**
-     * 
-     */
-    public String getActivityName() {
-        return activityName;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    /**
-     * 
-     */
-    public String getPersonalEffect() {
-        return personalEffect;
-    }
-
-    /**
-     * 
-     */
-    public void setPersonalEffect(String personalEffect) {
-        this.personalEffect = personalEffect;
-    }
 
     @Override
     public boolean equals(Object that) {

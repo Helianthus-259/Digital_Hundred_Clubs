@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @TableName clubannouncement
  */
 @TableName(value ="clubannouncement")
+@Data
 public class Clubannouncement implements Serializable {
     /**
      * 
@@ -52,104 +54,6 @@ public class Clubannouncement implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getAnnouncementId() {
-        return announcementId;
-    }
-
-    /**
-     * 
-     */
-    public void setAnnouncementId(Integer announcementId) {
-        this.announcementId = announcementId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * 
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * 
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * 
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    /**
-     * 
-     */
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    /**
-     * 
-     */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    /**
-     * 
-     */
-    public Date getPublishTime() {
-        return publishTime;
-    }
-
-    /**
-     * 
-     */
-    public void setPublishTime(Date publishTime) {
-        this.publishTime = publishTime;
-    }
-
-    /**
-     * 
-     */
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    /**
-     * 
-     */
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
 
     @Override
     public boolean equals(Object that) {

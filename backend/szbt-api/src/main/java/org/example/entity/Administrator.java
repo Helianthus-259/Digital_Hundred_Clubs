@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName administrator
  */
 @TableName(value ="administrator")
+@Data
 public class Administrator implements Serializable {
     /**
      * 
@@ -46,90 +48,6 @@ public class Administrator implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    /**
-     * 
-     */
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
-    /**
-     * 
-     */
-    public String getAdName() {
-        return adName;
-    }
-
-    /**
-     * 
-     */
-    public void setAdName(String adName) {
-        this.adName = adName;
-    }
-
-    /**
-     * 
-     */
-    public Integer getAuthority() {
-        return authority;
-    }
-
-    /**
-     * 
-     */
-    public void setAuthority(Integer authority) {
-        this.authority = authority;
-    }
-
-    /**
-     * 
-     */
-    public String getPwd() {
-        return pwd;
-    }
-
-    /**
-     * 
-     */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
-    /**
-     * 
-     */
-    public String getContact() {
-        return contact;
-    }
-
-    /**
-     * 
-     */
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    /**
-     * 
-     */
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    /**
-     * 
-     */
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
 
     @Override
     public boolean equals(Object that) {

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @TableName student
  */
 @TableName(value ="student")
+@Data
 public class Student implements Serializable {
     /**
      * 
@@ -70,162 +72,23 @@ public class Student implements Serializable {
      */
     private Date dateOfBirth;
 
+    /**
+     * 
+     */
+    private String imageUrl;
+
+    /**
+     * 
+     */
+    private String hobby;
+
+    /**
+     * 
+     */
+    private String specialty;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    /**
-     * 
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 
-     */
-    public String getStName() {
-        return stName;
-    }
-
-    /**
-     * 
-     */
-    public void setStName(String stName) {
-        this.stName = stName;
-    }
-
-    /**
-     * 
-     */
-    public String getStudentNumber() {
-        return studentNumber;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
-    }
-
-    /**
-     * 
-     */
-    public Integer getGender() {
-        return gender;
-    }
-
-    /**
-     * 
-     */
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    /**
-     * 
-     */
-    public String getCollege() {
-        return college;
-    }
-
-    /**
-     * 
-     */
-    public void setCollege(String college) {
-        this.college = college;
-    }
-
-    /**
-     * 
-     */
-    public Integer getGrade() {
-        return grade;
-    }
-
-    /**
-     * 
-     */
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    /**
-     * 
-     */
-    public String getContact() {
-        return contact;
-    }
-
-    /**
-     * 
-     */
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    /**
-     * 
-     */
-    public String getPwd() {
-        return pwd;
-    }
-
-    /**
-     * 
-     */
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
-    /**
-     * 
-     */
-    public String getPoliticalStatus() {
-        return politicalStatus;
-    }
-
-    /**
-     * 
-     */
-    public void setPoliticalStatus(String politicalStatus) {
-        this.politicalStatus = politicalStatus;
-    }
-
-    /**
-     * 
-     */
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    /**
-     * 
-     */
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     @Override
     public boolean equals(Object that) {
@@ -249,7 +112,10 @@ public class Student implements Serializable {
             && (this.getContact() == null ? other.getContact() == null : this.getContact().equals(other.getContact()))
             && (this.getPwd() == null ? other.getPwd() == null : this.getPwd().equals(other.getPwd()))
             && (this.getPoliticalStatus() == null ? other.getPoliticalStatus() == null : this.getPoliticalStatus().equals(other.getPoliticalStatus()))
-            && (this.getDateOfBirth() == null ? other.getDateOfBirth() == null : this.getDateOfBirth().equals(other.getDateOfBirth()));
+            && (this.getDateOfBirth() == null ? other.getDateOfBirth() == null : this.getDateOfBirth().equals(other.getDateOfBirth()))
+            && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
+            && (this.getHobby() == null ? other.getHobby() == null : this.getHobby().equals(other.getHobby()))
+            && (this.getSpecialty() == null ? other.getSpecialty() == null : this.getSpecialty().equals(other.getSpecialty()));
     }
 
     @Override
@@ -267,6 +133,9 @@ public class Student implements Serializable {
         result = prime * result + ((getPwd() == null) ? 0 : getPwd().hashCode());
         result = prime * result + ((getPoliticalStatus() == null) ? 0 : getPoliticalStatus().hashCode());
         result = prime * result + ((getDateOfBirth() == null) ? 0 : getDateOfBirth().hashCode());
+        result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
+        result = prime * result + ((getHobby() == null) ? 0 : getHobby().hashCode());
+        result = prime * result + ((getSpecialty() == null) ? 0 : getSpecialty().hashCode());
         return result;
     }
 
@@ -287,6 +156,9 @@ public class Student implements Serializable {
         sb.append(", pwd=").append(pwd);
         sb.append(", politicalStatus=").append(politicalStatus);
         sb.append(", dateOfBirth=").append(dateOfBirth);
+        sb.append(", imageUrl=").append(imageUrl);
+        sb.append(", hobby=").append(hobby);
+        sb.append(", specialty=").append(specialty);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
