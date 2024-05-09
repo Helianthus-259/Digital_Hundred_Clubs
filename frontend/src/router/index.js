@@ -118,7 +118,33 @@ const router = createRouter({
       path: '/clubManage/:cid',
       name: 'clubManage',
       component: () => import('../views/ClubManageView.vue'),
-      meta: { requireAuth: true, }
+      meta: { requireAuth: true, },
+      children: [
+        {
+          path: '',
+          name: 'clubEdit',
+          component: () => import('../components/clubManageViewChildren/ClubEdit.vue'),
+          meta: { requireAuth: true, },
+        },
+        {
+          path: 'publish',
+          name: 'clubPublish',
+          component: () => import('../components/clubManageViewChildren/ClubPublish.vue'),
+          meta: { requireAuth: true, },
+        },
+        {
+          path: 'check',
+          name: 'clubCheck',
+          component: () => import('../components/clubManageViewChildren/ClubCheck.vue'),
+          meta: { requireAuth: true, },
+        },
+        {
+          path: 'apply',
+          name: 'clubApply',
+          component: () => import('../components/clubManageViewChildren/ClubApply.vue'),
+          meta: { requireAuth: true, },
+        },
+      ]
     },
   ]
 })

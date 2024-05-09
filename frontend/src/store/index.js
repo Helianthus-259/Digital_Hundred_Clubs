@@ -18,6 +18,7 @@ const store = createStore({
             'homeTabs': 'clubs',
             'personalTabs': '',
             'clubTabs': '',
+            'clubManageTabs': '',
         },
 
         // 有子路由的界面的初始路由
