@@ -24,4 +24,7 @@ public class ClubController {
         return clubService.queryAllClubs();
     }
     public Object queryClubsByName(String name){return clubService.queryClubsByName(name);}
+    public Object queryUnpassClubs(){return clubService.queryUnpassClubs();}
+    public Object queryPassClubs(){return  clubService.queryPassClubs();}
+
 }
