@@ -47,7 +47,7 @@ export const StoreEnum = {
     setRouteTabs: 'setRouteTabs',
     setParentRoute: 'setParentRoute',
     setclubsActAndNtc: 'setclubsActAndNtc',
-    setClubID: 'setClubID',
+    setClubId: 'setClubId',
 }
 
 // 展示的社团类型

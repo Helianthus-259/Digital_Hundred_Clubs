@@ -51,15 +51,16 @@ hr {
 <template>
     <div v-for="activity in activities" :key="activity.activityID" class="activityCard"
         @click="handleActivityClick(activity)">
-        <img :src="activity.image" alt="Activity Image" class="activityImage" />
+        <img :src="activity.imageUrl" alt="Activity Image" class="activityImage" />
         <div class="activity-details">
-            <h3 class="activityTitle">{{ activity.name }}</h3>
+            <h3 class="activityTitle">{{ activity.activityName }}</h3>
             <hr />
-            <p class="activityContent">{{ activity.introduction }}
-                <span class="activityContent">{{ activity.location }}</span>
+            <p class="activityContent">{{ activity.activityIntroduction }}
+                <span class="activityContent">{{ activity.activityLocation }}</span>
             </p>
             <hr />
-            <p class="activityTime">{{ formatDate(activity.startTime) + '-' + formatDate(activity.endTime) }}</p>
+            <p class="activityTime">{{ formatDate(activity.activityStartTime) + '-' +
+                formatDate(activity.activityEndTime) }}</p>
         </div>
     </div>
 </template>

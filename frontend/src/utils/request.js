@@ -31,8 +31,8 @@ const errorHandler = error => {
 function successHandler(response) {
     if (response.status === 200) {
         if (response.data.code === 1) { // 登录成功
-            const { token, uid } = response.data
-            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, uid })
+            const { token, studentId } = response.data
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, studentId })
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'firstPageTabs', value: 'home' })
             eventEmitter.emit(APIEventEnum.loginSuccess)
         } else if (response.data.code === 2) { // 获取社团信息成功
@@ -48,12 +48,12 @@ function successHandler(response) {
         } else if (response.data.code === 5) { // 新建社团申请成功
             console.log('新建社团申请成功');
         } else if (response.data.code === 6) { // 获取社团活动通知成功
-            const { clubID, activities, notices } = response.data
-            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setclubsActAndNtc, { clubID, activities, notices })
+            const { clubId, activities, notices } = response.data
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setclubsActAndNtc, { clubId, activities, notices })
             eventEmitter.emit(APIEventEnum.getClubActAndNtcSuccess, { activities, notices })
         } else if (response.data.code === 7) { // 获取社团简介成功
-            const { introduction } = response.data
-            eventEmitter.emit(APIEventEnum.getClubIntroductionSuccess, introduction)
+            const { clubDescription } = response.data
+            eventEmitter.emit(APIEventEnum.getClubIntroductionSuccess, clubDescription)
         } else if (response.data.code === 8) { // 获取社团成员成功
             const { members } = response.data
             eventEmitter.emit(APIEventEnum.getClubMembersSuccess, members)

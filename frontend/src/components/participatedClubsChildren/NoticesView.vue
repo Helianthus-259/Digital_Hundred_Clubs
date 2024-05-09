@@ -45,13 +45,13 @@ hr {
 
 <template>
     <div v-for="notice in notices" :key="notice.noticeID" class="noticeCard">
-        <img :src="notice.image" alt="Notice Image" class="noticeImage" />
+        <img :src="notice.imageUrl" alt="Notice Image" class="noticeImage" />
         <div class="noticeDetails">
             <h3 class="noticeTitle">{{ notice.title }}</h3>
             <hr />
             <p class="noticeContent">{{ notice.content }}</p>
             <hr />
-            <p class="releaseTime">{{ formatDate(notice.releaseTime) }}</p>
+            <p class="releaseTime">{{ formatDate(notice.publishTime) }}</p>
         </div>
     </div>
 </template>

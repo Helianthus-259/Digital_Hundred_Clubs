@@ -113,7 +113,7 @@
                             :tips="loginEmailTips" autofocus />
                     </t-form-item>
                     <t-form-item label="密码" name="password">
-                        <t-input placeholder="请输入密码" type="password" v-model="loginForm.password" />
+                        <t-input placeholder="请输入密码" type="password" v-model="loginForm.pwd" />
                     </t-form-item>
                 </div>
                 <div class="buttonBox">
@@ -139,10 +139,10 @@
                         </span>
                     </t-form-item>
                     <t-form-item label="密码" name="password">
-                        <t-input placeholder="请输入密码" type="password" v-model="registerForm.password" />
+                        <t-input placeholder="请输入密码" type="password" v-model="registerForm.pwd" />
                     </t-form-item>
                     <t-form-item label="确认密码" name="confirmPassword">
-                        <t-input placeholder="请再次输入密码" type="password" v-model="registerForm.confirmPassword"
+                        <t-input placeholder="请再次输入密码" type="password" v-model="registerForm.confirmPwd"
                             :status="confirmPasswordStatus" :tips="confirmPasswordTips" />
                     </t-form-item>
                 </div>
@@ -197,7 +197,7 @@ const onChange = (value) => {
 // 登录
 const loginForm = reactive({
     email: 'admin@mail2.sysu.edu.cn',
-    password: '123456',
+    pwd: '123456',
 })
 
 const loginEmailStatus = computed(() => {
@@ -219,7 +219,7 @@ const loginEmailTips = computed(() => {
 })
 // 登录逻辑
 const loginValidate = () => {
-    return emailValidate(loginForm.email) && passwordValidate(loginForm.password)
+    return emailValidate(loginForm.email) && passwordValidate(loginForm.pwd)
 }
 
 const handleLogin = () => {
@@ -244,8 +244,8 @@ eventEmitter.on(APIEventEnum.incorrectInput, (msg) => {
 const registerForm = reactive({
     email: '',
     verifyCode: '',
-    password: '',
-    confirmPassword: '',
+    pwd: '',
+    confirmPwd: '',
 })
 
 const registerEmailStatus = computed(() => {
@@ -267,14 +267,14 @@ const registerEmailTips = computed(() => {
 })
 
 const confirmPasswordStatus = computed(() => {
-    if (!registerForm.confirmPassword || registerForm.confirmPassword === registerForm.password) {
+    if (!registerForm.confirmPwd || registerForm.confirmPwd === registerForm.pwd) {
         return ''
     }
     return 'error'
 })
 
 const confirmPasswordTips = computed(() => {
-    if (!registerForm.confirmPassword || registerForm.confirmPassword === registerForm.password) {
+    if (!registerForm.confirmPwd || registerForm.confirmPwd === registerForm.pwd) {
         return ''
     }
     return '两次输入的密码不一致'
@@ -302,8 +302,8 @@ const handleGetVerifyCode = () => {
 
 // 注册逻辑
 const registerValidate = () => {
-    return emailValidate(registerForm.email) && passwordValidate(registerForm.password)
-        && registerForm.password === registerForm.confirmPassword
+    return emailValidate(registerForm.email) && passwordValidate(registerForm.pwd)
+        && registerForm.pwd === registerForm.confirmPwd
         && registerForm.verifyCode
 }
 

@@ -2,7 +2,7 @@
     <div class="achievements">
         <div v-for="(achievement, index) in achievements" :key="index" class="achievement">
             <div class="info">
-                <h3>{{ achievement.name }}</h3>
+                <h3>{{ achievement.activityName }}</h3>
                 <p class="award">{{ achievement.award }}</p>
                 <p class="time">获奖时间: {{ achievement.awardWiningTime }}</p>
             </div>

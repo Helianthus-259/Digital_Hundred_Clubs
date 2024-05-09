@@ -110,7 +110,7 @@ import { ref, reactive, onUpdated } from 'vue';
 
 const clubIntroduction = reactive([])
 
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubID: store.state.clubID })
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: store.state.clubId })
 
 eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, (data) => {
     for (const element of data) {

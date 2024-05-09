@@ -7,11 +7,11 @@ const mock = new mockAxios(axios)
 // 登录mock
 mock.onPost(path.login).reply((config) => {
     const configData = JSON.parse(config.data);
-    if (configData.email === 'admin@mail2.sysu.edu.cn' && configData.password === '123456') {
+    if (configData.email === 'admin@mail2.sysu.edu.cn' && configData.pwd === '123456') {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
-            uid: 1,
+            studentId: 1,
         }
         ]
     }
@@ -29,7 +29,7 @@ mock.onPost(path.register).reply((config) => {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
-            uid: 1,
+            studentId: 1,
         }
         ]
     }
@@ -54,12 +54,12 @@ mock.onGet(path.clubsInfo).reply((config) => {
         const width = Math.floor(Math.random() * 100) + 300;
         const height = Math.floor(Math.random() * 100) + 400;
         data.push({
-            src: `https://loremflickr.com/${width}/${height}?${i}`,
-            name: `社团${i}`,
-            introduction: `社团${i}介绍`,
-            memberNum: Math.floor(Math.random() * 1000) + 1000,
-            clubID: i,
-            type: '体育类',
+            imageUrl: `https://loremflickr.com/${width}/${height}?${i}`,
+            clubName: `社团${i}`,
+            clubDescription: `社团${i}介绍`,
+            totalMembers: Math.floor(Math.random() * 1000) + 1000,
+            clubId: i,
+            clubCategory: '体育类',
         })
     }
 
@@ -74,121 +74,83 @@ mock.onGet(path.userInfo).reply((config) => {
     return [200, {
         code: 3, // 3代表个人信息
         data: {
-            name: '张三',
+            stName: '张三',
             gender: '男',
-            age: 20,
-            studentID: '2019001001',
-            faculty: '信息科学学院',
+            dateOfBirth: '2000-01-01',
+            grade: '2019级',
+            studentNumber: '2019001001',
+            college: '信息科学学院',
+            politicalStatus: '共青团员',
             email: 'admin@mail2.sysu.edu.cn',
-            phone: '13800138000',
+            contact: '13800138000',
             hobby: '篮球',
             specialty: '计算机科学与技术',
             clubs: [
                 {
-                    clubID: 1,
-                    name: '社团1',
+                    clubId: 1,
+                    clubName: '社团1',
                     position: '社长',
-                    state: 0,
-                    facultyIdea: 2,
-                    youthLeagueCommitteeIdea: 0,
-                    facultyIdeaContent: '社团理念不行',
-                    youthLeagueCommitteeIdeaContent: '',
+                    clubStatus: 0,
+                    collegeReviewStatus: 0,
+                    universityStudentUnionReviewStatus: null,
+                    collegeReviewOpinion: '社团理念不行',
+                    universityStudentUnionReviewOpinion: '',
                 },
                 {
-                    clubID: 2,
-                    name: '社团2',
+                    clubId: 2,
+                    clubName: '社团2',
                     position: '副社长',
-                    state: 1,
-                    facultyIdea: 1,
-                    youthLeagueCommitteeIdea: 1,
-                    facultyIdeaContent: '审核通过',
-                    youthLeagueCommitteeIdeaContent: '审核通过',
+                    clubStatus: 1,
+                    collegeReviewStatus: 1,
+                    universityStudentUnionReviewStatus: 1,
+                    collegeReviewOpinion: '审核通过',
+                    universityStudentUnionReviewOpinion: '审核通过',
                 },
                 {
-                    clubID: 3,
-                    name: '社团3',
+                    clubId: 3,
+                    clubName: '社团3',
                     position: '干部',
-                    state: 1,
-                    facultyIdea: 1,
-                    youthLeagueCommitteeIdea: 1,
-                    facultyIdeaContent: '审核通过',
-                    youthLeagueCommitteeIdeaContent: '审核通过',
+                    clubStatus: 1,
+                    collegeReviewStatus: 1,
+                    universityStudentUnionReviewStatus: 1,
+                    collegeReviewOpinion: '审核通过',
+                    universityStudentUnionReviewOpinion: '审核通过',
                 },
                 {
-                    clubID: 4,
-                    name: '社团4',
+                    clubId: 4,
+                    clubName: '社团4',
                     position: '普通成员',
-                    state: 1,
-                    facultyIdea: 1,
-                    youthLeagueCommitteeIdea: 1,
-                    facultyIdeaContent: '审核通过',
-                    youthLeagueCommitteeIdeaContent: '审核通过',
+                    clubStatus: 1,
+                    collegeReviewStatus: 1,
+                    universityStudentUnionReviewStatus: 1,
+                    collegeReviewOpinion: '审核通过',
+                    universityStudentUnionReviewOpinion: '审核通过',
                 },
                 {
-                    clubID: 5,
-                    name: '社团5',
+                    clubId: 5,
+                    clubName: '社团5',
                     position: '社长',
-                    state: 0,
-                    facultyIdea: 0,
-                    youthLeagueCommitteeIdea: 0,
-                    facultyIdeaContent: '等待学院审核',
-                    youthLeagueCommitteeIdeaContent: '',
+                    clubStatus: 0,
+                    collegeReviewStatus: null,
+                    universityStudentUnionReviewStatus: null,
+                    collegeReviewOpinion: '等待学院审核',
+                    universityStudentUnionReviewOpinion: '',
                 },
                 {
-                    clubID: 6,
-                    name: '社团6',
+                    clubId: 6,
+                    clubName: '社团6',
                     position: '社长',
-                    state: 0,
-                    facultyIdea: 1,
-                    youthLeagueCommitteeIdea: 2,
-                    facultyIdeaContent: '审核通过',
-                    youthLeagueCommitteeIdeaContent: '已经有类似的社团了',
+                    clubStatus: 0,
+                    collegeReviewStatus: 1,
+                    universityStudentUnionReviewStatus: 0,
+                    collegeReviewOpinion: '审核通过',
+                    universityStudentUnionReviewOpinion: '已经有类似的社团了',
                 },
             ],
             achievements: [
                 {
-                    name: '活动xxx', // 获得荣誉的活动名称
+                    activityName: '活动xxx', // 获得荣誉的活动名称
                     award: 'xxx活动xxx名', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxxxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxxxxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxxxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
-                    awardWiningTime: '2024-05-04 00:00:00', // 获奖时间
-                },
-                {
-                    name: '项目xxxxxxxxxxxxxx',
-                    award: 'xxxx项目xxx名誉', // 荣誉名称
                     awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
                 },
             ]
@@ -216,25 +178,25 @@ mock.onGet(path.clubActAndNtc).reply((config) => {
     const notices = []
     for (let i = 0; i < 20; i++) {
         activities.push({
-            activityID: i,
-            name: '社团' + config.params.clubID + '的活动' + i,
-            introduction: '活动' + i + '介绍',
-            startTime: '2024-04-29 00:00:00',
-            endTime: '2024-05-03 00:00:00',
-            location: '活动' + i + '地点',
-            image: `https://loremflickr.com/400/300?${i}`,
+            activityId: i,
+            activityName: '社团' + config.params.clubId + '的活动' + i,
+            activityIntroduction: '活动' + i + '介绍',
+            activityStartTime: '2024-04-29 00:00:00',
+            activityEndTime: '2024-05-03 00:00:00',
+            activityLocation: '活动' + i + '地点',
+            imageUrl: `https://loremflickr.com/400/300?${i}`,
         })
         notices.push({
-            noticeID: i,
-            title: '社团' + config.params.clubID + '的通知' + i,
+            announcementId: i,
+            title: '社团' + config.params.clubId + '的通知' + i,
             content: '通知' + i + '介绍',
-            image: `https://loremflickr.com/400/300?${i}`,
-            releaseTime: '2024-04-29 00:00:00',
+            imageUrl: `https://loremflickr.com/400/300?${i}`,
+            publishTime: '2024-04-29 00:00:00',
         })
     }
     return [200, {
         code: 6, // 6代表获取社团活动通知
-        clubID: config.params.clubID,
+        clubId: config.params.clubId,
         activities: activities,
         notices: notices
     }]
@@ -244,7 +206,7 @@ mock.onGet(path.clubActAndNtc).reply((config) => {
 mock.onGet(path.clubIntroduction).reply((config) => {
     return [200, {
         code: 7, // 7代表获取社团简介
-        introduction: [
+        clubDescription: [
             {
                 title: '社团成立',
                 content: '<p>2020年6月，中山大学在珠海校区整建制成立软件工程学院。学院以立德树人为人才培养根本目标，以“全员、全过程、全方位”的育人模式，鼓励学生主动探索、积极思考、勇于实践，培养科学素养和创新精神，培育引领新一轮科技革命的卓越软件工程人才。</p><p>学院软件工程专业为独立一级学科，是国家一流本科专业建设点。软件工程学院在人工智能、大数据、云计算、区块链等多个领域进行重点学科布局，围绕可信软件、软件服务工程、领域软件工程三大板块，聚合形成了包括区块链、物联网、大模型软件、金融软件、医疗软件、软件可靠性等在内的学科特色。</p><img src="https://sse.sysu.edu.cn/sites/sse.prod.dpcms4.sysu.edu.cn/files/inline-images/1_4.png" /><img src="https://sse.sysu.edu.cn/sites/sse.prod.dpcms4.sysu.edu.cn/files/inline-images/image_45.png" />',
@@ -267,30 +229,30 @@ mock.onGet(path.clubMembers).reply((config) => {
         code: 8, // 8代表获取社团成员
         members: {
             president: {
-                name: '张三',
+                stName: '张三',
                 position: '社长',
-                phone: '12345678901',
-                image: 'https://loremflickr.com/300/300',
+                contact: '12345678901',
+                imageUrl: 'https://loremflickr.com/300/300',
             },
             executives: [
                 {
-                    name: '李四',
+                    stName: '李四',
                     position: '副社长',
-                    image: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://loremflickr.com/300/300',
                 },
                 {
-                    name: '王五',
+                    stName: '王五',
                     position: '干部',
-                    image: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://loremflickr.com/300/300',
                 },
                 {
-                    name: '赵六',
+                    stName: '赵六',
                     position: '干部',
-                    image: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://loremflickr.com/300/300',
                 }
             ],
             others: {
-                number: 100,
+                totalMembers: 100,
             }
         }
     }]

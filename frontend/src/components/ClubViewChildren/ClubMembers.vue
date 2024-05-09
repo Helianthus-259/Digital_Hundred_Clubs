@@ -165,19 +165,19 @@ p {
             <div class="president-section">
                 <span v-show="!president.imageLoaded" class="skeleton"
                     :style="{ width: '200px', height: '200px' }"></span>
-                <img v-show="president.imageLoaded" :src="president.image" @load="president.imageLoaded = true" />
-                <h2>{{ president.name }}</h2>
-                <p>联系方式: {{ president.phone }}</p>
+                <img v-show="president.imageLoaded" :src="president.imageUrl" @load="president.imageLoaded = true" />
+                <h2>{{ president.stName }}</h2>
+                <p>联系方式: {{ president.contact }}</p>
             </div>
 
             <div class="executive-section">
                 <h3>其他干部</h3>
-                <div v-for="executive in executives" :key="executive.name">
+                <div v-for="executive in executives" :key="executive.stName">
                     <span v-show="!executive.imageLoaded" class="skeleton"
                         :style="{ width: '150px', height: '150px' }"></span>
-                    <img v-show="executive.imageLoaded" :src="executive.image" :alt="executive.name"
+                    <img v-show="executive.imageLoaded" :src="executive.imageUrl" :alt="executive.stName"
                         @load="executive.imageLoaded = true" />
-                    <h4>{{ executive.name }}</h4>
+                    <h4>{{ executive.stName }}</h4>
                     <p>职位: {{ executive.position }}</p>
                 </div>
             </div>
@@ -185,7 +185,7 @@ p {
 
         <div class="member-section">
             <h3>社团成员</h3>
-            <p>成员数量: {{ memberCount }}</p>
+            <p>成员总数: {{ memberCount }}</p>
             <p>成员组成: {{ memberComposition }}</p>
             <div class="charts">
                 <!-- 这里可以插入图表组件 -->
@@ -201,25 +201,25 @@ import eventEmitter from '@/utils/eventEmitter';
 import { reactive, ref } from 'vue';
 
 const president = reactive({
-    image: '',
-    name: '',
-    phone: '',
+    imageUrl: '',
+    stName: '',
+    contact: '',
     imageLoaded: false
 })
-const executives = ref([]);
+const executives = ref([])
 
-const memberCount = ref(0);
-const memberComposition = ref('');
+const memberCount = ref(0)
+const memberComposition = ref('')
 
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubID: store.state.clubID })
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId: store.state.clubId })
 
 eventEmitter.on(APIEventEnum.getClubMembersSuccess, (members) => {
-    president.image = members.president.image;
-    president.name = members.president.name;
-    president.phone = members.president.phone;
-    executives.value = members.executives.map(exec => ({ ...exec, imageLoaded: false }));
-    memberCount.value = members.others.number
-    memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + members.others.number + '人'
+    president.imageUrl = members.president.imageUrl
+    president.stName = members.president.stName
+    president.contact = members.president.contact
+    executives.value = members.executives.map(exec => ({ ...exec, imageLoaded: false }))
+    memberCount.value = members.others.totalMembers
+    memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + (members.others.totalMembers - (1 + members.executives.length)) + '人'
 })
 
 </script>

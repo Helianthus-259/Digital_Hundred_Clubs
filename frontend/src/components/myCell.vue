@@ -13,7 +13,7 @@
         <div class="cell" :style="{
             backgroundColor: index === selectedIndex && panelIndex === currentPanelIndex ? selectedBgColor : index === hoverIndex ? hoverBgColor : defaultBgColor,
         }" @mouseover="hoverIndex = index" @mouseleave="hoverIndex = null" @click="handleCellClick(index, item)">
-            <slot :item="item">{{ item.name }}</slot>
+            <slot :item="item">{{ item.clubName }}</slot>
         </div>
     </div>
 </template>

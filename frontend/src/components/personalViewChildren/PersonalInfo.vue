@@ -65,15 +65,15 @@
             <div class="leftSideContent">
                 <div class="personalInfo">
                     <t-cell-group bordered>
-                        <t-cell title="姓名" :note="name" />
+                        <t-cell title="姓名" :note="stName" />
                         <t-cell title="性别" :note="gender" />
-                        <t-cell title="年龄" :note="age" />
-                        <t-cell title="学号" :note="studentID" />
-                        <t-cell title="学院" :note="faculty" />
+                        <t-cell title="生日" :note="dateOfBirth" />
+                        <t-cell title="学号" :note="studentNumber" />
+                        <t-cell title="学院" :note="college" />
                         <t-cell title="邮箱" :note="email" />
                         <t-cell title="手机号" hover style="height: 56px">
                             <template #note>
-                                <t-input :maxcharacter="11" v-model="phone" placeholder="请输入手机号" align="right"
+                                <t-input :maxcharacter="11" v-model="contact" placeholder="请输入手机号" align="right"
                                     :readonly="readOnly" borderless />
                             </template>
                         </t-cell>
@@ -113,15 +113,15 @@
         </template>
         <t-form labelWidth="150px" colon requiredMark>
             <t-form-item label="社团名称">
-                <t-input v-model="newClubFrom.name" placeholder="请输入社团名称" />
+                <t-input v-model="newClubFrom.clubName" placeholder="请输入社团名称" />
             </t-form-item>
             <t-form-item label="社团简介">
                 <div style="width: 80%;">
-                    <t-textarea v-model="newClubFrom.introduction" name="社团简介" placeholder="请输入社团简介" autosize />
+                    <t-textarea v-model="newClubFrom.clubDescription" name="社团简介" placeholder="请输入社团简介" autosize />
                 </div>
             </t-form-item>
             <t-form-item label="社团类型">
-                <mySelect v-model="newClubFrom.clubType" :options="clubTypeOptions"></mySelect>
+                <mySelect v-model="newClubFrom.clubCategory" :options="clubTypeOptions"></mySelect>
             </t-form-item>
             <t-form-item label="社团负责人">
                 <t-input v-model="newClubFrom.leader" placeholder="请输入社团负责人名字" />
@@ -130,16 +130,16 @@
                 <t-input v-model="newClubFrom.leaderPhone" placeholder="请输入社团负责人电话" />
             </t-form-item>
             <t-form-item label="社团所在校区">
-                <mySelect v-model="newClubFrom.campus" :options="campusOptions"></mySelect>
+                <mySelect v-model="newClubFrom.mainCampus" :options="campusOptions"></mySelect>
             </t-form-item>
             <t-form-item label="社团所属院系">
-                <t-input v-model="newClubFrom.faculty" placeholder="请输入社团所属院系" />
+                <t-input v-model="newClubFrom.college" placeholder="请输入社团所属院系" />
             </t-form-item>
             <t-form-item label="行政指导老师">
-                <t-input v-model="newClubFrom.teacher" placeholder="请输入行政指导老师名字" />
+                <t-input v-model="newClubFrom.administrativeGuideTeacherName" placeholder="请输入行政指导老师名字" />
             </t-form-item>
             <t-form-item label="业务指导老师">
-                <t-input v-model="newClubFrom.businessTeacher" placeholder="请输入业务指导老师名字" />
+                <t-input v-model="newClubFrom.businessGuideTeacherName" placeholder="请输入业务指导老师名字" />
             </t-form-item>
             <t-form-item label="申请材料">
                 <t-upload v-model="newClubFrom.material" :multiple="false" :max="1"
@@ -179,23 +179,23 @@ const closeDialog = () => {
 
 // 新建社团
 const newClubFrom = reactive({
-    uid: store.state.uid,
-    name: '',
-    introduction: '',
-    clubType: '',
+    studentId: store.state.studentId,
+    clubName: '',
+    clubDescription: '',
+    clubCategory: '',
     leader: '',
     leaderPhone: '',
-    campus: '',
-    faculty: '',
-    teacher: '',
-    businessTeacher: '',
+    mainCampus: '',
+    college: '',
+    administrativeGuideTeacherName: '',
+    businessGuideTeacherName: '',
     material: [],
 })
 
 // 获取leader的名字和电话
 const getLeaderInfo = () => {
-    newClubFrom.leader = user.value.name
-    newClubFrom.leaderPhone = user.value.phone
+    newClubFrom.leader = user.value.stName
+    newClubFrom.leaderPhone = user.value.contact
 }
 
 // 社团类型
@@ -226,7 +226,7 @@ const onValidate = (context) => {
 
 // 检验newClubFrom中的数据是否都已填写
 const newClubFromValidate = () => {
-    if (newClubFrom.name === '' || newClubFrom.introduction === '' || newClubFrom.clubType === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.campus === '' || newClubFrom.faculty === '' || newClubFrom.teacher === '' || newClubFrom.businessTeacher === '' || newClubFrom.material.length === 0) {
+    if (newClubFrom.clubName === '' || newClubFrom.clubDescription === '' || newClubFrom.clubCategory === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.mainCampus === '' || newClubFrom.college === '' || newClubFrom.administrativeGuideTeacherName === '' || newClubFrom.businessGuideTeacherName === '' || newClubFrom.material.length === 0) {
         alert('请将信息填写完整');
         return false;
     }
@@ -246,33 +246,33 @@ function isEmptyObject(obj) {
 }
 
 // 展示个人信息
-const phone = ref('')
+const contact = ref('')
 const hobby = ref('')
 const specialty = ref('')
-const name = ref('')
-const age = ref('')
+const stName = ref('')
+const dateOfBirth = ref('')
 const gender = ref('')
-const studentID = ref('')
-const faculty = ref('')
+const studentNumber = ref('')
+const college = ref('')
 const email = ref('')
 
 const user = ref({})
 
 // 为上面定义的变量赋值
 function assignment() {
-    phone.value = user.value.phone
+    contact.value = user.value.contact
     hobby.value = user.value.hobby
     specialty.value = user.value.specialty
-    name.value = user.value.name
-    age.value = user.value.age + ''
+    stName.value = user.value.stName
+    dateOfBirth.value = user.value.dateOfBirth
     gender.value = user.value.gender
-    studentID.value = user.value.studentID
-    faculty.value = user.value.faculty
+    studentNumber.value = user.value.studentNumber
+    college.value = user.value.college
     email.value = user.value.email
 }
 
 if (isEmptyObject(store.state.userInfo)) {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { uid: store.state.uid })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { studentId: store.state.studentId })
 } else {
     user.value = store.state.userInfo
     assignment()
@@ -292,12 +292,12 @@ const readOnly = ref(true)
 // 保存修改后的信息
 function save() {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postUserInfo, {
-        uid: store.state.uid,
-        phone: phone.value,
+        studentId: store.state.studentId,
+        contact: contact.value,
         hobby: hobby.value,
         specialty: specialty.value
     })
-    user.value.phone = phone.value
+    user.value.contact = contact.value
     user.value.hobby = hobby.value
     user.value.specialty = specialty.value
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setUserInfo, user.value)

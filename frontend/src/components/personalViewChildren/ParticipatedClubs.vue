@@ -187,7 +187,7 @@ const clubsManage = ref([])
 const clubsNotManage = ref([])
 
 const applying = (club) => {
-    if (club.state === 0 && club.facultyIdea !== 2 && club.youthLeagueCommitteeIdea !== 2) {
+    if (club.clubStatus === 0 && club.collegeReviewStatus !== 0 && club.universityStudentUnionReviewStatus !== 0) {
         return true
     }
     return false
@@ -195,7 +195,7 @@ const applying = (club) => {
 clubsApply.value = clubsJoin.value.filter(club => applying(club)) // 申请中的社团
 
 const fail = (club) => {
-    if (club.state === 0 && (club.facultyIdea === 2 || club.youthLeagueCommitteeIdea === 2)) {
+    if (club.clubStatus === 0 && (club.collegeReviewStatus === 0 || club.universityStudentUnionReviewStatus === 0)) {
         return true
     }
     return false
@@ -203,7 +203,7 @@ const fail = (club) => {
 clubsFail.value = clubsJoin.value.filter(club => fail(club)) // 申请失败的社团
 
 const manage = (club) => {
-    if (club.state === 1 && club.position !== "普通成员") {
+    if (club.clubStatus === 1 && club.position !== "普通成员") {
         return true
     }
     return false
@@ -211,7 +211,7 @@ const manage = (club) => {
 clubsManage.value = clubsJoin.value.filter(club => manage(club)) // 我管理的社团
 
 const notManage = (club) => {
-    if (club.state === 1 && club.position === "普通成员") {
+    if (club.clubStatus === 1 && club.position === "普通成员") {
         return true
     }
     return false
@@ -238,38 +238,45 @@ const currentPanelIndex = ref(-1)
 const manageButtonShow = ref(false)
 // 点击社团获取社团相应的信息
 const getClubInfos = (value, pd) => {
+    steps.value[1].idea = ''
+    steps.value[2].idea = ''
     currentPanelIndex.value = pd
     if (pd === 0) {
         manageButtonShow.value = true
     } else {
         manageButtonShow.value = false
     }
-    steps.value[1].idea = value.facultyIdeaContent
-    steps.value[2].idea = value.youthLeagueCommitteeIdeaContent
-    if (value.state === 1) {
-        if (value.clubID in store.state.clubsActAndNtc) {
-            activities.value = store.state.clubsActAndNtc[value.clubID].activities
-            notices.value = store.state.clubsActAndNtc[value.clubID].notices
+    if (value.clubStatus === 1) {
+        if (value.clubId in store.state.clubsActAndNtc) {
+            activities.value = store.state.clubsActAndNtc[value.clubId].activities
+            notices.value = store.state.clubsActAndNtc[value.clubId].notices
         } else {
-            eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActAndNtc, { clubID: value.clubID })
+            eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActAndNtc, { clubId: value.clubId })
         }
-        eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubID, value.clubID)
+        eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubId, value.clubId)
         weatherPass.value = 1
+        steps.value[1].idea = value.collegeReviewOpinion
+        steps.value[2].idea = value.universityStudentUnionReviewOpinion
     } else {
         weatherPass.value = 2
-        if (value.facultyIdea !== 1) {
+        if (value.collegeReviewStatus !== 1) {
             currentStep.value = 1
-            if (value.facultyIdea === 0) {
+            if (value.collegeReviewStatus === null) {
                 currentStatus.value = 'process'
-            } else if (value.facultyIdea === 2) {
+                steps.value[1].idea = '等待学院审核'
+            } else if (value.collegeReviewStatus === 0) {
                 currentStatus.value = 'error'
+                steps.value[1].idea = value.collegeReviewOpinion
             }
         } else {
+            steps.value[1].idea = value.collegeReviewOpinion
             currentStep.value = 2
-            if (value.youthLeagueCommitteeIdea === 0) {
+            if (value.universityStudentUnionReviewStatus === null) {
                 currentStatus.value = 'process'
-            } else if (value.youthLeagueCommitteeIdea === 2) {
+                steps.value[2].idea = '等待校团委审核'
+            } else if (value.universityStudentUnionReviewStatus === 0) {
                 currentStatus.value = 'error'
+                steps.value[2].idea = value.universityStudentUnionReviewOpinion
             } else {
                 currentStep.value = 3
                 currentStatus.value = 'finish'
@@ -304,13 +311,13 @@ const changeView = (value) => {
 // 点击活动跳转到活动页面
 const clickHandle = (activity) => {
     const parentRoute = store.state.parentRoute.activity
-    const selfRoute = parentRoute + `${activity.activityID}/`
+    const selfRoute = parentRoute + `${activity.activityId}/`
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
 }
 
 const go2ClubManage = () => {
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'clubManage', value: store.state.clubID })
-    eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubID}/`)
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'clubManage', value: store.state.clubId })
+    eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubId}/`)
 }
 
 </script>

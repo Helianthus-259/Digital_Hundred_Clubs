@@ -8,13 +8,13 @@
 <template>
     <div class="mainContainer">
         <Waterfall :list="clubsView">
-            <template #item="{ item, url, index }">
-                <div class="card" @click="handleRouter(item.clubID)">
+            <template #item="{ item, index }">
+                <div class="card" @click="handleRouter(item.clubId)">
                     <div style="cursor: pointer;">
-                        <LazyImg :url="url" />
+                        <LazyImg :url="item.imageUrl" />
                     </div>
-                    <p class="text">{{ item.name }}</p>
-                    <p class="text">{{ item.introduction.substring(0, 10) + "..." }}</p>
+                    <p class="text">{{ item.clubName }}</p>
+                    <p class="text">{{ item.clubDescription.substring(0, 10) + "..." }}</p>
                 </div>
             </template>
         </Waterfall>
@@ -42,10 +42,10 @@ if (store.state.clubsData.length > 0) {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }
 
-const handleRouter = (clubID) => {
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubID })
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubID, clubID)
-    eventEmitter.emit(RouterEventEnum.push, `/club/${clubID}/`)
+const handleRouter = (clubId) => {
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubId, clubId)
+    eventEmitter.emit(RouterEventEnum.push, `/club/${clubId}/`)
 }
 
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, (data) => {
@@ -54,12 +54,12 @@ eventEmitter.on(APIEventEnum.getClubsInfoSuccess, (data) => {
 })
 
 eventEmitter.on(TypeEventEnum.addType, (type) => {
-    const add = clubs.value.filter(item => item.type === type)
+    const add = clubs.value.filter(item => item.clubCategory === type)
     clubsView.value.push(...add)
 })
 
 eventEmitter.on(TypeEventEnum.removeType, (type) => {
-    const remove = clubs.value.filter(item => item.type === type)
+    const remove = clubs.value.filter(item => item.clubCategory === type)
     clubsView.value = clubsView.value.filter(item => !remove.includes(item))
 })
 

@@ -5,12 +5,12 @@ import { createStore } from 'vuex'
 const store = createStore({
     state: {
         token: '',
-        uid: -1,
+        studentId: -1,
         clubsData: [],
         userInfo: {},
 
-        // 当前访问的ClubID
-        clubID: -1,
+        // 当前访问的ClubId
+        clubId: -1,
 
         // 路由存储，防止刷新后tabs的值发生改变
         routeTabs: {
@@ -35,11 +35,11 @@ const store = createStore({
         clubsActAndNtc: {}
     },
     mutations: {
-        setInit(state, { token, uid }) { // 保存token和uid
+        setInit(state, { token, studentId }) { // 保存token和studentId
             state.token = token
             sessionStorage.setItem('token', token)
-            state.uid = uid
-            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'personal', value: uid })
+            state.studentId = studentId
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'personal', value: studentId })
         },
         setClubsData(state, clubsData) { // 保存获取的社团信息
             state.clubsData = clubsData
@@ -50,8 +50,8 @@ const store = createStore({
         setRouteTabs(state, { owner, value }) { // 保证页面刷新后还能保留在之前的页面
             state.routeTabs[owner] = value
         },
-        setClubID(state, clubID) { // 保存当前访问的ClubID
-            state.clubID = clubID
+        setClubId(state, clubId) { // 保存当前访问的ClubId
+            state.clubId = clubId
         },
         // 处理会变化的有子路由的界面的初始路由
         setParentRoute(state, { owner, value }) {
@@ -63,7 +63,7 @@ const store = createStore({
         },
 
         setclubsActAndNtc(state, data) {
-            state.clubsActAndNtc[data.clubID] = data
+            state.clubsActAndNtc[data.clubId] = data
         }
     },
     getters: {
