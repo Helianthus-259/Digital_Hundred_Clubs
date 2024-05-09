@@ -15,13 +15,17 @@
             <result property="contact" column="contact" jdbcType="VARCHAR"/>
             <result property="pwd" column="pwd" jdbcType="VARCHAR"/>
             <result property="politicalStatus" column="political_status" jdbcType="VARCHAR"/>
-            <result property="dateOfBirth" column="date_of_birth" jdbcType="DATE"/>
+            <result property="dateOfBirth" column="date_of_birth" jdbcType="TIMESTAMP"/>
+            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+            <result property="hobby" column="hobby" jdbcType="VARCHAR"/>
+            <result property="specialty" column="specialty" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         student_id,email,st_name,
         student_number,gender,college,
         grade,contact,pwd,
-        political_status,date_of_birth
+        political_status,date_of_birth,image_url,
+        hobby,specialty
     </sql>
 </mapper>

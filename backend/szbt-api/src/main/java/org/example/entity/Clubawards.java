@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @TableName clubawards
  */
 @TableName(value ="clubawards")
+@Data
 public class Clubawards implements Serializable {
     /**
      * 
@@ -42,76 +44,6 @@ public class Clubawards implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getAwardId() {
-        return awardId;
-    }
-
-    /**
-     * 
-     */
-    public void setAwardId(Integer awardId) {
-        this.awardId = awardId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getAwardName() {
-        return awardName;
-    }
-
-    /**
-     * 
-     */
-    public void setAwardName(String awardName) {
-        this.awardName = awardName;
-    }
-
-    /**
-     * 
-     */
-    public Date getAwardTime() {
-        return awardTime;
-    }
-
-    /**
-     * 
-     */
-    public void setAwardTime(Date awardTime) {
-        this.awardTime = awardTime;
-    }
-
-    /**
-     * 
-     */
-    public String getIssuingAuthority() {
-        return issuingAuthority;
-    }
-
-    /**
-     * 
-     */
-    public void setIssuingAuthority(String issuingAuthority) {
-        this.issuingAuthority = issuingAuthority;
-    }
 
     @Override
     public boolean equals(Object that) {

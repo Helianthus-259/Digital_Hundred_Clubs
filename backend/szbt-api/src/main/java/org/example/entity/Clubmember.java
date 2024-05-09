@@ -3,6 +3,7 @@ package org.example.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @TableName clubmember
  */
 @TableName(value ="clubmember")
+@Data
 public class Clubmember implements Serializable {
     /**
      * 
@@ -42,76 +44,6 @@ public class Clubmember implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    /**
-     * 
-     */
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getClubName() {
-        return clubName;
-    }
-
-    /**
-     * 
-     */
-    public void setClubName(String clubName) {
-        this.clubName = clubName;
-    }
-
-    /**
-     * 
-     */
-    public Integer getPosition() {
-        return position;
-    }
-
-    /**
-     * 
-     */
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
-    /**
-     * 
-     */
-    public Date getJoinDate() {
-        return joinDate;
-    }
-
-    /**
-     * 
-     */
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
-    }
 
     @Override
     public boolean equals(Object that) {

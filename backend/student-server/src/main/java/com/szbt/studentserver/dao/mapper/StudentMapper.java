@@ -9,7 +9,6 @@ import org.example.entity.Student;
 * @createDate 2024-04-23 14:12:37
 * @Entity generator.domain.Student
 */
-
 @Mapper
 public interface StudentMapper extends BaseMapper<Student> {
 

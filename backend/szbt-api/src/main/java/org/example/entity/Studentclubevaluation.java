@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName studentclubevaluation
  */
 @TableName(value ="studentclubevaluation")
+@Data
 public class Studentclubevaluation implements Serializable {
     /**
      * 
@@ -56,118 +58,6 @@ public class Studentclubevaluation implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    /**
-     * 
-     */
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getDeclarationYear() {
-        return declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public void setDeclarationYear(Integer declarationYear) {
-        this.declarationYear = declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getHandoverMethod() {
-        return handoverMethod;
-    }
-
-    /**
-     * 
-     */
-    public void setHandoverMethod(String handoverMethod) {
-        this.handoverMethod = handoverMethod;
-    }
-
-    /**
-     * 
-     */
-    public Integer getHandoverParticipantsCount() {
-        return handoverParticipantsCount;
-    }
-
-    /**
-     * 
-     */
-    public void setHandoverParticipantsCount(Integer handoverParticipantsCount) {
-        this.handoverParticipantsCount = handoverParticipantsCount;
-    }
-
-    /**
-     * 
-     */
-    public Integer getAdvisorParticipation() {
-        return advisorParticipation;
-    }
-
-    /**
-     * 
-     */
-    public void setAdvisorParticipation(Integer advisorParticipation) {
-        this.advisorParticipation = advisorParticipation;
-    }
-
-    /**
-     * 
-     */
-    public Object getPublicityManagementEffectiveness() {
-        return publicityManagementEffectiveness;
-    }
-
-    /**
-     * 
-     */
-    public void setPublicityManagementEffectiveness(Object publicityManagementEffectiveness) {
-        this.publicityManagementEffectiveness = publicityManagementEffectiveness;
-    }
-
-    /**
-     * 
-     */
-    public Object getHostedSchoolLevelActivities() {
-        return hostedSchoolLevelActivities;
-    }
-
-    /**
-     * 
-     */
-    public void setHostedSchoolLevelActivities(Object hostedSchoolLevelActivities) {
-        this.hostedSchoolLevelActivities = hostedSchoolLevelActivities;
-    }
 
     @Override
     public boolean equals(Object that) {

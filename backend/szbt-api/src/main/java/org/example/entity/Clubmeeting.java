@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @TableName clubmeeting
  */
 @TableName(value ="clubmeeting")
+@Data
 public class Clubmeeting implements Serializable {
     /**
      * 
@@ -47,90 +49,6 @@ public class Clubmeeting implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getMeetingId() {
-        return meetingId;
-    }
-
-    /**
-     * 
-     */
-    public void setMeetingId(Integer meetingId) {
-        this.meetingId = meetingId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public Date getMeetingTime() {
-        return meetingTime;
-    }
-
-    /**
-     * 
-     */
-    public void setMeetingTime(Date meetingTime) {
-        this.meetingTime = meetingTime;
-    }
-
-    /**
-     * 
-     */
-    public String getLocation() {
-        return location;
-    }
-
-    /**
-     * 
-     */
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    /**
-     * 
-     */
-    public Integer getCategory() {
-        return category;
-    }
-
-    /**
-     * 
-     */
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
-    /**
-     * 
-     */
-    public String getAdvisorName() {
-        return advisorName;
-    }
-
-    /**
-     * 
-     */
-    public void setAdvisorName(String advisorName) {
-        this.advisorName = advisorName;
-    }
 
     @Override
     public boolean equals(Object that) {

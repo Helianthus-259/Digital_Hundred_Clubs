@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @TableName annualaudit
  */
 @TableName(value ="annualaudit")
+@Data
 public class Annualaudit implements Serializable {
     /**
      * 
@@ -61,132 +63,6 @@ public class Annualaudit implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getDeclarationId() {
-        return declarationId;
-    }
-
-    /**
-     * 
-     */
-    public void setDeclarationId(Integer declarationId) {
-        this.declarationId = declarationId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getDeclarationYear() {
-        return declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public void setDeclarationYear(Integer declarationYear) {
-        this.declarationYear = declarationYear;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getReviewResult() {
-        return reviewResult;
-    }
-
-    /**
-     * 
-     */
-    public void setReviewResult(String reviewResult) {
-        this.reviewResult = reviewResult;
-    }
-
-    /**
-     * 
-     */
-    public String getMeetingActivityListAttachment() {
-        return meetingActivityListAttachment;
-    }
-
-    /**
-     * 
-     */
-    public void setMeetingActivityListAttachment(String meetingActivityListAttachment) {
-        this.meetingActivityListAttachment = meetingActivityListAttachment;
-    }
-
-    /**
-     * 
-     */
-    public String getExternalSponsorshipAttachment() {
-        return externalSponsorshipAttachment;
-    }
-
-    /**
-     * 
-     */
-    public void setExternalSponsorshipAttachment(String externalSponsorshipAttachment) {
-        this.externalSponsorshipAttachment = externalSponsorshipAttachment;
-    }
-
-    /**
-     * 
-     */
-    public Integer getIsFinancialInformationPublic() {
-        return isFinancialInformationPublic;
-    }
-
-    /**
-     * 
-     */
-    public void setIsFinancialInformationPublic(Integer isFinancialInformationPublic) {
-        this.isFinancialInformationPublic = isFinancialInformationPublic;
-    }
-
-    /**
-     * 
-     */
-    public String getClubConstitutionAttachment() {
-        return clubConstitutionAttachment;
-    }
-
-    /**
-     * 
-     */
-    public void setClubConstitutionAttachment(String clubConstitutionAttachment) {
-        this.clubConstitutionAttachment = clubConstitutionAttachment;
-    }
-
-    /**
-     * 
-     */
-    public String getDepartmentOpinion() {
-        return departmentOpinion;
-    }
-
-    /**
-     * 
-     */
-    public void setDepartmentOpinion(String departmentOpinion) {
-        this.departmentOpinion = departmentOpinion;
-    }
 
     @Override
     public boolean equals(Object that) {

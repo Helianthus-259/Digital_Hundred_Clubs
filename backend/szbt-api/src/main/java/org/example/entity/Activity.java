@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @TableName activity
  */
 @TableName(value ="activity")
+@Data
 public class Activity implements Serializable {
     /**
      * 
@@ -33,12 +35,27 @@ public class Activity implements Serializable {
     /**
      * 
      */
-    private Date activityTime;
+    private Date activityPublishTime;
+
+    /**
+     * 
+     */
+    private Date activityStartTime;
+
+    /**
+     * 
+     */
+    private Date activityEndtime;
 
     /**
      * 
      */
     private String activityLocation;
+
+    /**
+     * 
+     */
+    private String activityIntroduction;
 
     /**
      * 
@@ -55,120 +72,13 @@ public class Activity implements Serializable {
      */
     private String activityEffect;
 
+    /**
+     * 
+     */
+    private String imageUrl;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    public Integer getActivityId() {
-        return activityId;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-
-    /**
-     * 
-     */
-    public Integer getClubId() {
-        return clubId;
-    }
-
-    /**
-     * 
-     */
-    public void setClubId(Integer clubId) {
-        this.clubId = clubId;
-    }
-
-    /**
-     * 
-     */
-    public String getActivityName() {
-        return activityName;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    /**
-     * 
-     */
-    public Date getActivityTime() {
-        return activityTime;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityTime(Date activityTime) {
-        this.activityTime = activityTime;
-    }
-
-    /**
-     * 
-     */
-    public String getActivityLocation() {
-        return activityLocation;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityLocation(String activityLocation) {
-        this.activityLocation = activityLocation;
-    }
-
-    /**
-     * 
-     */
-    public String getApplicationFormAttachment() {
-        return applicationFormAttachment;
-    }
-
-    /**
-     * 
-     */
-    public void setApplicationFormAttachment(String applicationFormAttachment) {
-        this.applicationFormAttachment = applicationFormAttachment;
-    }
-
-    /**
-     * 
-     */
-    public Integer getActivityStatus() {
-        return activityStatus;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityStatus(Integer activityStatus) {
-        this.activityStatus = activityStatus;
-    }
-
-    /**
-     * 
-     */
-    public String getActivityEffect() {
-        return activityEffect;
-    }
-
-    /**
-     * 
-     */
-    public void setActivityEffect(String activityEffect) {
-        this.activityEffect = activityEffect;
-    }
 
     @Override
     public boolean equals(Object that) {
@@ -185,11 +95,15 @@ public class Activity implements Serializable {
         return (this.getActivityId() == null ? other.getActivityId() == null : this.getActivityId().equals(other.getActivityId()))
             && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
             && (this.getActivityName() == null ? other.getActivityName() == null : this.getActivityName().equals(other.getActivityName()))
-            && (this.getActivityTime() == null ? other.getActivityTime() == null : this.getActivityTime().equals(other.getActivityTime()))
+            && (this.getActivityPublishTime() == null ? other.getActivityPublishTime() == null : this.getActivityPublishTime().equals(other.getActivityPublishTime()))
+            && (this.getActivityStartTime() == null ? other.getActivityStartTime() == null : this.getActivityStartTime().equals(other.getActivityStartTime()))
+            && (this.getActivityEndtime() == null ? other.getActivityEndtime() == null : this.getActivityEndtime().equals(other.getActivityEndtime()))
             && (this.getActivityLocation() == null ? other.getActivityLocation() == null : this.getActivityLocation().equals(other.getActivityLocation()))
+            && (this.getActivityIntroduction() == null ? other.getActivityIntroduction() == null : this.getActivityIntroduction().equals(other.getActivityIntroduction()))
             && (this.getApplicationFormAttachment() == null ? other.getApplicationFormAttachment() == null : this.getApplicationFormAttachment().equals(other.getApplicationFormAttachment()))
             && (this.getActivityStatus() == null ? other.getActivityStatus() == null : this.getActivityStatus().equals(other.getActivityStatus()))
-            && (this.getActivityEffect() == null ? other.getActivityEffect() == null : this.getActivityEffect().equals(other.getActivityEffect()));
+            && (this.getActivityEffect() == null ? other.getActivityEffect() == null : this.getActivityEffect().equals(other.getActivityEffect()))
+            && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
     }
 
     @Override
@@ -199,11 +113,15 @@ public class Activity implements Serializable {
         result = prime * result + ((getActivityId() == null) ? 0 : getActivityId().hashCode());
         result = prime * result + ((getClubId() == null) ? 0 : getClubId().hashCode());
         result = prime * result + ((getActivityName() == null) ? 0 : getActivityName().hashCode());
-        result = prime * result + ((getActivityTime() == null) ? 0 : getActivityTime().hashCode());
+        result = prime * result + ((getActivityPublishTime() == null) ? 0 : getActivityPublishTime().hashCode());
+        result = prime * result + ((getActivityStartTime() == null) ? 0 : getActivityStartTime().hashCode());
+        result = prime * result + ((getActivityEndtime() == null) ? 0 : getActivityEndtime().hashCode());
         result = prime * result + ((getActivityLocation() == null) ? 0 : getActivityLocation().hashCode());
+        result = prime * result + ((getActivityIntroduction() == null) ? 0 : getActivityIntroduction().hashCode());
         result = prime * result + ((getApplicationFormAttachment() == null) ? 0 : getApplicationFormAttachment().hashCode());
         result = prime * result + ((getActivityStatus() == null) ? 0 : getActivityStatus().hashCode());
         result = prime * result + ((getActivityEffect() == null) ? 0 : getActivityEffect().hashCode());
+        result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
         return result;
     }
 
@@ -216,11 +134,15 @@ public class Activity implements Serializable {
         sb.append(", activityId=").append(activityId);
         sb.append(", clubId=").append(clubId);
         sb.append(", activityName=").append(activityName);
-        sb.append(", activityTime=").append(activityTime);
+        sb.append(", activityPublishTime=").append(activityPublishTime);
+        sb.append(", activityStartTime=").append(activityStartTime);
+        sb.append(", activityEndtime=").append(activityEndtime);
         sb.append(", activityLocation=").append(activityLocation);
+        sb.append(", activityIntroduction=").append(activityIntroduction);
         sb.append(", applicationFormAttachment=").append(applicationFormAttachment);
         sb.append(", activityStatus=").append(activityStatus);
         sb.append(", activityEffect=").append(activityEffect);
+        sb.append(", imageUrl=").append(imageUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
