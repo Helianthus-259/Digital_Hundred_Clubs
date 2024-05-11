@@ -257,3 +257,22 @@ mock.onGet(path.clubMembers).reply((config) => {
         }
     }]
 })
+
+// 管理员登录mock
+mock.onPost(path.postAdminLogin).reply((config) => {
+    const configData = JSON.parse(config.data);
+    if (configData.adminId === 'administer' && configData.password === '123456') {
+        //console.log("管理员登录：mock部分成功")
+        return [200, {
+            code: 9, // 9代表管理员登录成功
+            token: 'admin',
+            uid: 1,
+        }
+        ]
+    }
+    else {
+        return [1000, {
+            msg: '用户名或密码错误',
+        }]
+    }
+})

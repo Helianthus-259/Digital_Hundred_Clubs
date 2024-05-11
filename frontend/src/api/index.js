@@ -63,7 +63,11 @@ const api = {
         params: {
             clubId: params.clubId,
         }
-    })
+    }),
+    'postAdminLogin':(params) => axios.post(path.postAdminLogin, { //管理员登录
+        adminId: params.adminId,
+        password: params.password,        
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {

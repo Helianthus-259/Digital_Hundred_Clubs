@@ -63,14 +63,13 @@
     <div class="loginBox">
         <t-form>
             <t-form-item label="用户名" name="username">
-                <t-input placeholder="请输入用户名" />
+                <t-input placeholder="请输入管理员用户名" v-model="adminLoginForm.adminId" />
             </t-form-item>
             <t-form-item label="密码" name="password">
-                <t-input type="password" placeholder="请输入密码" />
+                <t-input type="password" placeholder="请输入密码" v-model="adminLoginForm.password"/>
             </t-form-item>
             <div style="width: 100%; display: flex; justify-content:space-around; margin-top: 5%;">
-                <t-button theme="primary" type="submit">登录</t-button>
-                <t-button theme="default" variant="base" type="reset">注册</t-button>
+                <t-button theme="primary" type="submit" @click="adminHandleLogin">登录</t-button>
             </div>
         </t-form>
     </div>
@@ -79,5 +78,44 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import fixedLabelBar from '../components/FixedLabelBar.vue';
+import { reactive, ref, computed } from 'vue';
+import eventEmitter from '../utils/eventEmitter.js'
+import { APIEnum, APIEventEnum } from '../Enum'
+
+// 为了方便测试，每次都初始化一个正确的管理员账号
+const adminLoginForm = reactive({
+    adminId: 'administer',
+    password: '123456',
+})
+
+// 检测账号格式是否为管理员账号
+const adminIdValidate = (data) => {
+    if (/administer$/.test(data)) {
+        return true
+    }
+    return false
+}
+
+//密码检查
+const passwordValidate = (data) => {
+    if (data.length < 6) {
+        return false
+    }
+    return true
+}
+
+const adminLoginValidate = () => {
+    return adminIdValidate(adminLoginForm.adminId) && passwordValidate(adminLoginForm.password)
+}
+
+const adminHandleLogin = () => {
+    if (adminLoginValidate()) {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
+        console.log("管理员登录成功！正在跳转到管理员界面……")
+    } else {
+        return
+    }
+}
+
 
 </script>

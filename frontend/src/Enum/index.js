@@ -26,6 +26,7 @@ export const APIEnum = {
     getClubActAndNtc: 'getClubActAndNtc',
     getClubIntroduction: 'getClubIntroduction',
     getClubMembers: 'getClubMembers',
+    postAdminLogin: 'postAdminLogin',
 }
 
 

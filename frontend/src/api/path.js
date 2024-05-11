@@ -10,6 +10,7 @@ const base = {
     clubActAndNtc: '/api/clubActAndNtc', // 获取社团活动通知
     clubIntroduction: '/api/clubIntroduction', // 获取社团简介
     clubMembers: '/api/clubMembers', // 获取社团成员
+    postAdminLogin: '/api/postAdminLogin', //管理员登录
 }
 
 export default base;

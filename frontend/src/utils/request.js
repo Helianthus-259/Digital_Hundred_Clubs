@@ -57,6 +57,12 @@ function successHandler(response) {
         } else if (response.data.code === 8) { // 获取社团成员成功
             const { members } = response.data
             eventEmitter.emit(APIEventEnum.getClubMembersSuccess, members)
+        } else if (response.data.code === 9) { // 管理员登录成功
+            //console.log("管理员登录：request部分成功")
+            const { token, uid } = response.data
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, uid })
+            eventEmitter.emit(RouterEventEnum.push, "/adminFirstPage")//登录成功后应直接返回首页
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: 'home' })
         }
     }
 }

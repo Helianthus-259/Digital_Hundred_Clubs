@@ -79,6 +79,13 @@ const router = createRouter({
       name: 'adminLogin',
       component: () => import('../views/AdminLoginView.vue'),
       meta: { requireAuth: false, },
+    },  
+    // 管理员首页界面
+    {
+      path: '/adminFirstPage',
+      name: 'adminFirstPage',
+      component: () => import('../views/AdminView.vue'),
+      meta: { requireAuth: false, },
     },
     // 社团界面
     {

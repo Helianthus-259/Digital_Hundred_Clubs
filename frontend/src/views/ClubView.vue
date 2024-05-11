@@ -51,6 +51,19 @@
         <template #header>
             加入社团申请表
         </template>
+        <template #body>
+            <t-cell-group bordered>
+                <t-cell title="姓名" :note="name" />
+                <t-cell title="性别" :note="gender" />
+                <t-cell title="年龄" :note="age" />
+                <t-cell title="学号" :note="studentID" />
+                <t-cell title="学院" :note="faculty" />
+                <t-cell title="邮箱" :note="email" />
+                <t-cell title="手机号" :note="phone"/>
+                <t-cell title="爱好" :note="hobby"/>
+                <t-cell title="特长" :note="specialty"/>
+            </t-cell-group>
+        </template>
         <template #footer>
             <t-button style="margin: 0 10px;" theme="primary" size="small">发送</t-button>
             <t-button style="margin: 0 10px;" theme="light" size="small" @click="closeDialog">关闭</t-button>
@@ -59,7 +72,7 @@
 </template>
 
 <script setup>
-import { RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
+import { RouterEventEnum, StoreEnum, StoreEventEnum,APIEnum, APIEventEnum } from '@/Enum';
 import FixedLabelBar from '@/components/FixedLabelBar.vue';
 import myDialog from '@/components/myDialog.vue';
 import store from '@/store';
@@ -89,7 +102,46 @@ const onNextChange = (value) => {
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'clubTabs', value: value })
 };
+const phone = ref('')
+const hobby = ref('')
+const specialty = ref('')
+const name = ref('')
+const age = ref('')
+const gender = ref('')
+const studentID = ref('')
+const faculty = ref('')
+const email = ref('')
+const user = ref({})
 
+// 为上面定义的变量赋值
+function assignment() {
+    phone.value = user.value.phone
+    hobby.value = user.value.hobby
+    specialty.value = user.value.specialty
+    name.value = user.value.name
+    age.value = user.value.age + ''
+    gender.value = user.value.gender
+    studentID.value = user.value.studentID
+    faculty.value = user.value.faculty
+    email.value = user.value.email
+}
+
+function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+if (isEmptyObject(store.state.userInfo)) {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { uid: store.state.uid })
+} 
+else {
+    user.value = store.state.userInfo
+    assignment()
+}
+
+eventEmitter.on(APIEventEnum.getUserInfoSuccess, (data) => {
+    user.value = data
+    assignment()
+})
 
 // 申请加入社团弹窗
 const dialogRef = ref(null);

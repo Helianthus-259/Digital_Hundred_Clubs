@@ -15,6 +15,7 @@ const store = createStore({
         // 路由存储，防止刷新后tabs的值发生改变
         routeTabs: {
             'firstPageTabs': 'home',
+            'adminFirstPageTabs': 'adminFirstPage',
             'homeTabs': 'clubs',
             'personalTabs': '',
             'clubTabs': '',
