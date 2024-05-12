@@ -20,8 +20,9 @@ const store = createStore({
             'personalTabs': '',
             'clubTabs': '',
             'clubManageTabs': '',
-            'examineTabs': '',
+            'examineTabs': 'examine',
             'manageTabs': '',
+            'activityTabs': '',
         },
 
         // 有子路由的界面的初始路由
@@ -32,6 +33,8 @@ const store = createStore({
             'club': '/club/-1/',
             'activity': '/activity/',
             'clubManage': '/clubManage/-1/',
+            'adminFirstPage': '/adminFirstPage/',
+            'examine': '/adminFirstPage/examine/',
         },
 
         // 社团比较新的活动和通知

@@ -84,7 +84,7 @@ const tabsChange = (value) => {
         const selfRoute = store.state.parentRoute.home + store.state.routeTabs.homeTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'examine'){
-        const selfRoute = store.state.parentRoute.examine + store.state.routeTabs.examineTabs
+        const selfRoute = store.state.parentRoute.adminFirstPage + store.state.routeTabs.examineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'manage'){
         const selfRoute = store.state.parentRoute.manage + store.state.routeTabs.manageTabs
@@ -94,7 +94,7 @@ const tabsChange = (value) => {
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     }
     routerNames.value = value;
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'firstPageTabs', value: value })
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: value })
 };
 //管理员界面一定是登录后才能进入的，所以store.state.token一定非空
 // 跳转到登录界面

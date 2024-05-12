@@ -84,8 +84,30 @@ const router = createRouter({
     {
       path: '/adminFirstPage',
       name: 'adminFirstPage',
-      component: () => import('../views/AdminView.vue'),
+      component: () => import('@/views/AdminFirstPage.vue'),
       meta: { requireAuth: false, },
+      children: [
+        { // 管理员审批页面
+          path: 'examine',
+          name: 'examine',
+          component: () => import('@/components/adminViewChildren/AdminExamine.vue'),
+          meta: { requireAuth: true, },
+          children: [
+            {
+              path: '',
+              name: 'clubApproval',
+              component: () => import('@/components/AdminExamineChildren/ClubApproval.vue'),
+              meta: { requireAuth: true, },
+            },
+            {
+              path: 'activityApproval',
+              name: 'activityApproval',
+              component: () => import('@/components/AdminExamineChildren/ActivityApproval.vue'),
+              meta: { requireAuth: true, },
+            },
+          ]
+        },
+      ]
     },
     // 社团界面
     {
