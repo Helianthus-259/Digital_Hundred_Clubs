@@ -83,13 +83,13 @@ const tabsChange = (value) => {
     if (value === 'home') {
         const selfRoute = store.state.parentRoute.home + store.state.routeTabs.homeTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == examine){
+    } else if(value === 'examine'){
         const selfRoute = store.state.parentRoute.examine + store.state.routeTabs.examineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == manage){
+    } else if(value === 'manage'){
         const selfRoute = store.state.parentRoute.manage + store.state.routeTabs.manageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == personal){
+    } else if(value === 'personal'){
         const selfRoute = store.state.parentRoute.personal + store.state.routeTabs.personalTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     }
