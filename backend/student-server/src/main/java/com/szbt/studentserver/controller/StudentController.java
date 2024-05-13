@@ -1,9 +1,7 @@
 package com.szbt.studentserver.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.szbt.studentserver.service.StudentService;
-import com.szbt.studentserver.util.Result;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +29,19 @@ public class StudentController {
     @GetMapping("/verifyCode")
     public Object sendVerifyCode(String email){
         return studentService.sendVerifyCode(email);
+    }
+
+    @DeleteMapping("/delete/student")
+    public Object deleteStudent(int id){
+        return studentService.removeById(id);
+    }
+    @PostMapping("/studentInfo")
+    public Object queryStudentById(int id){
+        return studentService.getById(id);
+    }
+
+    @PostMapping("/update/student")
+    public Object updateStudentById(Student st){
+        return studentService.updateById(st);
     }
 }

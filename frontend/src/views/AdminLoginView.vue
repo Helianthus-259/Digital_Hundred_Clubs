@@ -90,18 +90,12 @@ const adminLoginForm = reactive({
 
 // 检测账号格式是否为管理员账号
 const adminIdValidate = (data) => {
-    if (/administer$/.test(data)) {
-        return true
-    }
-    return false
+    return /administer$/.test(data);
 }
 
 //密码检查
 const passwordValidate = (data) => {
-    if (data.length < 6) {
-        return false
-    }
-    return true
+    return data.length >= 6;
 }
 
 const adminLoginValidate = () => {
@@ -112,8 +106,6 @@ const adminHandleLogin = () => {
     if (adminLoginValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
         console.log("管理员登录成功！正在跳转到管理员界面……")
-    } else {
-        return
     }
 }
 

@@ -18,12 +18,12 @@ public class ClubController {
     @Autowired
     private ClubService clubService;
 
-    @GetMapping("/clubsinfo")
+    @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
         return clubService.queryAllClubs();
     }
-    @PostMapping("/clubname")
+    @PostMapping("/clubName")
     public Object queryClubsByName(String name){return clubService.queryClubsByName(name);}
     @GetMapping("/club/unpass")
     public Object queryUnpassClubs(){return clubService.queryUnpassClubs();}
