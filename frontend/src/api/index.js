@@ -68,6 +68,17 @@ const api = {
         adminId: params.adminId,
         password: params.password,        
     }),
+    'getAdminInfo':(params) => axios.get(path.adminInfo, { //获取管理员信息
+        params: {
+            adminId: params.adminId,
+        }        
+    }),
+    'postAdminInfo': (params) => axios.post(path.adminInfoUpdate, { // 更新管理员信息
+        params: {
+            adminId: params.adminId,
+            clubIntroduction: params.clubIntroduction,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {

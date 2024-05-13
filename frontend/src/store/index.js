@@ -6,6 +6,7 @@ const store = createStore({
     state: {
         token: '',
         studentId: -1,
+        adminId: -1,
         clubsData: [],
         userInfo: {},
 
@@ -15,17 +16,23 @@ const store = createStore({
         // 路由存储，防止刷新后tabs的值发生改变
         routeTabs: {
             'firstPageTabs': 'home',
-            'adminFirstPageTabs': 'adminFirstPage',
             'homeTabs': 'clubs',
             'personalTabs': '',
             'clubTabs': '',
             'clubManageTabs': '',
+            'adminTabs':'admin',
+            'adminFirstPageTabs':'admin',
+            'adminExamineTabs':'examine',
+            'adminManageTabs':'manage',
+            'adminPersonalTabs':'adminPersonal',
         },
 
         // 有子路由的界面的初始路由
         parentRoute: {
             'firstPage': '/',
             'home': '/home/',
+            'admin':'/admin/',
+            'adminPersonal':'/admin/adminPersonal/',
             'personal': '/personal/-1/',
             'club': '/club/-1/',
             'activity': '/activity/',

@@ -25,10 +25,10 @@
     <fixedLabelBar>
         <div class="labels">
             <t-tabs :value="routerNames" @change="tabsChange">
-                <t-tab-panel value="home">
+                <t-tab-panel value="admin">
                     <template #label>
                         <div class="label-content">
-                            <icon-font name="home" size="large" />
+                            <icon-font name="admin" size="large" />
                             <span>首页</span>
                         </div>
                     </template>
@@ -37,7 +37,7 @@
                     <template #label>
                         <div class="label-content">
                             <icon-font name="examine" size="large" />
-                            <span>审批界面</span>
+                            <span>审批</span>
                         </div>
                     </template>
                 </t-tab-panel>
@@ -45,14 +45,14 @@
                     <template #label>
                         <div class="label-content">
                             <icon-font name="manage" size="large" />
-                            <span>管理界面</span>
+                            <span>申请</span>
                         </div>
                     </template>
                 </t-tab-panel>
-                <t-tab-panel value="personal">
+                <t-tab-panel value="adminPersonal">
                     <template #label>
                         <div class="label-content">
-                            <icon-font name="user" size="large" />
+                            <icon-font name="adminPersonal" size="large" />
                             <span>管理员信息</span>
                         </div>
                     </template>
@@ -76,31 +76,33 @@ import eventEmitter from '../utils/eventEmitter';
 import { RouterEventEnum, StoreEnum, StoreEventEnum } from '../Enum';
 import store from '@/store';
 
-const routerNames = ref(store.state.routeTabs.adminFirstPageTabs)
+const routerNames = ref(store.state.routeTabs.adminTabs)
 
-// 控制个人主页和首页之间的跳转
+// 控制管理员的首页/审核/管理/管理员信息之间的界面跳转
 const tabsChange = (value) => {
-    if (value === 'home') {
-        const selfRoute = store.state.parentRoute.home + store.state.routeTabs.homeTabs
+    if (value === 'admin') {
+        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminFirstPageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == examine){
-        const selfRoute = store.state.parentRoute.examine + store.state.routeTabs.examineTabs
+    } else if(value === 'examine'){
+        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminExamineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == manage){
-        const selfRoute = store.state.parentRoute.manage + store.state.routeTabs.manageTabs
+    } else if(value === 'manage'){
+        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminManageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value == personal){
-        const selfRoute = store.state.parentRoute.personal + store.state.routeTabs.personalTabs
+    } else {
+        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminPersonalTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     }
     routerNames.value = value;
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'firstPageTabs', value: value })
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminTabs', value: value })
 };
 //管理员界面一定是登录后才能进入的，所以store.state.token一定非空
-// 跳转到登录界面
-const goLogin = () => {
-    eventEmitter.emit(RouterEventEnum.push, '/login')
-};
-
+const isLogin = computed(() => {
+    if (store.state.token) {
+        return true
+    } else {
+        return false
+    }
+})
 
 </script>

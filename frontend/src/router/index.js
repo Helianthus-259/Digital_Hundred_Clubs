@@ -82,10 +82,64 @@ const router = createRouter({
     },  
     // 管理员首页界面
     {
-      path: '/adminFirstPage',
-      name: 'adminFirstPage',
+      path: '/admin',
+      name: 'adminPage',
       component: () => import('../views/AdminView.vue'),
+      redirect: '/admin/admin',
       meta: { requireAuth: false, },
+      
+      children: [
+        {
+          path: 'admin',
+          name: 'admin',
+          component: () => import('../components/firstPageViewChildren/HomeView.vue'),
+          redirect:'/admin/admin/adminClub',
+          meta: { requireAuth: false, },
+          children: [ // 管理员首页中的子界面
+            {//管理员查看社团信息
+              path: 'adminClub',//管理员是否也需要查看各个社团信息？如果需要，是否应当修改社团详细信息中部分构件的显示关系（如管理员不能提交入社申请
+              name: 'adminClub',
+              component: () => import('../components/homeViewChildren/ClubsView.vue'),
+              meta: { requireAuth: false, },
+            },
+          ]
+        },
+        {
+          path: 'adminPersonal',
+          name: 'adminPersonal',
+          component: () => import('../components/adminFirstPageViewChildren/adminPersonalView.vue'),
+          meta: { requireAuth: true, },
+          children: [
+            {
+              path: '',//管理员自己的信息，如管理员分类（社团管理/校级管理）、社团/成员信息、社团活动/评优申请等。
+              name: 'adminPersonalInfo',
+              component: () => import('@/components/adminPersonalViewChildren/adminPersonalInfo.vue'),
+              meta: { requireAuth: true, },
+            },
+            {
+              path: 'managedClub',//管理员所管理的社团信息（如果是社团管理员）
+              name: 'managedClub',
+              component: () => import('@/components/adminPersonalViewChildren/managedClub.vue'),
+              meta: { requireAuth: true, },
+            },
+            {
+              path: 'clubActivitiesHistory',//本社团的活动记录
+              name: 'clubActivitiesHistory',
+              component: () => import('@/components/adminPersonalViewChildren/clubActivitiesHistory.vue'),
+              meta: { requireAuth: true, },
+            },
+            // {
+            //   path: 'examHistory',
+            //   name: 'examHistory',
+            //   component: () => import('@/components/adminPersonalViewChildren/examHistory.vue'),
+            //   meta: { requireAuth: true, },
+            // },
+          ]
+        },
+        
+
+      ]
+      
     },
     // 社团界面
     {

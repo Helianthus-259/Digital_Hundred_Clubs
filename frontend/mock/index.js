@@ -276,3 +276,49 @@ mock.onPost(path.postAdminLogin).reply((config) => {
         }]
     }
 })
+
+// 获取管理员信息mock
+mock.onGet(path.adminInfo).reply((config) => {
+    return [200, {
+        code: 10, // 10代表管理员信息
+        data: {
+            adminId: '12345678',
+            account: 'administer',
+            sort: 0, //0代表学院管理员
+            password: '123456',
+            contact: '37037037037',
+            affiliatedUnit:'软件工程',
+            clubs: {//这是社团管理员所管理的唯一社团，因此不用[]，直接用{}
+                clubId: 1,
+                clubName: '社团1',
+                establishedTime:'2024/05/03',
+                affiliatedUnitId:'这是附属部门id',
+                clubIntroduction:'这是社团简介',
+                clubSort: '这是社团类别的枚举',//0，1，2，3，4
+                clubStatus: '这是社团状态的枚举',//0未通过、1通过
+                administrativeAdvisorName:'这是行政指导老师姓名',
+                businessAdvisorName:'这是业务指导老师姓名',
+                contactsId:'这是联系人Id',
+                location:'这是所在校区',
+                totalMembership:'这是社团总人数',
+                financePublicity:'这是是否成员财务公开'
+            },
+            
+            activitiesHistory: [
+                {
+                    activityName: '活动xxx', // 获得荣誉的活动名称
+                    award: 'xxx活动xxx名', // 荣誉名称
+                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
+                },
+            ]
+        },
+        
+    }]
+})
+
+// 更新个人信息mock
+mock.onPost(path.adminInfoUpdate).reply((config) => {
+    return [200, {
+        code: 11, // 11代表管理员信息更新
+    }]
+})

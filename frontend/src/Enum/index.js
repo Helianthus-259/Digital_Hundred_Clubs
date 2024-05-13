@@ -9,6 +9,7 @@ export const APIEventEnum = {
     getClubActAndNtcSuccess: 'getClubActAndNtcSuccess',
     getClubIntroductionSuccess: 'getClubIntroductionSuccess',
     getClubMembersSuccess: 'getClubMembersSuccess',
+    getAdminInfoSuccess:'getAdminInfoSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -27,6 +28,8 @@ export const APIEnum = {
     getClubIntroduction: 'getClubIntroduction',
     getClubMembers: 'getClubMembers',
     postAdminLogin: 'postAdminLogin',
+    getAdminInfo:'getAdminInfo',
+    postAdminInfo:'postAdminInfo',
 }
 
 
@@ -49,6 +52,7 @@ export const StoreEnum = {
     setParentRoute: 'setParentRoute',
     setclubsActAndNtc: 'setclubsActAndNtc',
     setClubId: 'setClubId',
+    setAdminInfo: 'setAdminInfo',
 }
 
 // 展示的社团类型
