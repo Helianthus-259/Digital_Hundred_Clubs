@@ -1,13 +1,14 @@
 <style scoped>
 /* 标签栏样式 */
 .tabsBox {
+    margin-top: 50px;
     width: 20%;
     margin-left: 10%;
 }
 
 /* 总内容 */
 .contentContainer {
-    margin-top: 50px;
+    width: 100%;
 }
 
 .contentBox {
@@ -23,11 +24,9 @@
 </style>
 
 <template>
-    <t-sticky :offset-top="50">
-        <div class="tabsBox">
-            <t-tabs :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
-        </div>
-    </t-sticky>
+    <div class="tabsBox">
+        <t-tabs :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
+    </div>
     <div class="contentContainer">
         <div class="contentBox">
             <RouterView />
