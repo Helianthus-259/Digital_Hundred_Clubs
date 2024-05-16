@@ -7,7 +7,7 @@
 
 /* 左边栏 */
 .leftSide {
-    width: 20%;
+    width: 80%;
     padding: 5px;
 }
 
@@ -17,6 +17,8 @@
     border-radius: 5px;
     height: 100%;
     overflow-y: auto;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -43,9 +45,13 @@
     /* 鼠标hover时滑块颜色 */
 }
 
+.managedClubInfo {
+    width: 60%;
+}
+
 /* 右边栏 */
 .rightSide {
-    width: 80%;
+    width: 20%;
     padding: 5px;
 }
 
@@ -55,6 +61,24 @@
     border-radius: 5px;
     height: 100%;
 
+}
+.ribbon {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    /* 按钮样式 */
+    .t-button {
+        margin: 5px;
+        width: 65%;
+        height: 40px;
+        font-size: 16px;
+        overflow: hidden;
+    }
 }
 
 /* 步骤条 */
@@ -103,27 +127,66 @@
         <!-- 展示管理员的管理社团 -->
         <div class="leftSide">
             <div class="leftSideContent">
-                <div class="managedClubsInfo">
+                <div class="managedClubInfo">
                     <t-cell-group bordered>
                         <t-cell title="社团id" :note="clubId" />
                         <t-cell title="社团名称" :note="clubName" />
                         <t-cell title="社团建立时间" :note="establishedTime" />
                         <t-cell title="社团附属单位id" :note="affiliatedUnitId" />
-                        <t-cell title="社团简介" hover style="height: 56px">
+                        <!--<t-cell title="社团简介" hover style="height: 56px">
                             <template #note>
-                                <t-input :maxcharacter="11" v-model="clubIntroduction" placeholder="请输入社团简介" align="right"
+                                <t-input :maxcharacter="100" v-model="clubIntroduction" placeholder="请输入社团简介（50字以内）" align="right"
+                                    :readonly="readOnly" borderless />
+                            </template>
+                        </t-cell>-->
+
+                        <t-cell title="社团简介" hover style="height: 180px">
+                            <template #note>
+                                <t-textarea style="height: 140px; width:300px;" class="textarea-example" v-model="clubIntroduction"  placeholder="请输入社团简介（50字以内）" :readonly="readOnly" :bordered=true :indicator=true :maxcharacter=100></t-textarea>
+                            </template>
+                        </t-cell>
+
+                        <t-cell title="社团类别" :note="clubSort" />
+                        <t-cell title="社团状态" :note="clubStatus" />
+                        <t-cell title="行政指导老师" hover style="height: 56px">
+                            <template #note>
+                                <t-input :maxcharacter="11" v-model="administrativeAdvisorName" placeholder="请输入行政指导老师姓名" align="right"
                                     :readonly="readOnly" borderless />
                             </template>
                         </t-cell>
-                        <t-cell title="社团类别" :note="clubSort" />
-                        <t-cell title="社团状态" :note="clubStatus" />
-                        <t-cell title="行政指导老师" :note="administrativeAdvisorName" />
-                        <t-cell title="业务指导老师" :note="businessAdvisorName" />
-                        <t-cell title="联系人Id" :note="contactsId" />
-                        <t-cell title="社团主部所在校区" :note="location" />
+                        <t-cell title="业务指导老师" hover style="height: 56px">
+                            <template #note>
+                                <t-input :maxcharacter="11" v-model="businessAdvisorName" placeholder="请输入业务指导老师姓名" align="right"
+                                    :readonly="readOnly" borderless />
+                            </template>
+                        </t-cell>
+                        <t-cell title="联系人ID" hover style="height: 56px">
+                            <template #note>
+                                <t-input :maxcharacter="11" v-model="contactsId" placeholder="请输入联系人ID" align="right"
+                                    :readonly="readOnly" borderless />
+                            </template>
+                        </t-cell>
+                        <t-cell title="社团主部所在校区" hover style="height: 56px">
+                            <template #note>
+                                <t-input :maxcharacter="11" v-model="location" placeholder="请输入校区" align="right"
+                                    :readonly="readOnly" borderless />
+                            </template>
+                        </t-cell>
+                        <t-cell title="社团主部所在校区" hover style="height: 56px">
+                            <template #note>
+                                <mySelect v-model="location" :options="campusOptions"></mySelect>
+                            </template>
+                        </t-cell>
+                        <t-cell title="社团主部所在校区" hover style="height: 56px">
+                            <template #note>
+                                <mySelect v-model="location" :options="campusOptions" :disabled="readOnly"></mySelect>
+                            </template>
+                        </t-cell>
+                        
                         <t-cell title="社团成员总人数" :note="totalMembership" />
                         <t-cell title="成员财务是否公开" :note="financePublicity" />
                     </t-cell-group>
+
                     <div style="display: flex; justify-content: center; padding: 10px">
                         <t-button v-show="!readOnly" @click="save">保存</t-button>
                     </div>
@@ -152,6 +215,7 @@ import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } fro
 import NoticesView from '../participatedClubsChildren/NoticesView.vue';
 import ActivitiesView from '../participatedClubsChildren/ActivitiesView.vue';
 import mySteps from '../mySteps.vue';
+import mySelect from '../mySelect.vue';
 
 // 展示管理的社团信息
 const clubId = ref('')
@@ -172,6 +236,14 @@ const managedClubInfo = ref({})
 
 const readOnly = ref(true)
 
+// 校区
+const campusOptions = ref([
+    { label: '广州南校', value: '广州南校' },
+    { label: '广州东校', value: '广州东校' },
+    { label: '广州北校', value: '广州北校' },
+    { label: '珠海校区', value: '珠海校区' },
+    { label: '深圳校区', value: '深圳校区' },
+])
 // 为上面定义的变量赋值
 function assignment() {
     clubId.value = managedClubInfo.value.clubId

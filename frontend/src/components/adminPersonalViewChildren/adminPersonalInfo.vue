@@ -131,10 +131,20 @@ const user = ref({})
 function assignment() {
     adminId.value = user.value.adminId
     account.value = user.value.account
-    sort.value = user.value.sort
+    sort.value = transferSort(user.value.sort)
     password.value = user.value.password
     contact.value = user.value.contact
     affiliatedUnit.value = user.value.affiliatedUnit
+}
+
+function transferSort(sortNumber)
+{
+    if(sortNumber===0) {
+        return '学院管理员'
+    }
+    else{
+        return '校级管理员'
+    }
 }
 
 if (isEmptyObject(store.state.userInfo)) {

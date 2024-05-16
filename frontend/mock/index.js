@@ -284,7 +284,7 @@ mock.onGet(path.adminInfo).reply((config) => {
         data: {
             adminId: '12345678',
             account: 'administer',
-            sort: 0, //0代表学院管理员
+            sort: 0, //0代表学院管理员,1代表校级管理员
             password: '123456',
             contact: '37037037037',
             affiliatedUnit:'软件工程',
@@ -299,16 +299,26 @@ mock.onGet(path.adminInfo).reply((config) => {
                 administrativeAdvisorName:'这是行政指导老师姓名',
                 businessAdvisorName:'这是业务指导老师姓名',
                 contactsId:'这是联系人Id',
-                location:'这是所在校区',
+                location:'广州南校',
                 totalMembership:'这是社团总人数',
                 financePublicity:'这是是否成员财务公开'
             },
             
             activitiesHistory: [
                 {
-                    activityName: '活动xxx', // 获得荣誉的活动名称
-                    award: 'xxx活动xxx名', // 荣誉名称
-                    awardWiningTime: '2024-05-03 00:00:00', // 获奖时间
+                    activityName: '活动1', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-04-03 00:00:00', // 获奖时间
+                },
+                {
+                    activityName: '活动2', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-05-04 00:00:00', // 获奖时间
+                },
+                {
+                    activityName: '活动3', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-05-05 00:00:00', // 获奖时间
                 },
             ]
         },
@@ -316,7 +326,7 @@ mock.onGet(path.adminInfo).reply((config) => {
     }]
 })
 
-// 更新个人信息mock
+// 更新管理员信息mock
 mock.onPost(path.adminInfoUpdate).reply((config) => {
     return [200, {
         code: 11, // 11代表管理员信息更新

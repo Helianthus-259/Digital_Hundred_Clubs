@@ -17,26 +17,28 @@ const store = createStore({
         routeTabs: {
             'firstPageTabs': 'home',
             'homeTabs': 'clubs',
+            'adminClubTabs':'adminClub',
             'personalTabs': '',
             'clubTabs': '',
             'clubManageTabs': '',
-            'adminTabs':'admin',
-            'adminFirstPageTabs':'admin',
-            'adminExamineTabs':'examine',
+            'adminTabs':'adminFirstPage',
+            'adminFirstPageTabs':'adminFirstPage',
+            'examineTabs':'examine',
             'adminManageTabs':'manage',
-            'adminPersonalTabs':'adminPersonal',
+            'adminPersonalTabs':'adminPersonalInfo',
         },
 
         // 有子路由的界面的初始路由
         parentRoute: {
             'firstPage': '/',
             'home': '/home/',
-            'admin':'/admin/',
-            'adminPersonal':'/admin/adminPersonal/',
+            'admin':'/adminFirstPage/',
+            'adminPersonal':'/adminFirstPage/adminPersonal/',
             'personal': '/personal/-1/',
             'club': '/club/-1/',
             'activity': '/activity/',
             'clubManage': '/clubManage/-1/',
+            'examine': '/adminFirstPage/examine/',
         },
 
         // 社团比较新的活动和通知

@@ -61,7 +61,7 @@ function successHandler(response) {
             //console.log("管理员登录：request部分成功")
             const { token, adminId } = response.data
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, adminId })
-            eventEmitter.emit(RouterEventEnum.push, "/admin")//登录成功后应直接去往管理员首页
+            eventEmitter.emit(RouterEventEnum.push, "/adminFirstPage")//登录成功后应直接去往管理员首页
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: 'admin' })
         } else if (response.data.code === 10) { // 获取管理员信息成功
             const { data } = response.data

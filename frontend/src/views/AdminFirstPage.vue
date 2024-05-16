@@ -84,13 +84,13 @@ const tabsChange = (value) => {
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminFirstPageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'examine'){
-        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminExamineTabs
+        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.examineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'manage'){
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminManageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else {
-        const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminPersonalTabs
+        const selfRoute = store.state.parentRoute.adminPersonal + store.state.routeTabs.adminPersonalTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     }
     routerNames.value = value;

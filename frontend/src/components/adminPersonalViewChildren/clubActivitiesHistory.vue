@@ -83,7 +83,7 @@
     <div class="mainBox">
         <div class="leftSide">
             <div class="leftSideContent">
-                <Achievements :achievements="achievements" :on-change="handleSelectedAchievements"></Achievements>
+                <Achievements :achievements="activitiesHistory" :on-change="handleSelectedHistory"></Achievements>
             </div>
         </div>
 
@@ -114,13 +114,13 @@ import { Document, Packer, Paragraph, Table, TableCell, TableRow, WidthType } fr
 import { saveAs } from 'file-saver';
 
 // 获取的成就
-const achievements = ref(store.state.userInfo.achievements)
+const activitiesHistory = ref(store.state.userInfo.activitiesHistory)
 
 // 选中的成就
-const checkedAchievements = ref([])
+const checkedHistory = ref([])
 
-const handleSelectedAchievements = (selectedAchievements) => {
-    checkedAchievements.value = selectedAchievements
+const handleSelectedHistory = (selectedHistory) => {
+    checkedHistory.value = selectedHistory
 }
 
 // 导出选中的成就成word或者pdf的形式

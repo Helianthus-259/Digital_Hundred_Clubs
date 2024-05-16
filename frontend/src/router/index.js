@@ -82,24 +82,30 @@ const router = createRouter({
     },  
     // 管理员首页界面
     {
-      path: '/admin',
-      name: 'adminPage',
-      component: () => import('../views/AdminView.vue'),
-      redirect: '/admin/admin',
+      path: '/adminFirstPage',
+      name: 'adminFirstPage',
+      component: () => import('../views/AdminFirstPage.vue'),
+      redirect:'/adminFirstPage/admin',
       meta: { requireAuth: false, },
       
       children: [
         {
           path: 'admin',
           name: 'admin',
-          component: () => import('../components/firstPageViewChildren/HomeView.vue'),
-          redirect:'/admin/admin/adminClub',
+          component: () => import('../components/adminViewChildren/adminHomeView.vue'),
+          redirect:'/adminFirstPage/admin/adminClub',
           meta: { requireAuth: false, },
           children: [ // 管理员首页中的子界面
-            {//管理员查看社团信息
+            {//管理员首页也可以查看社团信息
               path: 'adminClub',//管理员是否也需要查看各个社团信息？如果需要，是否应当修改社团详细信息中部分构件的显示关系（如管理员不能提交入社申请
               name: 'adminClub',
-              component: () => import('../components/homeViewChildren/ClubsView.vue'),
+              component: () => import('../components/adminHomeViewChildren/ClubsView.vue'),
+              meta: { requireAuth: false, },
+            },
+            {
+              path: 'adminNews',
+              name: 'adminNews',
+              component: () => import('../components/adminHomeViewChildren/NewsView.vue'),
               meta: { requireAuth: false, },
             },
           ]
@@ -107,11 +113,12 @@ const router = createRouter({
         {
           path: 'adminPersonal',
           name: 'adminPersonal',
-          component: () => import('../components/adminFirstPageViewChildren/adminPersonalView.vue'),
+          component: () => import('../components/adminViewChildren/adminPersonalView.vue'),
+          redirect:'/adminFirstPage/adminPersonal/adminPersonalInfo',
           meta: { requireAuth: true, },
           children: [
             {
-              path: '',//管理员自己的信息，如管理员分类（社团管理/校级管理）、社团/成员信息、社团活动/评优申请等。
+              path: 'adminPersonalInfo',//管理员自己的信息，如管理员分类（社团管理/校级管理）、社团/成员信息、社团活动/评优申请等。
               name: 'adminPersonalInfo',
               component: () => import('@/components/adminPersonalViewChildren/adminPersonalInfo.vue'),
               meta: { requireAuth: true, },
@@ -128,15 +135,34 @@ const router = createRouter({
               component: () => import('@/components/adminPersonalViewChildren/clubActivitiesHistory.vue'),
               meta: { requireAuth: true, },
             },
-            // {
-            //   path: 'examHistory',
-            //   name: 'examHistory',
-            //   component: () => import('@/components/adminPersonalViewChildren/examHistory.vue'),
-            //   meta: { requireAuth: true, },
-            // },
+            {
+              path: 'examHistory',
+              name: 'examHistory',
+              component: () => import('@/components/adminPersonalViewChildren/examHistory.vue'),
+              meta: { requireAuth: true, },
+            },
           ]
         },
-        
+        { // 管理员审批页面
+          path: 'examine',
+          name: 'examine',
+          component: () => import('@/components/adminViewChildren/AdminExamine.vue'),
+          meta: { requireAuth: true, },
+          children: [
+            {
+              path: '',
+              name: 'clubApproval',
+              component: () => import('@/components/AdminExamineChildren/ClubApproval.vue'),
+              meta: { requireAuth: true, },
+            },
+            {
+              path: 'activityApproval',
+              name: 'activityApproval',
+              component: () => import('@/components/AdminExamineChildren/ActivityApproval.vue'),
+              meta: { requireAuth: true, },
+            },
+          ]
+        },
 
       ]
       
