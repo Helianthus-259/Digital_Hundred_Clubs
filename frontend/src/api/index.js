@@ -64,9 +64,16 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'postAdminLogin':(params) => axios.post(path.postAdminLogin, { //管理员登录
-        adminId: params.adminId,
-        password: params.password,        
+    'postAdminLogin': (params) => axios.post(path.postAdminLogin, { //管理员登录
+        params: {
+            adminId: params.adminId,
+            password: params.password,
+        }
+    }),
+    'getActivityInfo': (params) => axios.get(path.activityInfo, { // 获取活动信息
+        params: {
+            activityId: params.activityId,
+        }
     }),
     'getAdminInfo':(params) => axios.get(path.adminInfo, { //获取管理员信息
         params: {

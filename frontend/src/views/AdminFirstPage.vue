@@ -37,7 +37,7 @@
                     <template #label>
                         <div class="label-content">
                             <icon-font name="examine" size="large" />
-                            <span>审批</span>
+                            <span>社团审批</span>
                         </div>
                     </template>
                 </t-tab-panel>
@@ -45,7 +45,7 @@
                     <template #label>
                         <div class="label-content">
                             <icon-font name="manage" size="large" />
-                            <span>申请</span>
+                            <span>年审/评优</span>
                         </div>
                     </template>
                 </t-tab-panel>

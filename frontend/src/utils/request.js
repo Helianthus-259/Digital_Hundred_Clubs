@@ -69,7 +69,10 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.getAdminInfoSuccess, data)
         } else if (response.data.code === 11) { // 管理员信息更新成功
             console.log('更新管理员/社团信息成功');
-        } 
+        } else if (response.data.code === 12) { // 获取活动信息成功
+            const { activity } = response.data
+            eventEmitter.emit(APIEventEnum.getActivityInfoSuccess, activity)
+        }
     }
 }
 

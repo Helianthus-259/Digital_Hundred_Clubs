@@ -13,6 +13,7 @@ const base = {
     postAdminLogin: '/api/postAdminLogin', //管理员登录
     adminInfo:'api/adminInfo',//获取管理员信息
     adminInfoUpdate:'api/adminInfoUpdate',//获取管理员信息
+    activityInfo: '/api/activityInfo', // 获取活动信息
 }
 
 export default base;

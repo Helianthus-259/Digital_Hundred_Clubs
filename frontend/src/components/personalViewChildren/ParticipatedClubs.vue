@@ -313,6 +313,7 @@ const clickHandle = (activity) => {
     const parentRoute = store.state.parentRoute.activity
     const selfRoute = parentRoute + `${activity.activityId}/`
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setActivityId, activity.activityId)
 }
 
 const go2ClubManage = () => {

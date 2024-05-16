@@ -25,6 +25,12 @@
     background-color: #fff;
 }
 
+.select-input:disabled {
+    background-color: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
 .select-arrow {
     position: absolute;
     top: 50%;
@@ -43,7 +49,8 @@
     <div class="select-container">
         <label :for="id" class="select-label">{{ label }}</label>
         <div class="select-wrapper">
-            <select :id="id" :value="modelValue" @change="handleChange($event)" class="select-input">
+            <select :id="id" :value="modelValue" @change="handleChange($event)" class="select-input"
+                :disabled="disabled">
                 <option value="" disabled selected>{{ placeholder }}</option>
                 <option v-for="option in options" :key="option.value" :value="option.value">
                     {{ option.label }}
@@ -77,6 +84,10 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: '请选择',
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     },
 });
 

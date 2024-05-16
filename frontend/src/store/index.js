@@ -12,6 +12,8 @@ const store = createStore({
 
         // 当前访问的ClubId
         clubId: -1,
+        // 当前访问的ActivityId
+        activityId: -1,
 
         // 路由存储，防止刷新后tabs的值发生改变
         routeTabs: {
@@ -74,7 +76,10 @@ const store = createStore({
 
         setclubsActAndNtc(state, data) {
             state.clubsActAndNtc[data.clubId] = data
-        }
+        },
+        setActivityId(state, activityId) { // 保存当前访问的ActivityId
+            state.activityId = activityId
+        },
     },
     getters: {
         // 定义获取状态的函数
