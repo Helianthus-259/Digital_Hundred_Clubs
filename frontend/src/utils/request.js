@@ -59,10 +59,19 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.getClubMembersSuccess, members)
         } else if (response.data.code === 9) { // 管理员登录成功
             //console.log("管理员登录：request部分成功")
-            const { token, uid } = response.data
-            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, uid })
-            eventEmitter.emit(RouterEventEnum.push, "/adminFirstPage")//登录成功后应直接返回首页
-            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: 'home' })
+            const { token, adminId } = response.data
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token, adminId })
+            eventEmitter.emit(RouterEventEnum.push, "/adminFirstPage")//登录成功后应直接去往管理员首页
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: 'admin' })
+        } else if (response.data.code === 10) { // 获取管理员信息成功
+            const { data } = response.data
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setUserInfo, data)//这里的设计是，管理员信息也同样放在userinfo中，可以考虑改进
+            eventEmitter.emit(APIEventEnum.getAdminInfoSuccess, data)
+        } else if (response.data.code === 11) { // 管理员信息更新成功
+            console.log('更新管理员/社团信息成功');
+        } else if (response.data.code === 12) { // 获取活动信息成功
+            const { activity } = response.data
+            eventEmitter.emit(APIEventEnum.getActivityInfoSuccess, activity)
         }
     }
 }

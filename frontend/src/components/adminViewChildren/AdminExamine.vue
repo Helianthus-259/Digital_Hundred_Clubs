@@ -56,7 +56,7 @@ const onChange = (value) => {
   routerNames.value = value
   const selfRoute = parentRoute + value
   eventEmitter.emit(RouterEventEnum.push, selfRoute)
-  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'examineTabs', value: value })
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'examineTabs', value: 'examine/'+value })
 }
 
 </script>

@@ -11,17 +11,8 @@
     padding: 5px;
 }
 
-/* 左边部分内容 */
-.leftSideContent {
-    background-color: #fff;
-    border-radius: 5px;
+.t-card {
     height: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.personalInfo {
-    width: 60%;
 }
 
 /* 右边部分 */
@@ -47,14 +38,27 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
 
-    /* 按钮样式 */
-    .t-button {
-        margin: 5px;
-        width: 65%;
-        height: 40px;
+.t-col {
+    width: 50%;
+    display: inline-flex;
+    justify-content: center;
+
+    .labelBox {
+        width: 40%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
         font-size: 16px;
-        overflow: hidden;
+    }
+
+    .valueBox {
+        width: 60%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
     }
 }
 </style>
@@ -62,46 +66,69 @@
 <template>
     <div class="mainBox">
         <div class="leftSide">
-            <div class="leftSideContent">
-                <div class="personalInfo">
-                    <t-cell-group bordered>
-                        <t-cell title="姓名" :note="stName" />
-                        <t-cell title="性别" :note="gender" />
-                        <t-cell title="生日" :note="dateOfBirth" />
-                        <t-cell title="学号" :note="studentNumber" />
-                        <t-cell title="学院" :note="college" />
-                        <t-cell title="邮箱" :note="email" />
-                        <t-cell title="手机号" hover style="height: 56px">
-                            <template #note>
-                                <t-input :maxcharacter="11" v-model="contact" placeholder="请输入手机号" align="right"
-                                    :readonly="readOnly" borderless />
-                            </template>
-                        </t-cell>
-                        <t-cell title="爱好" hover style="height: 56px">
-                            <template #note>
-                                <t-input v-model="hobby" placeholder="有什么爱好呢？" align="right" :readonly="readOnly"
-                                    borderless />
-                            </template>
-                        </t-cell>
-                        <t-cell title="特长" hover style="height: 56px">
-                            <template #note>
-                                <t-input v-model="specialty" placeholder="特长有哪些呢？" align="right" :readonly="readOnly"
-                                    borderless />
-                            </template>
-                        </t-cell>
-                    </t-cell-group>
-                    <div style="display: flex; justify-content: center; padding: 10px">
-                        <t-button v-show="!readOnly" @click="save">保存</t-button>
+            <t-card title="个人信息">
+                <template #default>
+                    <t-row :gutter="[0, 60]">
+                        <t-col>
+                            <div class="labelBox">姓名：</div>
+                            <div class="valueBox">{{ stName }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">性别：</div>
+                            <div class="valueBox">{{ gender }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">生日：</div>
+                            <div class="valueBox">{{ dateOfBirth }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">年级：</div>
+                            <div class="valueBox">{{ grade }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">学院：</div>
+                            <div class="valueBox">{{ college }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">电子邮件：</div>
+                            <div class="valueBox">{{ email }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">政治面貌：</div>
+                            <div class="valueBox">{{ politicalStatus }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">学号：</div>
+                            <div class="valueBox">{{ studentNumber }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">联系方式：</div>
+                            <div class="valueBox">{{ contact }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">爱好：</div>
+                            <div class="valueBox">{{ hobby }}</div>
+                        </t-col>
+                        <t-col>
+                            <div class="labelBox">特长：</div>
+                            <div class="valueBox">{{ specialty }}</div>
+                        </t-col>
+                    </t-row>
+                </template>
+                <template #footer>
+                    <div style="display: flex; justify-content: space-around;">
+                        <t-button theme="primary" @click="readOnly = !readOnly" :disabled="!readOnly">编辑信息</t-button>
+                        <t-button theme="default" @click="save" :disabled="readOnly">保存</t-button>
                     </div>
-                </div>
-            </div>
+                </template>
+
+            </t-card>
         </div>
 
         <div class="rightSide">
             <div class="rightSideContent">
                 <div class="ribbon">
-                    <t-button theme="primary" @click="readOnly = !readOnly">编辑信息</t-button>
-                    <t-button theme="light" @click="openDialog">我要创建社团！</t-button>
+                    <t-button theme="default" @click="openDialog">我要创建社团！</t-button>
                 </div>
             </div>
         </div>
@@ -152,7 +179,7 @@
         </t-form>
         <template #footer>
             <t-button style="margin: 0 10px;" theme="primary" size="small" @click="submitNewClub">发送</t-button>
-            <t-button style="margin: 0 10px;" theme="light" size="small" @click="closeDialog">关闭</t-button>
+            <t-button style="margin: 0 10px;" theme="default" size="small" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
 
@@ -255,6 +282,8 @@ const gender = ref('')
 const studentNumber = ref('')
 const college = ref('')
 const email = ref('')
+const politicalStatus = ref('')
+const grade = ref('')
 
 const user = ref({})
 
@@ -269,6 +298,8 @@ function assignment() {
     studentNumber.value = user.value.studentNumber
     college.value = user.value.college
     email.value = user.value.email
+    politicalStatus.value = user.value.politicalStatus
+    grade.value = user.value.grade
 }
 
 if (isEmptyObject(store.state.userInfo)) {

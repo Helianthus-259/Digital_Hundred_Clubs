@@ -148,14 +148,17 @@
                         <NoticesView v-else :notices="notices"></NoticesView>
                     </div>
                     <div class="tabBarBox">
-                        <t-tab-bar v-model="value" theme="tag" :split="false" :fixed="false" @change="changeView">
-                            <t-tab-bar-item v-for="item in list" :key="item.value" :value="item.value">
+                        <t-head-menu v-model="value" @change="changeView">
+                            <template #logo>
+                                <img height="28" src="https://tdesign.gtimg.com/site/baseLogo-light.png" alt="logo" />
+                            </template>
+                            <t-menu-item v-for="item in list" :key="item.value" :value="item.value">
                                 {{ item.label }}
                                 <template #icon>
                                     <t-icon :name="item.icon" />
                                 </template>
-                            </t-tab-bar-item>
-                        </t-tab-bar>
+                            </t-menu-item>
+                        </t-head-menu>
                     </div>
                 </div>
             </div>
@@ -313,6 +316,7 @@ const clickHandle = (activity) => {
     const parentRoute = store.state.parentRoute.activity
     const selfRoute = parentRoute + `${activity.activityId}/`
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setActivityId, activity.activityId)
 }
 
 const go2ClubManage = () => {

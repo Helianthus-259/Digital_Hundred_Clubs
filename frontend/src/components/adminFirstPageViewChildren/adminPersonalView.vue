@@ -1,14 +1,13 @@
 <style scoped>
 /* 标签栏样式 */
 .tabsBox {
-    margin-top: 50px;
-    width: 20%;
+    width: 40%;
     margin-left: 10%;
 }
 
 /* 总内容 */
 .contentContainer {
-    width: 100%;
+    margin-top: 50px;
 }
 
 .contentBox {
@@ -24,9 +23,11 @@
 </style>
 
 <template>
-    <div class="tabsBox">
-        <t-tabs :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
-    </div>
+    <t-sticky :offset-top="50">
+        <div class="tabsBox">
+            <t-tabs :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
+        </div>
+    </t-sticky>
     <div class="contentContainer">
         <div class="contentBox">
             <RouterView />
@@ -42,21 +43,22 @@ import { ref } from 'vue';
 
 
 
-const routerNames = ref(store.state.routeTabs.personalTabs)
+const routerNames = ref(store.state.routeTabs.adminPersonalTabs)
 
-const parentRoute = store.state.parentRoute.personal
-// 个人页面的三个子页面
+const parentRoute = store.state.parentRoute.adminPersonal
+// 个人页面的四个子页面
 const routerlist = [
-    { label: '个人信息', value: '' },
-    { label: '参加的社团', value: 'participatedClubs' },
-    { label: '参加的活动', value: 'participatedActivities' },
+    { label: '管理员信息', value: '' },
+    { label: '管理的社团', value: 'managedClub' },
+    { label: '活动历史', value: 'clubActivitiesHistory' },
+    { label: '审批记录', value: 'examHistory' },
 ]
 
 const onChange = (value) => {
     routerNames.value = value
     const selfRoute = parentRoute + value
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'personalTabs', value: value })
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminPersonalTabs', value: value })
 }
 
 </script>

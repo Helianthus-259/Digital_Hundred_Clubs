@@ -16,6 +16,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "tdesign-mobile-vue": "^1.2.0",
+    "tdesign-vue-next": "^1.9.4",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-waterfall-plugin-next": "^2.4.3",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "less": "^4.2.0",
     "vite": "^5.2.8"
   }
 }

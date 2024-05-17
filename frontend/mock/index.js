@@ -276,3 +276,74 @@ mock.onPost(path.postAdminLogin).reply((config) => {
         }]
     }
 })
+
+// 获取管理员信息mock
+mock.onGet(path.adminInfo).reply((config) => {
+    return [200, {
+        code: 10, // 10代表管理员信息
+        data: {
+            adminId: '12345678',
+            account: 'administer',
+            sort: 0, //0代表学院管理员,1代表校级管理员
+            password: '123456',
+            contact: '37037037037',
+            affiliatedUnit:'软件工程',
+            clubs: {//这是社团管理员所管理的唯一社团，因此不用[]，直接用{}
+                clubId: 1,
+                clubName: '社团1',
+                establishedTime:'2024/05/03',
+                affiliatedUnitId:'这是附属部门id',
+                clubIntroduction:'这是社团简介',
+                clubSort: '这是社团类别的枚举',//0，1，2，3，4
+                clubStatus: '这是社团状态的枚举',//0未通过、1通过
+                administrativeAdvisorName:'这是行政指导老师姓名',
+                businessAdvisorName:'这是业务指导老师姓名',
+                contactsId:'这是联系人Id',
+                location:'广州南校',
+                totalMembership:'这是社团总人数',
+                financePublicity:'这是是否成员财务公开'
+            },
+            
+            activitiesHistory: [
+                {
+                    activityName: '活动1', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-04-03 00:00:00', // 获奖时间
+                },
+                {
+                    activityName: '活动2', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-05-04 00:00:00', // 获奖时间
+                },
+                {
+                    activityName: '活动3', // 获得荣誉的活动名称
+                    award: 'xxx', // 荣誉名称
+                    awardWiningTime: '2024-05-05 00:00:00', // 获奖时间
+                },
+            ]
+        },
+        
+    }]
+})
+
+// 更新管理员信息mock
+mock.onPost(path.adminInfoUpdate).reply((config) => {
+    return [200, {
+        code: 11, // 11代表管理员信息更新
+    }]
+})
+
+
+// 获取活动信息mock
+mock.onGet(path.activityInfo).reply((config) => {
+    return [200, {
+        code: 12, // 12代表获取活动信息
+        activity: {
+            activityName: '活动名称',
+            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://loremflickr.com/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
+            activityStartTime: '2023-04-20 12:00:00',
+            activityEndTime: '2023-04-20 18:00:00',
+            activityLocation: '活动地点',
+        }
+    }]
+})

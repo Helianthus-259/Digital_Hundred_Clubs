@@ -11,6 +11,9 @@ const base = {
     clubIntroduction: '/api/clubIntroduction', // 获取社团简介
     clubMembers: '/api/clubMembers', // 获取社团成员
     postAdminLogin: '/api/postAdminLogin', //管理员登录
+    adminInfo:'api/adminInfo',//获取管理员信息
+    adminInfoUpdate:'api/adminInfoUpdate',//获取管理员信息
+    activityInfo: '/api/activityInfo', // 获取活动信息
 }
 
 export default base;

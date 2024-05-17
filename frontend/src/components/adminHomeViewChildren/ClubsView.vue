@@ -1,12 +1,12 @@
 <style scoped>
-.clubContainer {
+.mainContainer {
     width: 100%;
     height: 100%;
 }
 </style>
 
 <template>
-    <div class="clubContainer">
+    <div class="mainContainer">
         <Waterfall :list="clubsView">
             <template #item="{ item, index }">
                 <div class="card" @click="handleRouter(item.clubId)">

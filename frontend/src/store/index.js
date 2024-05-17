@@ -6,34 +6,40 @@ const store = createStore({
     state: {
         token: '',
         studentId: -1,
+        adminId: -1,
         clubsData: [],
         userInfo: {},
 
         // 当前访问的ClubId
         clubId: -1,
+        // 当前访问的ActivityId
+        activityId: -1,
 
         // 路由存储，防止刷新后tabs的值发生改变
         routeTabs: {
             'firstPageTabs': 'home',
-            'adminFirstPageTabs': 'adminFirstPage',
             'homeTabs': 'clubs',
+            'adminClubTabs':'adminClub',
             'personalTabs': '',
             'clubTabs': '',
             'clubManageTabs': '',
-            'examineTabs': 'examine',
-            'manageTabs': '',
-            'activityTabs': '',
+            'adminTabs':'adminFirstPage',
+            'adminFirstPageTabs':'adminFirstPage',
+            'examineTabs':'examine',
+            'adminManageTabs':'manage',
+            'adminPersonalTabs':'adminPersonalInfo',
         },
 
         // 有子路由的界面的初始路由
         parentRoute: {
             'firstPage': '/',
             'home': '/home/',
+            'admin':'/adminFirstPage/',
+            'adminPersonal':'/adminFirstPage/adminPersonal/',
             'personal': '/personal/-1/',
             'club': '/club/-1/',
             'activity': '/activity/',
             'clubManage': '/clubManage/-1/',
-            'adminFirstPage': '/adminFirstPage/',
             'examine': '/adminFirstPage/examine/',
         },
 
@@ -70,7 +76,10 @@ const store = createStore({
 
         setclubsActAndNtc(state, data) {
             state.clubsActAndNtc[data.clubId] = data
-        }
+        },
+        setActivityId(state, activityId) { // 保存当前访问的ActivityId
+            state.activityId = activityId
+        },
     },
     getters: {
         // 定义获取状态的函数
