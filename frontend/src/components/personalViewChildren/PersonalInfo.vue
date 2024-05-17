@@ -138,7 +138,7 @@
         <template #header>
             <h2>新建社团申请表</h2>
         </template>
-        <t-form labelWidth="150px" colon requiredMark>
+        <t-form :label-width="150" style="width: 80%; margin: 0 auto;" v-model="newClubFrom" colon requiredMark>
             <t-form-item label="社团名称">
                 <t-input v-model="newClubFrom.clubName" placeholder="请输入社团名称" />
             </t-form-item>

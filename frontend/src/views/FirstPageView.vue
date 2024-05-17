@@ -45,7 +45,7 @@
         </div>
         <div class="loginBox">
             <t-button v-if="!isLogin" theme="primary" shape="square" variant="outline" @click="goLogin">登录</t-button>
-            <t-button v-else theme="primary" shape="square" variant="outline" disabled>已登录</t-button>
+            <t-button v-else theme="primary" shape="square" variant="outline" @click="logOut">退出登录</t-button>
         </div>
     </fixedLabelBar>
 
@@ -87,5 +87,10 @@ const isLogin = computed(() => {
         return false
     }
 })
+
+const logOut = () => {
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.reset)
+    eventEmitter.emit(RouterEventEnum.push, '/')
+};
 
 </script>

@@ -75,6 +75,13 @@
     overflow-y: auto;
 }
 
+.t-card {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: #f1f1f1;
+}
+
 /* 滚动条样式 */
 .contentViewBox::-webkit-scrollbar {
     width: 8px;
@@ -147,9 +154,32 @@
                             style="position: absolute; right: 190px; top: 130px; z-index: 99;">
                             <t-button theme="primary" size="small" @click="go2ClubManage">进入管理界面</t-button>
                         </div>
-                        <ActivitiesView v-if="activitiesShow" :activities="activities" @click="clickHandle">
-                        </ActivitiesView>
-                        <NoticesView v-else :notices="notices"></NoticesView>
+                        <t-card v-if="activitiesShow" v-for="(item, index) in activities" :cover="item.imageUrl">
+                            <template #header>
+                                {{ item.activityName }}
+                            </template>
+                            <template #footer>
+                                <div style="display: flex; justify-content: end;">
+                                    <t-button variant="text" shape="square" :style="{ 'margin-right': '8px' }">
+                                        <time-icon />
+                                    </t-button>
+                                    <t-button variant="text" shape="square" :style="{ 'margin-right': '8px' }">
+                                        <location-icon />
+                                    </t-button>
+                                    <t-button variant="text" shape="square">
+                                        <more-icon />
+                                    </t-button>
+                                </div>
+                            </template>
+                        </t-card>
+                        <t-card v-else v-for="(item, index) in notices">
+                            <template #header>
+                                {{ item.title }}
+                            </template>
+                            <template #content>
+                                {{ item.content }}
+                            </template>
+                        </t-card>
                     </div>
                     <div class="tabBarBox">
                         <t-head-menu v-model="value" @change="changeView">
@@ -174,11 +204,9 @@
 import store from '@/store';
 import myCell from '../myCell.vue';
 import { ref } from 'vue';
-import { Icon as TIcon } from 'tdesign-icons-vue-next';
+import { Icon as TIcon, MoreIcon, TimeIcon, LocationIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
-import NoticesView from '../participatedClubsChildren/NoticesView.vue';
-import ActivitiesView from '../participatedClubsChildren/ActivitiesView.vue';
 import mySteps from '../mySteps.vue';
 
 // 展示加入了的社团
