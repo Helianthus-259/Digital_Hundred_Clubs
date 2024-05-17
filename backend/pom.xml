@@ -14,6 +14,7 @@
         <module>szbt-api</module>
         <module>szbt-client</module>
         <module>club-server</module>
+        <module>file-server</module>
     </modules>
     <packaging>pom</packaging>
     <groupId>com.szbt</groupId>
