@@ -85,10 +85,10 @@
     <div class="mainBox">
         <div class="contentBox">
             <div class="navigationBox">
-                <t-side-bar style="width: 100%;" :value="sideBarIndex" @change="onSideBarChange">
-                    <t-side-bar-item v-for="(item, index) in clubIntroduction" :key="index" :value="index"
-                        :label="item.label" />
-                </t-side-bar>
+                <t-menu style="width: 100%;" :value="sideBarIndex" @change="onSideBarChange">
+                    <t-menu-item v-for="(item, index) in clubIntroduction" :key="index" :value="index"
+                        :content="item.label" />
+                </t-menu>
             </div>
             <div class="introductionBox" ref="wrapper" @scroll="onScroll">
                 <div v-for="(item, index) in clubIntroduction" :key="index" class="section">

@@ -43,6 +43,10 @@
     /* 鼠标hover时滑块颜色 */
 }
 
+.t-collapse-panel :deep(.t-collapse-panel__wrapper .t-collapse-panel__content) {
+    padding: 0;
+}
+
 /* 右边栏 */
 .rightSide {
     width: 80%;

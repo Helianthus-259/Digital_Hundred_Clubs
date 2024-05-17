@@ -82,22 +82,26 @@
 <template>
     <div class="mainBox">
         <div class="leftSide">
-            <div class="leftSideContent">
-                <Achievements :achievements="achievements" :on-change="handleSelectedAchievements"></Achievements>
-            </div>
+            <t-card style="height: 100%;">
+                <template #header>
+                    <t-radio-group :default-value="defaultFormat" @change="groupChangeFn">
+                        <t-radio name="radio" value=".docx" label="导出为word" />
+                        <t-radio name="radio" value=".pdf" label="导出为pdf" />
+                    </t-radio-group>
+                    <t-button theme="primary" @click="exportFile">导出</t-button>
+                </template>
+                <template #content>
+                    <t-table :data="achievements" row-key="index" :columns="columns"
+                        :selected-row-keys="selectedRowKeys" :select-on-row-click="selectOnRowClick" lazy-load
+                        @select-change="handleSelectedAchievements">
+                    </t-table>
+                </template>
+            </t-card>
         </div>
 
         <div class="rightSide">
             <div class="rightSideContent">
-                <div class="ribbon">
-                    <div>
-                        <t-radio-group :default-value="defaultFormat" @change="groupChangeFn">
-                            <t-radio name="radio" value=".docx" label="导出为word" />
-                            <t-radio name="radio" value=".pdf" label="导出为pdf" />
-                        </t-radio-group>
-                    </div>
-                    <t-button theme="primary" @click="exportFile">导出</t-button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -105,7 +109,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import Achievements from '../Achievements.vue'
 import store from '@/store';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -117,10 +120,25 @@ import { saveAs } from 'file-saver';
 const achievements = ref(store.state.userInfo.achievements)
 
 // 选中的成就
+const selectedRowKeys = ref([]);
 const checkedAchievements = ref([])
+const selectOnRowClick = ref(true);
+const columns = [
+    { colKey: 'row-select', type: 'multiple', width: 50, },
+    { colKey: 'activityName', title: '活动名称', width: '100' },
+    { colKey: 'type', title: '活动类型', width: '100' },
+    { colKey: 'personalEffect', title: '奖项名称', width: '120' },
+    { colKey: 'awardWiningTime', title: '获奖时间', ellipsis: true },
+    {
+        colKey: 'operate',
+        width: 340,
+        title: '操作',
+    }
+];
 
-const handleSelectedAchievements = (selectedAchievements) => {
-    checkedAchievements.value = selectedAchievements
+const handleSelectedAchievements = (value, ctx) => {
+    selectedRowKeys.value = value
+    checkedAchievements.value = ctx.selectedRowData
 }
 
 // 导出选中的成就成word或者pdf的形式
@@ -158,11 +176,11 @@ const exportFile = () => {
                         new TableRow({
                             children: [
                                 new TableCell({
-                                    children: [new Paragraph(item.name)],
+                                    children: [new Paragraph(item.activityName)],
                                     width: { size: 300, type: WidthType.DXA },
                                 }),
                                 new TableCell({
-                                    children: [new Paragraph(item.award)],
+                                    children: [new Paragraph(item.personalEffect)],
                                     width: { size: 300, type: WidthType.DXA },
                                 }),
                                 new TableCell({
@@ -192,7 +210,7 @@ const exportFile = () => {
         doc.setFont('simhei')
         doc.autoTable({
             head: [['活动名称', '成就', '获取时间']],
-            body: checkedAchievements.value.map(item => [item.name, item.award, item.awardWiningTime]),
+            body: checkedAchievements.value.map(item => [item.activityName, item.personalEffect, item.awardWiningTime]),
             styles: {
                 font: 'simhei',
                 fontSize: 12,
