@@ -1,6 +1,8 @@
 #服务端口，随便起
 server:
   port: 8081
+  tomcat:
+    max-swallow-size: 400MB #重要的一行，修改tomcat的吞吐量
 #服务名称
 spring:
   application:
@@ -10,6 +12,10 @@ spring:
     username: root
     password: a123
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 400MB  #单个文件最大
+      max-request-size: 400MB #单个请求文件总和最大
 
   mail:
     #smtp服务主机
@@ -20,7 +26,6 @@ spring:
     protocol: smtp
     # 编码集
     default-encoding: UTF-8
-    #发送邮件的账户
     username: "替换成自己的邮箱"
     #授权码
     password: "替换成自己的邮箱smtp授权码"

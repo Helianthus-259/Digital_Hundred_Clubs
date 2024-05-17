@@ -13,4 +13,6 @@ public interface StudentService extends IService<Student> {
     Object register(String email, String verifyCode, String password);
 
     Object sendVerifyCode(String email);
+
+    Object savaAvatar(String relativePath, Integer studentId);
 }

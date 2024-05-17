@@ -1,6 +1,8 @@
 package com.szbt.studentserver.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.studentserver.service.StudentService;
 import com.szbt.studentserver.dao.mapper.StudentMapper;
@@ -12,6 +14,7 @@ import lombok.val;
 import org.example.vo.SendMsg;
 import org.example.vo.LRSuccess;
 import org.example.util.StatusCode;
+import org.example.vo.UploadSuccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.entity.Student;
@@ -71,6 +74,18 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
             return Result.success(new SendMsg("发送成功"));
         }
         return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
+    }
+
+    @Override
+    public Object savaAvatar(String relativePath, Integer studentId) {
+        if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        Student student = new Student();
+        student.setStudentId(studentId);
+        student.setImageUrl(relativePath);
+        int ok = studentMapper.updateById(student);
+        System.out.println(ok);
+        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        return Result.success(new UploadSuccess(relativePath));
     }
 }
 

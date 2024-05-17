@@ -10,7 +10,9 @@ public enum StatusCode {
 
     REGISTER_LOGIN_ERROR(1001),
 
-    SEND_VERIFY_CODE_ERROR(10086);
+    SEND_VERIFY_CODE_ERROR(10086),
+
+    UPLOAD_FILE_ERROR(1002);
 
     private final int code;
 
