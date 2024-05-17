@@ -2,16 +2,17 @@ package org.example.vo;
 
 import lombok.Data;
 import org.example.dto.ClubInfos;
+import org.example.util.ResultCode;
 
 import java.util.List;
 @Data
 public class ClubInfosSuccess {
-    private Integer code;
+    private int code;
     private List<ClubInfos> data;
 
-    public ClubInfosSuccess(Integer c,List<ClubInfos> d)
+    public ClubInfosSuccess(ResultCode c, List<ClubInfos> d)
     {
-        this.code = c;
+        this.code = c.getCode();
         this.data = d;
     }
 }

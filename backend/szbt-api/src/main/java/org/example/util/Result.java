@@ -1,11 +1,11 @@
-package com.szbt.clubserver.util;
+package org.example.util;
 
 import java.util.HashMap;
 
 public class Result {
-    public static HashMap<String,Object> success(int code, String msg){
+    public static HashMap<String,Object> success(StatusCode code, String msg){
         HashMap<String,Object> result = new HashMap<>();
-        result.put("status",code);
+        result.put("status",code.getCode());
         result.put("msg",msg);
         result.put("data","");
         return result;
@@ -18,17 +18,17 @@ public class Result {
         return result;
     }
 
-    public static HashMap<String,Object> send(int code, Object data){
+    public static HashMap<String,Object> send(StatusCode code, Object data){
         HashMap<String,Object> result = new HashMap<>();
-        result.put("status",code);
+        result.put("status",code.getCode());
 //        result.put("msg","");
         result.put("data",data);
         return result;
     }
 
-    public static HashMap<String,Object> fail(int code,String msg){
+    public static HashMap<String,Object> fail(StatusCode code,String msg){
         HashMap<String,Object> result = new HashMap<>();
-        result.put("status",code);
+        result.put("status",code.getCode());
         result.put("msg",msg);
         result.put("data","");
         return result;

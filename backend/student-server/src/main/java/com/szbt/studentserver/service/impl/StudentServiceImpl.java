@@ -5,18 +5,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.studentserver.service.StudentService;
 import com.szbt.studentserver.dao.mapper.StudentMapper;
 import com.szbt.studentserver.util.EmailUtil;
-import com.szbt.studentserver.util.Result;
+import org.example.util.Result;
+import org.example.util.ResultCode;
 import com.szbt.studentserver.util.SecurityUtil;
 import lombok.val;
 import org.example.vo.SendMsg;
 import org.example.vo.LRSuccess;
+import org.example.util.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.entity.Student;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
 * @author 小壳儿
@@ -42,21 +43,21 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         queryWrapper.eq("email", email);
         Student student = studentMapper.selectOne(queryWrapper,true);
         if(SecurityUtil.decrypt(password,student.getPwd()))
-            return Result.success(new LRSuccess(1,"admin",student.getStudentId()));
-        return Result.send(1001,new SendMsg("登录失败"));
+            return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN,"admin",student.getStudentId()));
+        return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
     }
 
     @Override
     public Object register(String email, String verifyCode, String password) {
-        if(!verifyCode.equals(emailCodeMap.get(email))) return Result.send(1001,new SendMsg("注册失败"));
+        if(!verifyCode.equals(emailCodeMap.get(email))) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
-        if(studentMapper.exists(queryWrapper)) return Result.send(1001,new SendMsg("注册失败"));
+        if(studentMapper.exists(queryWrapper)) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
         val student = new Student();
         student.setEmail(email);
         student.setPwd(SecurityUtil.encrypt(password));
-        if(studentMapper.insert(student)==0) return Result.send(1001,new SendMsg("注册失败"));
-        return Result.success(new LRSuccess(1,"admin",student.getStudentId()));
+        if(studentMapper.insert(student)==0) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
+        return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN,"admin",student.getStudentId()));
     }
 
     @Override
@@ -64,13 +65,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         String verifyCode = emailUtil.generateCode (6);
         if (emailUtil.sendMail(email,"数字百团验证服务","验证码:"+verifyCode))
         {
-
             // 保存验证码
             emailCodeMap.put(email, verifyCode);
             System.out.println(emailCodeMap.get(email));
-            return Result.send(200,new SendMsg("发送成功"));
+            return Result.success(new SendMsg("发送成功"));
         }
-        return Result.send(10086,new SendMsg("发送失败"));
+        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
     }
 }
 

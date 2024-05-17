@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.clubserver.service.ClubService;
 
 import com.szbt.clubserver.dao.mapper.ClubMapper;
-import com.szbt.clubserver.util.Result;
 import lombok.val;
 import org.example.dto.ClubInfos;
 import org.example.entity.Club;
 import org.example.vo.ClubInfosSuccess;
+import org.example.util.Result;
+import org.example.util.ResultCode;
+import org.example.util.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         List<ClubInfos> clubInfos = clubList.stream()
                 .map(ClubInfos::mapClubToClubInfo)
                 .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(2,clubInfos));
-        return Result.success(new ClubInfosSuccess(2,clubInfos));
+        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
+        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
     }
 
     @Override
@@ -45,8 +47,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         List<ClubInfos> clubInfos = clubList.stream()
                 .map(ClubInfos::mapClubToClubInfo)
                 .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(2, clubInfos));
-        return Result.success(new ClubInfosSuccess(2,clubInfos));
+        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
+        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
     }
 
     @Override
@@ -57,8 +59,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         List<ClubInfos> clubInfos = clubList.stream()
                 .map(ClubInfos::mapClubToClubInfo)
                 .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(2, clubInfos));
-        return Result.success(new ClubInfosSuccess(2,clubInfos));
+        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
+        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
     }
 
     @Override
@@ -69,8 +71,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         List<ClubInfos> clubInfos = clubList.stream()
                 .map(ClubInfos::mapClubToClubInfo)
                 .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(2, clubInfos));
-        return Result.success(new ClubInfosSuccess(2,clubInfos));
+        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
+        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
     }
 
 
