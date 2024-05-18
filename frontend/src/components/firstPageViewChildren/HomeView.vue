@@ -14,12 +14,16 @@
 .sideContainer {
     width: 15%;
     background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: 20px;
 }
 
 .sideBar {
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 10px 0;
 }
 
 .checkBoxes {
@@ -28,11 +32,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 10px 0;
 }
 
 .mainContent {
     width: 85%;
     overflow-y: auto;
+    padding: 20px;
 }
 
 /*滚动条样式*/
@@ -44,6 +50,7 @@
 .mainContent::-webkit-scrollbar-track {
     background-color: #f1f1f1;
     /* 滚动条轨道背景色 */
+    border-radius: 4px;
 }
 
 .mainContent::-webkit-scrollbar-thumb {
@@ -64,6 +71,9 @@
     min-height: 400px;
     margin: 0 auto;
     background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
 }
 
 .swiper {
@@ -80,6 +90,9 @@
     min-height: 400px;
     background-color: #ffffff;
     display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
 }
 
 /* 正在的内容展示 */

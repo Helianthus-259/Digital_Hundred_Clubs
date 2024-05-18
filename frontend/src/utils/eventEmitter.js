@@ -19,13 +19,6 @@ class EventEmitter {
             });
         }
     }
-
-    // 移除事件
-    off(event, callback) {
-        if (this.events[event]) {
-            this.events[event].delete(callback);
-        }
-    }
 }
 
 export default new EventEmitter();

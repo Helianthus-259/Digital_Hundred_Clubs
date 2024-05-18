@@ -1,18 +1,18 @@
 package org.example.vo;
 
 import lombok.Data;
+import org.example.util.ResultCode;
 
 @Data
 public class LRSuccess {
-    private Integer code;
+    private int code;
     private String token;
 
     private Integer uid;
 
-    public LRSuccess(Integer c, String t,Integer sid){
-        this.code = c;
+    public LRSuccess(ResultCode c, String t, Integer sid){
+        this.code = c.getCode();
         this.token = t;
         this.uid = sid;
     }
-
 }

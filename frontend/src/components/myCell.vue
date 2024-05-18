@@ -1,7 +1,7 @@
 <style scoped>
 .cell {
     cursor: pointer;
-    height: 56px;
+    height: 42px;
     display: flex;
     justify-content: center;
     align-items: center;

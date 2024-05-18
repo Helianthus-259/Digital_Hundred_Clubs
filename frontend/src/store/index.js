@@ -19,23 +19,23 @@ const store = createStore({
         routeTabs: {
             'firstPageTabs': 'home',
             'homeTabs': 'clubs',
-            'adminClubTabs':'adminClub',
+            'adminClubTabs': 'adminClub',
             'personalTabs': '',
             'clubTabs': '',
             'clubManageTabs': '',
-            'adminTabs':'adminFirstPage',
-            'adminFirstPageTabs':'adminFirstPage',
-            'examineTabs':'examine',
-            'adminManageTabs':'manage',
-            'adminPersonalTabs':'adminPersonalInfo',
+            'adminTabs': 'adminFirstPage',
+            'adminFirstPageTabs': 'adminFirstPage',
+            'examineTabs': 'examine',
+            'adminManageTabs': 'manage',
+            'adminPersonalTabs': 'adminPersonalInfo',
         },
 
         // 有子路由的界面的初始路由
         parentRoute: {
             'firstPage': '/',
             'home': '/home/',
-            'admin':'/adminFirstPage/',
-            'adminPersonal':'/adminFirstPage/adminPersonal/',
+            'admin': '/adminFirstPage/',
+            'adminPersonal': '/adminFirstPage/adminPersonal/',
             'personal': '/personal/-1/',
             'club': '/club/-1/',
             'activity': '/activity/',
@@ -80,6 +80,37 @@ const store = createStore({
         setActivityId(state, activityId) { // 保存当前访问的ActivityId
             state.activityId = activityId
         },
+        reset(state) { // 重置状态
+            state.token = ''
+            state.studentId = -1
+            state.adminId = -1
+            state.clubsData = []
+            state.userInfo = {}
+            state.clubId = -1
+            state.activityId = -1
+            state.routeTabs = {
+                'firstPageTabs': 'home',
+                'homeTabs': 'clubs',
+                'adminClubTabs': 'adminClub',
+                'personalTabs': '',
+                'clubTabs': '',
+                'clubManageTabs': '',
+                'adminTabs': 'adminFirstPage',
+                'adminFirstPageTabs': 'adminFirstPage',
+                'examineTabs': 'examine',
+                'adminManageTabs': 'manage',
+            }
+            state.parentRoute = {
+                'firstPage': '/',
+                'home': '/home/',
+                'admin': '/adminFirstPage/',
+                'adminPersonal': '/adminFirstPage/adminPersonal/',
+                'personal': '/personal/-1/',
+                'club': '/club/-1/',
+            }
+            state.clubsActAndNtc = {}
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token: '', studentId: -1 })
+        }
     },
     getters: {
         // 定义获取状态的函数

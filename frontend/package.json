@@ -15,7 +15,6 @@
     "file-saver": "^2.0.5",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
-    "tdesign-mobile-vue": "^1.2.0",
     "tdesign-vue-next": "^1.9.4",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
