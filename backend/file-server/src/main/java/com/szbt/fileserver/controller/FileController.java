@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.util.StatusCode;
 import org.example.vo.UploadSuccess;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,16 +18,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
+
 import java.net.URLEncoder;
 import java.util.UUID;
 
-import org.example.util.Result;
-import org.example.util.ResultCode;
+
 
 @RequestMapping("/file")
 @RestController
 @Slf4j
+@EnableDiscoveryClient
+@SpringBootApplication
 public class FileController {
 
     String baseRoot = System.getProperty("user.dir") + "/backend/file-server/storage/";

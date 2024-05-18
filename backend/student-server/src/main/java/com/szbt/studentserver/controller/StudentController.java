@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.service.FileClientService;
 import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.example.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/student")
 @Slf4j
+@EnableDiscoveryClient
+@SpringBootApplication
 public class StudentController {
     @Autowired
     private StudentService studentService;

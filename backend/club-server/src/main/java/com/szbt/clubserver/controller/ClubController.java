@@ -1,19 +1,18 @@
 package com.szbt.clubserver.controller;
 
 import com.szbt.clubserver.service.ClubService;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.example.entity.Club;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-
+@EnableDiscoveryClient
 @RestController
-@RequestMapping("/club")
-@Slf4j
+@SpringBootApplication
 public class ClubController {
     @Autowired
     private ClubService clubService;
