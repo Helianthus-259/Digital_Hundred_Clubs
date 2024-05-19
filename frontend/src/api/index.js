@@ -5,13 +5,17 @@ import eventEmitter from '@/utils/eventEmitter'
 
 const api = {
     'postLogin': (params) => axios.post(path.login, { // 登录
-        email: params.email,
-        pwd: params.pwd,
+        params: {
+            email: params.email,
+            pwd: params.pwd,
+        }
     }),
     'postRegister': (params) => axios.post(path.register, { // 注册
-        email: params.email,
-        verifyCode: params.verifyCode,
-        pwd: params.pwd,
+        params: {
+            email: params.email,
+            verifyCode: params.verifyCode,
+            pwd: params.pwd,
+        }
     }),
     'getVerifyCode': (params) => axios.get(path.verifyCode, { // 获取验证码
         params: {
@@ -75,10 +79,10 @@ const api = {
             activityId: params.activityId,
         }
     }),
-    'getAdminInfo':(params) => axios.get(path.adminInfo, { //获取管理员信息
+    'getAdminInfo': (params) => axios.get(path.adminInfo, { //获取管理员信息
         params: {
             adminId: params.adminId,
-        }        
+        }
     }),
     'postAdminInfo': (params) => axios.post(path.adminInfoUpdate, { // 更新管理员信息
         params: {

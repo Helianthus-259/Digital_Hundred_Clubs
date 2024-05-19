@@ -7,7 +7,7 @@ const mock = new mockAxios(axios)
 // 登录mock
 mock.onPost(path.login).reply((config) => {
     const configData = JSON.parse(config.data);
-    if (configData.email === 'admin@mail2.sysu.edu.cn' && configData.pwd === '123456') {
+    if (configData.params.email === 'admin@mail2.sysu.edu.cn' && configData.params.pwd === '123456') {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
@@ -25,7 +25,7 @@ mock.onPost(path.login).reply((config) => {
 // 注册mock
 mock.onPost(path.register).reply((config) => {
     const configData = JSON.parse(config.data);
-    if (configData.verifyCode === '123456') {
+    if (configData.params.verifyCode === '123456') {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
@@ -274,8 +274,8 @@ mock.onGet(path.clubMembers).reply((config) => {
 // 管理员登录mock
 mock.onPost(path.postAdminLogin).reply((config) => {
     const configData = JSON.parse(config.data);
-    if (configData.adminId === 'administer' && configData.password === '123456') {
-        //console.log("管理员登录：mock部分成功")
+    if (configData.params.adminId === 'administer' && configData.params.password === '123456') {
+        console.log("管理员登录：mock部分成功")
         return [200, {
             code: 9, // 9代表管理员登录成功
             token: 'admin',
