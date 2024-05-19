@@ -15,6 +15,7 @@
         <module>szbt-client</module>
         <module>club-server</module>
         <module>file-server</module>
+        <module>gateway</module>
     </modules>
     <packaging>pom</packaging>
     <groupId>com.szbt</groupId>
@@ -29,11 +30,6 @@
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -79,6 +75,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-function-context</artifactId>
         </dependency>
 
     </dependencies>

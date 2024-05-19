@@ -1,21 +1,30 @@
-#服务名称
+# gateway端口
+server:
+  port: 8080
+
+# 端口服务设置
 spring:
   application:
-    name: club-server
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/DigitalClub?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: '030520'
     driver-class-name: com.mysql.cj.jdbc.Driver
-#服务端口，随便起
-server:
-  port: 8082
 
-
-#eureka地址
+# eureka注册中心地址
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:11011/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
 
 
