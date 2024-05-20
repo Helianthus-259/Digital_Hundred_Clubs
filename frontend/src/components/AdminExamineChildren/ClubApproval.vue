@@ -1,95 +1,124 @@
 <template>
-    <div class="side-bar-wrapper">
-      <t-side-bar :value="sideBarIndex" @change="onSideBarChange" @click="onSideBarClick">
-        <t-side-bar-item
-            v-for="(item, index) in data.categories"
-            :key="index"
-            :value="index"
-            :label="item.label"
-            :badge-props="item.badgeProps"
-        />
-      </t-side-bar>
-      <div class="content" :style="`transform: translateY(-${Number(sideBarIndex) * 100}%)`">
-        <div v-for="(item, index) in data.categories" :key="index" class="section">
-          <div class="title">{{ item.title || item.label }}</div>
-          <div v-for="(cargo, cargoIndex) in item.items" :key="cargoIndex">
-            <t-cell :title="`${cargo.label}${index}`">
-              <template #image>
-                <t-image shape="round" :src="cargo.image" class="image" />
-              </template>
-            </t-cell>
-          </div>
-        </div>
+  <t-layout>
+    <t-aside>
+      <t-menu theme="light" v-model="value" height="700px" width="200px">
+        <t-menu-item value="item0">全部社团</t-menu-item>
+        <t-menu-item value="item1">待审核</t-menu-item>
+        <t-menu-item value="item2">已通过</t-menu-item>
+        <t-menu-item value="item3">未通过</t-menu-item>
+      </t-menu>
+    </t-aside>
+    <t-layout>
+      <t-header>
+        <t-head-menu default-value="2-1" expand-type="popup">
+          <t-submenu value="1" title="校区">
+            <t-submenu value="GuangZhou" title="广州校区">
+              <t-menu-item value="north"> 北校区 </t-menu-item>
+              <t-menu-item value="south"> 南校区 </t-menu-item>
+              <t-menu-item value="east"> 东校区 </t-menu-item>
+            </t-submenu>
+            <t-menu-item value="ZhuHai"> 珠海校区 </t-menu-item>
+            <t-menu-item value="ShenZhen"> 深圳校区 </t-menu-item>
+          </t-submenu>
+          <t-submenu value="2" title="类型">
+            <t-menu-item value="2-1"> 体育类 </t-menu-item>
+            <t-menu-item value="2-2"> 游戏类 </t-menu-item>
+            <t-menu-item value="2-3"> 艺术类 </t-menu-item>
+          </t-submenu>
+        </t-head-menu>
+      </t-header>
+      <div>
+        <t-table
+            row-key="index"
+            :data="data"
+            :columns="columns"
+            :hide-sort-tips="false"
+            :stripe="stripe"
+            :bordered="bordered"
+            :hover="hover"
+            :table-layout="tableLayout ? 'auto' : 'fixed'"
+            :size="size"
+            :pagination="pagination"
+            :show-header="showHeader"
+            cell-empty-content="-"
+            resizable=""
+            lazy-load=""
+        >
+          <template #operation="{ row }">
+            <t-button theme="primary" @click="detail(row)">申请详情</t-button>
+          </template>
+        </t-table>
       </div>
-    </div>
-  </template>
-  <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
-  import { TdSideBarProps, TdSideBarItemProps } from '../type';
-  
-  const image = 'https://tdesign.gtimg.com/mobile/demos/example2.png';
-  const items = new Array(12).fill({ label: '标题文字', image }, 0, 12);
-  const sideBarIndex = ref<TdSideBarProps['value']>(1);
-  
-  const data = reactive({
-    categories: [
-      {
-        label: '未处理',
-        title: '标题一',
-        badgeProps: {},
-        items,
-      },
-      {
-        label: '已审核',
-        title: '标题二',
-        badgeProps: {
-          dot: true,
-        },
-        items: items.slice(0, 9),
-      },
-    ],
+    </t-layout>
+  </t-layout>
+</template>
+
+<script lang="jsx" setup>
+import { ref } from 'vue';
+
+
+const value = ref('item1');
+import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
+
+// 表格
+const statusNameListMap = {
+  0: { label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
+  1: { label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon /> },
+  2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
+};
+const data = [];
+const total = 28;
+for (let i = 0; i < total; i++) {
+  data.push({
+    index: i + 1,
+    clubName: ['飞碟社', '羽毛球社', '围棋社'][i % 3],
+    campus: ['北校区', '东校区', '南校区', '珠海校区', '深圳校区'][i % 5],
+    type: ['体育类', '游戏类', '艺术类'][i % 3],
+    createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
+    status: i % 3,
   });
-  
-  const onSideBarClick = (value: TdSideBarProps['value'], label: TdSideBarItemProps['label']) => {
-    console.log('=onSideBarClick===', value, label);
-  };
-  
-  const onSideBarChange = (value: TdSideBarProps['value']) => {
-    sideBarIndex.value = value;
-  };
-  </script>
-  <style lang="less" scoped>
-  .t-side-bar{
-    width: 200px;
-  }
-  .side-bar-wrapper {
-    display: flex;
-    height: 100vh;
-    background-color: var(--bg-color-demo, #fff);
-    overflow: hidden;
-    .content {
-      flex: 1;
-      transition: transform 0.3s ease;
-    }
-  
-    .section {
-      padding: 16px 0;
-      box-sizing: border-box;
-      height: 100%;
-      overflow-y: auto;
-    }
-  
-    .title {
-      padding-left: 20px;
-      margin-bottom: 4px;
-      line-height: 26px;
-    }
-  
-    .image {
-      width: 48px;
-      height: 48px;
-      border: 1px solid #e7e7e7;
-    }
-  }
-  </style>
+}
+
+const stripe = ref(true);
+const bordered = ref(true);
+const hover = ref(false);
+const tableLayout = ref(false);
+const size = ref('medium');
+const showHeader = ref(true);
+
+const columns = ref([
+  { colKey: 'clubName', title: '社团名称', width: '100' },
+  { colKey: 'campus', title: '校区' },
+  { colKey: 'type', title: '社团种类', ellipsis: true },
+  { colKey: 'createTime', title: '申请时间'},
+  {
+    colKey: 'status',
+    title: '审批状态',
+    cell: (h, { row }) => {
+      return (
+          <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
+            {statusNameListMap[row.status].icon}
+            {statusNameListMap[row.status].label}
+          </t-tag>
+      );
+    },
+  },
+  { colKey: 'operation', title: '申请详情'}
+]);
+
+
+const pagination = {
+  defaultCurrent: 1,
+  defaultPageSize: 5,
+  total,
+};
+
+const detail = (value) => {
+  console.log(value)
+}
+</script>
+
+<style>
+
+</style>
   

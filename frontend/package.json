@@ -9,13 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/babel-plugin-jsx": "^1.2.2",
     "axios": "^1.6.8",
     "axios-mock-adapter": "^1.22.0",
     "docx": "^8.5.0",
     "file-saver": "^2.0.5",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
-    "tdesign-vue-next": "^1.9.4",
+    "tdesign-icons-vue-next": "^0.2.2",
+    "tdesign-vue-next": "^1.9.5",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-waterfall-plugin-next": "^2.4.3",
