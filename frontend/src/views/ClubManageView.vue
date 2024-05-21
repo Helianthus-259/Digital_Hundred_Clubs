@@ -7,8 +7,10 @@
 .contentBox {
     margin: 10px;
     height: 100%;
-    background-color: #ffffff;
-    overflow-y: auto;
+}
+
+.t-layout :deep(.t-layout__footer) {
+    padding: 0;
 }
 </style>
 
@@ -45,6 +47,9 @@
                     </div>
                 </div>
             </t-content>
+            <!-- 占地的 -->
+            <t-footer>
+            </t-footer>
         </t-layout>
     </t-layout>
 </template>

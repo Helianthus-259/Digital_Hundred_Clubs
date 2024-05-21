@@ -52,27 +52,17 @@
             加入社团申请表
         </template>
         <template #body>
-            <t-cell-group bordered>
-                <t-cell title="姓名" :note="name" />
-                <t-cell title="性别" :note="gender" />
-                <t-cell title="年龄" :note="age" />
-                <t-cell title="学号" :note="studentID" />
-                <t-cell title="学院" :note="faculty" />
-                <t-cell title="邮箱" :note="email" />
-                <t-cell title="手机号" :note="phone"/>
-                <t-cell title="爱好" :note="hobby"/>
-                <t-cell title="特长" :note="specialty"/>
-            </t-cell-group>
+
         </template>
         <template #footer>
             <t-button style="margin: 0 10px;" theme="primary" size="small">发送</t-button>
-            <t-button style="margin: 0 10px;" theme="light" size="small" @click="closeDialog">关闭</t-button>
+            <t-button style="margin: 0 10px;" theme="default" size="small" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
 </template>
 
 <script setup>
-import { RouterEventEnum, StoreEnum, StoreEventEnum,APIEnum, APIEventEnum } from '@/Enum';
+import { RouterEventEnum, StoreEnum, StoreEventEnum, APIEnum, APIEventEnum } from '@/Enum';
 import FixedLabelBar from '@/components/FixedLabelBar.vue';
 import myDialog from '@/components/myDialog.vue';
 import store from '@/store';
@@ -132,7 +122,7 @@ function isEmptyObject(obj) {
 
 if (isEmptyObject(store.state.userInfo)) {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { uid: store.state.uid })
-} 
+}
 else {
     user.value = store.state.userInfo
     assignment()
