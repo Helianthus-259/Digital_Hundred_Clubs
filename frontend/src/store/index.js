@@ -22,7 +22,6 @@ const store = createStore({
             'adminClubTabs': 'adminClub',
             'personalTabs': '',
             'clubTabs': '',
-            'clubManageTabs': '',
             'adminTabs': 'adminFirstPage',
             'adminFirstPageTabs': 'adminFirstPage',
             'examineTabs': 'examine',

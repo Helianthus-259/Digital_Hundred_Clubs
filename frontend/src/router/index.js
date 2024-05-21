@@ -79,21 +79,21 @@ const router = createRouter({
       name: 'adminLogin',
       component: () => import('../views/AdminLoginView.vue'),
       meta: { requireAuth: false, },
-    },  
+    },
     // 管理员首页界面
     {
       path: '/adminFirstPage',
       name: 'adminFirstPage',
       component: () => import('../views/AdminFirstPage.vue'),
-      redirect:'/adminFirstPage/admin',
+      redirect: '/adminFirstPage/admin',
       meta: { requireAuth: false, },
-      
+
       children: [
         {
           path: 'admin',
           name: 'admin',
           component: () => import('../components/adminViewChildren/adminHomeView.vue'),
-          redirect:'/adminFirstPage/admin/adminClub',
+          redirect: '/adminFirstPage/admin/adminClub',
           meta: { requireAuth: false, },
           children: [ // 管理员首页中的子界面
             {//管理员首页也可以查看社团信息
@@ -114,7 +114,7 @@ const router = createRouter({
           path: 'adminPersonal',
           name: 'adminPersonal',
           component: () => import('../components/adminViewChildren/adminPersonalView.vue'),
-          redirect:'/adminFirstPage/adminPersonal/adminPersonalInfo',
+          redirect: '/adminFirstPage/adminPersonal/adminPersonalInfo',
           meta: { requireAuth: true, },
           children: [
             {
@@ -165,7 +165,7 @@ const router = createRouter({
         },
 
       ]
-      
+
     },
     // 社团界面
     {
@@ -206,38 +206,17 @@ const router = createRouter({
       name: 'clubManage',
       component: () => import('../views/ClubManageView.vue'),
       meta: { requireAuth: true, },
-      children: [
-        {
-          path: '',
-          name: 'clubEdit',
-          component: () => import('../components/clubManageViewChildren/ClubEdit.vue'),
-          meta: { requireAuth: true, },
-        },
-        {
-          path: 'publish',
-          name: 'clubPublish',
-          component: () => import('../components/clubManageViewChildren/ClubPublish.vue'),
-          meta: { requireAuth: true, },
-        },
-        {
-          path: 'check',
-          name: 'clubCheck',
-          component: () => import('../components/clubManageViewChildren/ClubCheck.vue'),
-          meta: { requireAuth: true, },
-        },
-        {
-          path: 'apply',
-          name: 'clubApply',
-          component: () => import('../components/clubManageViewChildren/ClubApply.vue'),
-          meta: { requireAuth: true, },
-        },
-      ]
     },
   ]
 })
 
-eventEmitter.on(RouterEventEnum.push, (path) => {
-  router.push(path)
+eventEmitter.on(RouterEventEnum.push, (path, newWindow = false) => {
+  if (newWindow) {
+    const resolveRoute = router.resolve(path)
+    window.open(resolveRoute.href, '_blank')
+  } else {
+    router.push(path)
+  }
 })
 
 eventEmitter.on(RouterEventEnum.go, (n) => {

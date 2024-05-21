@@ -353,7 +353,7 @@ const clickHandle = (activity) => {
 
 const go2ClubManage = () => {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'clubManage', value: store.state.clubId })
-    eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubId}/`)
+    eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubId}/`, true)
 }
 
 </script>
