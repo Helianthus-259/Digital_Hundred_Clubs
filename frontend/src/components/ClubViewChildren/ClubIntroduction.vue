@@ -63,9 +63,11 @@
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    --td-divider-color: #333;
-    --td-divider-content-color: #0eb3ff;
-    --td-divider-content-font-size: 24px;
+}
+
+.t-divider {
+    font-size: 24px;
+    color: #0eb3ff;
 }
 
 .content :deep(p) {
