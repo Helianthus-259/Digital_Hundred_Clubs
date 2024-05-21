@@ -11,6 +11,7 @@ export const APIEventEnum = {
     getClubMembersSuccess: 'getClubMembersSuccess',
     getAdminInfoSuccess: 'getAdminInfoSuccess',
     getActivityInfoSuccess: 'getActivityInfoSuccess',
+    getActivitiesInfoSuccess: 'getActivitiesInfoSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -32,6 +33,7 @@ export const APIEnum = {
     getAdminInfo: 'getAdminInfo',
     postAdminInfo: 'postAdminInfo',
     getActivityInfo: 'getActivityInfo',
+    getActivitiesInfo: 'getActivitiesInfo',
 }
 
 

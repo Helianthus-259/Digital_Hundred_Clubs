@@ -59,25 +59,44 @@ import { ref } from 'vue';
 
 const value = ref('item1');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
+import store from "@/store/index.js";
+import eventEmitter from "@/utils/eventEmitter.js";
+import {APIEnum, APIEventEnum} from "@/Enum/index.js";
 
 // 表格
 const statusNameListMap = {
-  0: { label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
-  1: { label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon /> },
+  0: { label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon /> },
+  1: { label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
   2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
 };
-const data = [];
-const total = 28;
-for (let i = 0; i < total; i++) {
-  data.push({
-    index: i + 1,
-    clubName: ['飞碟社', '羽毛球社', '围棋社'][i % 3],
-    campus: ['北校区', '东校区', '南校区', '珠海校区', '深圳校区'][i % 5],
-    type: ['体育类', '游戏类', '艺术类'][i % 3],
-    createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-    status: i % 3,
-  });
+const clubsData = []
+const data = []
+const total = ref(0)
+function assignment(){
+  total.value = clubsData.value.length
+  for(let i = 0; i < total.value; ++i){
+    data.push({
+      index: clubsData.value[i].clubId,
+      clubName: clubsData.value[i].clubName,
+      campus: clubsData.value[i].campus,
+      clubCategory: clubsData.value[i].clubCategory,
+      createTime: clubsData.value[i].createTime,
+      status: clubsData.value[i].status,
+    })
+  }
 }
+
+if(Object.keys(store.state.clubsData).length === 0){
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
+} else{
+  clubsData.value = store.state.clubsData
+  assignment()
+}
+eventEmitter.on(APIEventEnum.getClubsInfoSuccess, (data) => {
+  clubsData.value = data
+  assignment()
+})
+
 
 const stripe = ref(true);
 const bordered = ref(true);
@@ -89,7 +108,7 @@ const showHeader = ref(true);
 const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
   { colKey: 'campus', title: '校区' },
-  { colKey: 'type', title: '社团种类', ellipsis: true },
+  { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
   { colKey: 'createTime', title: '申请时间'},
   {
     colKey: 'status',
@@ -110,7 +129,7 @@ const columns = ref([
 const pagination = {
   defaultCurrent: 1,
   defaultPageSize: 5,
-  total,
+  total:total.value,
 };
 
 const detail = (value) => {

@@ -14,6 +14,7 @@ const base = {
     adminInfo:'api/adminInfo',//获取管理员信息
     adminInfoUpdate:'api/adminInfoUpdate',//获取管理员信息
     activityInfo: '/api/activityInfo', // 获取活动信息
+    activitiesInfo: '/api/activitiesInfo', // 获取所有活动信息
 }
 
 export default base;

@@ -90,6 +90,9 @@ const api = {
             clubIntroduction: params.clubIntroduction,
         }
     }),
+    'getActivitiesInfo': (params) => axios.get(path.activitiesInfo, { // 获取活动信息
+
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {
