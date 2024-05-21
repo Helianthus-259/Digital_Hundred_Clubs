@@ -48,7 +48,8 @@ import { ref } from 'vue';
 const value = ref('item1');
 import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon} from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
-import {RouterEventEnum, StoreEnum, StoreEventEnum} from "@/Enum/index.js";
+import {APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum} from "@/Enum/index.js";
+import store from "@/store/index.js";
 
 // 表格
 const statusNameListMap = {
@@ -56,18 +57,30 @@ const statusNameListMap = {
   1: { label: '申请驳回', theme: 'danger', icon: <CloseCircleFilledIcon /> },
   2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
 };
+
+const activities = []
 const data = [];
-const total = 28;
-for (let i = 0; i < total; i++) {
-  data.push({
-    index: i + 1,
-    clubName: ['飞碟社', '羽毛球社', '围棋社'][i % 3],
-    activityName: ['羽毛球赛', '围棋赛', '飞碟赛'][i % 3],
-    address: ['北校区', '东校区', '南校区', '珠海校区', '深圳校区'][i % 5],
-    createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-    status: i % 3,
-  });
+const total = ref(0)// 渲染有问题，表格总数据数没法显示
+
+function assignment(){
+  total.value = activities.value.length
+  for (let i = 0; i < total.value; i++) {
+    data.push({
+      index: activities.value[i].activityId,
+      clubName: activities.value[i].clubName,
+      activityName: activities.value[i].activityName,
+      activityLocation: activities.value[i].activityLocation,
+      createTime: activities.value[i].createTime,
+      status: activities.value[i].status,
+    });
+  }
 }
+eventEmitter.emit(APIEventEnum.request, APIEnum.getActivitiesInfo)
+eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, (data) => {
+  activities.value = data.data
+  assignment()
+})
+
 
 const stripe = ref(true);
 const bordered = ref(true);
@@ -79,7 +92,7 @@ const showHeader = ref(true);
 const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
   { colKey: 'activityName', title: '活动名称', width: '100' },
-  { colKey: 'address', title: '活动地点', width: '100' },
+  { colKey: 'activityLocation', title: '活动地点', width: '100' },
   { colKey: 'createTime', title: '申请时间'},
   {
     colKey: 'status',
@@ -100,7 +113,7 @@ const columns = ref([
 const pagination = {
   defaultCurrent: 1,
   defaultPageSize: 5,
-  total,
+  total: total.value,
 };
 
 const detail = (value) => {
