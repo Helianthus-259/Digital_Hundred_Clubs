@@ -5,6 +5,7 @@ import router from './router'
 import '../mock'
 import store from './store'
 import './api';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 // 引入组件库的少量全局样式变量
 import 'tdesign-vue-next/es/style/index.css';
@@ -16,6 +17,8 @@ app.use(TDesign)
 app.use(router)
 
 app.use(store)
+
+app.use(CKEditor)
 
 app.mount('#app')
 
