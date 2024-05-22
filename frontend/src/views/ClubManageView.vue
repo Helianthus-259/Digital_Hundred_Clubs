@@ -22,12 +22,52 @@
                     <img width="136" class="logo" src="https://www.tencent.com/img/index/menu_logo_hover.png"
                         alt="logo" />
                 </template>
-                <t-menu-item v-for="item in tabPanelsNext" :value="item.value">
+                <t-menu-item value="edit">
                     <template #icon>
-                        <t-icon :name="item.icon" />
+                        <t-icon name="usergroup" />
                     </template>
-                    {{ item.label }}
+                    社团
                 </t-menu-item>
+                <t-submenu value="publish" title="事务">
+                    <template #icon>
+                        <t-icon name="server" />
+                    </template>
+                    <t-menu-item value="publishActivity">
+                        <template #icon>
+                            <t-icon name="activity" />
+                        </template>
+                        发布活动
+                    </t-menu-item>
+                    <t-menu-item value="publishNotice">
+                        <template #icon>
+                            <t-icon name="notification-add" />
+                        </template>
+                        发布通知
+                    </t-menu-item>
+                </t-submenu>
+                <t-menu-item value="check">
+                    <template #icon>
+                        <t-icon name="root-list" />
+                    </template>
+                    审核
+                </t-menu-item>
+                <t-submenu value="apply" title="先进">
+                    <template #icon>
+                        <t-icon name="control-platform" />
+                    </template>
+                    <t-menu-item value="annualaudit">
+                        <template #icon>
+                            <t-icon name="chart-line" />
+                        </template>
+                        年审
+                    </t-menu-item>
+                    <t-menu-item value="evaluation">
+                        <template #icon>
+                            <t-icon name="portrait" />
+                        </template>
+                        评优
+                    </t-menu-item>
+                </t-submenu>
             </t-menu>
         </t-aside>
         <t-layout>
@@ -36,14 +76,20 @@
                     <div v-if="routerNames === 'edit'">
                         <ClubEdit />
                     </div>
-                    <div v-else-if="routerNames === 'publish'">
-                        <ClubPublish />
+                    <div v-else-if="routerNames === 'publishActivity'">
+                        <ClubPublishActivity />
+                    </div>
+                    <div v-else-if="routerNames === 'publishNotice'">
+                        <ClubPublishNotice />
                     </div>
                     <div v-else-if="routerNames === 'check'">
                         <ClubCheck />
                     </div>
-                    <div v-else-if="routerNames === 'apply'">
-                        <ClubApply />
+                    <div v-else-if="routerNames === 'evaluation'">
+                        <ClubEvaluation />
+                    </div>
+                    <div v-else-if="routerNames === 'annualaudit'">
+                        <ClubAnnualAudit />
                     </div>
                 </div>
             </t-content>
@@ -57,34 +103,13 @@
 <script setup>
 import ClubEdit from '@/components/clubManageViewChildren/ClubEdit.vue';
 import ClubCheck from '@/components/clubManageViewChildren/ClubCheck.vue';
-import ClubApply from '@/components/clubManageViewChildren/ClubApply.vue';
-import ClubPublish from '@/components/clubManageViewChildren/ClubPublish.vue';
+import ClubAnnualAudit from '@/components/clubManageViewChildren/ClubAnnualAudit.vue';
+import ClubPublishActivity from '@/components/clubManageViewChildren/ClubPublishActivity.vue';
+import ClubPublishNotice from '@/components/clubManageViewChildren/ClubPublishNotice.vue';
+import ClubEvaluation from '@/components/clubManageViewChildren/ClubEvaluation.vue';
 import { ref } from 'vue';
 
 const routerNames = ref('edit')
-// 社团标签页
-const tabPanelsNext = [
-    {
-        value: 'edit',
-        label: '编辑社团',
-        icon: 'dashboard',
-    },
-    {
-        value: 'publish',
-        label: '发布活动/通知',
-        icon: 'server',
-    },
-    {
-        value: 'check',
-        label: '入社审核',
-        icon: 'root-list',
-    },
-    {
-        value: 'apply',
-        label: '年审/评优',
-        icon: 'control-platform',
-    },
-]
 const onNextChange = (value) => {
     routerNames.value = value
 }

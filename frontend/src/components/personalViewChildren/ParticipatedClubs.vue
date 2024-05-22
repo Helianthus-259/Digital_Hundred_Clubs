@@ -80,6 +80,25 @@
     margin: 0 auto;
     margin-top: 50px;
     background-color: #f1f1f1;
+    position: relative;
+}
+
+.t-card :deep(.t-card__cover) {
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.t-card__cover img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+.t-card__cover img:hover {
+    cursor: pointer;
 }
 
 /* 滚动条样式 */
@@ -150,24 +169,35 @@
                 <!--  审核通过了显示 -->
                 <div style="width: 100%; height: 100%;" v-else-if="weatherPass === 1">
                     <div class="contentViewBox">
-                        <div v-show="manageButtonShow"
-                            style="position: absolute; right: 190px; top: 130px; z-index: 99;">
-                            <t-button theme="primary" size="small" @click="go2ClubManage">进入管理界面</t-button>
-                        </div>
-                        <t-card v-if="activitiesShow" v-for="(item, index) in activities" :cover="item.imageUrl">
+                        <t-card v-if="activitiesShow" v-for="(item, index) in activities">
                             <template #header>
                                 {{ item.activityName }}
+                            </template>
+                            <template #cover>
+                                <img :src="item.imageUrl" @click="go2ActivityDetail(item.activityId)">
                             </template>
                             <template #footer>
                                 <div style="display: flex; justify-content: end;">
                                     <t-button variant="text" shape="square" :style="{ 'margin-right': '8px' }">
-                                        <time-icon />
+                                        <t-popup placement="top" show-arrow>
+                                            <template #content>
+                                                活动时间:{{ item.activityStartTime }} 至 {{ item.activityEndTime }}
+                                            </template>
+                                            <t-icon name="time" />
+                                        </t-popup>
                                     </t-button>
                                     <t-button variant="text" shape="square" :style="{ 'margin-right': '8px' }">
-                                        <location-icon />
+                                        <t-popup :content="item.activityLocation" placement="top" show-arrow>
+                                            <t-icon name="location" />
+                                        </t-popup>
                                     </t-button>
-                                    <t-button variant="text" shape="square">
-                                        <more-icon />
+                                    <t-button variant="text" shape="square" @click="go2ActivityDetail(item.activityId)">
+                                        <t-popup placement="top" show-arrow>
+                                            <template #content>
+                                                <div v-html="item.activityIntroduction"></div>
+                                            </template>
+                                            <t-icon name="more" />
+                                        </t-popup>
                                     </t-button>
                                 </div>
                             </template>
@@ -186,12 +216,25 @@
                             <template #logo>
                                 <img height="28" src="https://tdesign.gtimg.com/site/baseLogo-light.png" alt="logo" />
                             </template>
-                            <t-menu-item v-for="item in list" :key="item.value" :value="item.value">
-                                {{ item.label }}
+                            <t-menu-item value="activity" content="活动">
                                 <template #icon>
-                                    <t-icon :name="item.icon" />
+                                    <t-icon name="activity" />
                                 </template>
                             </t-menu-item>
+                            <t-menu-item value="notification" content="通知">
+                                <template #icon>
+                                    <t-icon name="notification" />
+                                </template>
+                            </t-menu-item>
+                            <template #operations>
+                                <t-button :disabled="!manageButtonShow" @click="go2ClubManage" variant="outline"
+                                    shape="square">
+                                    <t-popup :content="!manageButtonShow ? '无管理权限' : '进入管理界面'" placement="top"
+                                        show-arrow>
+                                        <t-icon name="work" />
+                                    </t-popup>
+                                </t-button>
+                            </template>
                         </t-head-menu>
                     </div>
                 </div>
@@ -204,7 +247,6 @@
 import store from '@/store';
 import myCell from '../myCell.vue';
 import { ref } from 'vue';
-import { Icon as TIcon, MoreIcon, TimeIcon, LocationIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import mySteps from '../mySteps.vue';
@@ -321,17 +363,51 @@ const getClubInfos = (value, pd) => {
     }
 }
 
+const formatDate = (date, fmt) => {
+    if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+    };
+    for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+            let str = o[k] + '';
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+        }
+    }
+    return fmt;
+}
+
+const padLeftZero = (str) => {
+    return ('00' + str).substr(str.length);
+}
+
 eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, (data) => {
     activities.value = data.activities
+    activities.value.map((item, index) => {
+        item.activityStartTime = formatDate(new Date(item.activityStartTime), 'yyyy-MM-dd')
+        item.activityEndTime = formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd')
+        if (item.activityIntroduction.length > 10) {
+
+            item.activityIntroduction = item.activityIntroduction.substring(0, 10) + "...";
+        }
+
+    })
+    notices.value = data.notices
+})
+
+eventEmitter.on(APIEventEnum.getClubActAndNtcFail, (data) => {
+    console.log(data)
     notices.value = data.notices
 })
 
 // 活动和通知的标签栏
 const value = ref('activity');
-const list = ref([
-    { value: 'activity', label: '活动', icon: 'activity' },
-    { value: 'notification', label: '通知', icon: 'notification' },
-]);
 
 const activitiesShow = ref(true)
 // 更换展示的页面
@@ -343,17 +419,15 @@ const changeView = (value) => {
     }
 }
 
-// 点击活动跳转到活动页面
-const clickHandle = (activity) => {
-    const parentRoute = store.state.parentRoute.activity
-    const selfRoute = parentRoute + `${activity.activityId}/`
-    eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setActivityId, activity.activityId)
-}
 
 const go2ClubManage = () => {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'clubManage', value: store.state.clubId })
     eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubId}/`, true)
+}
+
+// 点击活动跳转到活动页面
+const go2ActivityDetail = (activityId) => {
+    eventEmitter.emit(RouterEventEnum.push, `/activity/${activityId}/`, true)
 }
 
 </script>

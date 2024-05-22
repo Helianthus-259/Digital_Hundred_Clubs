@@ -57,7 +57,6 @@ export const StoreEnum = {
     setclubsActAndNtc: 'setclubsActAndNtc',
     setClubId: 'setClubId',
     setAdminInfo: 'setAdminInfo',
-    setActivityId: 'setActivityId',
     reset: 'reset',
 }
 

@@ -8,6 +8,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
+
 .activityTitle {
     font-size: 32px;
     font-weight: bold;
@@ -16,12 +17,14 @@
     margin-bottom: 20px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 .activityContent {
     font-size: 18px;
     line-height: 1.8;
     margin-bottom: 30px;
     color: #555;
 }
+
 .activityContent :deep(p) {
     font-family: Georgia, serif;
     font-size: 18px;
@@ -31,6 +34,7 @@
     text-indent: 2em;
     /* 添加首行缩进 */
 }
+
 .activityContent :deep(img) {
     max-width: 100%;
     height: auto;
@@ -39,10 +43,12 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+
 .activityContent :deep(ul) {
     list-style: none;
     padding: 0;
 }
+
 .activityContent :deep(li) {
     position: relative;
     padding-left: 35px;
@@ -50,6 +56,7 @@
     font-family: Arial, sans-serif;
     color: #666;
 }
+
 .activityContent :deep(li:before) {
     content: "✦";
     position: absolute;
@@ -58,14 +65,17 @@
     font-size: 24px;
     line-height: 1;
 }
+
 .activityFooter {
     font-size: 16px;
     color: #777;
     text-align: center;
 }
+
 .activityFooter p {
     margin: 8px 0;
 }
+
 .common-button {
     position: absolute;
     right: 100px;
@@ -90,9 +100,13 @@
 <script setup>
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { ref } from 'vue';
-import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: store.state.activityId })
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const activityId = route.params.aid;
+
+eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: activityId })
 const activity = ref({})
 eventEmitter.on(APIEventEnum.getActivityInfoSuccess, (data) => {
     activity.value = data

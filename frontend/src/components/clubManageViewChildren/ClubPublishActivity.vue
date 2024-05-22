@@ -1,6 +1,6 @@
 <template>
     <div>
-        年审/评优
+        发布活动
     </div>
 </template>
 
