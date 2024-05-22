@@ -16,6 +16,7 @@
         <module>club-server</module>
         <module>file-server</module>
         <module>gateway</module>
+        <module>security-server</module>
     </modules>
     <packaging>pom</packaging>
     <groupId>com.szbt</groupId>
