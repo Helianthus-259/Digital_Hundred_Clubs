@@ -176,7 +176,7 @@
         </div>
         <div class="introductionBox">
             <draggable-component :list="clubInfo" ghost-class="ghost" chosen-class="chosenClass" animation="300"
-                @start="onStart" @end="onEnd" :disabled="!isEditing" item-key="title">
+                @start="onStart" @end="onEnd" :disabled="!isEditing" item-key="id">
                 <template #item="{ element, index }">
                     <div class="item-container">
                         <div class="previewBox" v-if="!isEditing">
@@ -186,7 +186,7 @@
                             <div class="content" v-html="element.content"></div>
                         </div>
                         <div class="editBox" v-else @click="selectItem(index)">
-                            <t-input style="margin: 10px 0;" v-model="element.title" />
+                            <t-input @pointerdown.stop.native style="margin: 10px 0;" v-model="element.title" />
                             <ckeditor :editor="editor" v-model="element.content" :config="editorConfig"></ckeditor>
                         </div>
                     </div>
