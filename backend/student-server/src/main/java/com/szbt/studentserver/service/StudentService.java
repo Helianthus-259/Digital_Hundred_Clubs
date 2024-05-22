@@ -15,4 +15,6 @@ public interface StudentService extends IService<Student> {
     Object sendVerifyCode(String email);
 
     Object savaAvatar(String relativePath, Integer studentId);
+
+    Object checkImageVerifyCode(boolean ok);
 }

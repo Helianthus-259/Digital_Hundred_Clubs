@@ -12,6 +12,8 @@ public enum StatusCode {
 
     SEND_VERIFY_CODE_ERROR(10086),
 
+    VERIFY_IMAGE_CODE_ERROR(1003),
+
     UPLOAD_FILE_ERROR(1002);
 
     private final int code;

@@ -87,6 +87,14 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
         return Result.success(new UploadSuccess(relativePath));
     }
+
+
+    @Override
+    public Object checkImageVerifyCode(boolean ok)
+    {
+        if(ok) return Result.success(ok);
+        else return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
+    }
 }
 
 

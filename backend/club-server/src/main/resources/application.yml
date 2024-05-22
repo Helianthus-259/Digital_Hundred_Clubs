@@ -3,9 +3,9 @@ spring:
   application:
     name: club-server
   datasource:
-    url: jdbc:mysql://localhost:3306/DigitalClub?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/digital_club_db?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: '030520'
+    password: a123
     driver-class-name: com.mysql.cj.jdbc.Driver
 #服务端口，随便起
 server:

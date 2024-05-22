@@ -16,4 +16,10 @@ public interface FileClientService {
 
     @GetMapping("/file/downloadFile")
     ResponseEntity<byte[]> downloadFile(@RequestParam(value = "filePath")  String filePath);
+
+    @GetMapping("/file/getImageVerifyCode")
+    byte[] getImageVerifyCode() throws Exception;
+
+    @PostMapping("/file/checkImageVerifyCode")
+    Boolean checkImageVerifyCode(@RequestParam(value = "code") String code);
 }

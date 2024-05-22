@@ -5,11 +5,6 @@ server:
 spring:
   application:
     name: eureka-server
-  datasource:
-    url: jdbc:mysql://localhost:3306/DigitalClub?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: '030520'
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
 #eureka地址
 eureka:
