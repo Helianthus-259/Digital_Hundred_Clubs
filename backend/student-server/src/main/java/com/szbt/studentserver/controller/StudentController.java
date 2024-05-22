@@ -1,6 +1,7 @@
 package com.szbt.studentserver.controller;
 
 import com.szbt.studentserver.service.StudentService;
+import com.szbt.studentserver.util.ImageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.example.service.FileClientService;
 import org.example.service.StudentClientService;
@@ -44,4 +45,16 @@ public class StudentController {
         String relativePath = fileClientService.uploadFile(file,"image/avatar/");
         return studentService.savaAvatar(relativePath,studentId);
     }
+
+//    @GetMapping("/getImageVerifyCode")
+//    public void getImageVerifyCode() throws Exception {
+//        byte[] bytes = fileClientService.getImageVerifyCode();
+//        ImageResponseUtils.buildImageRes(bytes);
+//    }
+//
+//    @PostMapping("/checkImageVerifyCode")
+//    public Object checkImageVerifyCode(String code) {
+//        boolean ok = fileClientService.checkImageVerifyCode(code);
+//        return studentService.checkImageVerifyCode(ok);
+//    }
 }

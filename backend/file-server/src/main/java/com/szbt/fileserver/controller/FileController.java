@@ -1,9 +1,16 @@
 package com.szbt.fileserver.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.netflix.hystrix.contrib.javanica.conf.HystrixPropertiesManager;
+import com.szbt.fileserver.util.ImageResponseUtils;
+import com.szbt.fileserver.util.SessionUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.example.util.StatusCode;
-import org.example.vo.UploadSuccess;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.HttpHeaders;
@@ -14,10 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 import java.net.URLEncoder;
 import java.util.UUID;
@@ -32,6 +38,9 @@ import java.util.UUID;
 public class FileController {
 
     String baseRoot = System.getProperty("user.dir") + "/backend/file-server/storage/";
+
+    @Resource(name = "captchaBean")
+    private DefaultKaptcha defaultKaptcha;
 
     @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "pathPrefix") String pathPrefix) {
@@ -112,4 +121,77 @@ public class FileController {
         }
         return entity;
     }
+
+    /**
+     * 生成图形验证码
+     * @return
+     * @throws Exception
+     */
+    @HystrixCommand(fallbackMethod = "getImageVerifyCodeFallBack", commandProperties = {
+            @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_TIMEOUT_ENABLED, value = "true"),
+            // 是否开启超时降级
+            @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_THREAD_TIMEOUT_IN_MILLISECONDS, value = "10000"),
+            // 请求的超时时间，默认10000
+            @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_THREAD_INTERRUPT_ON_TIMEOUT, value = "true")
+            // 当请求超时时，是否中断线程，默认true
+    })
+    @GetMapping("/getImageVerifyCode")
+    public byte[] getImageVerifyCode() throws IOException {
+        //if(true) throw new Exception("出问题了");//测试服务降级
+        //System.out.println("来拿图形验证码了");
+        //证码字符串生成验
+        String text = defaultKaptcha.createText();
+        System.out.println("text:" + text);
+        //验证码存入session（可以将text加密储存）
+        SessionUtil.session().setAttribute("key", text);
+        //验证码转换
+        BufferedImage image = defaultKaptcha.createImage(text);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+        //定义响应值，写入byte
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        ImageResponseUtils.buildImageRes(bytes);
+        return bytes;
+    }
+    /**
+     * 生成图形验证码的服务降级实现
+     * @return
+     */
+    public byte[] getImageVerifyCodeFallBack(){
+        System.out.println("getImageVerifyCodeFallBack");
+        return new byte[0];
+    }
+
+    /**
+     * 验证图形验证码
+     * @param code
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "checkImageVerifyCodeFallBack")
+    @PostMapping("/checkImageVerifyCode")
+    public Boolean checkImageVerifyCode(String code) {
+        System.out.println("code："+code);
+        HttpSession session = SessionUtil.session();
+        String text = (String) session.getAttribute("key");
+        System.out.println("text："+text);
+        if (StringUtils.isBlank(text)) {
+            return Boolean.FALSE;
+        }
+        if (!code.equals(text)) {
+            return Boolean.FALSE;
+        }
+        //从session中移除验证码text
+        session.removeAttribute("key");
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 验证图形验证码的服务降级实现
+     * @param code
+     * @return
+     */
+    public Boolean checkImageVerifyCodeFallBack(String code) {
+        return Boolean.FALSE;
+    }
+
 }
