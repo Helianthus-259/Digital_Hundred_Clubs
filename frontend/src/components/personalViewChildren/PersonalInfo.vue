@@ -136,7 +136,7 @@
     <!-- 申请创建社团弹窗 -->
     <myDialog ref="dialogRef">
         <template #header>
-            <h2>新建社团申请表</h2>
+            新建社团申请表
         </template>
         <t-form :label-width="150" style="width: 80%; margin: 0 auto;" v-model="newClubFrom" colon requiredMark>
             <t-form-item label="社团名称">
@@ -178,8 +178,8 @@
             </t-form-item>
         </t-form>
         <template #footer>
-            <t-button style="margin: 0 10px;" theme="primary" size="small" @click="submitNewClub">发送</t-button>
-            <t-button style="margin: 0 10px;" theme="default" size="small" @click="closeDialog">关闭</t-button>
+            <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="submitNewClub">发送</t-button>
+            <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
 

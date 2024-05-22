@@ -1,7 +1,7 @@
 <style scoped>
 .introductionContainer {
     width: 100%;
-    height: 680px;
+    max-height: 690px;
     background: #ffffff;
     overflow-y: auto;
 }

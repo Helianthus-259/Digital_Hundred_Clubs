@@ -12,7 +12,7 @@
 }
 
 .dialog-body {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 250px);
     overflow-y: auto;
 }
 

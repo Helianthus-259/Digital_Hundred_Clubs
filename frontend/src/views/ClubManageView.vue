@@ -1,7 +1,14 @@
 <style scoped>
 .t-layout {
     width: 100%;
+}
+
+.t-layout__aside {
     height: 700px;
+}
+
+.t-layout__content {
+    min-height: 700px;
 }
 
 .contentBox {
