@@ -89,9 +89,6 @@
                         <template #cover>
                             <img :src="item.imageUrl">
                         </template>
-                        <template #footer>
-                            2222
-                        </template>
                     </t-card>
                 </t-col>
             </t-row>
@@ -168,7 +165,7 @@ import { APIEnum, APIEventEnum } from '@/Enum';
 // 请求活动需要的数据
 const route = useRoute();
 const clubId = route.params.cid
-const pNumber = ref(0)
+let pNumber = 0
 const pSize = 48
 // 保存请求到的活动数据
 const activityList = ref([])
@@ -177,9 +174,9 @@ const activityNumber = ref(0)
 const activityView = ref([])
 
 // 获取活动信息
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber: pNumber.value, pSize })
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
 const loadMoreData = () => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber: pNumber.value, pSize })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
 }
 
 eventEmitter.on(APIEventEnum.getClubActivityListSuccess, (data) => {
@@ -187,7 +184,7 @@ eventEmitter.on(APIEventEnum.getClubActivityListSuccess, (data) => {
     activityNumber.value = activityList.value.length
     // 初始化展示的活动数据
     activityView.value = activityList.value.slice(0, pageSize.value)
-    pNumber.value += 1
+    pNumber++
 })
 
 // 分页条设置

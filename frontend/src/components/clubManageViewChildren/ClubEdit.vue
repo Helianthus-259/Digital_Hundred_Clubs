@@ -4,6 +4,7 @@
     max-height: 690px;
     background: #ffffff;
     overflow-y: auto;
+    border-radius: 10px;
 }
 
 /*滚动条样式*/
