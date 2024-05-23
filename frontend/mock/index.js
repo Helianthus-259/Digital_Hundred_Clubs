@@ -362,7 +362,6 @@ mock.onGet(path.activityInfo).reply((config) => {
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
-            stage: 1,
         }
     }]
 })
@@ -384,5 +383,23 @@ mock.onGet(path.activitiesInfo).reply((config) => {
     return [200, {
         code: 13, // 13代表获取全部活动信息
         data: data,
+    }]
+})
+
+// 获取社团活动列表mock
+mock.onGet(path.clubActivityList).reply((config) => {
+    const activityList = []
+    const pageSize = config.params.pageSize
+    for (let i = 0; i < pageSize; i++) {
+        activityList.push({
+            activityId: i,
+            activityName: `活动名称${i}`,
+            imageUrl: `https://loremflickr.com/400/300`,
+            status: i % 3,
+        })
+    }
+    return [200, {
+        code: 14, // 14代表获取社团活动列表
+        activityList,
     }]
 })

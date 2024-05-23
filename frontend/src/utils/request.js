@@ -72,8 +72,11 @@ function successHandler(response) {
         } else if (response.data.code === 12) { // 获取活动信息成功
             const { activity } = response.data
             eventEmitter.emit(APIEventEnum.getActivityInfoSuccess, activity)
-        } else if (response.data.code === 13){ // 获取所有活动信息成功
+        } else if (response.data.code === 13) { // 获取所有活动信息成功
             eventEmitter.emit(APIEventEnum.getActivitiesInfoSuccess, response.data)
+        } else if (response.data.code === 14) { // 获取社团活动列表成功
+            const { activityList } = response.data
+            eventEmitter.emit(APIEventEnum.getClubActivityListSuccess, activityList)
         }
     }
 }

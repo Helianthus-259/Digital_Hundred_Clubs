@@ -46,6 +46,21 @@
     justify-content: center;
     align-items: center;
     padding: 0 20px;
+    margin-bottom: 5px;
+}
+
+.t-card :deep(.t-card__cover) {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.t-card__cover img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
 }
 </style>
 
@@ -64,13 +79,15 @@
                 { xs: 6, sm: 12, md: 18, lg: 24, xl: 24, xxl: 32 },
                 { xs: 6, sm: 12, md: 18, lg: 24, xl: 24, xxl: 32 },
             ]">
-                <t-col :span="3" v-for="item in 20" :key="item">
+                <t-col :span="3" v-for="(item, index) in activityView" :key="index">
                     <t-card>
                         <template #header>
-                            1111
+                            {{ item.activityName }}
+                            <t-tag shape="round" variant="light-outline" :theme="activityStatusTheme[item.status]"
+                                :content="activityStatusContent[item.status]"></t-tag>
                         </template>
-                        <template #content>
-                            2222
+                        <template #cover>
+                            <img :src="item.imageUrl">
                         </template>
                         <template #footer>
                             2222
@@ -80,8 +97,8 @@
             </t-row>
         </div>
         <div class="listCardPagination">
-            <t-pagination v-model="current" v-model:pageSize="pageSize" :total="40" theme="simple" @change="onChange"
-                :pageSizeOptions="['10', '20', '30']" @page-size-change="onPageSizeChange"
+            <t-pagination v-model="current" v-model:pageSize="pageSize" :total="activityNumber" theme="simple"
+                :pageSizeOptions="['12', '24', '36']" @page-size-change="onPageSizeChange"
                 @current-change="onCurrentChange" />
         </div>
     </div>
@@ -103,28 +120,39 @@ import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import myDialog from '../myDialog.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import eventEmitter from '@/utils/eventEmitter';
+import { APIEnum, APIEventEnum } from '@/Enum';
 
 // 请求活动需要的数据
 const route = useRoute();
 const clubId = route.params.cid
 const pNumber = 0
-const pSize = 40
+const pSize = 48
 // 保存请求到的活动数据
 const activityList = ref([])
+const activityNumber = ref(0)
 // 展示的活动数据
 const activityView = ref([])
 
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+
+eventEmitter.on(APIEventEnum.getClubActivityListSuccess, (data) => {
+    activityList.value.push(...data)
+    activityNumber.value = activityList.value.length
+    // 初始化展示的活动数据
+    activityView.value = activityList.value.slice(0, pageSize.value)
+    pNumber++
+})
+
 // 分页条设置
 const current = ref(1);
-const pageSize = ref(10);
-const onPageSizeChange = (size) => {
-
+const pageSize = ref(12);
+const onPageSizeChange = (size, pageInfo) => {
+    current.value = pageInfo.current
+    activityView.value = activityList.value.slice((current.value - 1) * size, current.value * size)
 };
-const onCurrentChange = (index, pageInfo) => {
-
-};
-const onChange = (pageInfo) => {
-    console.log(pageInfo);
+const onCurrentChange = (index) => {
+    activityView.value = activityList.value.slice((index - 1) * pageSize.value, index * pageSize.value)
 };
 
 // 打开发布活动对话框
@@ -174,5 +202,18 @@ const editorConfig = {
             { model: 'heading3', view: 'h3', title: '三级标题', class: 'ck-heading_heading3' },
         ]
     }
+}
+
+// 活动状态表示
+const activityStatusContent = {
+    0: '未开始',
+    1: '进行中',
+    2: '已结束'
+}
+
+const activityStatusTheme = {
+    0: 'primary',
+    1: 'success',
+    2: 'warning'
 }
 </script>

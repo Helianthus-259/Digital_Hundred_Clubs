@@ -93,6 +93,13 @@ const api = {
     'getActivitiesInfo': (params) => axios.get(path.activitiesInfo, { // 获取活动信息
 
     }),
+    'getClubActivityList': (params) => axios.get(path.clubActivityList, { // 获取社团活动列表
+        params: {
+            clubId: params.clubId,
+            pageNumber: params.pNumber,
+            pageSize: params.pSize,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {
