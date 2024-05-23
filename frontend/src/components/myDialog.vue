@@ -1,7 +1,21 @@
 <style scoped>
-.dialog {
+.custom-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-dialog {
     width: 60vw;
-    border: none;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -9,6 +23,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .dialog-body {
@@ -43,40 +60,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
 }
 </style>
 
 <template>
-    <dialog ref="dialogRef" class="dialog" :open="isOpen" @close="closeDialog">
-        <div class="dialog-header">
-            <slot name="header"></slot>
+    <div v-if="isOpen" class="custom-dialog-overlay">
+        <div class="custom-dialog">
+            <div class="dialog-header">
+                <slot name="header"></slot>
+            </div>
+            <div class="dialog-body">
+                <slot></slot>
+            </div>
+            <div class="dialog-footer">
+                <slot name="footer"></slot>
+            </div>
         </div>
-        <t-divider></t-divider>
-        <div class="dialog-body">
-            <slot></slot>
-        </div>
-        <t-divider></t-divider>
-        <div class="dialog-footer">
-            <slot name="footer"></slot>
-        </div>
-    </dialog>
+    </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
 const isOpen = ref(false);
-const dialogRef = ref(null);
 
 const openDialog = () => {
     isOpen.value = true;
-    dialogRef.value.showModal();
 };
 
 const closeDialog = () => {
     isOpen.value = false;
-    dialogRef.value.close();
 };
-
 defineExpose({ openDialog, closeDialog });
 </script>

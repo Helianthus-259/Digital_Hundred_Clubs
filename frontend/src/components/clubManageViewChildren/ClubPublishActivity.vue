@@ -100,6 +100,13 @@
             <t-pagination v-model="current" v-model:pageSize="pageSize" :total="activityNumber" theme="simple"
                 :pageSizeOptions="['12', '24', '36']" @page-size-change="onPageSizeChange"
                 @current-change="onCurrentChange" />
+            <t-button shape="square" variant="text" @click="loadMoreData">
+                <template #icon>
+                    <t-popup content="加载更多" placement="top" showArrow>
+                        <t-icon name="more" />
+                    </t-popup>
+                </template>
+            </t-button>
         </div>
     </div>
 
@@ -107,7 +114,42 @@
         <template #header>
             发布活动
         </template>
-        <ckeditor :editor="editor" v-model="newActivityContent" :config="editorConfig"></ckeditor>
+        <t-form :data="newActivityForm">
+            <t-form-item label="活动名称">
+                <t-input v-model="newActivityForm.activityName" style="width: 300px;" clearable placeholder="请输入活动名称" />
+            </t-form-item>
+            <t-form-item label="活动封面">
+                <t-upload v-model="newActivityForm.imageUrl" :image-viewer-props="{ closeOnEscKeydown: false }"
+                    :size-limit="{ size: 500, unit: 'KB' }"
+                    action="https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo" theme="image"
+                    accept="image/*" :auto-upload="true" :show-image-file-name="true"
+                    :upload-all-files-in-one-request="false" :locale="{
+                        triggerUploadText: {
+                            image: '请选择图片',
+                        },
+                    }">
+                </t-upload>
+            </t-form-item>
+            <t-form-item label="开始时间">
+                <t-date-picker v-model="newActivityForm.activityStartTime" enable-time-picker allow-input clearable />
+            </t-form-item>
+            <t-form-item label="结束时间">
+                <t-date-picker v-model="newActivityForm.activityEndTime" enable-time-picker allow-input clearable />
+            </t-form-item>
+            <t-form-item label="活动地点">
+                <t-input v-model="newActivityForm.activityLocation" style="width: 300px;" clearable
+                    placeholder="请输入活动地点" />
+            </t-form-item>
+            <t-form-item label="活动介绍">
+                <div style="width: 80%;">
+                    <ckeditor :editor="editor" v-model="newActivityForm.activityIntroduction" :config="editorConfig">
+                    </ckeditor>
+                </div>
+            </t-form-item>
+            <t-form-item label="附件">
+                <t-upload></t-upload>
+            </t-form-item>
+        </t-form>
         <template #footer>
             <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="submitNewActivity">提交</t-button>
             <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
@@ -117,7 +159,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import myDialog from '../myDialog.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
@@ -126,7 +168,7 @@ import { APIEnum, APIEventEnum } from '@/Enum';
 // 请求活动需要的数据
 const route = useRoute();
 const clubId = route.params.cid
-const pNumber = 0
+const pNumber = ref(0)
 const pSize = 48
 // 保存请求到的活动数据
 const activityList = ref([])
@@ -134,14 +176,18 @@ const activityNumber = ref(0)
 // 展示的活动数据
 const activityView = ref([])
 
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+// 获取活动信息
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber: pNumber.value, pSize })
+const loadMoreData = () => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber: pNumber.value, pSize })
+}
 
 eventEmitter.on(APIEventEnum.getClubActivityListSuccess, (data) => {
     activityList.value.push(...data)
     activityNumber.value = activityList.value.length
     // 初始化展示的活动数据
     activityView.value = activityList.value.slice(0, pageSize.value)
-    pNumber++
+    pNumber.value += 1
 })
 
 // 分页条设置
@@ -166,12 +212,20 @@ const closeDialog = () => {
     dialogRef.value.closeDialog();
 };
 
-// 新活动内容
-const newActivityContent = ref('')
+// 新活动
+const newActivityForm = reactive({
+    activityName: '',
+    activityStartTime: '',
+    activityEndTime: '',
+    activityLocation: '',
+    activityIntroduction: '',
+    applicationFormAttachment: '',
+    imageUrl: []
+})
 
 // 提交新活动
 const submitNewActivity = () => {
-
+    console.log(newActivityForm);
 };
 
 // 富文本编辑器
