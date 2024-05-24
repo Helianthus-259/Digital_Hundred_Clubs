@@ -16,6 +16,9 @@ const base = {
     activityInfo: '/api/activityInfo', // 获取活动信息
     activitiesInfo: '/api/activitiesInfo', // 获取所有活动信息
     clubActivityList: '/api/clubActivityList', // 获取社团活动列表
+    clubApplyList: '/api/clubApplyList', // 获取社团申请列表
+    agreeClubApply: '/api/agreeClubApply', // 同意社团申请
+    rejectClubApply: '/api/rejectClubApply', // 拒绝社团申请
 }
 
 export default base;

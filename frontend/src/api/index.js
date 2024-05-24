@@ -100,6 +100,24 @@ const api = {
             pageSize: params.pSize,
         }
     }),
+    'getClubApplyList': (params) => axios.get(path.clubApplyList, { // 获取社团申请列表
+        params: {
+            clubId: params.clubId,
+        }
+    }),
+    'postAgreeClubApply': (params) => axios.post(path.agreeClubApply, { // 同意社团申请
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+        }
+    }),
+    'postRejectClubApply': (params) => axios.post(path.rejectClubApply, { // 拒绝社团申请
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+            rejectReason: params.rejectReason,
+        }
+    })
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {

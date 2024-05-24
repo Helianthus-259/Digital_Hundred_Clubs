@@ -403,3 +403,42 @@ mock.onGet(path.clubActivityList).reply((config) => {
         activityList,
     }]
 })
+
+// 获取社团申请列表mock
+mock.onGet(path.clubApplyList).reply((config) => {
+    const applyList = []
+    for (let i = 0; i < 15; i++) {
+        applyList.push({
+            studentId: i,
+            studentName: '张三',
+            college: '计算机学院',
+            politicalStatus: '共青团员',
+            status: i % 3,
+            email: '123@qq.com',
+            createTime: '2023-04-20 12:00:00',
+            reason: '我是张三，我申请加入计算机学院',
+        })
+    }
+    return [200, {
+        code: 15, // 15代表获取社团申请列表
+        applyList,
+    }]
+})
+
+// 同意社团申请mock
+mock.onPost(path.agreeClubApply).reply((config) => {
+    const data = JSON.parse(config.data)
+    return [200, {
+        code: 16, // 16代表同意社团申请
+        studentId: data.params.studentId,
+    }]
+})
+
+// 拒绝社团申请mock
+mock.onPost(path.rejectClubApply).reply((config) => {
+    const data = JSON.parse(config.data)
+    return [200, {
+        code: 17, // 17代表拒绝社团申请
+        studentId: data.params.studentId,
+    }]
+})

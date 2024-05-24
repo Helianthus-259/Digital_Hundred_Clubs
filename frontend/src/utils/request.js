@@ -77,6 +77,15 @@ function successHandler(response) {
         } else if (response.data.code === 14) { // 获取社团活动列表成功
             const { activityList } = response.data
             eventEmitter.emit(APIEventEnum.getClubActivityListSuccess, activityList)
+        } else if (response.data.code === 15) { // 获取社团申请列表成功
+            const { applyList } = response.data
+            eventEmitter.emit(APIEventEnum.getClubApplyListSuccess, applyList)
+        } else if (response.data.code === 16) { // 同意社团申请成功
+            const { studentId } = response.data
+            eventEmitter.emit(APIEventEnum.postAgreeClubApplySuccess, studentId)
+        } else if (response.data.code === 17) { // 拒绝社团申请成功
+            const { studentId } = response.data
+            eventEmitter.emit(APIEventEnum.postRejectClubApplySuccess, studentId)
         }
     }
 }
