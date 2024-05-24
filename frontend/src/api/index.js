@@ -117,6 +117,18 @@ const api = {
             studentId: params.studentId,
             rejectReason: params.rejectReason,
         }
+    }),
+    'postNewActivity': (params) => axios.post(path.newActivity, { // 创建活动
+        params: {
+            clubId: params.clubId,
+            activityName: params.activityName,
+            activityIntroduction: params.activityIntroduction,
+            activityStartTime: params.activityStartTime,
+            activityEndTime: params.activityEndTime,
+            activityLocation: params.activityLocation,
+            applicationFormAttachment: params.applicationFormAttachment,
+            imageUrl: params.imageUrl,
+        }
     })
 }
 

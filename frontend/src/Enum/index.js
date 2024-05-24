@@ -16,6 +16,7 @@ export const APIEventEnum = {
     getClubApplyListSuccess: 'getClubApplyListSuccess',
     postAgreeClubApplySuccess: 'postAgreeClubApplySuccess',
     postRejectClubApplySuccess: 'postRejectClubApplySuccess',
+    postNewActivitySuccess: 'postNewActivitySuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -42,6 +43,7 @@ export const APIEnum = {
     getClubApplyList: 'getClubApplyList',
     postAgreeClubApply: 'postAgreeClubApply',
     postRejectClubApply: 'postRejectClubApply',
+    postNewActivity: 'postNewActivity',
 }
 
 

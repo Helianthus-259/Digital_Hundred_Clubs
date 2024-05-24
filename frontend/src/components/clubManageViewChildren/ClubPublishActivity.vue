@@ -161,6 +161,7 @@ import myDialog from '../myDialog.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 // 请求活动需要的数据
 const route = useRoute();
@@ -198,17 +199,6 @@ const onCurrentChange = (index) => {
     activityView.value = activityList.value.slice((index - 1) * pageSize.value, index * pageSize.value)
 };
 
-// 打开发布活动对话框
-const dialogRef = ref(null);
-const openDialog = () => {
-    dialogRef.value.openDialog();
-};
-
-// 关闭发布活动对话框
-const closeDialog = () => {
-    dialogRef.value.closeDialog();
-};
-
 // 新活动
 const newActivityForm = reactive({
     activityName: '',
@@ -220,10 +210,33 @@ const newActivityForm = reactive({
     imageUrl: []
 })
 
+// 打开发布活动对话框
+const dialogRef = ref(null);
+const openDialog = () => {
+    dialogRef.value.openDialog();
+};
+
+// 关闭发布活动对话框
+const closeDialog = () => {
+    newActivityForm.activityName = ''
+    newActivityForm.activityStartTime = ''
+    newActivityForm.activityEndTime = ''
+    newActivityForm.activityLocation = ''
+    newActivityForm.activityIntroduction = ''
+    newActivityForm.applicationFormAttachment = ''
+    newActivityForm.imageUrl = []
+    dialogRef.value.closeDialog();
+};
+
 // 提交新活动
 const submitNewActivity = () => {
-    console.log(newActivityForm);
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postNewActivity, { clubId, ...newActivityForm })
 };
+
+eventEmitter.on(APIEventEnum.postNewActivitySuccess, () => {
+    MessagePlugin.success('发布成功')
+    closeDialog()
+})
 
 // 富文本编辑器
 const editor = ClassicEditor

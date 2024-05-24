@@ -442,3 +442,10 @@ mock.onPost(path.rejectClubApply).reply((config) => {
         studentId: data.params.studentId,
     }]
 })
+
+// 发布新活动mock
+mock.onPost(path.newActivity).reply((config) => {
+    return [200, {
+        code: 18, // 18代表发布新活动
+    }]
+})

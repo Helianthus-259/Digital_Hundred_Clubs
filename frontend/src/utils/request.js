@@ -86,6 +86,8 @@ function successHandler(response) {
         } else if (response.data.code === 17) { // 拒绝社团申请成功
             const { studentId } = response.data
             eventEmitter.emit(APIEventEnum.postRejectClubApplySuccess, studentId)
+        } else if (response.data.code === 18) { // 发布新活动成功
+            eventEmitter.emit(APIEventEnum.postNewActivitySuccess)
         }
     }
 }
