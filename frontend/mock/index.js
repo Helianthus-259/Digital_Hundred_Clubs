@@ -50,7 +50,7 @@ mock.onGet(path.verifyCode).reply((config) => {
 // 获取社团信息mock
 mock.onGet(path.clubsInfo).reply((config) => {
     const data = []
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
         const width = Math.floor(Math.random() * 100) + 300;
         const height = Math.floor(Math.random() * 100) + 400;
         data.push({
@@ -60,12 +60,12 @@ mock.onGet(path.clubsInfo).reply((config) => {
             campus: ["北校区", "南校区", "东校区", "珠海校区", "深圳校区"][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
-            clubCategory: ["体育类", "音乐类", "游戏类", "棋牌类", "艺术类"],
+            clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"][i % 6],
             createTime: '2024-4-30 12:00:00',
             status: i % 3,// 这个地方无论如何返回给前端的数据都是1？？？
         })
     }
-
+    console.log(data);
     return [200, {
         code: 2, // 2代表社团信息
         data: data,

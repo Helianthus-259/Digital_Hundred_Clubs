@@ -173,6 +173,9 @@ const handlePoliticalStatusChange = (value) => {
 // 查询
 const handleSearch = () => {
     applyViewList.value = applyList.value.filter(item => {
+        if (statusSelect.value === '' && collegeSelect.value === '' && politicalStatusSelect.value === '') {
+            return true
+        }
         return (
             item.status === statusSelect.value ||
             item.college === collegeSelect.value ||
