@@ -227,6 +227,13 @@
                                 </template>
                             </t-menu-item>
                             <template #operations>
+                                <t-button :disabled="!manageButtonShow" @click="openDialog()" variant="outline"
+                                    shape="square">
+                                    <t-popup :content="!manageButtonShow ? '无权限' : '骨干评优'" placement="top" show-arrow>
+                                        <t-icon name="bone" />
+                                    </t-popup>
+                                </t-button>
+                                &nbsp;&nbsp;
                                 <t-button :disabled="!manageButtonShow" @click="go2ClubManage" variant="outline"
                                     shape="square">
                                     <t-popup :content="!manageButtonShow ? '无管理权限' : '进入管理界面'" placement="top"
@@ -241,6 +248,18 @@
             </div>
         </div>
     </div>
+    <myDialog ref="dialogRef">
+        <template #header>
+            骨干评优
+        </template>
+        <t-form>
+
+        </t-form>
+        <template #footer>
+            <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="">提交</t-button>
+            <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
+        </template>
+    </myDialog>
 </template>
 
 <script setup>
@@ -251,6 +270,7 @@ import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import mySteps from '../mySteps.vue';
 import formatDate from '@/utils'
+import myDialog from '../myDialog.vue';
 
 // 展示加入了的社团
 const clubsJoin = ref(store.state.userInfo.clubs)
@@ -398,13 +418,21 @@ const changeView = (value) => {
 
 
 const go2ClubManage = () => {
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'clubManage', value: store.state.clubId })
-    eventEmitter.emit(RouterEventEnum.push, `/clubManage/${store.state.clubId}/`, true)
+    eventEmitter.emit(RouterEventEnum.push, store.state.parentRoute.clubManage + store.state.clubId, true)
 }
 
 // 点击活动跳转到活动页面
 const go2ActivityDetail = (activityId) => {
-    eventEmitter.emit(RouterEventEnum.push, `/activity/${activityId}/`, true)
+    eventEmitter.emit(RouterEventEnum.push, store.state.parentRoute.activity + activityId, true)
+}
+
+const dialogRef = ref(null)
+const openDialog = () => {
+    dialogRef.value.openDialog()
+}
+
+const closeDialog = () => {
+    dialogRef.value.closeDialog()
 }
 
 </script>

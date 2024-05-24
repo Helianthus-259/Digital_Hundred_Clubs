@@ -36,7 +36,7 @@ const store = createStore({
             'personal': '/personal/-1/',
             'club': '/club/-1/',
             'activity': '/activity/',
-            'clubManage': '/clubManage/-1/',
+            'clubManage': '/clubManage/',
             'examine': '/adminFirstPage/examine/',
         },
 
@@ -94,10 +94,6 @@ const store = createStore({
                 'adminManageTabs': 'manage',
             }
             state.parentRoute = {
-                'firstPage': '/',
-                'home': '/home/',
-                'admin': '/adminFirstPage/',
-                'adminPersonal': '/adminFirstPage/adminPersonal/',
                 'personal': '/personal/-1/',
                 'club': '/club/-1/',
             }
