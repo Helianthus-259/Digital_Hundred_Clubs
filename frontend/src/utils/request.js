@@ -88,6 +88,8 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postRejectClubApplySuccess, studentId)
         } else if (response.data.code === 18) { // 发布新活动成功
             eventEmitter.emit(APIEventEnum.postNewActivitySuccess)
+        } else if (response.data.code === 19) { // 社团骨干评优
+            eventEmitter.emit(APIEventEnum.postBackBoneEvaluateSuccess)
         }
     }
 }

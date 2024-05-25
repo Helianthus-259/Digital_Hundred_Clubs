@@ -20,6 +20,7 @@ const base = {
     agreeClubApply: '/api/agreeClubApply', // 同意社团申请
     rejectClubApply: '/api/rejectClubApply', // 拒绝社团申请
     newActivity: '/api/newActivity', // 提交新活动
+    backBoneEvaluate: '/api/backBoneEvaluate', // 骨干评优
 }
 
 export default base;

@@ -328,18 +328,32 @@
                         <t-col id="table" :span="4">地点</t-col>
                         <t-col id="table" :span="4">组织单位</t-col>
                     </t-row>
-                    <t-row id="table" v-for="item in backBoneEvaluate.trainingParticipation">
-                        <t-col :span="4">
-                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.location" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.organization" borderless
-                                placeholder=""></t-input>
-                        </t-col>
-                    </t-row>
+                    <div v-for="(item, index) in backBoneEvaluate.trainingParticipation">
+                        <t-popup placement="left-bottom">
+                            <template #content>
+                                <t-button shape="square" variant="text" @click="addTrainingParticipation">
+                                    <t-icon name="add" />
+                                </t-button>
+                                <t-button shape="square" variant="text" @click="deleteTrainingParticipation(index)">
+                                    <t-icon name="delete" />
+                                </t-button>
+                            </template>
+                            <t-row id="table">
+                                <t-col :span="4">
+                                    <t-input style="width: 90%;" v-model="item.time" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.location" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.organization" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                            </t-row>
+                        </t-popup>
+                    </div>
                 </t-col>
             </t-row>
             <t-row id="table">
@@ -350,18 +364,32 @@
                         <t-col id="table" :span="4">时间</t-col>
                         <t-col id="table" :span="4">颁发单位</t-col>
                     </t-row>
-                    <t-row id="table" v-for="item in backBoneEvaluate.associationAwards">
-                        <t-col :span="4">
-                            <t-input style="width: 90%;" v-model="item.name" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.organization" borderless
-                                placeholder=""></t-input>
-                        </t-col>
-                    </t-row>
+                    <div v-for="(item, index) in backBoneEvaluate.associationAwards">
+                        <t-popup placement="left-bottom">
+                            <template #content>
+                                <t-button shape="square" variant="text" @click="addAssociationAwards">
+                                    <t-icon name="add" />
+                                </t-button>
+                                <t-button shape="square" variant="text" @click="deleteAssociationAwards(index)">
+                                    <t-icon name="delete" />
+                                </t-button>
+                            </template>
+                            <t-row id="table">
+                                <t-col :span="4">
+                                    <t-input style="width: 90%;" v-model="item.name" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.time" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.organization" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                            </t-row>
+                        </t-popup>
+                    </div>
                 </t-col>
             </t-row>
             <t-row id="table">
@@ -372,18 +400,32 @@
                         <t-col id="table" :span="4">时间</t-col>
                         <t-col id="table" :span="4">颁发单位</t-col>
                     </t-row>
-                    <t-row id="table" v-for="item in backBoneEvaluate.awards">
-                        <t-col :span="4">
-                            <t-input style="width: 90%;" v-model="item.name" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
-                        </t-col>
-                        <t-col id="table" :span="4">
-                            <t-input style="width: 90%;" v-model="item.organization" borderless
-                                placeholder=""></t-input>
-                        </t-col>
-                    </t-row>
+                    <div v-for="(item, index) in backBoneEvaluate.awards">
+                        <t-popup placement="left-bottom">
+                            <template #content>
+                                <t-button shape="square" variant="text" @click="addAwards">
+                                    <t-icon name="add" />
+                                </t-button>
+                                <t-button shape="square" variant="text" @click="deleteAwards(index)">
+                                    <t-icon name="delete" />
+                                </t-button>
+                            </template>
+                            <t-row id="table">
+                                <t-col :span="4">
+                                    <t-input style="width: 90%;" v-model="item.name" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.time" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                                <t-col id="table" :span="4">
+                                    <t-input style="width: 90%;" v-model="item.organization" borderless
+                                        placeholder=""></t-input>
+                                </t-col>
+                            </t-row>
+                        </t-popup>
+                    </div>
                 </t-col>
             </t-row>
             <t-row id="table">
@@ -395,7 +437,8 @@
             </t-row>
         </t-row>
         <template #footer>
-            <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="">提交</t-button>
+            <t-button style="margin: 0 10px;" theme="primary" variant="outline"
+                @click="submitBackBoneEvaluate">提交</t-button>
             <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
@@ -410,6 +453,7 @@ import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } fro
 import mySteps from '../mySteps.vue';
 import formatDate from '@/utils'
 import myDialog from '../myDialog.vue';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 // 展示加入了的社团
 const clubsJoin = ref(store.state.userInfo.clubs)
@@ -538,7 +582,6 @@ eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, (data) => {
 })
 
 eventEmitter.on(APIEventEnum.getClubActAndNtcFail, (data) => {
-    console.log(data)
     notices.value = data.notices
 })
 
@@ -592,6 +635,56 @@ const backBoneEvaluate = reactive({
     clubWorkStatus: '',
 })
 
+const backBoneEvaluateValidate = () => {
+    let flag = true
+    if (backBoneEvaluate.stName === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.studentNumber === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.contact === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.college === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.politicalStatus === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.clubName === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.position === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.tenurePeriod === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.achievements.gpa === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.achievements.rank === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.achievements.rankRatio === '') {
+        flag = false
+    }
+    if (backBoneEvaluate.trainingParticipation.length === 0) {
+        flag = false
+    }
+    if (backBoneEvaluate.associationAwards.length === 0) {
+        flag = false
+    }
+    if (backBoneEvaluate.awards.length === 0) {
+        flag = false
+    }
+    if (backBoneEvaluate.clubWorkStatus === '') {
+        flag = false
+    }
+    return flag
+}
+
 // 为部分值赋值
 const setValue = () => {
     backBoneEvaluate.stName = store.state.userInfo.stName
@@ -604,19 +697,88 @@ const setValue = () => {
     backBoneEvaluate.position = clubNow.position
 }
 
-setValue()
+const clearBackBoneEvaluate = () => {
+    backBoneEvaluate.stName = ''
+    backBoneEvaluate.studentNumber = ''
+    backBoneEvaluate.contact = ''
+    backBoneEvaluate.college = ''
+    backBoneEvaluate.politicalStatus = ''
+    backBoneEvaluate.clubName = ''
+    backBoneEvaluate.position = ''
+    backBoneEvaluate.tenurePeriod = ''
+    backBoneEvaluate.achievements.gpa = ''
+    backBoneEvaluate.achievements.rank = ''
+    backBoneEvaluate.achievements.rankRatio = ''
+    backBoneEvaluate.trainingParticipation = [
+        { time: '', location: '', organization: '' },
+    ]
+    backBoneEvaluate.associationAwards = [
+        { name: '', time: '', organization: '' },
+    ]
+    backBoneEvaluate.awards = [
+        { name: '', time: '', organization: '' },
+    ]
+    backBoneEvaluate.clubWorkStatus = ''
+}
 
 const tenurePeriodChange = (value) => {
     backBoneEvaluate.tenurePeriod = value[0] + ' 至 ' + value[1]
 }
 
+const addTrainingParticipation = () => {
+    backBoneEvaluate.trainingParticipation.push({ time: '', location: '', organization: '' })
+}
+
+const addAssociationAwards = () => {
+    backBoneEvaluate.associationAwards.push({ name: '', time: '', organization: '' })
+}
+
+const addAwards = () => {
+    backBoneEvaluate.awards.push({ name: '', time: '', organization: '' })
+}
+
+const deleteTrainingParticipation = (index) => {
+    if (backBoneEvaluate.trainingParticipation.length === 1) {
+        return MessagePlugin.warning('至少保留一项')
+    }
+    backBoneEvaluate.trainingParticipation.splice(index, 1)
+}
+
+const deleteAssociationAwards = (index) => {
+    if (backBoneEvaluate.associationAwards.length === 1) {
+        return MessagePlugin.warning('至少保留一项')
+    }
+    backBoneEvaluate.associationAwards.splice(index, 1)
+}
+
+const deleteAwards = (index) => {
+    if (backBoneEvaluate.awards.length === 1) {
+        return MessagePlugin.warning('至少保留一项')
+    }
+    backBoneEvaluate.awards.splice(index, 1)
+}
+
+const submitBackBoneEvaluate = () => {
+    if (!backBoneEvaluateValidate()) {
+        return MessagePlugin.warning('请填写完整信息')
+    }
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postBackBoneEvaluate, { ...backBoneEvaluate, clubId: store.state.clubId, studentId: store.state.studentId })
+}
+
+eventEmitter.on(APIEventEnum.postBackBoneEvaluateSuccess, () => {
+    MessagePlugin.success('提交成功')
+    closeDialog()
+})
+
 const dialogRef = ref(null)
 const openDialog = () => {
     dialogRef.value.openDialog()
+    setValue()
 }
 
 const closeDialog = () => {
     dialogRef.value.closeDialog()
+    clearBackBoneEvaluate()
 }
 
 </script>

@@ -129,7 +129,18 @@ const api = {
             applicationFormAttachment: params.applicationFormAttachment,
             imageUrl: params.imageUrl,
         }
-    })
+    }),
+    'postBackBoneEvaluate': (params) => axios.post(path.backBoneEvaluate, { // 提交社团优秀骨干申请
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+            tenurePeriod: params.tenurePeriod,
+            achievements: params.achievements,
+            trainingParticipation: params.trainingParticipation,
+            awards: params.awards,
+            clubWorkStatus: params.clubWorkStatus,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {

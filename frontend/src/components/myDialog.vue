@@ -41,7 +41,7 @@
 }
 
 .dialog-body::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     /* 滚动条轨道背景色 */
 }
 

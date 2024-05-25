@@ -449,3 +449,10 @@ mock.onPost(path.newActivity).reply((config) => {
         code: 18, // 18代表发布新活动
     }]
 })
+
+// 社团骨干评优mock
+mock.onPost(path.backBoneEvaluate).reply((config) => {
+    return [200, {
+        code: 19, // 19代表社团骨干评优
+    }]
+})
