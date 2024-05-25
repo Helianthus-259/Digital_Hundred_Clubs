@@ -87,15 +87,22 @@ const store = createStore({
                 'adminClubTabs': 'adminClub',
                 'personalTabs': '',
                 'clubTabs': '',
-                'clubManageTabs': '',
-                'adminTabs': 'adminFirstPage',
-                'adminFirstPageTabs': 'adminFirstPage',
+                'adminTabs': 'admin',
+                'adminFirstPageTabs': 'admin',
                 'examineTabs': 'examine',
                 'adminManageTabs': 'manage',
+                'adminPersonalTabs': 'adminPersonalInfo',
             }
             state.parentRoute = {
+                'firstPage': '/',
+                'home': '/home/',
+                'admin': '/adminFirstPage/',
+                'adminPersonal': '/adminFirstPage/adminPersonal/',
                 'personal': '/personal/-1/',
                 'club': '/club/-1/',
+                'activity': '/activity/',
+                'clubManage': '/clubManage/',
+                'examine': '/adminFirstPage/examine/',
             }
             state.clubsActAndNtc = {}
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token: '', studentId: -1 })

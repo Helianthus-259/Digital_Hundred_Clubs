@@ -5,10 +5,19 @@ class EventEmitter {
 
     // 订阅事件
     on(event, callback) {
+        const callbackStr = callback.toString();
         if (!this.events[event]) {
             this.events[event] = new Set();
         }
-        this.events[event].add(callback);
+        let flag = false;
+        this.events[event].forEach(callback => {
+            if (callback.toString() === callbackStr) {
+                flag = true;
+            }
+        })
+        if (!flag) {
+            this.events[event].add(callback);
+        }
     }
 
     // 触发事件

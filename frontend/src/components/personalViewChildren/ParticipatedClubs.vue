@@ -600,6 +600,7 @@ const changeView = (value) => {
 
 
 const go2ClubManage = () => {
+    console.log(store.state.parentRoute.clubManage + store.state.clubId);
     eventEmitter.emit(RouterEventEnum.push, store.state.parentRoute.clubManage + store.state.clubId, true)
 }
 
