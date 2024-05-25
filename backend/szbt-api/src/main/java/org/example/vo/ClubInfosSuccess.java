@@ -2,7 +2,7 @@ package org.example.vo;
 
 import lombok.Data;
 import org.example.dto.ClubInfos;
-import org.example.util.ResultCode;
+import org.example.enums.ResultCode;
 
 import java.util.List;
 @Data

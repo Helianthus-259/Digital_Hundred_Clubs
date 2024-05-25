@@ -1,7 +1,7 @@
 package org.example.vo;
 
 import lombok.Data;
-import org.example.util.ResultCode;
+import org.example.enums.ResultCode;
 
 @Data
 public class LRSuccess {

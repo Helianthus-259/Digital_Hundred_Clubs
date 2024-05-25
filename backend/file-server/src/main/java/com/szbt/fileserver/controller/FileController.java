@@ -37,7 +37,7 @@ import java.util.UUID;
 @SpringBootApplication
 public class FileController {
 
-    String baseRoot = System.getProperty("user.dir") + "/backend/file-server/storage/";
+    String baseRoot = System.getProperty("user.dir") + "/file-server/storage/";
 
     @Resource(name = "captchaBean")
     private DefaultKaptcha defaultKaptcha;

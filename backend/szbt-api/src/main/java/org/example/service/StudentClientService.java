@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.entity.Student;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -15,4 +16,7 @@ public interface StudentClientService {
 
     @GetMapping("/student/verifyCode")
     public Object sendVerifyCode(@RequestParam("email") String email);
+
+    @PostMapping("/student/studentInfo")
+    public Student getStudentInfoByEmail(@RequestParam("email") String email);
 }

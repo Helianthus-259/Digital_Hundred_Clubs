@@ -10,8 +10,7 @@ import org.example.dto.ClubInfos;
 import org.example.entity.Club;
 import org.example.vo.ClubInfosSuccess;
 import org.example.util.Result;
-import org.example.util.ResultCode;
-import org.example.util.StatusCode;
+import org.example.enums.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,19 +1,17 @@
-package com.szbt.studentserver;
+package com.szbt.authserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"org.example"})
-@ComponentScan(basePackages = {"org.example","com.szbt.studentserver"})
-public class StudentServerApplication {
+@ComponentScan(basePackages = {"org.example","com.szbt.authserver"})
+public class AuthServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(StudentServerApplication.class, args);
+        SpringApplication.run(AuthServerApplication.class, args);
     }
 
 }
