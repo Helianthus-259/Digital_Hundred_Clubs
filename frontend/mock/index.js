@@ -456,3 +456,16 @@ mock.onPost(path.backBoneEvaluate).reply((config) => {
         code: 19, // 19代表社团骨干评优
     }]
 })
+
+// 社团信息mock
+mock.onGet(path.clubEvaluateInfo).reply((config) => {
+    return [200, {
+        code: 20, // 20代表获取社团评优所需信息
+        clubName: 'xx社团',
+        totalMembers: 100,
+        isFinancialInformationPublic: 1,
+        administrativeGuideTeacherName: '张老师',
+        businessGuideTeacherName: '李老师',
+        backboneNumber: 10,
+    }]
+})

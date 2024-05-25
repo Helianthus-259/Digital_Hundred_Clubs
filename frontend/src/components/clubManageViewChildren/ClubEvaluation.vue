@@ -1,11 +1,23 @@
+<style scoped></style>
+
 <template>
-    <div>
-        评优
-    </div>
+    <t-row>
+
+    </t-row>
 </template>
 
 <script setup>
+import { APIEnum, APIEventEnum } from '@/Enum';
+import eventEmitter from '@/utils/eventEmitter';
 import { useRoute } from 'vue-router';
+
 const route = useRoute();
-console.log(route.params.cid);
+const clubId = route.params.cid;
+
+// 获取社团信息
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
+
+eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
+    console.log(data)
+})
 </script>

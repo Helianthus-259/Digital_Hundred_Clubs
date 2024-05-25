@@ -21,6 +21,7 @@ const base = {
     rejectClubApply: '/api/rejectClubApply', // 拒绝社团申请
     newActivity: '/api/newActivity', // 提交新活动
     backBoneEvaluate: '/api/backBoneEvaluate', // 骨干评优
+    clubEvaluateInfo: '/api/clubEvaluateInfo',// 获取社团评优所需信息
 }
 
 export default base;

@@ -141,6 +141,11 @@ const api = {
             clubWorkStatus: params.clubWorkStatus,
         }
     }),
+    'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
+        params: {
+            clubId: params.clubId,
+        }
+    })
 }
 
 eventEmitter.on(APIEventEnum.request, async (method, params) => {
