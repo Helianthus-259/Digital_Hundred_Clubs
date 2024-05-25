@@ -3,6 +3,7 @@ package com.szbt.authserver.controller;
 import com.szbt.authserver.service.AdministratorService;
 import com.szbt.authserver.service.VerifyCodeService;
 import com.szbt.authserver.service.StudentService;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Student;
 import org.example.service.FileClientService;
@@ -59,7 +60,7 @@ public class AuthController {
     }
 
     @GetMapping("/verifyCode")
-    public Object sendVerifyCode(String email){
+    public Object sendVerifyCode(String email) throws MessagingException {
         return verifyCodeService.sendMailVerifyCode(email);
     }
 

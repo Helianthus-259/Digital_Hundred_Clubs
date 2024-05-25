@@ -7,6 +7,7 @@ import com.szbt.authserver.util.EmailUtil;
 import com.szbt.authserver.util.ImageResponseUtils;
 import com.szbt.authserver.util.SessionUtil;
 import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
@@ -73,9 +74,9 @@ public class VerifyCodeImpl implements VerifyCodeService {
     }
 
     @Override
-    public Object sendMailVerifyCode(String email) {
+    public Object sendMailVerifyCode(String email) throws MessagingException {
         String verifyCode = emailUtil.generateCode (6);
-        if (emailUtil.sendMail(email,"数字百团验证服务","验证码:"+verifyCode))
+        if (emailUtil.sendMail(email,"数字百团验证服务",verifyCode))
         {
             // 保存验证码
             emailCodeMap.put(email, verifyCode);
