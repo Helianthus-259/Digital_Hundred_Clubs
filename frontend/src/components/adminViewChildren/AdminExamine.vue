@@ -1,9 +1,5 @@
 <style scoped>
 /* 标签栏样式 */
-.tabsBox {
-  width: 20%;
-  margin-left: 10%;
-}
 
 /* 总内容 */
 .contentContainer {
@@ -37,32 +33,11 @@
       </t-space>
     </div>
   </div>
-
-<!--  <br>-->
-<!--  <div class="contentContainer">-->
-<!--    <div class="contentBox">-->
-<!--      <t-layout>-->
-<!--        <t-header style="margin-top: 10px">-->
-<!--          <t-head-menu v-model="tabName" theme="light" @change="onChange">-->
-<!--            <t-menu-item value=""> 社团审核 </t-menu-item>-->
-<!--            <t-menu-item value="activityApproval"> 活动审核 </t-menu-item>-->
-<!--          </t-head-menu>-->
-<!--        </t-header>-->
-<!--      </t-layout>-->
-<!--      <br>-->
-<!--      <div style="margin-top: 10px">-->
-<!--        <RouterView />-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script setup>
-import { RouterEventEnum, StoreEventEnum, StoreEnum } from '@/Enum';
 import store from '@/store';
-import eventEmitter from '@/utils/eventEmitter';
 import { ref } from 'vue';
-import FixedLabelBar from "@/components/FixedLabelBar.vue";
 import ClubApproval from "@/components/AdminExamineChildren/ClubApproval.vue";
 import ActivityApproval from "@/components/AdminExamineChildren/ActivityApproval.vue";
 
@@ -71,17 +46,5 @@ const tabName = ref("clubApproval")
 const routerNames = ref(store.state.routeTabs.examineTabs)
 
 const parentRoute = store.state.parentRoute.examine
-// 审批页面的两个子页面
-
-// const onChange = (value) => {
-//   if(value === "clubApproval"){
-//     routerNames.value = ''
-//   }else if(value === "activityApproval"){
-//     routerNames.value = 'activityApproval'
-//   }
-//   const selfRoute = parentRoute + value
-//   eventEmitter.emit(RouterEventEnum.push, selfRoute)
-//   eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'examineTabs', value: 'examine/'+value })
-// }
 
 </script>

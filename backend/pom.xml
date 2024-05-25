@@ -18,6 +18,8 @@
         <module>gateway</module>
         <module>security-server</module>
         <module>auth-server</module>
+        <module>admin-server</module>
+        <module>activity-server</module>
     </modules>
     <packaging>pom</packaging>
     <groupId>com.szbt</groupId>

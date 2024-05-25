@@ -8,7 +8,7 @@
         <t-menu-item value="item3">未通过</t-menu-item>
       </t-menu>
     </t-aside>
-    <t-layout>
+    <t-content>
       <t-header>
         <t-head-menu default-value="2-1" expand-type="popup">
           <t-submenu value="1" title="校区">
@@ -49,8 +49,38 @@
           </template>
         </t-table>
       </div>
-    </t-layout>
+    </t-content>
   </t-layout>
+  <t-dialog
+      v-model:visible="visibleModal"
+      width="60%"
+      top="20px"
+      destroy-on-close=""
+      :on-confirm="onConfirm"
+  >
+    <t-layout>
+      <t-header>
+        {{clubInfo.clubName}}
+      </t-header>
+      <t-content>
+        <t-descriptions :column="2" size="large">
+          <t-descriptions-item label="社团类别">{{clubInfo.clubCategory}}</t-descriptions-item>
+          <t-descriptions-item label="社团描述">{{clubInfo.clubDescription}}</t-descriptions-item>
+          <t-descriptions-item label="校区">{{clubInfo.mainCompus}}</t-descriptions-item>
+          <t-descriptions-item label="负责部门">{{clubInfo.responsibleDepartment}}</t-descriptions-item>
+          <t-descriptions-item label="业务指导老师">{{clubInfo.businessGuideTeacher}}</t-descriptions-item>
+          <t-descriptions-item label="行政指导老师">{{clubInfo.adminGuideTeacher}}</t-descriptions-item>
+          <t-descriptions-item label="联系人姓名">{{clubInfo.contactPerson}}</t-descriptions-item>
+          <t-descriptions-item label="联系电话">{{clubInfo.contactPhone}}</t-descriptions-item>
+          <t-descriptions-item label="附件">{{clubInfo.file}}</t-descriptions-item>
+          <t-descriptions-item label="申请时间">{{clubInfo.establishmentDate}}</t-descriptions-item>
+        </t-descriptions>
+      </t-content>
+      <t-footer>
+
+      </t-footer>
+    </t-layout>
+  </t-dialog>
 </template>
 
 <script lang="jsx" setup>
@@ -62,6 +92,23 @@ import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } f
 import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
 import {APIEnum, APIEventEnum} from "@/Enum/index.js";
+
+//对话框
+const visibleModal = ref(false);
+const clubInfo = ref({
+  "clubName":'篮球社',
+  "establishmentDate":'2022-05-01',
+  "responsibleDepartment":'体育部',
+  "mainCompus":"广州校区",
+  "clubDescription":'篮球社是一个篮球社团',
+  "clubCategory":'体育类',
+  "adminGuideTeacher":'张老师',
+  "businessGuideTeacher":'李老师',
+  "contactPerson":'张三',
+  "contactPhone":'123456789',
+  "clubStatus": 1,
+  "file":"file",
+});
 
 // 表格
 const statusNameListMap = {
@@ -129,12 +176,36 @@ const columns = ref([
 const pagination = {
   defaultCurrent: 1,
   defaultPageSize: 5,
-  total:total.value,
+  total: total.value,
 };
 
 const detail = (value) => {
-  console.log(value)
+  visibleModal.value = true;
+  // 获取社团信息
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: value.index })
+
 }
+
+eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
+  console.log(data)
+  clubInfo.value.clubName = data.clubName
+  clubInfo.value.clubCategory = data.clubCategory
+  clubInfo.value.mainCompus = data.mainCompus
+  clubInfo.value.clubDescription = data.clubDescription
+  clubInfo.value.file = data.file
+  clubInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
+  clubInfo.value.businessGuideTeacher = data.businessGuideTeacherName
+  clubInfo.value.establishmentDate = data.establishmentDate
+  clubInfo.value.contactPerson = data.contactPerson
+  clubInfo.value.contactPhone = data.contactPhone
+  clubInfo.value.clubStatus = data.clubStatus
+  clubInfo.value.responsibleDepartment = data.responsibleDepartment
+})
+
+const onConfirm = (text) =>{
+  console.log("确定", text);
+}
+
 </script>
 
 <style>

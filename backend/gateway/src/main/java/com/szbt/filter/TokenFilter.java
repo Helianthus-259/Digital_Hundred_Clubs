@@ -34,9 +34,9 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public TokenFilter(JWTUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
         // 初始化绕过路径列表
-        this.bypassPaths = Arrays.asList("/auth-server/auth/student/login", "/auth-server/auth/student/register");
+        this.bypassPaths = Arrays.asList("/api/auth/student/login", "/api/auth/student/register");
         // 初始化绕过路径
-        this.bypassPathPrefix = "/auth-server/auth";
+        this.bypassPathPrefix = "/api/auth";
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String token = request.getHeaders().getFirst("token");
+        String token = request.getHeaders().getFirst("Authorization");
 
         // 检查token是否为空
         if (StringUtils.isEmpty(token)) {
@@ -72,14 +72,14 @@ public class TokenFilter implements GlobalFilter, Ordered {
         String id = claimMap.get(RequestKeyConstants.ID).asString();
         String name = claimMap.get(RequestKeyConstants.NAME).asString();
         String authority = claimMap.get(RequestKeyConstants.AUTHORITY).asString();
-        String account = claimMap.get(RequestKeyConstants.Account).asString();
+        String email = claimMap.get(RequestKeyConstants.EMAIL).asString();
 
         // 将用户信息设置进header中，传递到下游服务
         Consumer<HttpHeaders> headers = httpHeaders -> {
             httpHeaders.add(RequestKeyConstants.ID, id);
             httpHeaders.add(RequestKeyConstants.NAME, name);
             httpHeaders.add(RequestKeyConstants.AUTHORITY, authority);
-            httpHeaders.add(RequestKeyConstants.Account, account);
+            httpHeaders.add(RequestKeyConstants.EMAIL, email);
         };
         ServerHttpRequest modifiedRequest = request.mutate().headers(headers).build();
 
