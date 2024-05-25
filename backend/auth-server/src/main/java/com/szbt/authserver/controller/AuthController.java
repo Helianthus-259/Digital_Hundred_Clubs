@@ -1,5 +1,6 @@
 package com.szbt.authserver.controller;
 
+import com.szbt.authserver.service.AdministratorService;
 import com.szbt.authserver.service.VerifyCodeService;
 import com.szbt.authserver.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,9 @@ public class AuthController {
     private VerifyCodeService verifyCodeService;
 
     @Autowired
+    private AdministratorService administratorService;
+
+    @Autowired
     private StudentClientService studentClientService;
 
 
@@ -39,6 +43,19 @@ public class AuthController {
     public Object register(String email, String verifyCode, String password){
         boolean ok = verifyCodeService.checkMailVerifyCode(verifyCode,email);
         return studentService.register(email,password,ok);
+    }
+
+    @PostMapping("/admin/login")
+    public Object adminLogin(String account, String password, String imageVerifyCode)
+    {
+        boolean ok = verifyCodeService.checkImageVerifyCode(imageVerifyCode);
+        return administratorService.login(account,password,ok);
+    }
+
+    //用来临时添加管理员测试
+    @PostMapping("/admin/register")
+    public Object adminRegister(String account,String password){
+        return administratorService.register(account,password);
     }
 
     @GetMapping("/verifyCode")

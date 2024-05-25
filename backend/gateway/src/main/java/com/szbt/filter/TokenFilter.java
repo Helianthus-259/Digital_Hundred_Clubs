@@ -72,14 +72,14 @@ public class TokenFilter implements GlobalFilter, Ordered {
         String id = claimMap.get(RequestKeyConstants.ID).asString();
         String name = claimMap.get(RequestKeyConstants.NAME).asString();
         String authority = claimMap.get(RequestKeyConstants.AUTHORITY).asString();
-        String account = claimMap.get(RequestKeyConstants.Account).asString();
+        String email = claimMap.get(RequestKeyConstants.EMAIL).asString();
 
         // 将用户信息设置进header中，传递到下游服务
         Consumer<HttpHeaders> headers = httpHeaders -> {
             httpHeaders.add(RequestKeyConstants.ID, id);
             httpHeaders.add(RequestKeyConstants.NAME, name);
             httpHeaders.add(RequestKeyConstants.AUTHORITY, authority);
-            httpHeaders.add(RequestKeyConstants.Account, account);
+            httpHeaders.add(RequestKeyConstants.EMAIL, email);
         };
         ServerHttpRequest modifiedRequest = request.mutate().headers(headers).build();
 
