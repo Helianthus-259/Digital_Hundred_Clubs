@@ -6,6 +6,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.example.constants.RequestKeyConstants;
+import org.example.entity.Administrator;
 import org.example.entity.Student;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class JWTUtils {
                 .withClaim(RequestKeyConstants.ID, user.getId())
                 .withClaim(RequestKeyConstants.NAME, user.getName())
                 .withClaim(RequestKeyConstants.AUTHORITY, user.getAuthority())
-                .withClaim(RequestKeyConstants.Account, user.getAccount())
+                .withClaim(RequestKeyConstants.EMAIL, user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRE_TIME))
                 .sign(algorithm);
     }
@@ -51,20 +52,27 @@ public class JWTUtils {
         private String name;
         private String authority;
 
-        private String account;
+        private String email;
 
         public JwtUser(String id, String name, String authority, String account) {
             this.id = id;
             this.name = name;
             this.authority = authority;
-            this.account = account;
+            this.email = account;
         }
 
         public JwtUser(Student student) {
             this.id = String.valueOf(student.getStudentId());
             this.name = student.getStName();
             this.authority = "student";
-            this.account = student.getEmail();
+            this.email = student.getEmail();
+        }
+
+        public JwtUser(Administrator administrator) {
+            this.id = String.valueOf(administrator.getAdminId());
+            this.name = administrator.getAdName();
+            this.authority = "admin";
+            this.email = administrator.getAccount();
         }
 
         public String getId() {
@@ -79,7 +87,7 @@ public class JWTUtils {
             return authority;
         }
 
-        public String getAccount()  {return account;}
+        public String getEmail()  {return email;}
     }
 
 }

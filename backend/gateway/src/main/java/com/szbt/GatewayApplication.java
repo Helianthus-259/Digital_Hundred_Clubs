@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
 @EnableConfigurationProperties(UriConfiguration.class)
-@ComponentScan(basePackages = {"org.example","com.szbt.filter"})
+@ComponentScan(basePackages = {"org.example","com.szbt.filter","com.szbt.config"})
 public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
@@ -33,14 +33,35 @@ public class GatewayApplication {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
         String authServerUri = uriConfiguration.getAuthServer();
         String studentServerUri = uriConfiguration.getStudentServer();
+        String fileServerUri = uriConfiguration.getFileServer();
+        String clubServerUri = uriConfiguration.getClubServer();
+        String adminServerUri = uriConfiguration.getAdminServer();
+        String activityServerUri = uriConfiguration.getActivityServer();
 
         return builder.routes()
-                .route("auth-route", r -> r.path("/auth-server/**")
-                        .filters(f -> f.rewritePath("/auth-server/(?<segment>.*)", "/${segment}"))
-                        .uri("http://127.0.0.1:8084"))
-                .route("student-route", r -> r.path("/student-server/**")
-                        .filters(f -> f.rewritePath("/student-server/(?<segment>.*)", "/${segment}"))
-                        .uri("http://127.0.0.1:8081"))
+                .route("auth-route", r -> r.path("/api/auth/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(authServerUri))
+
+                .route("student-route", r -> r.path("/api/student/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(studentServerUri))
+
+                .route("file-route", r -> r.path("/api/file/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(fileServerUri))
+
+                .route("club-route", r -> r.path("/api/club/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(clubServerUri))
+
+                .route("admin-route", r -> r.path("/api/admin/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(adminServerUri))
+
+                .route("activity-route", r -> r.path("/api/activity/**")
+                        .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
+                        .uri(activityServerUri))
                 .build();
     }
 

@@ -33,7 +33,7 @@ public class StudentController {
     }
 
     @GetMapping("/studentInfo")
-    public Object getStudentInfoByEmail(@RequestHeader(value = RequestKeyConstants.Account) String email){
+    public Object getStudentInfoByEmail(@RequestHeader(value = RequestKeyConstants.EMAIL) String email){
         System.out.println(email);
         return studentService.getStudentInfoByEmail(email);
     }
