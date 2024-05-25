@@ -15,7 +15,7 @@ const route = useRoute();
 const clubId = route.params.cid;
 
 // 获取社团信息
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
 eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
     console.log(data)

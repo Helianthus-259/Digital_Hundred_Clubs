@@ -11,11 +11,14 @@
     <t-layout>
       <t-header>
         <t-space direction="horizontal">
-          <SearchIcon />
-          <t-input style="margin-left: 10px;  width: 500px"></t-input>
+          <t-input style="width: 500px" placeholder="请输入搜索内容"/>
+          <t-button theme="primary">
+            <template #icon><SearchIcon /></template>
+            搜索
+          </t-button>
         </t-space>
       </t-header>
-      <div>
+      <t-content>
         <t-table
             row-key="index"
             :data="data"
@@ -36,8 +39,36 @@
             <t-button theme="primary" @click="detail(row)">活动详情</t-button>
           </template>
         </t-table>
-      </div>
+      </t-content>
     </t-layout>
+  </t-layout>
+  <t-layout>
+    <t-header>活动详情</t-header>
+    <t-content>
+      <t-dialog
+          v-model:visible="visibleModal"
+          width="60%"
+          top="20px"
+          destroy-on-close=""
+          :on-confirm="onConfirm"
+      >
+        <t-descriptions :title="'活动详情'" :column="2">
+          <t-descriptions-item label="活动名称">{{activity.activityName}}</t-descriptions-item>
+          <t-descriptions-item label="活动社团">{{activity.clubName}}</t-descriptions-item>
+          <t-descriptions-item label="申请时间">{{activity.createTime}}</t-descriptions-item>
+          <t-descriptions-item label="活动开始时间">{{activity.activityStartTime}}</t-descriptions-item>
+          <t-descriptions-item label="活动结束时间">{{activity.activityEndTime}}</t-descriptions-item>
+          <t-descriptions-item label="活动地点">{{activity.activityLocation}}</t-descriptions-item>
+          <t-descriptions-item label="活动附件">{{activity.activityAttachment}}</t-descriptions-item>
+          <t-descriptions-item label="活动审核状态">{{activity.status}}</t-descriptions-item>
+        </t-descriptions>
+        <t-descriptions>
+          <t-descriptions-item label="活动介绍">{{activity.activityIntroduction}}</t-descriptions-item>
+        </t-descriptions>
+      </t-dialog>
+    </t-content>
+    <t-footer>
+    </t-footer>
   </t-layout>
 </template>
 
@@ -48,8 +79,7 @@ import { ref } from 'vue';
 const value = ref('item1');
 import {ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon} from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
-import {APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum} from "@/Enum/index.js";
-import store from "@/store/index.js";
+import {APIEnum, APIEventEnum} from "@/Enum/index.js";
 
 // 表格
 const statusNameListMap = {
@@ -59,27 +89,30 @@ const statusNameListMap = {
 };
 
 const activities = []
-const data = [];
-const total = ref(0)// 渲染有问题，表格总数据数没法显示
+const data = ref([]);
+const visibleModal = ref(false)
+const activity = ref({
+  "activityName": "活动名称",
+  "clubName": "社团名称",
+  "activityLocation": "活动地点",
+  "createTime": "2023-04-12 12:00:00",
+  "status": 2,
+  "activityStartTime": "2023-04-12 12:00:00",
+  "activityEndTime": "2023-04-12 12:00",
+  "activityIntroduction": "活动介绍",
+  "activityAttachment": "活动附件",
+})
 
 function assignment(){
-  total.value = activities.value.length
-  for (let i = 0; i < total.value; i++) {
-    data.push({
-      index: activities.value[i].activityId,
-      clubName: activities.value[i].clubName,
-      activityName: activities.value[i].activityName,
-      activityLocation: activities.value[i].activityLocation,
-      createTime: activities.value[i].createTime,
-      status: activities.value[i].status,
-    });
-  }
+  data.value = activities.value
+  pagination.value.total = activities.value.length
 }
 eventEmitter.emit(APIEventEnum.request, APIEnum.getActivitiesInfo)
 eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, (data) => {
   activities.value = data.data
   assignment()
 })
+
 
 
 const stripe = ref(true);
@@ -110,16 +143,37 @@ const columns = ref([
 ]);
 
 
-const pagination = {
+const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 5,
-  total: total.value,
-};
+  total: 5,
+});
 
 const detail = (value) => {
   console.log(value)
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: value.activityId })
+  visibleModal.value = true;
 }
+
+eventEmitter.on(APIEventEnum.getActivityInfoSuccess, (data) => {
+  console.log(data)
+  activity.value.activityName = data.activityName
+  activity.value.clubName = data.clubName
+  activity.value.activityLocation = data.activityLocation
+  activity.value.createTime = data.createTime
+  activity.value.status = data.status
+  activity.value.activityStartTime = data.activityStartTime
+  activity.value.activityEndTime = data.activityEndTime
+  activity.value.activityIntroduction = data.activityIntroduction
+  activity.value.activityAttachment = data.activityAttachment
+})
+
+const onConfirm = (text) =>{
+  console.log("确定", text);
+}
+
 </script>
+
 
 <style>
 
