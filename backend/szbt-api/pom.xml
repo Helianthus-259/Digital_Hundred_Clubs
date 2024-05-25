@@ -19,6 +19,13 @@
             <artifactId>spring-cloud-starter-feign</artifactId>
             <version>1.4.7.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <properties>

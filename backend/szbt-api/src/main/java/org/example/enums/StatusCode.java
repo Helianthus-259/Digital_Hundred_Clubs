@@ -1,4 +1,4 @@
-package org.example.util;
+package org.example.enums;
 
 public enum StatusCode {
     SUCCESS(200),

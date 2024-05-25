@@ -1,5 +1,7 @@
 package org.example.util;
 
+import org.example.enums.StatusCode;
+
 import java.util.HashMap;
 
 public class Result {

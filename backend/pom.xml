@@ -17,6 +17,7 @@
         <module>file-server</module>
         <module>gateway</module>
         <module>security-server</module>
+        <module>auth-server</module>
     </modules>
     <packaging>pom</packaging>
     <groupId>com.szbt</groupId>
