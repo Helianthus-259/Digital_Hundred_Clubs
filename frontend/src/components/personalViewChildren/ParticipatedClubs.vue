@@ -127,6 +127,30 @@
 .tabBarBox {
     height: 10%;
 }
+
+.t-row {
+    width: 100%;
+    align-items: center;
+}
+
+.t-row#tableContainer {
+    border: 2px solid #000;
+}
+
+.t-row#table {
+    border-top: 2px solid #000;
+}
+
+.t-col {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.t-col#table {
+    border-left: 2px solid #000;
+}
 </style>
 <template>
     <div class="mainBox">
@@ -250,11 +274,126 @@
     </div>
     <myDialog ref="dialogRef">
         <template #header>
-            骨干评优
+            <div style="font-size: 24px; font-weight: bold;">优秀学生社团骨干申请表</div>
         </template>
-        <t-form>
-
-        </t-form>
+        <t-row id="tableContainer">
+            <t-row>
+                <t-col :span="2">姓名</t-col>
+                <t-col id="table" :span="3">{{ backBoneEvaluate.stName }}</t-col>
+                <t-col id="table" :span="1">学号</t-col>
+                <t-col id="table" :span="2">{{ backBoneEvaluate.studentNumber }}</t-col>
+                <t-col id="table" :span="1">手机号</t-col>
+                <t-col id="table" :span="3">{{ backBoneEvaluate.contact }}</t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">院系</t-col>
+                <t-col id="table" :span="4">{{ backBoneEvaluate.college }}</t-col>
+                <t-col id="table" :span="2">所在社团</t-col>
+                <t-col id="table" :span="4">{{ backBoneEvaluate.clubName }}</t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">政治面貌</t-col>
+                <t-col id="table" :span="4">{{ backBoneEvaluate.politicalStatus }}</t-col>
+                <t-col id="table" :span="2">担任职务</t-col>
+                <t-col id="table" :span="4">{{ backBoneEvaluate.position }}</t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">任职时间</t-col>
+                <t-col id="table" :span="10">
+                    <t-date-range-picker clearable @change="tenurePeriodChange" />
+                </t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">绩点</t-col>
+                <t-col id="table" :span="2">
+                    <t-input style="width: 60%;" borderless v-model="backBoneEvaluate.achievements.gpa"
+                        placeholder=""></t-input>
+                </t-col>
+                <t-col id="table" :span="2">排名</t-col>
+                <t-col id="table" :span="2">
+                    <t-input style="width: 60%;" borderless v-model="backBoneEvaluate.achievements.rank"
+                        placeholder=""></t-input>
+                </t-col>
+                <t-col id="table" :span="2">名次百分比</t-col>
+                <t-col id="table" :span="2">
+                    <t-input style="width: 60%;" v-model="backBoneEvaluate.achievements.rankRatio" borderless
+                        placeholder="" suffix="%"></t-input>
+                </t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">参与学校和指导单位组织培训情况</t-col>
+                <t-col id="table" style="display: inline;" :span="10">
+                    <t-row>
+                        <t-col :span="4">时间</t-col>
+                        <t-col id="table" :span="4">地点</t-col>
+                        <t-col id="table" :span="4">组织单位</t-col>
+                    </t-row>
+                    <t-row id="table" v-for="item in backBoneEvaluate.trainingParticipation">
+                        <t-col :span="4">
+                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.location" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.organization" borderless
+                                placeholder=""></t-input>
+                        </t-col>
+                    </t-row>
+                </t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">所在社团获奖情况</t-col>
+                <t-col id="table" style="display: inline;" :span="10">
+                    <t-row>
+                        <t-col :span="4">名称</t-col>
+                        <t-col id="table" :span="4">时间</t-col>
+                        <t-col id="table" :span="4">颁发单位</t-col>
+                    </t-row>
+                    <t-row id="table" v-for="item in backBoneEvaluate.associationAwards">
+                        <t-col :span="4">
+                            <t-input style="width: 90%;" v-model="item.name" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.organization" borderless
+                                placeholder=""></t-input>
+                        </t-col>
+                    </t-row>
+                </t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">以社团骨干身份获奖励情况</t-col>
+                <t-col id="table" style="display: inline;" :span="10">
+                    <t-row>
+                        <t-col :span="4">名称</t-col>
+                        <t-col id="table" :span="4">时间</t-col>
+                        <t-col id="table" :span="4">颁发单位</t-col>
+                    </t-row>
+                    <t-row id="table" v-for="item in backBoneEvaluate.awards">
+                        <t-col :span="4">
+                            <t-input style="width: 90%;" v-model="item.name" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.time" borderless placeholder=""></t-input>
+                        </t-col>
+                        <t-col id="table" :span="4">
+                            <t-input style="width: 90%;" v-model="item.organization" borderless
+                                placeholder=""></t-input>
+                        </t-col>
+                    </t-row>
+                </t-col>
+            </t-row>
+            <t-row id="table">
+                <t-col :span="2">学生社团工作情况</t-col>
+                <t-col id="table" :span="10">
+                    <t-textarea v-model="backBoneEvaluate.clubWorkStatus" placeholder="请输入内容"
+                        :autosize="{ minRows: 10, maxRows: 10 }" />
+                </t-col>
+            </t-row>
+        </t-row>
         <template #footer>
             <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="">提交</t-button>
             <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
@@ -265,7 +404,7 @@
 <script setup>
 import store from '@/store';
 import myCell from '../myCell.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import mySteps from '../mySteps.vue';
@@ -424,6 +563,51 @@ const go2ClubManage = () => {
 // 点击活动跳转到活动页面
 const go2ActivityDetail = (activityId) => {
     eventEmitter.emit(RouterEventEnum.push, store.state.parentRoute.activity + activityId, true)
+}
+
+// 骨干评优
+const backBoneEvaluate = reactive({
+    stName: '',
+    studentNumber: '',
+    contact: '',
+    college: '',
+    politicalStatus: '',
+    clubName: '',
+    position: '',
+    tenurePeriod: '',
+    achievements: {
+        gpa: '',
+        rank: '',
+        rankRatio: '',
+    },
+    trainingParticipation: [
+        { time: '', location: '', organization: '' },
+    ],
+    associationAwards: [
+        { name: '', time: '', organization: '' },
+    ],
+    awards: [
+        { name: '', time: '', organization: '' },
+    ],
+    clubWorkStatus: '',
+})
+
+// 为部分值赋值
+const setValue = () => {
+    backBoneEvaluate.stName = store.state.userInfo.stName
+    backBoneEvaluate.studentNumber = store.state.userInfo.studentNumber
+    backBoneEvaluate.contact = store.state.userInfo.contact
+    backBoneEvaluate.college = store.state.userInfo.college
+    backBoneEvaluate.politicalStatus = store.state.userInfo.politicalStatus
+    const clubNow = clubsManage.value.filter((item) => item.clubId === store.state.clubId)[0]
+    backBoneEvaluate.clubName = clubNow.clubName
+    backBoneEvaluate.position = clubNow.position
+}
+
+setValue()
+
+const tenurePeriodChange = (value) => {
+    backBoneEvaluate.tenurePeriod = value[0] + ' 至 ' + value[1]
 }
 
 const dialogRef = ref(null)
