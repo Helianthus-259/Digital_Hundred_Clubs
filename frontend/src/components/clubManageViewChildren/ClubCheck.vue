@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import myDialog from '../myDialog.vue';
 import eventEmitter from '@/utils/eventEmitter';
@@ -198,7 +198,7 @@ const agreeApply = (row) => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAgreeClubApply, { clubId, studentId: row.studentId })
 };
 
-eventEmitter.on(APIEventEnum.postAgreeClubApplySuccess, (studentId) => {
+eventEmitter.on(APIEventEnum.postAgreeClubApplySuccess, 'postAgreeClubApplySuccess', (studentId) => {
     MessagePlugin.success('同意申请成功')
     applyList.value.forEach(item => {
         if (item.studentId === studentId) {
@@ -226,7 +226,7 @@ const submitReject = () => {
     }
 };
 
-eventEmitter.on(APIEventEnum.postRejectClubApplySuccess, (studentId) => {
+eventEmitter.on(APIEventEnum.postRejectClubApplySuccess, 'postRejectClubApplySuccess', (studentId) => {
     MessagePlugin.success('拒绝申请成功')
     applyList.value.forEach(item => {
         if (item.studentId === studentId) {
@@ -240,7 +240,7 @@ eventEmitter.on(APIEventEnum.postRejectClubApplySuccess, (studentId) => {
 // 获取申请列表
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApplyList, { clubId })
 
-eventEmitter.on(APIEventEnum.getClubApplyListSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess', (data) => {
     applyList.value = data
     handleSearch()
 })
@@ -263,4 +263,10 @@ const rehandleExpandChange = (value, params) => {
     expandedRowKeys.value = value;
     console.log('rehandleExpandChange', value, params);
 };
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.postAgreeClubApplySuccess, 'postAgreeClubApplySuccess')
+    eventEmitter.off(APIEventEnum.postRejectClubApplySuccess, 'postRejectClubApplySuccess')
+    eventEmitter.off(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess')
+})
 </script>

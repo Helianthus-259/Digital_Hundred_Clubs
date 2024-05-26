@@ -477,7 +477,7 @@
 <script setup>
 import { APIEnum, APIEventEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
-import { reactive } from 'vue';
+import { onUnmounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -486,11 +486,15 @@ const clubId = route.params.cid;
 // 获取社团信息
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
     console.log(data)
 })
 
 const clubEvaluation = reactive({
 
+})
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
 })
 </script>

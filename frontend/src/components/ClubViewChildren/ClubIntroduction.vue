@@ -108,13 +108,13 @@
 import { APIEnum, APIEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { ref, reactive, onUpdated } from 'vue';
+import { ref, reactive, onUpdated, onUnmounted } from 'vue';
 
 const clubIntroduction = reactive([])
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: store.state.clubId })
 
-eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
     for (const element of data) {
         clubIntroduction.push({
             label: element.title,
@@ -188,4 +188,8 @@ const onScroll = (e) => {
         sideBarIndex.value = index
     }
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess')
+})
 </script>

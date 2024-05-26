@@ -210,7 +210,7 @@ const router = createRouter({
   ]
 })
 
-eventEmitter.on(RouterEventEnum.push, (path, newWindow = false) => {
+eventEmitter.on(RouterEventEnum.push, 'push', (path, newWindow = false) => {
   if (newWindow) {
     const resolveRoute = router.resolve(path)
     window.open(resolveRoute.href, '_blank')
@@ -219,7 +219,7 @@ eventEmitter.on(RouterEventEnum.push, (path, newWindow = false) => {
   }
 })
 
-eventEmitter.on(RouterEventEnum.go, (n) => {
+eventEmitter.on(RouterEventEnum.go, 'go', (n) => {
   router.go(n)
 })
 

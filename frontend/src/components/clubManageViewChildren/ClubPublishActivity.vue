@@ -156,7 +156,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { reactive, ref } from 'vue';
+import { onUnmounted, reactive, ref } from 'vue';
 import myDialog from '../myDialog.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
@@ -180,7 +180,7 @@ const loadMoreData = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
 }
 
-eventEmitter.on(APIEventEnum.getClubActivityListSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (data) => {
     activityList.value.push(...data)
     activityNumber.value = activityList.value.length
     // 初始化展示的活动数据
@@ -233,7 +233,7 @@ const submitNewActivity = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postNewActivity, { clubId, ...newActivityForm })
 };
 
-eventEmitter.on(APIEventEnum.postNewActivitySuccess, () => {
+eventEmitter.on(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess', () => {
     MessagePlugin.success('发布成功')
     closeDialog()
 })
@@ -280,4 +280,9 @@ const activityStatusTheme = {
     1: 'success',
     2: 'warning'
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess')
+    eventEmitter.off(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess')
+})
 </script>

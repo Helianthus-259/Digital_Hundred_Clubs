@@ -99,7 +99,7 @@
 
 <script setup>
 import { APIEnum, APIEventEnum } from '@/Enum';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { useRoute } from 'vue-router';
 
@@ -108,7 +108,11 @@ const activityId = route.params.aid;
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: activityId })
 const activity = ref({})
-eventEmitter.on(APIEventEnum.getActivityInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
     activity.value = data
+})
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess')
 })
 </script>

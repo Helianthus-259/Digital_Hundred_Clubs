@@ -148,7 +148,7 @@ const api = {
     })
 }
 
-eventEmitter.on(APIEventEnum.request, async (method, params) => {
+eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {
     await api[method](params)
 })
 

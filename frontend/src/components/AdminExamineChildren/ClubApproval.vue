@@ -28,22 +28,9 @@
         </t-head-menu>
       </t-header>
       <div>
-        <t-table
-            row-key="index"
-            :data="data"
-            :columns="columns"
-            :hide-sort-tips="false"
-            :stripe="stripe"
-            :bordered="bordered"
-            :hover="hover"
-            :table-layout="tableLayout ? 'auto' : 'fixed'"
-            :size="size"
-            :pagination="pagination"
-            :show-header="showHeader"
-            cell-empty-content="-"
-            resizable=""
-            lazy-load=""
-        >
+        <t-table row-key="index" :data="data" :columns="columns" :hide-sort-tips="false" :stripe="stripe"
+          :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
+          :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
             <t-button theme="primary" @click="detail(row)">申请详情</t-button>
           </template>
@@ -51,29 +38,23 @@
       </div>
     </t-content>
   </t-layout>
-  <t-dialog
-      v-model:visible="visibleModal"
-      width="60%"
-      top="20px"
-      destroy-on-close=""
-      :on-confirm="onConfirm"
-  >
+  <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :on-confirm="onConfirm">
     <t-layout>
       <t-header>
-        {{clubInfo.clubName}}
+        {{ clubInfo.clubName }}
       </t-header>
       <t-content>
         <t-descriptions :column="2" size="large">
-          <t-descriptions-item label="社团类别">{{clubInfo.clubCategory}}</t-descriptions-item>
-          <t-descriptions-item label="社团描述">{{clubInfo.clubDescription}}</t-descriptions-item>
-          <t-descriptions-item label="校区">{{clubInfo.mainCompus}}</t-descriptions-item>
-          <t-descriptions-item label="负责部门">{{clubInfo.responsibleDepartment}}</t-descriptions-item>
-          <t-descriptions-item label="业务指导老师">{{clubInfo.businessGuideTeacher}}</t-descriptions-item>
-          <t-descriptions-item label="行政指导老师">{{clubInfo.adminGuideTeacher}}</t-descriptions-item>
-          <t-descriptions-item label="联系人姓名">{{clubInfo.contactPerson}}</t-descriptions-item>
-          <t-descriptions-item label="联系电话">{{clubInfo.contactPhone}}</t-descriptions-item>
-          <t-descriptions-item label="附件">{{clubInfo.file}}</t-descriptions-item>
-          <t-descriptions-item label="申请时间">{{clubInfo.establishmentDate}}</t-descriptions-item>
+          <t-descriptions-item label="社团类别">{{ clubInfo.clubCategory }}</t-descriptions-item>
+          <t-descriptions-item label="社团描述">{{ clubInfo.clubDescription }}</t-descriptions-item>
+          <t-descriptions-item label="校区">{{ clubInfo.mainCompus }}</t-descriptions-item>
+          <t-descriptions-item label="负责部门">{{ clubInfo.responsibleDepartment }}</t-descriptions-item>
+          <t-descriptions-item label="业务指导老师">{{ clubInfo.businessGuideTeacher }}</t-descriptions-item>
+          <t-descriptions-item label="行政指导老师">{{ clubInfo.adminGuideTeacher }}</t-descriptions-item>
+          <t-descriptions-item label="联系人姓名">{{ clubInfo.contactPerson }}</t-descriptions-item>
+          <t-descriptions-item label="联系电话">{{ clubInfo.contactPhone }}</t-descriptions-item>
+          <t-descriptions-item label="附件">{{ clubInfo.file }}</t-descriptions-item>
+          <t-descriptions-item label="申请时间">{{ clubInfo.establishmentDate }}</t-descriptions-item>
         </t-descriptions>
       </t-content>
       <t-footer>
@@ -84,30 +65,30 @@
 </template>
 
 <script lang="jsx" setup>
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 
 
 const value = ref('item1');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
 import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
-import {APIEnum, APIEventEnum} from "@/Enum/index.js";
+import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
 //对话框
 const visibleModal = ref(false);
 const clubInfo = ref({
-  "clubName":'篮球社',
-  "establishmentDate":'2022-05-01',
-  "responsibleDepartment":'体育部',
-  "mainCompus":"广州校区",
-  "clubDescription":'篮球社是一个篮球社团',
-  "clubCategory":'体育类',
-  "adminGuideTeacher":'张老师',
-  "businessGuideTeacher":'李老师',
-  "contactPerson":'张三',
-  "contactPhone":'123456789',
+  "clubName": '篮球社',
+  "establishmentDate": '2022-05-01',
+  "responsibleDepartment": '体育部',
+  "mainCompus": "广州校区",
+  "clubDescription": '篮球社是一个篮球社团',
+  "clubCategory": '体育类',
+  "adminGuideTeacher": '张老师',
+  "businessGuideTeacher": '李老师',
+  "contactPerson": '张三',
+  "contactPhone": '123456789',
   "clubStatus": 1,
-  "file":"file",
+  "file": "file",
 });
 
 // 表格
@@ -119,9 +100,9 @@ const statusNameListMap = {
 const clubsData = []
 const data = []
 const total = ref(0)
-function assignment(){
+function assignment() {
   total.value = clubsData.value.length
-  for(let i = 0; i < total.value; ++i){
+  for (let i = 0; i < total.value; ++i) {
     data.push({
       index: clubsData.value[i].clubId,
       clubName: clubsData.value[i].clubName,
@@ -133,13 +114,13 @@ function assignment(){
   }
 }
 
-if(Object.keys(store.state.clubsData).length === 0){
+if (Object.keys(store.state.clubsData).length === 0) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
-} else{
+} else {
   clubsData.value = store.state.clubsData
   assignment()
 }
-eventEmitter.on(APIEventEnum.getClubsInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
   clubsData.value = data
   assignment()
 })
@@ -156,20 +137,20 @@ const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
   { colKey: 'campus', title: '校区' },
   { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
-  { colKey: 'createTime', title: '申请时间'},
+  { colKey: 'createTime', title: '申请时间' },
   {
     colKey: 'status',
     title: '审批状态',
     cell: (h, { row }) => {
       return (
-          <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-            {statusNameListMap[row.status].icon}
-            {statusNameListMap[row.status].label}
-          </t-tag>
+        <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
+          {statusNameListMap[row.status].icon}
+          {statusNameListMap[row.status].label}
+        </t-tag>
       );
     },
   },
-  { colKey: 'operation', title: '申请详情'}
+  { colKey: 'operation', title: '申请详情' }
 ]);
 
 
@@ -186,7 +167,7 @@ const detail = (value) => {
 
 }
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
   console.log(data)
   clubInfo.value.clubName = data.clubName
   clubInfo.value.clubCategory = data.clubCategory
@@ -202,13 +183,15 @@ eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, (data) => {
   clubInfo.value.responsibleDepartment = data.responsibleDepartment
 })
 
-const onConfirm = (text) =>{
+const onConfirm = (text) => {
   console.log("确定", text);
 }
 
+
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess')
+  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+})
 </script>
 
-<style>
-
-</style>
-  
+<style></style>

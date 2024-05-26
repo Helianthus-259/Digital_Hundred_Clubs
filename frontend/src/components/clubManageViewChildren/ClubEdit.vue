@@ -201,7 +201,7 @@
 import { APIEnum, APIEventEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import draggableComponent from 'vuedraggable';
 
@@ -212,7 +212,7 @@ const clubInfo = ref([])
 // 调用后端接口，获取社团信息
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: route.params.cid })
 
-eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
     clubInfo.value = data
 })
 
@@ -294,4 +294,8 @@ const onEnd = () => {
     console.log('dragging ended');
 
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess')
+})
 </script>

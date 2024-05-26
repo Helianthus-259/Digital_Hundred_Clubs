@@ -118,7 +118,7 @@ const store = createStore({
     },
 })
 
-eventEmitter.on(StoreEventEnum.set, (method, param) => {
+eventEmitter.on(StoreEventEnum.set, 'set', (method, param) => {
     store.commit(method, param)
 })
 

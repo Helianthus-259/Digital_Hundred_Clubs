@@ -189,7 +189,7 @@
 import { APIEnum, APIEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { reactive, ref } from 'vue';
+import { onUnmounted, reactive, ref } from 'vue';
 import myDialog from '../myDialog.vue';
 import mySelect from '../mySelect.vue';
 
@@ -310,7 +310,7 @@ if (isEmptyObject(store.state.userInfo)) {
     getLeaderInfo()
 }
 
-eventEmitter.on(APIEventEnum.getUserInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess', (data) => {
     user.value = data
     assignment()
     getLeaderInfo()
@@ -335,4 +335,8 @@ function save() {
     readOnly.value = !readOnly.value
     getLeaderInfo()
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess')
+})
 </script>

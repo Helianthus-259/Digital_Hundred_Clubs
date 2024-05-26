@@ -198,7 +198,7 @@ p {
 import { APIEnum, APIEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { reactive, ref } from 'vue';
+import { onUnmounted, reactive, ref } from 'vue';
 
 const president = reactive({
     imageUrl: '',
@@ -213,7 +213,7 @@ const memberComposition = ref('')
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId: store.state.clubId })
 
-eventEmitter.on(APIEventEnum.getClubMembersSuccess, (members) => {
+eventEmitter.on(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess', (members) => {
     president.imageUrl = members.president.imageUrl
     president.stName = members.president.stName
     president.contact = members.president.contact
@@ -222,4 +222,7 @@ eventEmitter.on(APIEventEnum.getClubMembersSuccess, (members) => {
     memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + (members.others.totalMembers - (1 + members.executives.length)) + '人'
 })
 
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess')
+})
 </script>

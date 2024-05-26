@@ -99,7 +99,7 @@
 import { APIEnum, APIEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { reactive, ref } from 'vue';
+import { onUnmounted, reactive, ref } from 'vue';
 
 // 弹窗
 const dialogRef = ref(null);
@@ -137,12 +137,11 @@ function assignment() {
     affiliatedUnit.value = user.value.affiliatedUnit
 }
 
-function transferSort(sortNumber)
-{
-    if(sortNumber===0) {
+function transferSort(sortNumber) {
+    if (sortNumber === 0) {
         return '学院管理员'
     }
-    else{
+    else {
         return '校级管理员'
     }
 }
@@ -154,7 +153,7 @@ if (isEmptyObject(store.state.userInfo)) {
     assignment()
 }
 
-eventEmitter.on(APIEventEnum.getAdminInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess', (data) => {
     user.value = data
     assignment()
 })
@@ -173,4 +172,8 @@ function save() {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setAdminInfo, user.value)
     readOnly.value = !readOnly.value
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess')
+})
 </script>

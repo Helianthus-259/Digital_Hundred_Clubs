@@ -4,28 +4,26 @@ class EventEmitter {
     }
 
     // 订阅事件
-    on(event, callback) {
-        const callbackStr = callback.toString();
+    on(event, cbName, callback) {
         if (!this.events[event]) {
-            this.events[event] = new Set();
+            this.events[event] = new Map();
         }
-        let flag = false;
-        this.events[event].forEach(callback => {
-            if (callback.toString() === callbackStr) {
-                flag = true;
-            }
-        })
-        if (!flag) {
-            this.events[event].add(callback);
-        }
+        this.events[event].set(cbName, callback);
     }
 
     // 触发事件
     emit(event, ...args) {
         if (this.events[event]) {
-            this.events[event].forEach(callback => {
+            for (const callback of this.events[event].values()) {
                 callback(...args);
-            });
+            }
+        }
+    }
+
+    // 移除事件
+    off(event, cbName) {
+        if (this.events[event]) {
+            this.events[event].delete(cbName);
         }
     }
 }

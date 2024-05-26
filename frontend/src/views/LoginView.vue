@@ -191,7 +191,7 @@
 
 <script setup>
 import fixedLabelBar from '../components/FixedLabelBar.vue';
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, onUnmounted } from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum, RouterEventEnum } from '../Enum'
 import { MessagePlugin } from 'tdesign-vue-next';
@@ -267,12 +267,12 @@ const handleLogin = () => {
 
 
 // 监听登录成功事件
-eventEmitter.on(APIEventEnum.loginSuccess, () => {
+eventEmitter.on(APIEventEnum.loginSuccess, 'loginSuccess', () => {
     MessagePlugin.success('登录成功')
     eventEmitter.emit(RouterEventEnum.push, '/')
 })
 // 监听登录失败事件
-eventEmitter.on(APIEventEnum.incorrectInput, (msg) => {
+eventEmitter.on(APIEventEnum.incorrectInput, 'incorrectInput', (msg) => {
     MessagePlugin.error(msg)
 })
 
@@ -363,8 +363,14 @@ const handleRegister = () => {
 }
 
 // 监听注册失败事件
-eventEmitter.on(APIEventEnum.registerError, (msg) => {
+eventEmitter.on(APIEventEnum.registerError, 'registerError', (msg) => {
     MessagePlugin.error(msg)
 })
 
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.loginSuccess, 'loginSuccess')
+    eventEmitter.off(APIEventEnum.incorrectInput, 'incorrectInput')
+    eventEmitter.off(APIEventEnum.registerError, 'registerError')
+})
 </script>

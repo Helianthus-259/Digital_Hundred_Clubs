@@ -447,7 +447,7 @@
 <script setup>
 import store from '@/store';
 import myCell from '../myCell.vue';
-import { reactive, ref } from 'vue';
+import { onUnmounted, reactive, ref } from 'vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import mySteps from '../mySteps.vue';
@@ -567,7 +567,7 @@ const getClubInfos = (value, pd) => {
     }
 }
 
-eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, 'getClubActAndNtcSuccess', (data) => {
     activities.value = data.activities
     activities.value.map((item, index) => {
         item.activityStartTime = formatDate(new Date(item.activityStartTime), 'yyyy-MM-dd')
@@ -581,7 +581,7 @@ eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, (data) => {
     notices.value = data.notices
 })
 
-eventEmitter.on(APIEventEnum.getClubActAndNtcFail, (data) => {
+eventEmitter.on(APIEventEnum.getClubActAndNtcFail, 'getClubActAndNtcFail', (data) => {
     notices.value = data.notices
 })
 
@@ -766,7 +766,7 @@ const submitBackBoneEvaluate = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postBackBoneEvaluate, { ...backBoneEvaluate, clubId: store.state.clubId, studentId: store.state.studentId })
 }
 
-eventEmitter.on(APIEventEnum.postBackBoneEvaluateSuccess, () => {
+eventEmitter.on(APIEventEnum.postBackBoneEvaluateSuccess, 'postBackBoneEvaluateSuccess', () => {
     MessagePlugin.success('提交成功')
     closeDialog()
 })
@@ -782,4 +782,10 @@ const closeDialog = () => {
     clearBackBoneEvaluate()
 }
 
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.postBackBoneEvaluateSuccess, 'postBackBoneEvaluateSuccess')
+    eventEmitter.off(APIEventEnum.getClubActAndNtcSuccess, 'getClubActAndNtcSuccess')
+    eventEmitter.off(APIEventEnum.getClubActAndNtcFail, 'getClubActAndNtcFail')
+})
 </script>

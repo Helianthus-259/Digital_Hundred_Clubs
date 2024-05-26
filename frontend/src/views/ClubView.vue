@@ -67,7 +67,7 @@ import FixedLabelBar from '@/components/FixedLabelBar.vue';
 import myDialog from '@/components/myDialog.vue';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 
 const routerNames = ref(store.state.routeTabs.clubTabs);
 // 社团标签页
@@ -128,7 +128,7 @@ else {
     assignment()
 }
 
-eventEmitter.on(APIEventEnum.getUserInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess', (data) => {
     user.value = data
     assignment()
 })
@@ -146,4 +146,8 @@ const closeDialog = () => {
 const back2Home = () => {
     eventEmitter.emit(RouterEventEnum.push, '/')
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess')
+})
 </script>
