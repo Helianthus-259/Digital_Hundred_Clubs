@@ -355,7 +355,7 @@ mock.onGet(path.activityInfo).reply((config) => {
     return [200, {
         code: 12, // 12代表获取活动信息
         activity: {
-            activityId:1,
+            activityId: 1,
             clubName: '社团名称',
             activityName: '活动名称',
             activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://loremflickr.com/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
@@ -363,8 +363,8 @@ mock.onGet(path.activityInfo).reply((config) => {
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
-            activityAttachment:"file",
-            status:1
+            activityAttachment: "file",
+            status: 1
         }
     }]
 })
@@ -474,11 +474,12 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
         establishmentDate: '2022-05-01',
         responsibleDepartment: '体育部',
         mainCompus: '广州校区',
-        clubDescription:'篮球社是一个篮球社团',
-        clubCategory:'体育类',
+        clubDescription: '篮球社是一个篮球社团',
+        clubCategory: '体育类',
         contactPerson: '张三',
         contactPhone: '123456789',
-        clubStatus:1,
-        file: 'file'
+        clubStatus: 1,
+        file: 'file',
+        communistRelatedBackBoneNumber: 10,
     }]
 })
