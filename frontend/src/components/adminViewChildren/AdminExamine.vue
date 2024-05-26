@@ -23,10 +23,10 @@
     <div class="contentBox">
       <t-space direction="vertical" size="large">
         <t-tabs v-model="tabName">
-          <t-tab-panel :value="'clubApproval'" label="社团审核" :destroy-on-hide="true">
+          <t-tab-panel :value="'clubApproval'" label="社团审核" :destroy-on-hide="true" :lazy = "true">
             <p><ClubApproval></ClubApproval></p>
           </t-tab-panel>
-          <t-tab-panel :value="'activityApproval'" label="活动审核" :destroy-on-hide="true">
+          <t-tab-panel :value="'activityApproval'" label="活动审核" :destroy-on-hide="false" :lazy = "true">
             <p><ActivityApproval></ActivityApproval></p>
           </t-tab-panel>
         </t-tabs>
@@ -36,15 +36,11 @@
 </template>
 
 <script setup>
-import store from '@/store';
+
 import { ref } from 'vue';
 import ClubApproval from "@/components/AdminExamineChildren/ClubApproval.vue";
 import ActivityApproval from "@/components/AdminExamineChildren/ActivityApproval.vue";
 
 const tabName = ref("clubApproval")
-
-const routerNames = ref(store.state.routeTabs.examineTabs)
-
-const parentRoute = store.state.parentRoute.examine
 
 </script>

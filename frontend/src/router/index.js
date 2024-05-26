@@ -163,6 +163,33 @@ const router = createRouter({
             },
           ]
         },
+        {// 年审评优页面
+          path: 'review',
+          name:'review',
+          redirect: '/adminFirstPage/review/clubAnnualReview',
+          component: () => import('@/components/adminViewChildren/AdminReview.vue'),
+          meta: { requireAuth: true, },
+          children: [
+            {
+              path: 'clubAnnualReview',
+              name: 'clubAnnualReview',
+              component: ()=>import('@/components/adminReviewChildren/clubAnnualReview.vue'),
+              meta: { requireAuth: true,},
+            },
+            {
+              path:'clubAwardsReview',
+              name:'clubAwardsReview',
+              component:()=>import('@/components/adminReviewChildren/clubAwardsReview.vue'),
+              meta: { requireAuth: true,},
+            },
+            {
+              path: 'backboneAwardsReview',
+              name: 'backboneAwardsReview',
+              component: () => import('@/components/adminReviewChildren/backboneAwardsReview.vue'),
+              meta: { requireAuth: true, },
+            }
+          ]
+        }
 
       ]
 
