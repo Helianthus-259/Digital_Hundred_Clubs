@@ -80,7 +80,6 @@
 .attachContainer {
     width: 80%;
     margin: 0 auto 10px;
-    margin-top: 100px;
 }
 </style>
 
@@ -93,33 +92,45 @@
                     <t-col :span="3">
                         <div class="text">学生社团名称</div>
                     </t-col>
-                    <t-col :span="9" id="table"></t-col>
+                    <t-col :span="9" id="table">
+                        {{ clubEvaluation.clubName }}
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="text">学生社团总人数</div>
                     </t-col>
-                    <t-col :span="3" id="table"></t-col>
+                    <t-col :span="3" id="table">
+                        {{ clubEvaluation.totalMembers }}
+                    </t-col>
                     <t-col :span="3" id="table">
                         <div class="text">学生社团骨干人数</div>
                     </t-col>
-                    <t-col :span="3" id="table"></t-col>
+                    <t-col :span="3" id="table">
+                        {{ clubEvaluation.backboneNumber }}
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="9">
                         <div class="text">学生骨干是中共党员、入党积极分子或提交入党申请书人数</div>
                     </t-col>
-                    <t-col :span="3" id="table"></t-col>
+                    <t-col :span="3" id="table">
+                        {{ clubEvaluation.communistRelatedBackBoneNumber }}
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="text">行政指导老师</div>
                     </t-col>
-                    <t-col :span="3" id="table"></t-col>
+                    <t-col :span="3" id="table">
+                        {{ clubEvaluation.administrativeGuideTeacherName }}
+                    </t-col>
                     <t-col :span="3" id="table">
                         <div class="text">业务指导老师</div>
                     </t-col>
-                    <t-col :span="3" id="table"></t-col>
+                    <t-col :span="3" id="table">
+                        {{ clubEvaluation.businessGuideTeacherName }}
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
@@ -143,9 +154,29 @@
                         </t-row>
                     </t-col>
                     <t-col style="display: inline;" :span="6" id="table">
-                        <t-row><t-col :span="12"></t-col></t-row>
-                        <t-row id="table"><t-col :span="12"></t-col></t-row>
-                        <t-row id="table"><t-col :span="12"></t-col></t-row>
+                        <t-row>
+                            <t-col :span="12">
+                                <t-radio-group v-model="clubEvaluation.handoverMethod" @change="onhandoverMethodChange">
+                                    <t-radio value="stuffMeeting">全员大会</t-radio>
+                                    <t-radio value="others">其他</t-radio>
+                                </t-radio-group>
+                            </t-col>
+                        </t-row>
+                        <t-row id="table">
+                            <t-col :span="12">
+                                <t-input v-model="clubEvaluation.handoverParticipantsCount" style="width: 60%;"
+                                    borderless />
+                            </t-col>
+                        </t-row>
+                        <t-row id="table">
+                            <t-col :span="12">
+                                <t-radio-group v-model="clubEvaluation.advisorParticipation"
+                                    @change="onadvisorParticipationChange">
+                                    <t-radio value="1">是</t-radio>
+                                    <t-radio value="0">否</t-radio>
+                                </t-radio-group>
+                            </t-col>
+                        </t-row>
                     </t-col>
                 </t-row>
                 <t-row id="table">
@@ -157,7 +188,9 @@
                             <t-col :span="8">
                                 <div class="text">是否向社团成员进行财务公开</div>
                             </t-col>
-                            <t-col :span="4" id="table"></t-col>
+                            <t-col :span="4" id="table">
+                                {{ clubEvaluation.isFinancialInformationPublic ? '是' : '否' }}
+                            </t-col>
                         </t-row>
                     </t-col>
                 </t-row>
@@ -177,22 +210,30 @@
                                 <div class="text">全员大会/骨干例会</div>
                             </t-col>
                         </t-row>
-                        <div v-for="(item, index) in 1">
+                        <div v-for="(item, index) in clubEvaluation.meetings">
                             <t-popup placement="left-bottom">
                                 <template #content>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="addMettings">
                                         <t-icon name="add" />
                                     </t-button>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="deleteMettings(index)">
                                         <t-icon name="delete" />
                                     </t-button>
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
+                                        <t-input v-model="item.time" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-input v-model="item.location" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-select v-model="item.staffMeetingOrbackBoneMeeting"
+                                            @change="(value) => staffMeetingOrbackBoneMeetingChange(value, index)"
+                                            style="width: 60%;">
+                                            <t-option label="成员大会" value="staffMetting" />
+                                            <t-option label="骨干例会" value="backBoneMeeting" />
+                                        </t-select>
                                     </t-col>
                                 </t-row>
                             </t-popup>
@@ -215,22 +256,25 @@
                                 <div class="text">颁发单位</div>
                             </t-col>
                         </t-row>
-                        <div v-for="(item, index) in 1">
+                        <div v-for="(item, index) in clubEvaluation.associationAwards">
                             <t-popup placement="left-bottom">
                                 <template #content>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="addAssociationAwards">
                                         <t-icon name="add" />
                                     </t-button>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="deleteAssociationAwards(index)">
                                         <t-icon name="delete" />
                                     </t-button>
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
+                                        <t-input v-model="item.name" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-input v-model="item.time" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-input v-model="item.organization" style="width: 60%;" borderless />
                                     </t-col>
                                 </t-row>
                             </t-popup>
@@ -246,7 +290,10 @@
                             <t-col :span="8">
                                 <div class="text">向学校平台投稿次数</div>
                             </t-col>
-                            <t-col id="table" :span="4"></t-col>
+                            <t-col id="table" :span="4">
+                                <t-input v-model="clubEvaluation.publicityManagementEffectiveness.submissionsCount"
+                                    style="width: 60%;" borderless />
+                            </t-col>
                         </t-row>
                         <t-row style="border-left: 2px solid #000;" id="table">
                             <t-col :span="4">
@@ -261,20 +308,25 @@
                                         <div class="text">报道内容</div>
                                     </t-col>
                                 </t-row>
-                                <div v-for="(item, index) in 2">
+                                <div
+                                    v-for="(item, index) in clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel">
                                     <t-popup placement="left-bottom">
                                         <template #content>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text"
+                                                @click="addPublicityAboveSchoolLevel">
                                                 <t-icon name="add" />
                                             </t-button>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text"
+                                                @click="deletePublicityAboveSchoolLevel(index)">
                                                 <t-icon name="delete" />
                                             </t-button>
                                         </template>
                                         <t-row id="table">
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.platform" style="width: 60%;" borderless />
                                             </t-col>
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.content" style="width: 60%;" borderless />
                                             </t-col>
                                         </t-row>
                                     </t-popup>
@@ -304,20 +356,22 @@
                                 <div class="text">校级</div>
                             </t-col>
                             <t-col style="display: inline;" :span="8">
-                                <div v-for="(item, index) in 2">
+                                <div v-for="(item, index) in clubEvaluation.hostedSchoolLevelActivities.schoolLv">
                                     <t-popup placement="left-bottom">
                                         <template #content>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="addSchoolLv">
                                                 <t-icon name="add" />
                                             </t-button>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="deleteSchoolLv(index)">
                                                 <t-icon name="delete" />
                                             </t-button>
                                         </template>
                                         <t-row :id="index === 0 ? '' : 'table'">
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.host" style="width: 60%;" borderless />
                                             </t-col>
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                             </t-col>
                                         </t-row>
                                     </t-popup>
@@ -329,20 +383,22 @@
                                 <div class="text">市级</div>
                             </t-col>
                             <t-col style="display: inline;" :span="8">
-                                <div v-for="(item, index) in 1">
+                                <div v-for="(item, index) in clubEvaluation.hostedSchoolLevelActivities.municipal">
                                     <t-popup placement="left-bottom">
                                         <template #content>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="addMunicipal">
                                                 <t-icon name="add" />
                                             </t-button>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="deleteMunicipal(index)">
                                                 <t-icon name="delete" />
                                             </t-button>
                                         </template>
                                         <t-row :id="index === 0 ? '' : 'table'">
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.host" style="width: 60%;" borderless />
                                             </t-col>
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                             </t-col>
                                         </t-row>
                                     </t-popup>
@@ -354,20 +410,22 @@
                                 <div class="text">省级及以上</div>
                             </t-col>
                             <t-col style="display: inline;" :span="8">
-                                <div v-for="(item, index) in 1">
+                                <div v-for="(item, index) in clubEvaluation.hostedSchoolLevelActivities.provincial">
                                     <t-popup placement="left-bottom">
                                         <template #content>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="addProvincial">
                                                 <t-icon name="add" />
                                             </t-button>
-                                            <t-button shape="square" variant="text">
+                                            <t-button shape="square" variant="text" @click="deleteProvincial(index)">
                                                 <t-icon name="delete" />
                                             </t-button>
                                         </template>
                                         <t-row :id="index === 0 ? '' : 'table'">
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.host" style="width: 60%;" borderless />
                                             </t-col>
                                             <t-col id="table" :span="6">
+                                                <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                             </t-col>
                                         </t-row>
                                     </t-popup>
@@ -392,22 +450,25 @@
                                 <div class="text">活动成效</div>
                             </t-col>
                         </t-row>
-                        <div v-for="(item, index) in 1">
+                        <div v-for="(item, index) in clubEvaluation.activities">
                             <t-popup placement="left-bottom">
                                 <template #content>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="addActivity">
                                         <t-icon name="add" />
                                     </t-button>
-                                    <t-button shape="square" variant="text">
+                                    <t-button shape="square" variant="text" @click="deleteActivity(index)">
                                         <t-icon name="delete" />
                                     </t-button>
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
+                                        <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-input v-model="item.activityTime" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
+                                        <t-input v-model="item.activityEffect" style="width: 60%;" borderless />
                                     </t-col>
                                 </t-row>
                             </t-popup>
@@ -431,10 +492,14 @@
                         <div class="text">社团工作简介</div>
                     </t-col>
                     <t-col :span="9" id="table">
-                        <t-textarea placeholder="（2022年5月至今，不超200字）" :autosize="{ minRows: 5, maxRows: 5 }" />
+                        <t-textarea v-model="clubEvaluation.clubWorkIntroduction" placeholder="（2022年5月至今，不超200字）"
+                            :autosize="{ minRows: 5, maxRows: 5 }" />
                     </t-col>
                 </t-row>
             </t-row>
+        </div>
+        <div style="margin:50px auto 50px auto;width: 100%;display: flex;justify-content: center; align-items: center;">
+            <t-button @click="submitClubEvaluation">提交</t-button>
         </div>
         <div class="attachContainer">
             <ul style="list-style: none;">
@@ -477,23 +542,197 @@
 <script setup>
 import { APIEnum, APIEventEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
+import { MessagePlugin } from 'tdesign-vue-next';
 import { onUnmounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const clubId = route.params.cid;
 
+const clubEvaluation = reactive({
+    clubName: '',
+    totalMembers: '',
+    backboneNumber: '',
+    communistRelatedBackBoneNumber: '',
+    administrativeGuideTeacherName: '',
+    businessGuideTeacherName: '',
+    handoverMethod: '',
+    handoverParticipantsCount: '',
+    advisorParticipation: '',
+    isFinancialInformationPublic: '',
+    meetings: [
+        { time: '', location: '', staffMeetingOrbackBoneMeeting: '' }
+    ],
+    associationAwards: [
+        { name: '', time: '', organization: '' }
+    ],
+    publicityManagementEffectiveness: {
+        submissionsCount: '',
+        PublicityAboveSchoolLevel: [
+            { platform: '', content: '' }
+        ]
+    },
+    hostedSchoolLevelActivities: {
+        schoolLv: [
+            { host: '', activityName: '' },
+        ],
+        municipal: [
+            { host: '', activityName: '' },
+        ],
+        provincial: [
+            { host: '', activityName: '' },
+        ]
+    },
+    activities: [
+        { activityName: '', activityTime: '', activityEffect: '' },
+    ],
+    case: '',
+    imageUrl: '',
+    clubWorkIntroduction: '',
+})
+
+const clubEvaluationValidate = () => {
+    let flag = true
+    if (clubEvaluation.handoverMethod === '') {
+        flag = false
+        MessagePlugin.warning('请输入换届方式')
+    } else if (clubEvaluation.handoverParticipantsCount === '') {
+        flag = false
+        MessagePlugin.warning('请输入换届参与人数')
+
+    } else if (clubEvaluation.advisorParticipation === '') {
+        flag = false
+        MessagePlugin.warning('请输入指导老师是否参与')
+    } else if (clubEvaluation.meetings.length === 0) {
+        flag = false
+        MessagePlugin.warning('请输入会议情况')
+    } else if (clubEvaluation.associationAwards === 0) {
+        flag = false
+        MessagePlugin.warning('请输入社团获奖情况')
+    } else if (clubEvaluation.publicityManagementEffectiveness.submissionsCount === '' && clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel.length === 0) {
+        flag = false
+        MessagePlugin.warning('请输入宣传管理及成效')
+    } else if (clubEvaluation.clubWorkIntroduction === '') {
+        flag = false
+        MessagePlugin.warning('请输入社团工作介绍')
+    }
+    return flag
+}
+
 // 获取社团信息
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
 eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
-    console.log(data)
+    clubEvaluation.clubName = data.clubName
+    clubEvaluation.totalMembers = data.totalMembers
+    clubEvaluation.backboneNumber = data.backboneNumber
+    clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
+    clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
+    clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
+    clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
 })
 
-const clubEvaluation = reactive({
+// 换届情况
+const onhandoverMethodChange = (value) => {
+    clubEvaluation.handoverMethod = value
+}
 
-})
+const onadvisorParticipationChange = (value) => {
+    clubEvaluation.advisorParticipation = value
+}
 
+// 全员大会、骨干例会情况
+const addMettings = () => {
+    clubEvaluation.meetings.push({ time: '', location: '', staffMeetingOrbackBoneMeeting: '' })
+}
+
+const deleteMettings = (index) => {
+    if (clubEvaluation.meetings.length > 1)
+        clubEvaluation.meetings.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+const staffMeetingOrbackBoneMeetingChange = (value, index) => {
+    clubEvaluation.meetings[index].staffMeetingOrbackBoneMeeting = value
+}
+
+// 社团获奖情况
+const addAssociationAwards = () => {
+    clubEvaluation.associationAwards.push({ name: '', time: '', organization: '' })
+}
+
+const deleteAssociationAwards = (index) => {
+    if (clubEvaluation.associationAwards.length > 1)
+        clubEvaluation.associationAwards.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+// 宣传管理及成效
+const addPublicityAboveSchoolLevel = () => {
+    clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel.push({ platform: '', content: '' })
+}
+
+const deletePublicityAboveSchoolLevel = (index) => {
+    if (clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel.length > 1)
+        clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+
+// 学生社团承办校级以上活动主办方及活动名称
+const addSchoolLv = () => {
+    clubEvaluation.hostedSchoolLevelActivities.schoolLv.push({ host: '', activityName: '' })
+}
+
+const deleteSchoolLv = (index) => {
+    if (clubEvaluation.hostedSchoolLevelActivities.schoolLv.length > 1)
+        clubEvaluation.hostedSchoolLevelActivities.schoolLv.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+const addMunicipal = () => {
+    clubEvaluation.hostedSchoolLevelActivities.municipal.push({ host: '', activityName: '' })
+}
+
+const deleteMunicipal = (index) => {
+    if (clubEvaluation.hostedSchoolLevelActivities.municipal.length > 1)
+        clubEvaluation.hostedSchoolLevelActivities.municipal.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+const addProvincial = () => {
+    clubEvaluation.hostedSchoolLevelActivities.provincial.push({ host: '', activityName: '' })
+}
+
+const deleteProvincial = (index) => {
+    if (clubEvaluation.hostedSchoolLevelActivities.provincial.length > 1)
+        clubEvaluation.hostedSchoolLevelActivities.provincial.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+// 学生社团活动情况
+const addActivity = () => {
+    clubEvaluation.activities.push({ activityName: '', activityTime: '', activityEffect: '' })
+}
+
+const deleteActivity = (index) => {
+    if (clubEvaluation.activities.length > 1)
+        clubEvaluation.activities.splice(index, 1)
+    else
+        MessagePlugin.error('至少保留一项')
+}
+
+const submitClubEvaluation = () => {
+    if (clubEvaluationValidate()) {
+
+    }
+}
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
 })

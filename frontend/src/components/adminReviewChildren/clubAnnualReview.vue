@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onUnmounted, ref} from "vue";
 import {ArrowDownIcon, ArrowRightIcon} from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import {APIEnum, APIEventEnum} from "@/Enum/index.js";
@@ -130,24 +130,28 @@ const detail = (data) =>{
   console.log(data)
   choose.value = data
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: data })
+  eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+    clubReviewInfo.value.clubName = data.clubName
+    clubReviewInfo.value.clubCategory = data.clubCategory
+    clubReviewInfo.value.mainCompus = data.mainCompus
+    clubReviewInfo.value.clubDescription = data.clubDescription
+    clubReviewInfo.value.file = data.file
+    clubReviewInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
+    clubReviewInfo.value.businessGuideTeacher = data.businessGuideTeacherName
+    clubReviewInfo.value.establishmentDate = data.establishmentDate
+    clubReviewInfo.value.contactPerson = data.contactPerson
+    clubReviewInfo.value.contactPhone = data.contactPhone
+    clubReviewInfo.value.clubStatus = data.clubStatus
+    clubReviewInfo.value.responsibleDepartment = data.responsibleDepartment
+    clubReviewInfo.value.politicalStatus = data.politicalStatus
+    clubReviewInfo.value.publicityManagementInfo = data.publicityManagementInfo
+    console.log(clubReviewInfo.value)
+  })
 }
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
-  clubReviewInfo.value.clubName = data.clubName
-  clubReviewInfo.value.clubCategory = data.clubCategory
-  clubReviewInfo.value.mainCompus = data.mainCompus
-  clubReviewInfo.value.clubDescription = data.clubDescription
-  clubReviewInfo.value.file = data.file
-  clubReviewInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
-  clubReviewInfo.value.businessGuideTeacher = data.businessGuideTeacherName
-  clubReviewInfo.value.establishmentDate = data.establishmentDate
-  clubReviewInfo.value.contactPerson = data.contactPerson
-  clubReviewInfo.value.contactPhone = data.contactPhone
-  clubReviewInfo.value.clubStatus = data.clubStatus
-  clubReviewInfo.value.responsibleDepartment = data.responsibleDepartment
-  clubReviewInfo.value.politicalStatus = data.politicalStatus
-  clubReviewInfo.value.publicityManagementInfo = data.publicityManagementInfo
-  console.log(clubReviewInfo.value)
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.request, APIEnum.getClubEvaluateInfo)
+  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
 })
 
 </script>

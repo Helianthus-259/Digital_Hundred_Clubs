@@ -481,6 +481,7 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
         contactPhone: '123456789',
         clubStatus:1,
         file: 'file',
+        communistRelatedBackBoneNumber: 10,
         publicityManagementInfo:{
             wechatOfficial:'哈哈哈',
             web:'微博',
