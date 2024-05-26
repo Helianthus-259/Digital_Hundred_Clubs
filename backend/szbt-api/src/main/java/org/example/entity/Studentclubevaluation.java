@@ -4,57 +4,61 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 
+ *
  * @TableName studentclubevaluation
  */
 @TableName(value ="studentclubevaluation")
 @Data
 public class Studentclubevaluation implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer recordId;
 
     /**
-     * 
+     *
      */
     private Integer declarationYear;
 
     /**
-     * 
+     *
      */
     private Integer clubId;
 
     /**
-     * 
+     *
      */
     private String handoverMethod;
 
     /**
-     * 
+     *
      */
     private Integer handoverParticipantsCount;
 
     /**
-     * 
+     *
      */
     private Integer advisorParticipation;
 
     /**
-     * 
+     *
      */
     private Object publicityManagementEffectiveness;
 
     /**
-     * 
+     *
      */
     private Object hostedSchoolLevelActivities;
+
+    /**
+     *
+     */
+    private String clubWorkIntroduction;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -72,13 +76,14 @@ public class Studentclubevaluation implements Serializable {
         }
         Studentclubevaluation other = (Studentclubevaluation) that;
         return (this.getRecordId() == null ? other.getRecordId() == null : this.getRecordId().equals(other.getRecordId()))
-            && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
-            && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getHandoverMethod() == null ? other.getHandoverMethod() == null : this.getHandoverMethod().equals(other.getHandoverMethod()))
-            && (this.getHandoverParticipantsCount() == null ? other.getHandoverParticipantsCount() == null : this.getHandoverParticipantsCount().equals(other.getHandoverParticipantsCount()))
-            && (this.getAdvisorParticipation() == null ? other.getAdvisorParticipation() == null : this.getAdvisorParticipation().equals(other.getAdvisorParticipation()))
-            && (this.getPublicityManagementEffectiveness() == null ? other.getPublicityManagementEffectiveness() == null : this.getPublicityManagementEffectiveness().equals(other.getPublicityManagementEffectiveness()))
-            && (this.getHostedSchoolLevelActivities() == null ? other.getHostedSchoolLevelActivities() == null : this.getHostedSchoolLevelActivities().equals(other.getHostedSchoolLevelActivities()));
+                && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
+                && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
+                && (this.getHandoverMethod() == null ? other.getHandoverMethod() == null : this.getHandoverMethod().equals(other.getHandoverMethod()))
+                && (this.getHandoverParticipantsCount() == null ? other.getHandoverParticipantsCount() == null : this.getHandoverParticipantsCount().equals(other.getHandoverParticipantsCount()))
+                && (this.getAdvisorParticipation() == null ? other.getAdvisorParticipation() == null : this.getAdvisorParticipation().equals(other.getAdvisorParticipation()))
+                && (this.getPublicityManagementEffectiveness() == null ? other.getPublicityManagementEffectiveness() == null : this.getPublicityManagementEffectiveness().equals(other.getPublicityManagementEffectiveness()))
+                && (this.getHostedSchoolLevelActivities() == null ? other.getHostedSchoolLevelActivities() == null : this.getHostedSchoolLevelActivities().equals(other.getHostedSchoolLevelActivities()))
+                && (this.getClubWorkIntroduction() == null ? other.getClubWorkIntroduction() == null : this.getClubWorkIntroduction().equals(other.getClubWorkIntroduction()));
     }
 
     @Override
@@ -93,6 +98,7 @@ public class Studentclubevaluation implements Serializable {
         result = prime * result + ((getAdvisorParticipation() == null) ? 0 : getAdvisorParticipation().hashCode());
         result = prime * result + ((getPublicityManagementEffectiveness() == null) ? 0 : getPublicityManagementEffectiveness().hashCode());
         result = prime * result + ((getHostedSchoolLevelActivities() == null) ? 0 : getHostedSchoolLevelActivities().hashCode());
+        result = prime * result + ((getClubWorkIntroduction() == null) ? 0 : getClubWorkIntroduction().hashCode());
         return result;
     }
 
@@ -110,6 +116,7 @@ public class Studentclubevaluation implements Serializable {
         sb.append(", advisorParticipation=").append(advisorParticipation);
         sb.append(", publicityManagementEffectiveness=").append(publicityManagementEffectiveness);
         sb.append(", hostedSchoolLevelActivities=").append(hostedSchoolLevelActivities);
+        sb.append(", clubWorkIntroduction=").append(clubWorkIntroduction);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

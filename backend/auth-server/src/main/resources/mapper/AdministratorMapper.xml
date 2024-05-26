@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="org.example.entity.Administrator">
             <id property="adminId" column="admin_id" jdbcType="INTEGER"/>
-            <result property="account" column="Account" jdbcType="VARCHAR"/>
+            <result property="account" column="account" jdbcType="VARCHAR"/>
             <result property="adName" column="ad_name" jdbcType="VARCHAR"/>
             <result property="authority" column="authority" jdbcType="INTEGER"/>
             <result property="pwd" column="pwd" jdbcType="VARCHAR"/>
@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        admin_id,Account,ad_name,
+        admin_id,account,ad_name,
         authority,pwd,contact,
         department_name
     </sql>
