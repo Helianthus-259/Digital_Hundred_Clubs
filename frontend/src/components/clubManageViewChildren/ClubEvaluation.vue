@@ -543,7 +543,7 @@
 import { APIEnum, APIEventEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { onUnmounted, reactive } from 'vue';
+import { onMounted, onUnmounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -619,17 +619,19 @@ const clubEvaluationValidate = () => {
     return flag
 }
 
-// 获取社团信息
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
+onMounted(() => {
+    // 获取社团信息
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
-    clubEvaluation.clubName = data.clubName
-    clubEvaluation.totalMembers = data.totalMembers
-    clubEvaluation.backboneNumber = data.backboneNumber
-    clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
-    clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
-    clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
-    clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
+    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+        clubEvaluation.clubName = data.clubName
+        clubEvaluation.totalMembers = data.totalMembers
+        clubEvaluation.backboneNumber = data.backboneNumber
+        clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
+        clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
+        clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
+        clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
+    })
 })
 
 // 换届情况

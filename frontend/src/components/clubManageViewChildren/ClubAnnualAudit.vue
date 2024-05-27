@@ -91,106 +91,230 @@
                     <t-col :span="3">
                         <div class="txt">学生社团</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.clubName }}</t-col>
                     <t-col id="table" :span="3">
                         <div class="txt">学生社团类别</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.clubCategory }}</t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">业务指导单位</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.responsibleDepartment }}</t-col>
                     <t-col id="table" :span="3">
                         <div class="txt">学生社团总人数</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.totalMembers }}</t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">行政指导老师</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.administrativeGuideTeacherName }}</t-col>
                     <t-col id="table" :span="3">
                         <div class="txt">业务指导老师</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.businessGuideTeacherName }}</t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">学生社团分布校园（区）</div>
                     </t-col>
-                    <t-col id="table" :span="9"></t-col>
+                    <t-col id="table" :span="9">
+                        <t-checkbox-group style="width: 80%; padding: 10px;" v-model="clubAnnualAudit.compus">
+                            <t-checkbox :check-all="true" label="全选" />
+                            <t-checkbox label="广州校区南校园" value="广州校区南校园" />
+                            <t-checkbox label="广州校区东校园" value="广州校区东校园" />
+                            <t-checkbox label="广州校区北校园" value="广州校区北校园" />
+                            <t-checkbox label="珠海校区" value="珠海校区" />
+                            <t-checkbox label="深圳校区" value="深圳校区" />
+                        </t-checkbox-group>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">学生负责人姓名</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.contactPerson }}</t-col>
                     <t-col id="table" :span="3">
                         <div class="txt">学生负责人政治面貌</div>
                     </t-col>
-                    <t-col id="table" :span="3"></t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.contactPersonpoliticalStatus }}</t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">宣传管理情况</div>
                     </t-col>
                     <t-col style="display: inline" :span="9">
-                        <t-row>
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;">
+                            <t-col :span="3">
                                 <div class="txt">微信公众号</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col style="display: block;" :span="9">
+                                <t-row style="border-left: 2px solid #000;">
+                                    <t-col :span="3">
+                                        <div class="txt">名称</div>
+                                    </t-col>
+                                    <t-col id="table" :span="9">
+                                        <t-input style="width: 90%;" placeholder="依托院系公众号的请填写院系公众号名称" borderless
+                                            v-model="clubAnnualAudit.publicityManagementInfo.WeChatPublicAccount.name" />
+                                    </t-col>
+                                </t-row>
+                                <t-row style="border-left: 2px solid #000;" id="table">
+                                    <t-col :span="3">
+                                        <div class="txt">推送条数</div>
+                                    </t-col>
+                                    <t-col id="table" :span="9">
+                                        <t-input style="width: 90%;" placeholder="" borderless
+                                            v-model="clubAnnualAudit.publicityManagementInfo.WeChatPublicAccount.submitCount" />
+                                    </t-col>
+                                </t-row>
+                                <t-row style="border-left: 2px solid #000;" id="table">
+                                    <t-col :span="3">
+                                        <div class="txt">三级审核人员</div>
+                                    </t-col>
+                                    <t-col style="display: block;" id="table" :span="9">
+                                        <t-row>
+                                            <t-col :span="4">
+                                                <div class="txt">初审</div>
+                                            </t-col>
+                                            <t-col id="table" :span="4">
+                                                <div class="txt">复审</div>
+                                            </t-col>
+                                            <t-col id="table" :span="4">
+                                                <div class="txt">终审</div>
+                                            </t-col>
+                                        </t-row>
+                                        <t-row id="table">
+                                            <t-col :span="4">
+                                                <t-input style="width: 90%;" placeholder="" borderless
+                                                    v-model="clubAnnualAudit.publicityManagementInfo.WeChatPublicAccount.Auditors.name1" />
+                                            </t-col>
+                                            <t-col id="table" :span="4">
+                                                <t-input style="width: 90%;" placeholder="" borderless
+                                                    v-model="clubAnnualAudit.publicityManagementInfo.WeChatPublicAccount.Auditors.name2" />
+                                            </t-col>
+                                            <t-col id="table" :span="4">
+                                                <t-input style="width: 90%;" placeholder="" borderless
+                                                    v-model="clubAnnualAudit.publicityManagementInfo.WeChatPublicAccount.Auditors.name3" />
+                                            </t-col>
+                                        </t-row>
+                                    </t-col>
+                                </t-row>
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">网站</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.WebSite.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.WebSite.has === '1'"
+                                    style="width: 60%;" placeholder="请输入网站名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.WebSite.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">微博</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.Blog.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.Blog.has === '1'"
+                                    style="width: 60%;" placeholder="请输入微博名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.Blog.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">哔哩哔哩</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.BiliBili.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.BiliBili.has === '1'"
+                                    style="width: 60%;" placeholder="请输入B站名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.BiliBili.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">抖音</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.TikTok.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.TikTok.has === '1'"
+                                    style="width: 60%;" placeholder="请输入抖音名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.TikTok.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">微信视频号</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.WeChatVideoAccount.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.WeChatVideoAccount.has === '1'"
+                                    style="width: 60%;" placeholder="请输入微信视频号名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.WeChatVideoAccount.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">快手</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.KuaiShou.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.KuaiShou.has === '1'"
+                                    style="width: 60%;" placeholder="请输入快手名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.KuaiShou.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">刊物</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.Publication.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.Publication.has === '1'"
+                                    style="width: 60%;" placeholder="请输入刊物名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.Publication.name" />
+                            </t-col>
                         </t-row>
-                        <t-row id="table">
-                            <t-col id="table" :span="3">
+                        <t-row style="border-left: 2px solid #000;" id="table">
+                            <t-col :span="3">
                                 <div class="txt">其他</div>
                             </t-col>
-                            <t-col id="table" :span="9"></t-col>
+                            <t-col id="table" :span="9">
+                                <t-radio-group v-model="clubAnnualAudit.publicityManagementInfo.Other.has">
+                                    <t-radio value="0">无</t-radio>
+                                    <t-radio value="1">有</t-radio>
+                                </t-radio-group>
+                                <t-input v-show="clubAnnualAudit.publicityManagementInfo.Other.has === '1'"
+                                    style="width: 60%;" placeholder="请输入名称" borderless
+                                    v-model="clubAnnualAudit.publicityManagementInfo.Other.name" />
+                            </t-col>
                         </t-row>
                     </t-col>
                 </t-row>
@@ -203,13 +327,16 @@
                             <t-col id="table" :span="8">
                                 <div class="txt">是否接受校外赞助（如有需填报附件3）</div>
                             </t-col>
-                            <t-col id="table" :span="4"></t-col>
+                            <t-col id="table" :span="4">
+
+                            </t-col>
                         </t-row>
                         <t-row id="table">
                             <t-col id="table" :span="8">
                                 <div class="txt">是否向社团成员进行财务公开</div>
                             </t-col>
-                            <t-col id="table" :span="4"></t-col>
+                            <t-col id="table" :span="4">{{ clubAnnualAudit.isFinancialInformationPublic === '0' ? '否' :
+                                '是' }}</t-col>
                         </t-row>
                     </t-col>
                 </t-row>
@@ -244,11 +371,55 @@
 </template>
 
 <script setup>
+import { APIEventEnum, APIEnum } from '@/Enum';
+import eventEmitter from '@/utils/eventEmitter';
+import { onMounted, onUnmounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
 const clubId = route.params.cid
-console.log(clubId);
+const clubAnnualAudit = reactive({
+    clubName: '',
+    clubCategory: '',
+    responsibleDepartment: '',
+    totalMembers: '',
+    administrativeGuideTeacherName: '',
+    businessGuideTeacherName: '',
+    compus: [],
+    contactPerson: '',
+    contactPersonpoliticalStatus: '',
+    isFinancialInformationPublic: '',
+    publicityManagementInfo: {
+        WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
+        WebSite: { has: '0', name: '' },
+        Blog: { has: '0', name: '' },
+        BiliBili: { has: '0', name: '' },
+        TikTok: { has: '0', name: '' },
+        WeChatVideoAccount: { has: '0', name: '' },
+        KuaiShou: { has: '0', name: '' },
+        Publication: { has: '0', name: '' },
+        Other: { has: '0', name: '' },
+    },
+    externalSponsorshipAttachment: '',
+    clubConstitutionAttachment: '',
+    meetingActivityListAttachment: '',
+})
+
+onMounted(() => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
+    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+        console.log(data);
+        clubAnnualAudit.clubName = data.clubName
+        clubAnnualAudit.clubCategory = data.clubCategory
+        clubAnnualAudit.responsibleDepartment = data.responsibleDepartment
+        clubAnnualAudit.totalMembers = data.totalMembers
+        clubAnnualAudit.administrativeGuideTeacherName = data.administrativeGuideTeacherName
+        clubAnnualAudit.businessGuideTeacherName = data.businessGuideTeacherName
+        clubAnnualAudit.contactPerson = data.contactPerson
+        clubAnnualAudit.contactPersonpoliticalStatus = data.contactPersonpoliticalStatus
+        clubAnnualAudit.isFinancialInformationPublic = data.isFinancialInformationPublic
+    })
+})
 
 const downloadFile = (url, fileName) => {
     const link = document.createElement('a')
@@ -256,4 +427,8 @@ const downloadFile = (url, fileName) => {
     link.download = fileName // 指定下载后的文件名
     link.click()
 }
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+})
 </script>

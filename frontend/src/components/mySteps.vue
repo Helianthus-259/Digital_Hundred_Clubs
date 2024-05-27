@@ -4,12 +4,12 @@
             <div v-for="(item, index) in count" :key="index" class="step-item" @click="togglePopup(index)">
                 <div class="step-box">
                     <div v-if="index !== 0" class="step-line" :class="getlineClass(index)"></div>
-                    <t-popover :visible="showPopup && popupIndex === index" placement="top" theme="light"
+                    <t-popup :visible="showPopup && popupIndex === index" placement="top" showArrow
                         :content="steps[index].idea">
                         <div class="step-circle" :class="getCircleClass(index)">
                             <div class="inner-circle" :class="getInnerCircleClass(index)"></div>
                         </div>
-                    </t-popover>
+                    </t-popup>
                 </div>
                 <div class="step-title">{{ getTitle(index) }}</div>
                 <div class="step-content">{{ steps[index].content }}</div>

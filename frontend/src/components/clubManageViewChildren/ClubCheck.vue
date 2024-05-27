@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import { onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import myDialog from '../myDialog.vue';
 import eventEmitter from '@/utils/eventEmitter';
@@ -198,15 +198,6 @@ const agreeApply = (row) => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAgreeClubApply, { clubId, studentId: row.studentId })
 };
 
-eventEmitter.on(APIEventEnum.postAgreeClubApplySuccess, 'postAgreeClubApplySuccess', (studentId) => {
-    MessagePlugin.success('同意申请成功')
-    applyList.value.forEach(item => {
-        if (item.studentId === studentId) {
-            item.status = 1
-        }
-    })
-    handleSearch()
-})
 // 拒绝申请
 const rejectReason = ref('')
 let rejectRow = {}
@@ -226,25 +217,6 @@ const submitReject = () => {
     }
 };
 
-eventEmitter.on(APIEventEnum.postRejectClubApplySuccess, 'postRejectClubApplySuccess', (studentId) => {
-    MessagePlugin.success('拒绝申请成功')
-    applyList.value.forEach(item => {
-        if (item.studentId === studentId) {
-            item.status = 2
-        }
-    })
-    handleSearch()
-    closeDialog()
-})
-
-// 获取申请列表
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApplyList, { clubId })
-
-eventEmitter.on(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess', (data) => {
-    applyList.value = data
-    handleSearch()
-})
-
 // 表格的表头
 const columns = [
     { colKey: 'studentName', title: '申请人名称' },
@@ -263,6 +235,37 @@ const rehandleExpandChange = (value, params) => {
     expandedRowKeys.value = value;
     console.log('rehandleExpandChange', value, params);
 };
+
+onMounted(() => {
+    // 获取申请列表
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApplyList, { clubId })
+
+    eventEmitter.on(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess', (data) => {
+        applyList.value = data
+        handleSearch()
+    })
+
+    eventEmitter.on(APIEventEnum.postRejectClubApplySuccess, 'postRejectClubApplySuccess', (studentId) => {
+        MessagePlugin.success('拒绝申请成功')
+        applyList.value.forEach(item => {
+            if (item.studentId === studentId) {
+                item.status = 2
+            }
+        })
+        handleSearch()
+        closeDialog()
+    })
+
+    eventEmitter.on(APIEventEnum.postAgreeClubApplySuccess, 'postAgreeClubApplySuccess', (studentId) => {
+        MessagePlugin.success('同意申请成功')
+        applyList.value.forEach(item => {
+            if (item.studentId === studentId) {
+                item.status = 1
+            }
+        })
+        handleSearch()
+    })
+})
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.postAgreeClubApplySuccess, 'postAgreeClubApplySuccess')

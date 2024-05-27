@@ -481,5 +481,6 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
         clubStatus: 1,
         file: 'file',
         communistRelatedBackBoneNumber: 10,
+        contactPersonpoliticalStatus: '党员',
     }]
 })
