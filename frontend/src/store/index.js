@@ -23,8 +23,11 @@ const store = createStore({
             'adminTabs': 'admin',
             'adminFirstPageTabs': 'admin',
             'examineTabs': 'examine',
-            'adminManageTabs': 'manage',
+            'adminManageTabs': 'review',
             'adminPersonalTabs': 'adminPersonalInfo',
+            'clubAnnualReview':'clubAnnualReview',
+            'clubAwardsReview':'clubAwardsReview',
+            'backboneAwardsReview':'backboneAwardsReview',
         },
 
         // 有子路由的界面的初始路由
@@ -38,6 +41,7 @@ const store = createStore({
             'activity': '/activity/',
             'clubManage': '/clubManage/',
             'examine': '/adminFirstPage/examine/',
+            'review':'/adminFirstPage/review/',
         },
 
         // 社团比较新的活动和通知

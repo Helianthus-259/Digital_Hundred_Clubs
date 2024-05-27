@@ -32,8 +32,6 @@
     </t-layout>
   </t-layout>
   <t-layout>
-    <t-header>活动详情</t-header>
-    <t-content>
       <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :on-confirm="onConfirm">
         <t-descriptions :title="'活动详情'" :column="2">
           <t-descriptions-item label="活动名称">{{ activity.activityName }}</t-descriptions-item>
@@ -49,9 +47,6 @@
           <t-descriptions-item label="活动介绍">{{ activity.activityIntroduction }}</t-descriptions-item>
         </t-descriptions>
       </t-dialog>
-    </t-content>
-    <t-footer>
-    </t-footer>
   </t-layout>
 </template>
 

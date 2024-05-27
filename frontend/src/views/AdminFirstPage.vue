@@ -15,9 +15,6 @@
     display: flex;
 }
 
-.t-button {
-    width: 50%;
-}
 </style>
 
 <template>
@@ -41,10 +38,10 @@
                         </div>
                     </template>
                 </t-tab-panel>
-                <t-tab-panel value="manage">
+                <t-tab-panel value="review">
                     <template #label>
                         <div class="label-content">
-                            <icon-font name="manage" size="large" />
+                            <icon-font name="review" size="large" />
                             <span>年审/评优</span>
                         </div>
                     </template>
@@ -86,7 +83,7 @@ const tabsChange = (value) => {
     } else if(value === 'examine'){
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.examineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    } else if(value === 'manage'){
+    } else if(value === 'review'){
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminManageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else {
@@ -98,11 +95,7 @@ const tabsChange = (value) => {
 };
 //管理员界面一定是登录后才能进入的，所以store.state.token一定非空
 const isLogin = computed(() => {
-    if (store.state.token) {
-        return true
-    } else {
-        return false
-    }
+    return !!store.state.token;
 })
 
 </script>
