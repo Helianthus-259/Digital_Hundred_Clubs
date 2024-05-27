@@ -493,5 +493,6 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
             journal: '日报',
             other: '无',
         },
+        contactPersonpoliticalStatus: '党员',
     }]
 })
