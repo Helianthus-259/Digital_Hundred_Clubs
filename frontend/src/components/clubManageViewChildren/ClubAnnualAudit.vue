@@ -140,7 +140,7 @@
                     <t-col id="table" :span="3">
                         <div class="txt">学生负责人政治面貌</div>
                     </t-col>
-                    <t-col id="table" :span="3">{{ clubAnnualAudit.contactPersonpoliticalStatus }}</t-col>
+                    <t-col id="table" :span="3">{{ clubAnnualAudit.politicalStatus }}</t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
@@ -387,7 +387,7 @@ const clubAnnualAudit = reactive({
     businessGuideTeacherName: '',
     compus: [],
     contactPerson: '',
-    contactPersonpoliticalStatus: '',
+    politicalStatus: '',
     isFinancialInformationPublic: '',
     publicityManagementInfo: {
         WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
@@ -416,7 +416,7 @@ onMounted(() => {
         clubAnnualAudit.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubAnnualAudit.businessGuideTeacherName = data.businessGuideTeacherName
         clubAnnualAudit.contactPerson = data.contactPerson
-        clubAnnualAudit.contactPersonpoliticalStatus = data.contactPersonpoliticalStatus
+        clubAnnualAudit.politicalStatus = data.politicalStatus
         clubAnnualAudit.isFinancialInformationPublic = data.isFinancialInformationPublic
     })
 })
