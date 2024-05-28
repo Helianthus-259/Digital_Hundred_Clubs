@@ -26,8 +26,7 @@
         <t-aside>
             <t-menu theme="light" :value="routerNames" style="margin-right: 50px" height="550px" @change="onNextChange">
                 <template #logo>
-                    <img width="136" class="logo" src="https://www.tencent.com/img/index/menu_logo_hover.png"
-                        alt="logo" />
+                    <img width="80%" class="logo" src="/src/assets/sselogo20220915_0.png" alt="logo" />
                 </template>
                 <t-menu-item value="edit">
                     <template #icon>

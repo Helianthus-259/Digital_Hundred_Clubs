@@ -116,15 +116,12 @@
                 <t-input v-model="newActivityForm.activityName" style="width: 300px;" clearable placeholder="请输入活动名称" />
             </t-form-item>
             <t-form-item label="活动封面">
-                <t-upload v-model="newActivityForm.imageUrl" :image-viewer-props="{ closeOnEscKeydown: false }"
-                    :size-limit="{ size: 500, unit: 'KB' }"
-                    action="https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo" theme="image"
-                    accept="image/*" :auto-upload="true" :show-image-file-name="true"
-                    :upload-all-files-in-one-request="false" :locale="{
+                <t-upload :image-viewer-props="{ closeOnEscKeydown: false }" :size-limit="{ size: 500, unit: 'KB' }"
+                    theme="image" accept="image/*" :auto-upload="false" :show-image-file-name="true" :locale="{
                         triggerUploadText: {
                             image: '请选择图片',
                         },
-                    }">
+                    }" :onSelectChange="selectChangeHandler">
                 </t-upload>
             </t-form-item>
             <t-form-item label="开始时间">
@@ -156,7 +153,7 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import { onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import myDialog from '../myDialog.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
@@ -180,14 +177,6 @@ const loadMoreData = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
 }
 
-eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (data) => {
-    activityList.value.push(...data)
-    activityNumber.value = activityList.value.length
-    // 初始化展示的活动数据
-    activityView.value = activityList.value.slice(0, pageSize.value)
-    pNumber++
-})
-
 // 分页条设置
 const current = ref(1);
 const pageSize = ref(12);
@@ -207,7 +196,7 @@ const newActivityForm = reactive({
     activityLocation: '',
     activityIntroduction: '',
     applicationFormAttachment: '',
-    imageUrl: []
+    imageUrl: ''
 })
 
 // 打开发布活动对话框
@@ -224,7 +213,7 @@ const closeDialog = () => {
     newActivityForm.activityLocation = ''
     newActivityForm.activityIntroduction = ''
     newActivityForm.applicationFormAttachment = ''
-    newActivityForm.imageUrl = []
+    newActivityForm.imageUrl = ''
     dialogRef.value.closeDialog();
 };
 
@@ -233,10 +222,6 @@ const submitNewActivity = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postNewActivity, { clubId, ...newActivityForm })
 };
 
-eventEmitter.on(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess', () => {
-    MessagePlugin.success('发布成功')
-    closeDialog()
-})
 
 // 富文本编辑器
 const editor = ClassicEditor
@@ -281,8 +266,31 @@ const activityStatusTheme = {
     2: 'warning'
 }
 
+const selectChangeHandler = (fileList) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
+}
+
+onMounted(() => {
+    eventEmitter.on(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess', () => {
+        MessagePlugin.success('发布成功')
+        closeDialog()
+    })
+    eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (data) => {
+        activityList.value.push(...data)
+        activityNumber.value = activityList.value.length
+        // 初始化展示的活动数据
+        activityView.value = activityList.value.slice(0, pageSize.value)
+        pNumber++
+    })
+    eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
+        newActivityForm.imageUrl = data.url
+        console.log(newActivityForm.imageUrl);
+    })
+})
+
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess')
     eventEmitter.off(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess')
+    eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
 })
 </script>

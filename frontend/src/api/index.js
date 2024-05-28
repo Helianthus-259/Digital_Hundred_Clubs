@@ -145,7 +145,16 @@ const api = {
         params: {
             clubId: params.clubId,
         }
-    })
+    }),
+    'uploadImage': (file) => {
+        const formData = new FormData();
+        formData.append('image', file);
+        return axios.post(path.uploadImage, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

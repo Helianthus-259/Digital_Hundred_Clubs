@@ -19,6 +19,7 @@ export const APIEventEnum = {
     postNewActivitySuccess: 'postNewActivitySuccess',
     postBackBoneEvaluateSuccess: 'postBackBoneEvaluateSuccess',
     getClubEvaluateInfoSuccess: 'getClubEvaluateInfoSuccess',
+    uploadImageSuccess: 'uploadImageSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -48,6 +49,7 @@ export const APIEnum = {
     postNewActivity: 'postNewActivity',
     postBackBoneEvaluate: 'postBackBoneEvaluate',
     getClubEvaluateInfo: 'getClubEvaluateInfo',
+    uploadImage: 'uploadImage',
 }
 
 
