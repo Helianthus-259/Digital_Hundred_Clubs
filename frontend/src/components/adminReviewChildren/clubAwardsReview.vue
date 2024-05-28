@@ -52,40 +52,11 @@
   padding: 10px;
 }
 
-
-.t-row {
-  width: 100%;
-  align-items: center;
-}
-
-.t-row#tableBorder {
-  border: 2px solid #000;
-}
-
-.t-row#table {
-  border-top: 2px solid #000;
-}
-
-.t-col {
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.t-col#table {
-  border-left: 2px solid #000;
-}
-
-.attachContainer {
-  width: 80%;
-  margin: 0 auto 10px;
-}
 </style>
 
 <template>
-  <t-aside style="width: 500px">
-    <t-list stripe="true" style="max-height: 680px" :scroll="{ type: 'virtual' }">
+  <t-aside>
+    <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="evaluation in evaluations" style="width: auto" :key="evaluation.recordId">
         <t-list-item-meta :title = "evaluation.clubName" :description="evaluation.declarationYear"/>
         <template #action>
@@ -226,7 +197,7 @@
                     <div class="text">全员大会/骨干例会</div>
                   </t-col>
                 </t-row>
-                <div v-for="(item, index) in clubEvaluationInfo.meetings">
+                <div v-for="(item) in clubEvaluationInfo.meetings">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">
@@ -262,7 +233,7 @@
                     <div class="text">颁发单位</div>
                   </t-col>
                 </t-row>
-                <div v-for="(item, index) in clubEvaluationInfo.associationAwards">
+                <div v-for="(item) in clubEvaluationInfo.associationAwards">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{item.name}}</t-col>
@@ -298,7 +269,7 @@
                       </t-col>
                     </t-row>
                     <div
-                        v-for="(item, index) in clubEvaluationInfo.publicityManagementEffectiveness.PublicityAboveSchoolLevel">
+                        v-for="(item) in clubEvaluationInfo.publicityManagementEffectiveness.PublicityAboveSchoolLevel">
                       <t-popup placement="left-bottom">
                         <t-row id="table">
                           <t-col id="table" :span="6">{{item.platform}}</t-col>
@@ -389,7 +360,7 @@
                     <div class="text">活动成效</div>
                   </t-col>
                 </t-row>
-                <div v-for="(item, index) in clubEvaluationInfo.activities">
+                <div v-for="(item) in clubEvaluationInfo.activities">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{item.activityName}}</t-col>
@@ -434,7 +405,7 @@
 </template>
 
 <script setup>
-import {onUnmounted, ref, watch} from "vue";
+import {onUnmounted, ref} from "vue";
 import {ArrowDownIcon, ArrowRightIcon} from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import {APIEnum, APIEventEnum} from "@/Enum/index.js";
@@ -446,15 +417,15 @@ const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubEvaluationInfo = ref({
   clubName:'',
-  handoverMethod:0,
-  handoverParticipantsCount:100,
-  isFinancialInformationPublic: 0,
-  totalMembers:0,
+  handoverMethod:'',
+  handoverParticipantsCount:'',
+  isFinancialInformationPublic: '',
+  totalMembers:'',
   administrativeGuideTeacherName: '',
   businessGuideTeacherName: '',
   mainCompus: "",
-  backboneNumber: 10,
-  communistRelatedBackBoneNumber: 10,
+  backboneNumber: '',
+  communistRelatedBackBoneNumber: '',
   publicityManagementInfo:{
     wechatOfficial:'',
     web:'',
@@ -467,62 +438,62 @@ const clubEvaluationInfo = ref({
     other:'',
   },
   file: '',
-  declarationYear:"Year",
-  guideTeacher:0,
+  declarationYear:'',
+  guideTeacher:'',
   meetings:[
     {
-      activityId:0,
-      clubId:0,
-      time:"2022-1-1",
-      location:"会议地点",
-      staffMeetingOrbackBoneMeeting:0,//0全员大会,1骨干例会
-      guideTeacher:1,
+      activityId:'',
+      clubId:'',
+      time:'',
+      location:'',
+      staffMeetingOrbackBoneMeeting:'',//0全员大会,1骨干例会
+      guideTeacher:'',
     }
   ],
   associationAwards:[
     {
-      name:"xx奖",
-      time:"2022-02-02",
-      organization:"中山大学"
+      name:'',
+      time:'',
+      organization:''
     }
   ],
   publicityManagementEffectiveness:{
-    submissionsCount:5,
+    submissionsCount:'',
     PublicityAboveSchoolLevel:[
       {
-        platform:"平台",
-        content:"内容",
+        platform:'',
+        content:'',
       }
     ],
   },
   hostedSchoolLevelActivities:{
     schoolLv:[
       {
-        host:"主办方",
-        activityName:"活动名",
+        host:'',
+        activityName:'',
       }
     ],
     municipal:[
       {
-        host:"主办方",
-        activityName:"活动名",
+        host:'',
+        activityName:'',
       }
     ],
     provincial:[
       {
-        host:"主办方",
-        activityName:"活动名",
+        host:'',
+        activityName:'',
       }
     ]
   },
   activities:[
     {
-      activityName:"活动名称",
-      activityTime:"活动时间",
-      activityEffect:"活动成效",
+      activityName:'',
+      activityTime:'',
+      activityEffect:'',
     }
   ],
-  clubWorkIntroduction:"工作简介"
+  clubWorkIntroduction:''
 })
 const detail = (data) =>{
   console.log(data)

@@ -456,17 +456,8 @@ mock.onPost(path.newActivity).reply((config) => {
 
 // 社团骨干评优mock
 mock.onPost(path.backBoneEvaluate).reply((config) => {
-    const data = [];
-    for (let i = 0; i < 3; i++) {
-        data.push({
-            recordId:i,
-            studentId:i,
-            clubId:i,
-        });
-    }
     return [200, {
         code: 19, // 19代表社团骨干评优
-        data,
     }]
 })
 
@@ -514,3 +505,4 @@ mock.onPost(path.uploadImage).reply((config) => {
         }
     }]
 })
+

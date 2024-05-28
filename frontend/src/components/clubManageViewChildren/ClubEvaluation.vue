@@ -52,31 +52,6 @@
     padding: 10px;
 }
 
-
-.t-row {
-    width: 100%;
-    align-items: center;
-}
-
-.t-row#tableBorder {
-    border: 2px solid #000;
-}
-
-.t-row#table {
-    border-top: 2px solid #000;
-}
-
-.t-col {
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.t-col#table {
-    border-left: 2px solid #000;
-}
-
 .attachContainer {
     width: 80%;
     margin: 0 auto 10px;
@@ -94,7 +69,7 @@
                     </t-col>
                     <t-col :span="9" id="table">
                         {{ clubEvaluation.clubName }}
-                    </t-col>
+                  </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">

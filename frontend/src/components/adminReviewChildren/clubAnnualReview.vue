@@ -44,19 +44,6 @@
   margin: 0 auto;
 }
 
-.t-row {
-  width: 100%;
-  align-items: center;
-}
-
-.t-row#border {
-  border: 2px solid #000;
-}
-
-.t-row#table {
-  border-top: 2px solid #000;
-}
-
 .txt {
   font-size: 14px;
   display: flex;
@@ -64,27 +51,11 @@
   justify-content: center;
   padding: 10px;
 }
-
-.t-col {
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.t-col#table {
-  border-left: 2px solid #000;
-}
-
-.downloadContainer {
-  width: 80%;
-  margin: 0 auto 50px auto;
-}
 </style>
 
 <template>
-  <t-aside style="width: 500px">
-    <t-list stripe="true" style="max-height: 680px" :scroll="{ type: 'virtual' }">
+  <t-aside>
+    <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="declaration in declarations" style="width: auto" :key="declaration.declarationId">
         <t-list-item-meta :title = "declaration.clubName" :description="declaration.declarationYear"/>
         <template #action>
@@ -326,11 +297,11 @@ const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubReviewInfo = ref({
   code: 20, // 20代表获取社团评优所需信息
   clubName: '',
-  totalMembers: 0,
-  isFinancialInformationPublic: 0,
+  totalMembers: '',
+  isFinancialInformationPublic: '',
   administrativeGuideTeacherName: '',
   businessGuideTeacherName: '',
-  backboneNumber: 0,
+  backboneNumber: '',
   establishmentDate: '',
   responsibleDepartment: '',
   mainCompus: '',
@@ -339,19 +310,19 @@ const clubReviewInfo = ref({
   contactPerson: '',
   politicalStatus: '',
   contactPhone: '',
-  clubStatus: 0,
+  clubStatus: '',
   file: '',
-  communistRelatedBackBoneNumber: 0,
+  communistRelatedBackBoneNumber: '',
   publicityManagementInfo: {
-    WeChatPublicAccount: { name: '哈哈哈', submitCount: '20', Auditors: { name1: '张三', name2: '李四', name3: '王五' } },
-    WebSite: { has: '1', name: '网站' },
-    Blog: { has: '1', name: '微博' },
-    BiliBili: { has: '1', name: 'b站' },
-    TikTok: { has: '1', name: '抖音' },
-    WeChatVideoAccount: { has: '1', name: '微信视频号' },
-    KuaiShou: { has: '1', name: '快手' },
-    Publication: { has: '1', name: '刊物' },
-    Other: { has: '1', name: '其他' },
+    WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
+    WebSite: { has: '', name: '' },
+    Blog: { has: '', name: '' },
+    BiliBili: { has: '', name: '' },
+    TikTok: { has: '', name: '' },
+    WeChatVideoAccount: { has: '', name: '' },
+    KuaiShou: { has: '', name: '' },
+    Publication: { has: '', name: '' },
+    Other: { has: '', name: '' },
   },
 })
 
