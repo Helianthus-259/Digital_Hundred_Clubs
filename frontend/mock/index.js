@@ -495,3 +495,13 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
         },
     }]
 })
+
+// 上传图片mock
+mock.onPost(path.uploadImage).reply((config) => {
+    return [200, {
+        code: 21, // 21代表上传图片成功
+        image: {
+            url: 'https://tdesign.gtimg.com/demo/demo-image-1.png',
+        }
+    }]
+})

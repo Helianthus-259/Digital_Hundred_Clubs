@@ -238,7 +238,7 @@
                     <div class="tabBarBox">
                         <t-head-menu v-model="value" @change="changeView">
                             <template #logo>
-                                <img height="28" src="https://tdesign.gtimg.com/site/baseLogo-light.png" alt="logo" />
+                                <img height="100%" src="/src/assets/sselogo20220915_0.png" alt="logo" />
                             </template>
                             <t-menu-item value="activity" content="活动">
                                 <template #icon>

@@ -22,6 +22,7 @@ const base = {
     newActivity: '/api/newActivity', // 提交新活动
     backBoneEvaluate: '/api/backBoneEvaluate', // 骨干评优
     clubEvaluateInfo: '/api/clubEvaluateInfo',// 获取社团评优所需信息
+    uploadImage: '/api/uploadImage', // 上传图片
 }
 
 export default base;

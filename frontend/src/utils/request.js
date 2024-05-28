@@ -92,6 +92,9 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postBackBoneEvaluateSuccess)
         } else if (response.data.code === 20) { // 获取社团评优所需信息成功
             eventEmitter.emit(APIEventEnum.getClubEvaluateInfoSuccess, response.data)
+        } else if (response.data.code === 21) { // 代表上传图片成功
+            const { image } = response.data
+            eventEmitter.emit(APIEventEnum.uploadImageSuccess, image)
         }
     }
 }
