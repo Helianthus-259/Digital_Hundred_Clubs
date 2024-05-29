@@ -44,6 +44,30 @@
   margin: 0 auto;
 }
 
+.t-row {
+  width: 100%;
+  align-items: center;
+}
+
+.t-row#border {
+  border: 2px solid #000;
+}
+
+.t-row#table {
+  border-top: 2px solid #000;
+}
+
+.t-col {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.t-col#table {
+  border-left: 2px solid #000;
+}
+
 .text {
   font-size: 14px;
   display: flex;
@@ -51,22 +75,17 @@
   justify-content: center;
   padding: 10px;
 }
-
 </style>
 
 <template>
   <t-aside>
     <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="evaluation in evaluations" style="width: auto" :key="evaluation.recordId">
-        <t-list-item-meta :title = "evaluation.clubName" :description="evaluation.declarationYear"/>
+        <t-list-item-meta :title="evaluation.clubName" :description="evaluation.declarationYear" />
         <template #action>
-          <t-button
-              shape="round"
-              :theme="theme[choose === evaluation.recordId ? 1 : 0]"
-              @click="detail(evaluation)"
-          >
+          <t-button shape="round" :theme="theme[choose === evaluation.recordId ? 1 : 0]" @click="detail(evaluation)">
             <template #icon>
-              <ArrowRightIcon/>
+              <ArrowRightIcon />
             </template>
           </t-button>
         </template>
@@ -78,7 +97,7 @@
       <div class="clubEvaluationContainer">
         <div class="titleContainer">优秀学生社团申请表</div>
         <div class="tableContainer">
-          <t-row id="tableBorder">
+          <t-row id="border">
             <t-row>
               <t-col :span="3">
                 <div class="text">学生社团名称</div>
@@ -147,14 +166,15 @@
               <t-col style="display: inline;" :span="6" id="table">
                 <t-row>
                   <t-col :span="12">
-                    <t-radio-group variant="primary-filled" :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
+                    <t-radio-group variant="primary-filled"
+                      :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
                       <t-radio-button value='0'>全员大会</t-radio-button>
                       <t-radio-button value='1'>其他</t-radio-button>
                     </t-radio-group>
                   </t-col>
                 </t-row>
                 <t-row id="table">
-                  <t-col :span="12">{{clubEvaluationInfo.handoverParticipantsCount}}</t-col>
+                  <t-col :span="12">{{ clubEvaluationInfo.handoverParticipantsCount }}</t-col>
                 </t-row>
                 <t-row id="table">
                   <t-col :span="12">
@@ -201,13 +221,14 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">
-                        {{item.time}}
+                        {{ item.time }}
                       </t-col>
                       <t-col id="table" :span="4">
-                        {{item.location}}
+                        {{ item.location }}
                       </t-col>
                       <t-col id="table" :span="4">
-                        <t-radio-group variant="primary-filled" :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
+                        <t-radio-group variant="primary-filled"
+                          :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
                           <t-radio-button value='0'>全员大会</t-radio-button>
                           <t-radio-button value='1'>骨干例会</t-radio-button>
                         </t-radio-group>
@@ -236,9 +257,9 @@
                 <div v-for="(item) in clubEvaluationInfo.associationAwards">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
-                      <t-col :span="4">{{item.name}}</t-col>
-                      <t-col id="table" :span="4">{{item.time}}</t-col>
-                      <t-col id="table" :span="4">{{item.organization}}</t-col>
+                      <t-col :span="4">{{ item.name }}</t-col>
+                      <t-col id="table" :span="4">{{ item.time }}</t-col>
+                      <t-col id="table" :span="4">{{ item.organization }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -253,7 +274,8 @@
                   <t-col :span="8">
                     <div class="text">向学校平台投稿次数</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{clubEvaluationInfo.publicityManagementEffectiveness.submissionsCount}}</t-col>
+                  <t-col id="table" :span="4">{{ clubEvaluationInfo.publicityManagementEffectiveness.submissionsCount
+                    }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="4">
@@ -269,11 +291,11 @@
                       </t-col>
                     </t-row>
                     <div
-                        v-for="(item) in clubEvaluationInfo.publicityManagementEffectiveness.PublicityAboveSchoolLevel">
+                      v-for="(item) in clubEvaluationInfo.publicityManagementEffectiveness.PublicityAboveSchoolLevel">
                       <t-popup placement="left-bottom">
                         <t-row id="table">
-                          <t-col id="table" :span="6">{{item.platform}}</t-col>
-                          <t-col id="table" :span="6">{{item.content}}</t-col>
+                          <t-col id="table" :span="6">{{ item.platform }}</t-col>
+                          <t-col id="table" :span="6">{{ item.content }}</t-col>
                         </t-row>
                       </t-popup>
                     </div>
@@ -305,8 +327,8 @@
                     <div v-for="(item, index) in clubEvaluationInfo.hostedSchoolLevelActivities.schoolLv">
                       <t-popup placement="left-bottom">
                         <t-row :id="index === 0 ? '' : 'table'">
-                          <t-col id="table" :span="6">{{item.host}}</t-col>
-                          <t-col id="table" :span="6">{{item.activityName}}</t-col>
+                          <t-col id="table" :span="6">{{ item.host }}</t-col>
+                          <t-col id="table" :span="6">{{ item.activityName }}</t-col>
                         </t-row>
                       </t-popup>
                     </div>
@@ -320,8 +342,8 @@
                     <div v-for="(item, index) in clubEvaluationInfo.hostedSchoolLevelActivities.municipal">
                       <t-popup placement="left-bottom">
                         <t-row :id="index === 0 ? '' : 'table'">
-                          <t-col id="table" :span="6">{{item.host}}</t-col>
-                          <t-col id="table" :span="6">{{item.activityName}}</t-col>
+                          <t-col id="table" :span="6">{{ item.host }}</t-col>
+                          <t-col id="table" :span="6">{{ item.activityName }}</t-col>
                         </t-row>
                       </t-popup>
                     </div>
@@ -335,8 +357,8 @@
                     <div v-for="(item, index) in clubEvaluationInfo.hostedSchoolLevelActivities.provincial">
                       <t-popup placement="left-bottom">
                         <t-row :id="index === 0 ? '' : 'table'">
-                          <t-col id="table" :span="6">{{item.host}}</t-col>
-                          <t-col id="table" :span="6">{{item.activityName}}</t-col>
+                          <t-col id="table" :span="6">{{ item.host }}</t-col>
+                          <t-col id="table" :span="6">{{ item.activityName }}</t-col>
                         </t-row>
                       </t-popup>
                     </div>
@@ -363,9 +385,9 @@
                 <div v-for="(item) in clubEvaluationInfo.activities">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
-                      <t-col :span="4">{{item.activityName}}</t-col>
-                      <t-col id="table" :span="4">{{item.activityTime}}</t-col>
-                      <t-col id="table" :span="4">{{item.activityEffect}}</t-col>
+                      <t-col :span="4">{{ item.activityName }}</t-col>
+                      <t-col id="table" :span="4">{{ item.activityTime }}</t-col>
+                      <t-col id="table" :span="4">{{ item.activityEffect }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -375,20 +397,20 @@
               <t-col :span="3">
                 <div class="text">社团育人成效案例</div>
               </t-col>
-              <t-col :span="9" id="table">{{clubEvaluationInfo.file}}</t-col>
+              <t-col :span="9" id="table">{{ clubEvaluationInfo.file }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="text">社团代表性照片</div>
               </t-col>
-              <t-col :span="9" id="table">{{clubEvaluationInfo.file}}</t-col>
+              <t-col :span="9" id="table">{{ clubEvaluationInfo.file }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="text">社团工作简介</div>
               </t-col>
               <t-col :span="9" id="table">
-                <t-text>{{clubEvaluationInfo.clubWorkIntroduction}}</t-text>
+                <t-text>{{ clubEvaluationInfo.clubWorkIntroduction }}</t-text>
               </t-col>
             </t-row>
           </t-row>
@@ -405,10 +427,10 @@
 </template>
 
 <script setup>
-import {onUnmounted, ref} from "vue";
-import {ArrowDownIcon, ArrowRightIcon} from "tdesign-icons-vue-next";
+import { onUnmounted, ref } from "vue";
+import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
-import {APIEnum, APIEventEnum} from "@/Enum/index.js";
+import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
 
 const evaluations = getEvaluationInfos()
@@ -416,86 +438,86 @@ const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubEvaluationInfo = ref({
-  clubName:'',
-  handoverMethod:'',
-  handoverParticipantsCount:'',
+  clubName: '',
+  handoverMethod: '',
+  handoverParticipantsCount: '',
   isFinancialInformationPublic: '',
-  totalMembers:'',
+  totalMembers: '',
   administrativeGuideTeacherName: '',
   businessGuideTeacherName: '',
   mainCompus: "",
   backboneNumber: '',
   communistRelatedBackBoneNumber: '',
-  publicityManagementInfo:{
-    wechatOfficial:'',
-    web:'',
-    weibo:'',
-    bilibili:'',
-    tiktok:'',
-    wechatVideo:'',
-    kuaishou:'',
-    journal:'',
-    other:'',
+  publicityManagementInfo: {
+    wechatOfficial: '',
+    web: '',
+    weibo: '',
+    bilibili: '',
+    tiktok: '',
+    wechatVideo: '',
+    kuaishou: '',
+    journal: '',
+    other: '',
   },
   file: '',
-  declarationYear:'',
-  guideTeacher:'',
-  meetings:[
+  declarationYear: '',
+  guideTeacher: '',
+  meetings: [
     {
-      activityId:'',
-      clubId:'',
-      time:'',
-      location:'',
-      staffMeetingOrbackBoneMeeting:'',//0全员大会,1骨干例会
-      guideTeacher:'',
+      activityId: '',
+      clubId: '',
+      time: '',
+      location: '',
+      staffMeetingOrbackBoneMeeting: '',//0全员大会,1骨干例会
+      guideTeacher: '',
     }
   ],
-  associationAwards:[
+  associationAwards: [
     {
-      name:'',
-      time:'',
-      organization:''
+      name: '',
+      time: '',
+      organization: ''
     }
   ],
-  publicityManagementEffectiveness:{
-    submissionsCount:'',
-    PublicityAboveSchoolLevel:[
+  publicityManagementEffectiveness: {
+    submissionsCount: '',
+    PublicityAboveSchoolLevel: [
       {
-        platform:'',
-        content:'',
+        platform: '',
+        content: '',
       }
     ],
   },
-  hostedSchoolLevelActivities:{
-    schoolLv:[
+  hostedSchoolLevelActivities: {
+    schoolLv: [
       {
-        host:'',
-        activityName:'',
+        host: '',
+        activityName: '',
       }
     ],
-    municipal:[
+    municipal: [
       {
-        host:'',
-        activityName:'',
+        host: '',
+        activityName: '',
       }
     ],
-    provincial:[
+    provincial: [
       {
-        host:'',
-        activityName:'',
+        host: '',
+        activityName: '',
       }
     ]
   },
-  activities:[
+  activities: [
     {
-      activityName:'',
-      activityTime:'',
-      activityEffect:'',
+      activityName: '',
+      activityTime: '',
+      activityEffect: '',
     }
   ],
-  clubWorkIntroduction:''
+  clubWorkIntroduction: ''
 })
-const detail = (data) =>{
+const detail = (data) => {
   console.log(data)
   choose.value = data.recordId
   clubEvaluationInfo.value.clubName = data.clubName
@@ -525,67 +547,67 @@ function getEvaluationInfos(total = 5) {
   const data = [];
   for (let i = 0; i < total; i++) {
     data.push({
-      recordId:i,
-      declarationYear:["2021","2022","2023"][i % 3],
-      clubId:i,
-      clubName:"xx社团",
-      handoverMethod:[0, 1][i % 2],//0全员大会,1骨干例会
-      handoverParticipantsCount:100,
-      guideTeacher:[0, 1][i % 2],
-      meetings:[
+      recordId: i,
+      declarationYear: ["2021", "2022", "2023"][i % 3],
+      clubId: i,
+      clubName: "xx社团",
+      handoverMethod: [0, 1][i % 2],//0全员大会,1骨干例会
+      handoverParticipantsCount: 100,
+      guideTeacher: [0, 1][i % 2],
+      meetings: [
         {
-          activityId:0,
-          clubId:0,
-          time:"2022-1-1",
-          location:"会议地点",
-          staffMeetingOrbackBoneMeeting:0,//0全员大会,1骨干例会
-          guideTeacher:1,
+          activityId: 0,
+          clubId: 0,
+          time: "2022-1-1",
+          location: "会议地点",
+          staffMeetingOrbackBoneMeeting: 0,//0全员大会,1骨干例会
+          guideTeacher: 1,
         }
       ],
-      associationAwards:[
+      associationAwards: [
         {
-          name:"xx奖",
-          time:"2022-02-02",
-          organization:"中山大学"
+          name: "xx奖",
+          time: "2022-02-02",
+          organization: "中山大学"
         }
       ],
-      publicityManagementEffectiveness:{
-        submissionsCount:5,
-        PublicityAboveSchoolLevel:[
+      publicityManagementEffectiveness: {
+        submissionsCount: 5,
+        PublicityAboveSchoolLevel: [
           {
-            platform:"平台",
-            content:"内容",
+            platform: "平台",
+            content: "内容",
           }
         ],
       },
-      hostedSchoolLevelActivities:{
-        schoolLv:[
+      hostedSchoolLevelActivities: {
+        schoolLv: [
           {
-            host:"主办方",
-            activityName:"活动名",
+            host: "主办方",
+            activityName: "活动名",
           }
         ],
-        municipal:[
+        municipal: [
           {
-            host:"主办方",
-            activityName:"活动名",
+            host: "主办方",
+            activityName: "活动名",
           }
         ],
-        provincial:[
+        provincial: [
           {
-            host:"主办方",
-            activityName:"活动名",
+            host: "主办方",
+            activityName: "活动名",
           }
         ]
       },
-      activities:[
+      activities: [
         {
-          activityName:"活动名称",
-          activityTime:"活动时间",
-          activityEffect:"活动成效",
+          activityName: "活动名称",
+          activityTime: "活动时间",
+          activityEffect: "活动成效",
         }
       ],
-      clubWorkIntroduction:"工作简介"
+      clubWorkIntroduction: "工作简介"
     });
   }
   return data;

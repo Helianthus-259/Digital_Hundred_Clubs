@@ -43,21 +43,41 @@
   width: 80%;
   margin: 0 auto;
 }
+
+.t-row {
+  width: 100%;
+  align-items: center;
+}
+
+.t-row#border {
+  border: 2px solid #000;
+}
+
+.t-row#table {
+  border-top: 2px solid #000;
+}
+
+.t-col {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.t-col#table {
+  border-left: 2px solid #000;
+}
 </style>
 
 <template>
   <t-aside>
     <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="evaluation in backBoneEvaluations" style="width: auto" :key="evaluation.recordId">
-        <t-list-item-meta :title = "evaluation.stName" :description="evaluation.clubName"/>
+        <t-list-item-meta :title="evaluation.stName" :description="evaluation.clubName" />
         <template #action>
-          <t-button
-              shape="round"
-              :theme="theme[choose === evaluation.recordId ? 1 : 0]"
-              @click="detail(evaluation)"
-          >
+          <t-button shape="round" :theme="theme[choose === evaluation.recordId ? 1 : 0]" @click="detail(evaluation)">
             <template #icon>
-              <ArrowRightIcon/>
+              <ArrowRightIcon />
             </template>
           </t-button>
         </template>
@@ -69,7 +89,7 @@
       <div class="clubEvaluationContainer">
         <div class="titleContainer">优秀学生社团骨干申请表</div>
         <div class="tableContainer">
-          <t-row id="tableBorder">
+          <t-row id="border">
             <t-row>
               <t-col :span="2">姓名</t-col>
               <t-col id="table" :span="3">{{ backBoneEvaluate.stName }}</t-col>
@@ -92,15 +112,15 @@
             </t-row>
             <t-row id="table">
               <t-col :span="2">任职时间</t-col>
-              <t-col id="table" :span="10">{{backBoneEvaluate.tenurePeriod}}</t-col>
+              <t-col id="table" :span="10">{{ backBoneEvaluate.tenurePeriod }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="2">绩点</t-col>
-              <t-col id="table" :span="2">{{backBoneEvaluate.achievements.gpa}}</t-col>
+              <t-col id="table" :span="2">{{ backBoneEvaluate.achievements.gpa }}</t-col>
               <t-col id="table" :span="2">排名</t-col>
-              <t-col id="table" :span="2">{{backBoneEvaluate.achievements.rank}}</t-col>
+              <t-col id="table" :span="2">{{ backBoneEvaluate.achievements.rank }}</t-col>
               <t-col id="table" :span="2">名次百分比</t-col>
-              <t-col id="table" :span="2">{{backBoneEvaluate.achievements.rankRatio}}</t-col>
+              <t-col id="table" :span="2">{{ backBoneEvaluate.achievements.rankRatio }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="2">参与学校和指导单位组织培训情况</t-col>
@@ -113,9 +133,9 @@
                 <div v-for="(item) in backBoneEvaluate.trainingParticipation">
                   <t-popup placement="left-bottom">
                     <t-row id="table">
-                      <t-col :span="4">{{item.time}}</t-col>
-                      <t-col id="table" :span="4">{{item.location}}</t-col>
-                      <t-col id="table" :span="4">{{item.organization}}</t-col>
+                      <t-col :span="4">{{ item.time }}</t-col>
+                      <t-col id="table" :span="4">{{ item.location }}</t-col>
+                      <t-col id="table" :span="4">{{ item.organization }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -132,9 +152,9 @@
                 <div v-for="(item) in backBoneEvaluate.associationAwards">
                   <t-popup placement="left-bottom">
                     <t-row id="table">
-                      <t-col :span="4">{{item.name}}</t-col>
-                      <t-col id="table" :span="4">{{item.time}}</t-col>
-                      <t-col id="table" :span="4">{{item.organization}}</t-col>
+                      <t-col :span="4">{{ item.name }}</t-col>
+                      <t-col id="table" :span="4">{{ item.time }}</t-col>
+                      <t-col id="table" :span="4">{{ item.organization }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -151,9 +171,9 @@
                 <div v-for="(item) in backBoneEvaluate.awards">
                   <t-popup placement="left-bottom">
                     <t-row id="table">
-                      <t-col :span="4">{{item.name}}</t-col>
-                      <t-col id="table" :span="4">{{item.time}}</t-col>
-                      <t-col id="table" :span="4">{{item.organization}}</t-col>
+                      <t-col :span="4">{{ item.name }}</t-col>
+                      <t-col id="table" :span="4">{{ item.time }}</t-col>
+                      <t-col id="table" :span="4">{{ item.organization }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -162,7 +182,7 @@
             <t-row id="table">
               <t-col :span="2">学生社团工作情况</t-col>
               <t-col id="table" :span="10">
-                <t-text>{{backBoneEvaluate.clubWorkStatus}}</t-text>
+                <t-text>{{ backBoneEvaluate.clubWorkStatus }}</t-text>
               </t-col>
             </t-row>
           </t-row>
@@ -179,14 +199,14 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {ArrowDownIcon, ArrowRightIcon} from "tdesign-icons-vue-next";
+import { ref } from "vue";
+import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 
 const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const backBoneEvaluate = ref({
-  recordId:0,
+  recordId: 0,
   stName: '',
   studentNumber: '',
   contact: '',
@@ -211,24 +231,24 @@ const backBoneEvaluate = ref({
   ],
   clubWorkStatus: '',
 })
-const detail = (data) =>{
+const detail = (data) => {
   console.log(data)
   choose.value = data.recordId
   backBoneEvaluate.value = data
 }
 
 const backBoneEvaluations = getEvaluations()
-function getEvaluations(){
+function getEvaluations() {
   const data = [];
-  for(let i = 0; i < 10; i++){
+  for (let i = 0; i < 10; i++) {
     data.push({
-      recordId:i,
-      stName: ["小红","小强","小王"][i % 3],
-      studentNumber: [1,2,3][i % 3],
+      recordId: i,
+      stName: ["小红", "小强", "小王"][i % 3],
+      studentNumber: [1, 2, 3][i % 3],
       contact: '114514',
-      college: ["人工智能","软件工程","测绘"][i % 3],
-      politicalStatus: ["群众","党员"][i % 2],
-      clubName: ["篮球社","围棋社","街舞社"][i % 3],
+      college: ["人工智能", "软件工程", "测绘"][i % 3],
+      politicalStatus: ["群众", "党员"][i % 2],
+      clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
       position: ["社长", "副社长"][i % 2],
       tenurePeriod: '100',
       achievements: {

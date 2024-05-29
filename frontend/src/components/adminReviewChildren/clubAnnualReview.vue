@@ -51,21 +51,42 @@
   justify-content: center;
   padding: 10px;
 }
+
+.t-row {
+  width: 100%;
+  align-items: center;
+}
+
+.t-row#border {
+  border: 2px solid #000;
+}
+
+.t-row#table {
+  border-top: 2px solid #000;
+}
+
+.t-col {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.t-col#table {
+  border-left: 2px solid #000;
+}
 </style>
 
 <template>
   <t-aside>
     <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="declaration in declarations" style="width: auto" :key="declaration.declarationId">
-        <t-list-item-meta :title = "declaration.clubName" :description="declaration.declarationYear"/>
+        <t-list-item-meta :title="declaration.clubName" :description="declaration.declarationYear" />
         <template #action>
-          <t-button
-              shape="round"
-              :theme="theme[choose === declaration.declarationId ? 1 : 0]"
-              @click="detail(declaration.declarationId)"
-          >
+          <t-button shape="round" :theme="theme[choose === declaration.declarationId ? 1 : 0]"
+            @click="detail(declaration.declarationId)">
             <template #icon>
-              <ArrowRightIcon/>
+              <ArrowRightIcon />
             </template>
           </t-button>
         </template>
@@ -82,11 +103,11 @@
               <t-col :span="3">
                 <div class="txt">学生社团名称</div>
               </t-col>
-              <t-col id="table" :span="3">{{clubReviewInfo.clubName}}</t-col>
+              <t-col id="table" :span="3">{{ clubReviewInfo.clubName }}</t-col>
               <t-col id="table" :span="3">
                 <div class="txt">学生社团类别</div>
               </t-col>
-              <t-col id="table" :span="3">{{clubReviewInfo.clubCategory}}</t-col>
+              <t-col id="table" :span="3">{{ clubReviewInfo.clubCategory }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -146,13 +167,15 @@
                       <t-col :span="3">
                         <div class="txt">名称</div>
                       </t-col>
-                      <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.name}}</t-col>
+                      <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.name
+                        }}</t-col>
                     </t-row>
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="3">
                         <div class="txt">推送条数</div>
                       </t-col>
-                      <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.submitCount}}</t-col>
+                      <t-col id="table" :span="9">{{
+                        clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.submitCount }}</t-col>
                     </t-row>
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="3">
@@ -171,9 +194,12 @@
                           </t-col>
                         </t-row>
                         <t-row id="table">
-                          <t-col :span="4">{{clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name1}}</t-col>
-                          <t-col id="table" :span="4">{{clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name2}}</t-col>
-                          <t-col id="table" :span="4">{{clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name3}}</t-col>
+                          <t-col :span="4">{{ clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name1
+                            }}</t-col>
+                          <t-col id="table" :span="4">{{
+                            clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name2 }}</t-col>
+                          <t-col id="table" :span="4">{{
+                            clubReviewInfo.publicityManagementInfo.WeChatPublicAccount.Auditors.name3 }}</t-col>
                         </t-row>
                       </t-col>
                     </t-row>
@@ -183,49 +209,50 @@
                   <t-col :span="3">
                     <div class="txt">网站</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.WebSite.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.WebSite.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">微博</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.Blog.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.Blog.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">哔哩哔哩</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.BiliBili.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.BiliBili.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">抖音</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.TikTok.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.TikTok.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">微信视频号</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.WeChatVideoAccount.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.WeChatVideoAccount.name
+                    }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">快手</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.KuaiShou.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.KuaiShou.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">刊物</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.Publication.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.Publication.name }}</t-col>
                 </t-row>
                 <t-row style="border-left: 2px solid #000;" id="table">
                   <t-col :span="3">
                     <div class="txt">其他</div>
                   </t-col>
-                  <t-col id="table" :span="9">{{clubReviewInfo.publicityManagementInfo.Other.name}}</t-col>
+                  <t-col id="table" :span="9">{{ clubReviewInfo.publicityManagementInfo.Other.name }}</t-col>
                 </t-row>
               </t-col>
             </t-row>
@@ -238,14 +265,14 @@
                   <t-col id="table" :span="8">
                     <div class="txt">是否接受校外赞助</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{clubReviewInfo.file}}</t-col>
+                  <t-col id="table" :span="4">{{ clubReviewInfo.file }}</t-col>
                 </t-row>
                 <t-row id="table">
                   <t-col id="table" :span="8">
                     <div class="txt">是否向社团成员进行财务公开</div>
                   </t-col>
                   <t-col id="table" :span="4">{{ clubReviewInfo.isFinancialInformationPublic === '0' ? '否' :
-                      '是' }}</t-col>
+                    '是' }}</t-col>
                 </t-row>
               </t-col>
             </t-row>
@@ -253,13 +280,13 @@
               <t-col :span="3">
                 <div class="txt">学生社团章程</div>
               </t-col>
-              <t-col id="table" :span="9">{{clubReviewInfo.file}}</t-col>
+              <t-col id="table" :span="9">{{ clubReviewInfo.file }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="txt">会议及活动清单</div>
               </t-col>
-              <t-col id="table" :span="9">{{clubReviewInfo.file}}</t-col>
+              <t-col id="table" :span="9">{{ clubReviewInfo.file }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -284,10 +311,10 @@
 </template>
 
 <script setup>
-import {onUnmounted, ref} from "vue";
-import {ArrowDownIcon, ArrowRightIcon} from "tdesign-icons-vue-next";
+import { onUnmounted, ref } from "vue";
+import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
-import {APIEnum, APIEventEnum} from "@/Enum/index.js";
+import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
 
 const declarations = ref([])
@@ -328,12 +355,12 @@ const clubReviewInfo = ref({
 
 for (let i = 0; i < 20; i++) {
   declarations.value.push({
-    declarationId:i,
-    clubName:['篮球社','足球社','羽毛球社'][i % 3],
-    declarationYear:["2020","2021","2022"][i % 3],
+    declarationId: i,
+    clubName: ['篮球社', '足球社', '羽毛球社'][i % 3],
+    declarationYear: ["2020", "2021", "2022"][i % 3],
   });
 }
-const detail = (data) =>{
+const detail = (data) => {
   console.log(data)
   choose.value = data
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: data })
