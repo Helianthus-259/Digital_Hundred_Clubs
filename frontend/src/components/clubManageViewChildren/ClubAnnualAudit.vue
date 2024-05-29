@@ -408,7 +408,6 @@ const clubAnnualAudit = reactive({
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
     eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
-        console.log(data);
         clubAnnualAudit.clubName = data.clubName
         clubAnnualAudit.clubCategory = data.clubCategory
         clubAnnualAudit.responsibleDepartment = data.responsibleDepartment

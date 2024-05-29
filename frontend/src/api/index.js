@@ -155,6 +155,40 @@ const api = {
             }
         })
     },
+    'postDeleteClubMember': (params) => axios.post(path.deleteClubMember, { // 删除社团干部，即将干部变成普通成员
+        params: {
+            clubId: params.clubId,
+            studentNumber: params.studentNumber,
+        }
+    }),
+    'postUpdateClubMember': (params) => axios.post(path.updateClubMember, { // 更新社团干部信息
+        params: {
+            clubId: params.clubId,
+            oldStudent: params.oldStudent,
+            newStudent: params.newStudent,
+        }
+    }),
+    'postAddClubMember': (params) => axios.post(path.addClubMember, { // 添加社团干部
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+            stName: params.stName,
+            position: params.position,
+        }
+    }),
+    'postUpdateClubInfo': (params) => axios.post(path.updateClubInfo, { // 更新社团信息
+        params: {
+            clubName: params.clubName,
+            establishmentDate: params.establishmentDate,
+            clubCategory: params.clubCategory,
+            responsibleDepartment: params.responsibleDepartment,
+            administrativeGuideTeacherName: params.administrativeGuideTeacherName,
+            businessGuideTeacherName: params.businessGuideTeacherName,
+            mainCompus: params.mainCampus,
+            isFinancialInformationPublic: params.isFinancialInformationPublic,
+            imageUrl: params.imageUrl,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

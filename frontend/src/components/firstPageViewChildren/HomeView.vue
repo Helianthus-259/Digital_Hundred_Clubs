@@ -134,7 +134,7 @@
             <div class="swiperContainer">
                 <t-swiper class="swiper" type="card" :navigation="{ placement: 'outside', showSlideBtn: 'always' }">
                     <t-swiper-item v-for="(item, index) in swiperList" :key="index">
-                        <div style="display: flex; justify-content: center; background: #fff;">
+                        <div style="display: flex; justify-content: center;  background: #ffffff; height: 100%; ">
                             <img :src="item" />
                         </div>
                     </t-swiper-item>
@@ -152,7 +152,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { SearchIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from '../../utils/eventEmitter';
 import { RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
 import store from '@/store';

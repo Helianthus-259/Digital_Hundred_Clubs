@@ -13,7 +13,6 @@
 }
 
 .custom-dialog {
-    width: 60vw;
     background-color: white;
     border-radius: 8px;
     padding: 20px;
@@ -30,7 +29,10 @@
 }
 
 .dialog-body {
-    height: calc(100vh - 250px);
+    max-width: calc(60vw);
+    min-width: calc(40vw);
+    max-height: calc(100vh - 250px);
+    min-height: 250px;
     overflow-y: auto;
 }
 

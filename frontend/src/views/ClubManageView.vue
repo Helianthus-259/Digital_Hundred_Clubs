@@ -28,12 +28,23 @@
                 <template #logo>
                     <img width="80%" class="logo" src="/src/assets/sselogo20220915_0.png" alt="logo" />
                 </template>
-                <t-menu-item value="edit">
+                <t-submenu value="club" title="社团">
                     <template #icon>
                         <t-icon name="usergroup" />
                     </template>
-                    社团
-                </t-menu-item>
+                    <t-menu-item value="default">
+                        <template #icon>
+                            <t-icon name="home" />
+                        </template>
+                        基本信息
+                    </t-menu-item>
+                    <t-menu-item value="edit">
+                        <template #icon>
+                            <t-icon name="setting-1" />
+                        </template>
+                        社团简介
+                    </t-menu-item>
+                </t-submenu>
                 <t-submenu value="publish" title="事务">
                     <template #icon>
                         <t-icon name="server" />
@@ -79,7 +90,10 @@
         <t-layout>
             <t-content>
                 <div class="contentBox">
-                    <div v-if="routerNames === 'edit'">
+                    <div v-if="routerNames === 'default'">
+                        <ClubDefaultInfo />
+                    </div>
+                    <div v-else-if="routerNames === 'edit'">
                         <ClubEdit />
                     </div>
                     <div v-else-if="routerNames === 'publishActivity'">
@@ -107,6 +121,7 @@
 </template>
 
 <script setup>
+import ClubDefaultInfo from '@/components/clubManageViewChildren/ClubDefaultInfo.vue';
 import ClubEdit from '@/components/clubManageViewChildren/ClubEdit.vue';
 import ClubCheck from '@/components/clubManageViewChildren/ClubCheck.vue';
 import ClubAnnualAudit from '@/components/clubManageViewChildren/ClubAnnualAudit.vue';
@@ -115,7 +130,7 @@ import ClubPublishNotice from '@/components/clubManageViewChildren/ClubPublishNo
 import ClubEvaluation from '@/components/clubManageViewChildren/ClubEvaluation.vue';
 import { ref } from 'vue';
 
-const routerNames = ref('edit')
+const routerNames = ref('default')
 const onNextChange = (value) => {
     routerNames.value = value
 }

@@ -41,6 +41,10 @@ const base = {
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
     rejectClubApply: club + '/rejectClubApply', // 拒绝社团申请
     newClubApply: club + '/newClubApply', // 提交新社团申请
+    deleteClubMember: club + '/deleteClubMember', // 删除社团干部，即将社团干部变成普通成员
+    updateClubMember: club + '/updateClubMember', // 更新社团干部信息
+    addClubMember: club + '/addClubMember', // 添加社团干部
+    updateClubInfo: club + '/updateClubInfo', // 更新社团信息
 
 
     /*——————————————活动——————————————*/

@@ -248,22 +248,26 @@ mock.onGet(path.clubMembers).reply((config) => {
                 stName: '张三',
                 position: '社长',
                 contact: '12345678901',
+                studentNumber: '201900001',
                 imageUrl: 'https://loremflickr.com/300/300',
             },
             executives: [
                 {
                     stName: '李四',
                     position: '副社长',
+                    studentNumber: '201900002',
                     imageUrl: 'https://loremflickr.com/300/300',
                 },
                 {
                     stName: '王五',
                     position: '干部',
+                    studentNumber: '201900003',
                     imageUrl: 'https://loremflickr.com/300/300',
                 },
                 {
                     stName: '赵六',
                     position: '干部',
+                    studentNumber: '201900004',
                     imageUrl: 'https://loremflickr.com/300/300',
                 }
             ],
@@ -506,3 +510,30 @@ mock.onPost(path.uploadImage).reply((config) => {
     }]
 })
 
+// 删除社团干部mock
+mock.onPost(path.deleteClubMember).reply((config) => {
+    return [200, {
+        code: 22, // 22代表删除社团干部成功
+    }]
+})
+
+// 更新社团干部信息mock
+mock.onPost(path.updateClubMember).reply((config) => {
+    return [200, {
+        code: 23, // 23代表更新社团干部信息成功
+    }]
+})
+
+// 添加社团干部mock
+mock.onPost(path.addClubMember).reply((config) => {
+    return [200, {
+        code: 24, // 24代表添加社团干部成功
+    }]
+})
+
+// 更新社团信息mock
+mock.onPost(path.updateClubInfo).reply((config) => {
+    return [200, {
+        code: 25, // 25代表更新社团信息成功
+    }]
+})

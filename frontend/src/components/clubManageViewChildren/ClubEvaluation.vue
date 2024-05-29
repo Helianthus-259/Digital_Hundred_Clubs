@@ -44,6 +44,30 @@
     margin: 0 auto;
 }
 
+.t-row {
+    width: 100%;
+    align-items: center;
+}
+
+.t-row#border {
+    border: 2px solid #000;
+}
+
+.t-row#table {
+    border-top: 2px solid #000;
+}
+
+.t-col {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.t-col#table {
+    border-left: 2px solid #000;
+}
+
 .text {
     font-size: 14px;
     display: flex;
@@ -62,14 +86,14 @@
     <div class="clubEvaluationContainer">
         <div class="titleContainer">优秀学生社团申请表</div>
         <div class="tableContainer">
-            <t-row id="tableBorder">
+            <t-row id="border">
                 <t-row>
                     <t-col :span="3">
                         <div class="text">学生社团名称</div>
                     </t-col>
                     <t-col :span="9" id="table">
                         {{ clubEvaluation.clubName }}
-                  </t-col>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">

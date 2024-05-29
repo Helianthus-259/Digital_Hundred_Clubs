@@ -95,6 +95,14 @@ function successHandler(response) {
         } else if (response.data.code === 21) { // 代表上传图片成功
             const { image } = response.data
             eventEmitter.emit(APIEventEnum.uploadImageSuccess, image)
+        } else if (response.data.code === 22) { // 删除社团干部成功
+            eventEmitter.emit(APIEventEnum.postDeleteClubMemberSuccess)
+        } else if (response.data.code === 23) { // 更新社团干部成功
+            eventEmitter.emit(APIEventEnum.postUpdateClubMemberSuccess)
+        } else if (response.data.code === 24) { // 添加社团干部成功
+            eventEmitter.emit(APIEventEnum.postAddClubMemberSuccess)
+        } else if (response.data.code === 25) { // 更新社团信息成功
+            eventEmitter.emit(APIEventEnum.postUpdateClubInfoSuccess)
         }
     }
 }
