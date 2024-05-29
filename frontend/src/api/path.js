@@ -1,53 +1,59 @@
+const api = '/api'
+const student = api + '/student'
+const admin = api + '/admin'
+const club = api + '/club'
+const activity = api + '/activity'
+const file = api + '/file'
 const base = {
-    // 学生
+    /*——————————————学生——————————————*/
     // get
-    userInfo: '/api/userInfo', // 获取用户信息
-    verifyCode: '/api/verifyCode', // 验证码
+    userInfo: student + '/userInfo', // 获取用户信息
+    verifyCode: student + '/verifyCode', // 获取验证码
 
     // post
-    login: '/api/login', // 登录
-    register: '/api/register', // 注册
-    userInfoUpdate: '/api/userInfoUpdate', // 更新用户信息
-    backBoneEvaluate: '/api/backBoneEvaluate', // 骨干评优
+    login: student + '/login', // 登录
+    register: student + '/register', // 注册
+    userInfoUpdate: student + '/userInfoUpdate', // 更新用户信息
+    backBoneEvaluate: student + '/backBoneEvaluate', // 提交骨干评优申请
 
 
-    // 管理员
+    /*———————————————管理员——————————————*/
     // get
-    adminInfo: 'api/adminInfo',//获取管理员信息
+    adminInfo: admin + '/adminInfo',//获取管理员信息
 
     // post
-    postAdminLogin: '/api/postAdminLogin', //管理员登录
-    adminInfoUpdate: 'api/adminInfoUpdate',//更新管理员信息
+    postAdminLogin: admin + '/adminLogin', //管理员登录
+    adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
 
 
-    // 社团
+    /*————————————————社团————————————————*/
     // get
-    clubsInfo: '/api/clubsInfo', // 获取所有社团信息
-    clubLatestAct: '/api/clubLatestAct', // 获取最新活动
-    clubActAndNtc: '/api/clubActAndNtc', // 获取社团活动通知
-    clubIntroduction: '/api/clubIntroduction', // 获取社团简介
-    clubMembers: '/api/clubMembers', // 获取社团成员
-    clubActivityList: '/api/clubActivityList', // 获取社团活动列表
-    clubApplyList: '/api/clubApplyList', // 获取社团申请列表
-    clubEvaluateInfo: '/api/clubEvaluateInfo',// 获取社团评优所需信息
+    clubsInfo: club + '/clubsInfo', // 获取所有社团信息
+    clubLatestAct: club + '/clubLatestAct', // 获取最新活动
+    clubActAndNtc: club + '/clubActAndNtc', // 获取社团活动通知
+    clubIntroduction: club + '/clubIntroduction', // 获取社团简介
+    clubMembers: club + '/clubMembers', // 获取社团成员
+    clubActivityList: club + '/clubActivityList', // 获取社团活动列表
+    clubApplyList: club + '/clubApplyList', // 获取社团申请列表
+    clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
 
     // post
-    agreeClubApply: '/api/agreeClubApply', // 同意社团申请
-    rejectClubApply: '/api/rejectClubApply', // 拒绝社团申请
-    newClubApply: '/api/newClubApply', // 提交新社团申请
+    agreeClubApply: club + '/agreeClubApply', // 同意社团申请
+    rejectClubApply: club + '/rejectClubApply', // 拒绝社团申请
+    newClubApply: club + '/newClubApply', // 提交新社团申请
 
 
-    // 活动
+    /*——————————————活动——————————————*/
     // get
-    activityInfo: '/api/activityInfo', // 获取活动信息
-    activitiesInfo: '/api/activitiesInfo', // 获取所有活动信息
+    activityInfo: activity + '/activityInfo', // 获取活动信息
+    activitiesInfo: activity + '/activitiesInfo', // 获取所有活动信息
 
     // post
-    newActivity: '/api/newActivity', // 提交新活动
+    newActivity: activity + '/newActivity', // 提交新活动
 
 
-    // 文件
-    uploadImage: '/api/uploadImage', // 上传图片
+    /*——————————————文件——————————————*/
+    uploadImage: file + '/uploadImage', // 上传图片
 
 
 
