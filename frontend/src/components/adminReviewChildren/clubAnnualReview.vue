@@ -353,13 +353,11 @@ const clubReviewInfo = ref({
   },
 })
 
-for (let i = 0; i < 20; i++) {
-  declarations.value.push({
-    declarationId: i,
-    clubName: ['篮球社', '足球社', '羽毛球社'][i % 3],
-    declarationYear: ["2020", "2021", "2022"][i % 3],
-  });
-}
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnuals)
+eventEmitter.on(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess', (data)=>{
+  declarations.value = data
+})
+
 const detail = (data) => {
   console.log(data)
   choose.value = data
@@ -370,6 +368,7 @@ const detail = (data) => {
     clubReviewInfo.value.mainCompus = data.mainCompus
     clubReviewInfo.value.clubDescription = data.clubDescription
     clubReviewInfo.value.file = data.file
+    clubReviewInfo.value.totalMembers = data.totalMembers
     clubReviewInfo.value.administrativeGuideTeacherName = data.administrativeGuideTeacherName
     clubReviewInfo.value.businessGuideTeacherName = data.businessGuideTeacherName
     clubReviewInfo.value.establishmentDate = data.establishmentDate
@@ -385,8 +384,8 @@ const detail = (data) => {
 }
 
 onUnmounted(() => {
-  eventEmitter.off(APIEventEnum.request, APIEnum.getClubEvaluateInfo)
   eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+  eventEmitter.off(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess')
 })
 
 </script>

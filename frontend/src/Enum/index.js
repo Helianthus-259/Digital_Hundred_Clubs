@@ -24,6 +24,9 @@ export const APIEventEnum = {
     postAddClubMemberSuccess: 'postAddClubMemberSuccess',
     postUpdateClubMemberSuccess: 'postUpdateClubMemberSuccess',
     postUpdateClubInfoSuccess: 'postUpdateClubInfoSuccess',
+    getBackBoneEvaluationsSuccess: 'getBackBoneEvaluationsSuccess',
+    getClubAnnualsSuccess:'getClubAnnualsSuccess',
+    getClubEvaluationsSuccess: 'getClubEvaluationsSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -58,6 +61,9 @@ export const APIEnum = {
     postAddClubMember: 'postAddClubMember',
     postUpdateClubMember: 'postUpdateClubMember',
     postUpdateClubInfo: 'postUpdateClubInfo',
+    getBackBoneEvaluations:'getBackBoneEvaluations',
+    getClubAnnuals: 'getClubAnnuals',
+    getClubEvaluations: 'getClubEvaluations',
 }
 
 

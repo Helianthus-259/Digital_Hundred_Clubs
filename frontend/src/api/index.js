@@ -146,6 +146,9 @@ const api = {
             clubId: params.clubId,
         }
     }),
+    'getBackBoneEvaluations':(params)=> axios.get(path.backBoneEvaluations, {
+
+    }),
     'uploadImage': (file) => {
         const formData = new FormData();
         formData.append('image', file);
@@ -189,6 +192,12 @@ const api = {
             imageUrl: params.imageUrl,
         }
     }),
+    'getClubAnnuals':(params)=>axios.get(path.clubAnnuals, {
+
+    }),
+    'getClubEvaluations':(params)=>axios.get(path.clubEvaluations, {
+
+    })
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

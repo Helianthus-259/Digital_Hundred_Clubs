@@ -433,7 +433,7 @@ import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
 
-const evaluations = getEvaluationInfos()
+const evaluations = ref([])
 const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
@@ -542,81 +542,15 @@ const detail = (data) => {
   })
 }
 
-
-function getEvaluationInfos(total = 5) {
-  const data = [];
-  for (let i = 0; i < total; i++) {
-    data.push({
-      recordId: i,
-      declarationYear: ["2021", "2022", "2023"][i % 3],
-      clubId: i,
-      clubName: "xx社团",
-      handoverMethod: [0, 1][i % 2],//0全员大会,1骨干例会
-      handoverParticipantsCount: 100,
-      guideTeacher: [0, 1][i % 2],
-      meetings: [
-        {
-          activityId: 0,
-          clubId: 0,
-          time: "2022-1-1",
-          location: "会议地点",
-          staffMeetingOrbackBoneMeeting: 0,//0全员大会,1骨干例会
-          guideTeacher: 1,
-        }
-      ],
-      associationAwards: [
-        {
-          name: "xx奖",
-          time: "2022-02-02",
-          organization: "中山大学"
-        }
-      ],
-      publicityManagementEffectiveness: {
-        submissionsCount: 5,
-        PublicityAboveSchoolLevel: [
-          {
-            platform: "平台",
-            content: "内容",
-          }
-        ],
-      },
-      hostedSchoolLevelActivities: {
-        schoolLv: [
-          {
-            host: "主办方",
-            activityName: "活动名",
-          }
-        ],
-        municipal: [
-          {
-            host: "主办方",
-            activityName: "活动名",
-          }
-        ],
-        provincial: [
-          {
-            host: "主办方",
-            activityName: "活动名",
-          }
-        ]
-      },
-      activities: [
-        {
-          activityName: "活动名称",
-          activityTime: "活动时间",
-          activityEffect: "活动成效",
-        }
-      ],
-      clubWorkIntroduction: "工作简介"
-    });
-  }
-  return data;
-}
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluations)
+eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess', (data)=>{
+  evaluations.value = data
+})
 
 
 
 onUnmounted(() => {
-  eventEmitter.off(APIEventEnum.request, APIEnum.getClubEvaluateInfo)
+  eventEmitter.off(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess')
   eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
 })
 
