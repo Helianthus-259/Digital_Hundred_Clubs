@@ -572,7 +572,7 @@ mock.onGet(path.backBoneEvaluations).reply( (config) =>{
         })
     }
     return [200, {
-        code: 26, // 21代表获取骨干申请成功
+        code: 26, // 26代表获取骨干申请成功
         data,
     }]
 })
@@ -587,7 +587,7 @@ mock.onGet(path.clubAnnuals).reply((config) => {
         })
     }
     return [200, {
-        code: 27, // 21代表获取社团年审成功
+        code: 27, // 27代表获取社团年审成功
         data,
     }]
 })
@@ -660,7 +660,7 @@ mock.onGet(path.clubEvaluations).reply((config) => {
         })
     }
     return [200, {
-        code: 28, // 21代表获取社团评优成功
+        code: 28, // 28代表获取社团评优成功
         data,
     }]
 })

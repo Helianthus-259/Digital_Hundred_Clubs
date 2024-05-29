@@ -125,7 +125,114 @@ const url_data = {
             affiliatedUnit: '', // 所属单位名称
         }
     },
-
+    // url:/api/admin/backBoneEvaluations
+    backBoneEvaluations:{// 获取所有的骨干评优信息
+        code: 26, // 代表获取骨干业务
+        data:[// 提取所有的骨干评优信息
+            {
+                recordId:'',    // 骨干评优记录id
+                stName: '', // 学生姓名
+                studentNumber: '',  // 学号
+                contact: '',    // 联系方式
+                college: '',    // 学院
+                politicalStatus: '',    // 政治面貌
+                clubName: '',   // 社团名
+                position: '',   // 职位
+                tenurePeriod: '',   // 任职时间
+                achievements: {
+                    gpa: '',    // 绩点
+                    rank: '',   // 排名
+                    rankRatio: '',  // 排名百分率
+                },
+                trainingParticipation: [    // 个人培训经历
+                    { time: '2022', location: '党校', organization: '学院' },
+                ],
+                associationAwards: [    // 社团获奖记录
+                    { name: 'xx社团奖项', time: '2022', organization: '学院' },
+                ],
+                awards: [   // 个人获奖记录
+                    { name: 'xx个人奖项', time: '2022', organization: '学院' },
+                ],
+                clubWorkStatus: '工作描述',
+            },
+        ]
+    },
+    // url:/api/admin/clubAnnuals
+    clubAnnuals:{// 获取所有社团年审
+        code: 27,   // 27代表获取社团年审
+        data:{  // 获取所有社团年审记录
+            declarationId:'',   // 申请id
+            declarationYear: '',    // 申请年份
+            clubName: '',   // 社团名
+        }
+    },
+    // url:/api/admin/clubEvaluations
+    clubEvaluations:{// 获取所有社团评优
+        code: 28,   // 28代表社团评优成功
+        data:{  // 获取所有社团评优记录
+            recordId: '',   // 记录id
+            declarationYear: '',    // 申请年份
+            clubId: '', // 社团id
+            clubName: '',   // 社团名
+            handoverMethod: '',//0全员大会,1骨干例会
+            handoverParticipantsCount: '',  // 参加人数
+            guideTeacher: '',   // 指导教师是否参与指导
+            meetings: [ // 全员/骨干大会情况
+                {
+                    activityId: '', // 会议id
+                    clubId: '', // 社团id
+                    time: '',   // 会议时间
+                    location: '',   // 会议地点
+                    staffMeetingOrbackBoneMeeting: '',//0全员大会,1骨干例会
+                    guideTeacher: '',   // 是否有指导老师
+                }
+            ],
+            associationAwards: [    // 社团获奖情况
+                {
+                    name: '',   // 奖项名称
+                    time: '',   // 获奖时间
+                    organization: ''    // 颁奖单位
+                }
+            ],
+            publicityManagementEffectiveness: {// 宣传情况
+                submissionsCount: '',   // 向学校投稿次数
+                PublicityAboveSchoolLevel: [    // 获校级以上宣传情况
+                    {
+                        platform: "平台",
+                        content: "内容",
+                    }
+                ],
+            },
+            hostedSchoolLevelActivities: {  // 承办校级以上活动记录
+                schoolLv: [     // 校级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                municipal: [    // 市级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                provincial: [   // 省级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ]
+            },
+            activities: [   // 社团活动记录
+                {
+                    activityName: "活动名称",
+                    activityTime: "活动时间",
+                    activityEffect: "活动成效",
+                }
+            ],
+            clubWorkIntroduction: "工作简介"
+        }
+    },
     // post
     // url:/api/admin/adminLogin
     postAdminLogin:{// 管理员登录
@@ -376,6 +483,54 @@ const url_data = {
             code: 5, // 5代表入社申请
         }
     },
+    // url:/api/club/deleteClubMember
+    deleteClubMember:{// 删除社团干部，即将社团干部变成普通成员
+        params: {// post参数
+            clubId: '', // 社团id
+            studentNumber: '',  // 学生id
+        },
+        data:{
+            code: 22,   // 22代表删除社团干部成功
+        }
+    },
+    // url:/api/club/updateClubMember
+    updateClubMember:{// 更新社团干部信息
+        params: {// post参数
+            clubId: '', // 社团id
+            oldStudent: '', // 旧干部id
+            newStudent: '', // 新干部id
+        },
+        data:{
+            code:23,    //23代表更新社团干部信息成功
+        }
+    },
+    // url:/api/club/addClubMember
+    addClubMember:{// 添加社团干部
+        params: {// post参数
+            clubId: '', // 社团id
+            studentId: '',  // 学生id
+            stName: '', // 学生姓名
+            position: '',   // 职位
+        },
+        data:{
+            code: 24,   // 24代表添加社团干部成功
+        }
+    },
+    // url:/api/club/updateClubInfo
+    updateClubInfo:{// 更新社团信息
+        params: {
+            clubName: '',   // 社团名称
+            establishmentDate: '',  // 建立时间
+            clubCategory: '',   // 社团类型
+            responsibleDepartment: '',  // 负责部门
+            administrativeGuideTeacherName: '', // 行政指导老师
+            businessGuideTeacherName: '',   // 业务指导老师
+            mainCompus: '', // 社团校区
+            isFinancialInformationPublic: '',   // 财务是否公开
+            imageUrl: '',   // 社团宣传图
+        }
+    },
+
 
     /*——————————————活动——————————————*/
     // get
