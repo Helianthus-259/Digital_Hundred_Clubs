@@ -146,7 +146,7 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'getBackBoneEvaluations':(params)=> axios.get(path.backBoneEvaluations, {
+    'getBackBoneEvaluations': (params) => axios.get(path.backBoneEvaluations, {
 
     }),
     'uploadImage': (file) => {
@@ -192,12 +192,26 @@ const api = {
             imageUrl: params.imageUrl,
         }
     }),
-    'getClubAnnuals':(params)=>axios.get(path.clubAnnuals, {
+    'getClubAnnuals': (params) => axios.get(path.clubAnnuals, {
 
     }),
-    'getClubEvaluations':(params)=>axios.get(path.clubEvaluations, {
+    'getClubEvaluations': (params) => axios.get(path.clubEvaluations, {
 
-    })
+    }),
+    'postPersonalPerformance': (params) => axios.post(path.personalPerformance, { // 添加个人成绩
+        params: {
+            clubId: params.clubId,
+            activityId: params.activityId,
+            personalEffectList: params.personalEffectList, // 这是一个对象数组，对象形式为{stName: '', studentNumber: '', personalEffect: ''}
+        }
+    }),
+    'postActivityPerformance': (params) => axios.post(path.activityPerformance, { // 添加活动成绩
+        params: {
+            clubId: params.clubId,
+            activityId: params.activityId,
+            activityEffect: params.activityEffect,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

@@ -287,15 +287,26 @@ const openUploadPerformance = (activityId, flag) => {
 // 关闭上传个人绩效对话框
 const closeUploadPerformance = () => {
     excelData.value = []
+    activityEffect.value = ''
     uploadPerformanceDialogRef.value.closeDialog();
 };
 
 const submitPersonalEffect = () => {
-
+    if (excelData.value.length === 0) {
+        MessagePlugin.warning('请先上传个人绩效文件')
+        return
+    } else {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postPersonalPerformance, { clubId, activityId: curActivityId, personalEffectList: excelData.value })
+    }
 }
 
 const submitActivityEffect = () => {
-
+    if (activityEffect.value === '') {
+        MessagePlugin.warning('请先填写活动效果')
+        return
+    } else {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postActivityPerformance, { clubId, activityId: curActivityId, activityEffect: activityEffect.value })
+    }
 }
 
 // 富文本编辑器
@@ -406,11 +417,23 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         newActivityForm.imageUrl = data.url
     })
+    eventEmitter.on(APIEventEnum.postPersonalPerformanceSuccess, 'postPersonalPerformanceSuccess', () => {
+        MessagePlugin.success('上传成功')
+        excelData.value = []
+        closeDialog()
+    })
+    eventEmitter.on(APIEventEnum.postActivityPerformanceSuccess, 'postActivityPerformanceSuccess', () => {
+        MessagePlugin.success('上传成功')
+        activityEffect.value = ''
+        closeDialog()
+    })
 })
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess')
     eventEmitter.off(APIEventEnum.postNewActivitySuccess, 'postNewActivitySuccess')
     eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
+    eventEmitter.off(APIEventEnum.postPersonalPerformanceSuccess, 'postPersonalPerformanceSuccess')
+    eventEmitter.off(APIEventEnum.postActivityPerformanceSuccess, 'postActivityPerformanceSuccess')
 })
 </script>

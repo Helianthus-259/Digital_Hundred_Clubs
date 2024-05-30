@@ -57,6 +57,8 @@ const base = {
 
     // post
     newActivity: activity + '/newActivity', // 提交新活动
+    personalPerformance: activity + '/personalPerformance', // 提交个人活动表现
+    activityPerformance: activity + '/activityPerformance', // 提交活动表现
 
 
     /*——————————————文件——————————————*/

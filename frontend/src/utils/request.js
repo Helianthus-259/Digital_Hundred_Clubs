@@ -106,12 +106,16 @@ function successHandler(response) {
         } else if (response.data.code === 26) { // 获取骨干评估申请
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getBackBoneEvaluationsSuccess, data)
-        } else if (response.data.code === 27){  // 获取社团年审
+        } else if (response.data.code === 27) {  // 获取社团年审
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubAnnualsSuccess, data)
-        } else if (response.data.code === 28){  // 获取社团评优
+        } else if (response.data.code === 28) {  // 获取社团评优
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubEvaluationsSuccess, data)
+        } else if (response.data.code === 29) {  // 提交个人绩效成功
+            eventEmitter.emit(APIEventEnum.postPersonalPerformanceSuccess)
+        } else if (response.data.code === 30) {  // 提交活动绩效成功
+            eventEmitter.emit(APIEventEnum.postActivityPerformanceSuccess)
         }
     }
 }
