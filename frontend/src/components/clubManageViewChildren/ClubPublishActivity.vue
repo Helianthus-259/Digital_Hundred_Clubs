@@ -73,7 +73,7 @@
             <div style="width: 90%; display: flex; justify-content: space-around;">
                 <div style="display: flex; align-items: center;">
                     <label for="select">活动状态：</label>
-                    <t-select id="select" :defaultValue="-1" @change="handleStatusChange" style="width: 200px;"
+                    <t-select id="select" v-model="statusSelect" @change="handleStatusChange" style="width: 200px;"
                         placeholder="请选择">
                         <t-option :value="-1" label="全部"></t-option>
                         <t-option :value="0" label="未开始"></t-option>
@@ -245,7 +245,10 @@ const activityView = ref([])
 
 // 查询不同状态的活动
 const paginationShow = ref(true)
+const statusSelect = ref(-1)
 const handleStatusChange = (value) => {
+    // 重置查找的内容
+    searchValue.value = ''
     if (value === -1) {
         activityView.value = activityList.value.slice((current.value - 1) * pageSize.value, current.value * pageSize.value)
         paginationShow.value = true
@@ -259,6 +262,8 @@ const handleStatusChange = (value) => {
 const searchValue = ref('')
 
 const handleSearch = () => {
+    // 重置状态选择
+    statusSelect.value = -1
     if (searchValue.value !== '') {
         activityView.value = activityList.value.filter(activity => activity.activityName.includes(searchValue.value))
         paginationShow.value = false
@@ -266,6 +271,7 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
+    statusSelect.value = -1
     activityView.value = activityList.value.slice((current.value - 1) * pageSize.value, current.value * pageSize.value)
     searchValue.value = ''
     paginationShow.value = true

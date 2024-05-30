@@ -141,7 +141,6 @@
                 </t-swiper>
             </div>
             <div class="contentContainer">
-                <div class="fillBox"></div>
                 <div class="showBox">
                     <RouterView />
                 </div>

@@ -29,6 +29,7 @@ export const APIEventEnum = {
     getClubEvaluationsSuccess: 'getClubEvaluationsSuccess',
     postPersonalPerformanceSuccess: 'postPersonalPerformanceSuccess',
     postActivityPerformanceSuccess: 'postActivityPerformanceSuccess',
+    getLatestActivitiesSuccess: 'getLatestActivitiesSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -68,6 +69,7 @@ export const APIEnum = {
     getClubEvaluations: 'getClubEvaluations',
     postPersonalPerformance: 'postPersonalPerformance',
     postActivityPerformance: 'postActivityPerformance',
+    getLatestActivities: 'getLatestActivities',
 }
 
 

@@ -25,8 +25,11 @@ const api = {
     'getClubsInfo': (params) => axios.get(path.clubsInfo, { // 获取社团信息
 
     }),
-    'getclubLatestAct': (params) => axios.get(path.clubLatestAct, { // 获取社团最新活动
-
+    'getLatestActivities': (params) => axios.get(path.latestActivities, { // 获取社团最新活动
+        params: {
+            pageNumber: params.pNumber,
+            pageSize: params.pSize,
+        }
     }),
     'getUserInfo': (params) => axios.get(path.userInfo, { // 获取用户信息
         params: {

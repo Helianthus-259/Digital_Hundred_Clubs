@@ -32,7 +32,6 @@ const base = {
     /*————————————————社团————————————————*/
     // get
     clubsInfo: club + '/clubsInfo', // 获取所有社团信息
-    clubLatestAct: club + '/clubLatestAct', // 获取最新活动
     clubActAndNtc: club + '/clubActAndNtc', // 获取社团活动通知
     clubIntroduction: club + '/clubIntroduction', // 获取社团简介
     clubMembers: club + '/clubMembers', // 获取社团成员
@@ -54,6 +53,7 @@ const base = {
     // get
     activityInfo: activity + '/activityInfo', // 获取活动信息
     activitiesInfo: activity + '/activitiesInfo', // 获取所有活动信息
+    latestActivities: activity + '/latestActivities', // 获取最新活动
 
     // post
     newActivity: activity + '/newActivity', // 提交新活动

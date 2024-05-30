@@ -678,3 +678,21 @@ mock.onPost(path.activityPerformance).reply((config) => {
         code: 30, // 30代表提交活动绩效成功
     }]
 })
+
+// 获取最新活动mock
+mock.onGet(path.latestActivities).reply((config) => {
+    const activities = []
+    const pageSize = config.params.pageSize
+    const pageNumber = config.params.pageNumber
+    for (let i = 0; i < pageSize; i++) {
+        activities.push({
+            activityId: i,
+            activityName: '活动名称' + pageNumber + i,
+            imageUrl: `https://loremflickr.com/400/300`,
+        })
+    }
+    return [200, {
+        code: 31, // 31代表获取最新活动成功
+        activities,
+    }]
+})

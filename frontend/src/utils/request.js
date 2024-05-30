@@ -116,6 +116,9 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postPersonalPerformanceSuccess)
         } else if (response.data.code === 30) {  // 提交活动绩效成功
             eventEmitter.emit(APIEventEnum.postActivityPerformanceSuccess)
+        } else if (response.data.code === 31) { // 获取最新活动成功
+            const { activities } = response.data
+            eventEmitter.emit(APIEventEnum.getLatestActivitiesSuccess, activities)
         }
     }
 }
