@@ -2,7 +2,10 @@ package com.szbt.clubserver.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.dto.ClubDTO;
 import org.example.entity.Club;
+
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -17,4 +20,6 @@ public interface ClubService extends IService<Club> {
     Object queryUnpassClubs();
 
     Object queryPassClubs();
+
+    List<ClubDTO> getClubInfoBySId(Integer id);
 }

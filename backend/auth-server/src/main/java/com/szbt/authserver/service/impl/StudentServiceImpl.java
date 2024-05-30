@@ -43,6 +43,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
         Student student = studentMapper.selectOne(queryWrapper,true);
+        if(student == null) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(student);
         String token;
         if(SecurityUtil.decrypt(password,student.getPwd())) {

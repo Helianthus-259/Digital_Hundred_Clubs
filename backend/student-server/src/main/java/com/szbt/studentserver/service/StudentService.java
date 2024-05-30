@@ -1,7 +1,12 @@
 package com.szbt.studentserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.dto.ActivityMemberDTO;
+import org.example.dto.ClubDTO;
+import org.example.dto.StudentInfoDTO;
 import org.example.entity.Student;
+
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -16,7 +21,7 @@ public interface StudentService extends IService<Student> {
 
     Object savaAvatar(String relativePath, Integer studentId);
 
-    Student getStudentInfoByEmail(String email);
+    Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS);
 
 //    Object checkImageVerifyCode(boolean ok);
 }
