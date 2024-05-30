@@ -1,119 +1,157 @@
 <style scoped>
-/* 固定内容选项卡 */
-.fixedTabBar {
-    position: absolute;
-    top: 250px;
-    left: 10%;
-    z-index: 998;
-}
-
-.searchBox {
-    cursor: pointer;
-}
-
-.searchBox:hover {
-    color: #002ead;
-}
-
 /* 主体内容样式 */
 .mainContainer {
-    margin-top: 50px;
+  background: #f5f5f5;
+  display: flex;
+  width: 100%;
+  height: 95%;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 10;
+}
+
+.sideContainer {
+  width: 15%;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.sideBar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.checkBoxes {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.mainContent {
+  width: 85%;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/*滚动条样式*/
+.mainContent::-webkit-scrollbar {
+  width: 8px;
+  /* 滚动条宽度 */
+}
+
+.mainContent::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 滚动条轨道背景色 */
+  border-radius: 4px;
+}
+
+.mainContent::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 滚动条滑块颜色 */
+  border-radius: 4px;
+  /* 滚动条滑块圆角 */
+}
+
+.mainContent::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* 鼠标hover时滑块颜色 */
 }
 
 /* 轮播图 */
 .swiperContainer {
-    width: 80%;
-    margin: auto;
-    height: 200px;
-    background-color: #f5f5f5;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+  width: 95%;
+  min-height: 400px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
 }
 
 .swiper {
-    min-width: 50%;
-    height: 100%;
+  width: 100%;
+  padding: 20px 20px;
 }
 
 /* 内容容器 */
 .contentContainer {
-    width: 80%;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 400px;
-    background-color: #ffffff;
-    display: flex;
-}
-
-/* 用来占位置 */
-.fillBox {
-    width: 20%;
+  width: 95%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 400px;
+  background-color: #ffffff;
+  display: flex;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
 }
 
 /* 正在的内容展示 */
 .showBox {
-    width: 80%;
+  width: 100%;
 }
 </style>
 
 <template>
-    <!-- 固定内容选项卡 -->
-    <div class="fixedTabBar" id="tabBar">
-        <t-tabs style="width: 80%;" :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
-        <div style="width: 80%;">
-            <t-input type="search">
-                <template #suffixIcon>
-                    <div class="searchBox" @click="onSearch">
-                        <SearchIcon />
-                    </div>
-                </template>
-            </t-input>
-            <div v-if="checkedShow">
-                <t-checkbox label="学术类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '学术类')" />
-                <t-checkbox label="体育类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '体育类')" />
-                <t-checkbox label="艺术类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '艺术类')" />
-                <t-checkbox label="公益类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '公益类')" />
-                <t-checkbox label="科技类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '科技类')" />
-                <t-checkbox label="其他类" default-checked icon="rectangle"
-                    @change="(checked) => checkChange(checked, '其他类')" />
-            </div>
+  <!-- 主体内容 -->
+  <div class="mainContainer">
+    <div class="sideContainer">
+      <div class="sideBar">
+        <t-menu :value="routerNames" @change="onChange">
+          <t-menu-item v-for="(item, index) in routerlist" :value="item.value" :content="item.label">
+          </t-menu-item>
+        </t-menu>
+      </div>
+      <t-divider />
+      <div class="">
+        <div class="checkBoxes" v-if="checkedShow">
+          <t-checkbox label="学术类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '学术类')" />
+          <t-checkbox label="体育类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '体育类')" />
+          <t-checkbox label="艺术类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '艺术类')" />
+          <t-checkbox label="公益类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '公益类')" />
+          <t-checkbox label="科技类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '科技类')" />
+          <t-checkbox label="其他类" default-checked icon="rectangle"
+                      @change="(checked) => checkChange(checked, '其他类')" />
         </div>
+      </div>
     </div>
-
-    <!-- 主体内容 -->
-    <div class="mainContainer">
-        <!-- 年度最佳社团轮播图 -->
-        <div class="swiperContainer" id="swiperContainer">
-            <div class="swiper">
-                <t-swiper :autoplay="true" :navigation="{ showControls: true, paginationPosition: 'bottom-right' }"
-                    height="200" @change="handleChange">
-                    <t-swiper-item v-for="(item, index) in swiperList" :key="index" style="height: 200px">
-                        <img :src="item" class="img" />
-                    </t-swiper-item>
-                </t-swiper>
+    <div class="mainContent">
+      <!-- 年度最佳社团轮播图 -->
+      <div class="swiperContainer">
+        <t-swiper class="swiper" type="card" :navigation="{ placement: 'outside', showSlideBtn: 'always' }">
+          <t-swiper-item v-for="(item, index) in swiperList" :key="index">
+            <div style="display: flex; justify-content: center;  background: #ffffff; height: 100%; ">
+              <img :src="item" />
             </div>
+          </t-swiper-item>
+        </t-swiper>
+      </div>
+      <div class="contentContainer">
+        <div class="fillBox"></div>
+        <div class="showBox">
+          <router-view></router-view>
         </div>
-        <div class="contentContainer">
-            <div class="fillBox"></div>
-            <div class="showBox">
-                <RouterView />
-            </div>
-        </div>
+      </div>
     </div>
-
-
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { SearchIcon } from 'tdesign-icons-vue-next';
+import { ref} from 'vue'
 import eventEmitter from '../../utils/eventEmitter';
 import { RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
 import store from '@/store';
@@ -121,9 +159,9 @@ import store from '@/store';
 // 轮播图
 const imageCdn = 'https://tdesign.gtimg.com/mobile/demos';
 const swiperList = [
-    `${imageCdn}/swiper1.png`,
-    `${imageCdn}/swiper2.png`,
-    `${imageCdn}/swiper1.png`,
+  `${imageCdn}/swiper1.png`,
+  `${imageCdn}/swiper2.png`,
+  `${imageCdn}/swiper1.png`,
 ];
 
 const handleChange = (index, context) => {
@@ -136,60 +174,37 @@ const parentRoute = store.state.parentRoute.admin
 const routerNames = ref(store.state.routeTabs.adminClubTabs);
 const checkedShow = ref(routerNames.value === 'adminClub')
 const routerlist = [
-    {
-        label: '社团情况',
-        value: 'adminClub',
-    },
-    {
-        label: '最新动态',
-        value: 'adminNews',
-    },
+  {
+    label: '社团情况',
+    value: 'adminClub',
+  },
+  {
+    label: '最新动态',
+    value: 'adminNews',
+  },
 ]
 
 const onChange = (value) => {
-    const selfRoute = parentRoute + 'admin/' + value;
-    routerNames.value = value
-    eventEmitter.emit(RouterEventEnum.push, selfRoute)
-    checkedShow.value = !checkedShow.value
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminClubTabs', value: value })
+  const selfRoute = parentRoute + 'admin/' + value;
+  routerNames.value = value
+  eventEmitter.emit(RouterEventEnum.push, selfRoute)
+  checkedShow.value = !checkedShow.value
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminClubTabs', value: value })
 }
 
-// 控制选项卡的吸顶
-onMounted(() => {
-    const swiperContainer = document.getElementById('swiperContainer')
-    const tabBar = document.getElementById('tabBar')
-});
-
-const handleScroll = () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const tabBarrOffsetTop = swiperContainer.offsetHeight;
-    if (scrollTop > tabBarrOffsetTop) {
-        tabBar.style.position = 'fixed'
-        tabBar.style.top = '50px'
-    } else {
-        tabBar.style.position = 'absolute'
-        tabBar.style.top = '250px'
-    }
-}
-
-window.addEventListener('scroll', handleScroll);
-
-onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-});
 
 // 搜索信息
 const onSearch = (value) => {
-    console.log(1111111111111)
-    console.log(sprotChecked.value);
+  console.log(1111111111111)
+  console.log(sprotChecked.value);
 }
 
 // 复选框被选中后更改clubsView中的社团展示
 const checkChange = (checked, type) => {
-    if (checked) {
-        eventEmitter.emit(TypeEventEnum.addType, type);
-    } else {
-        eventEmitter.emit(TypeEventEnum.removeType, type);
-    }
+  if (checked) {
+    eventEmitter.emit(TypeEventEnum.addType, type);
+  } else {
+    eventEmitter.emit(TypeEventEnum.removeType, type);
+  }
 }
 </script>

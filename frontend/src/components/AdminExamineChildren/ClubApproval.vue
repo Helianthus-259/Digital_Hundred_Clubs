@@ -1,33 +1,36 @@
 <template>
   <t-layout>
     <t-aside>
-      <t-menu theme="light" v-model="value" height="700px" width="200px">
-        <t-menu-item value="item0">全部社团</t-menu-item>
-        <t-menu-item value="item1">待审核</t-menu-item>
-        <t-menu-item value="item2">已通过</t-menu-item>
-        <t-menu-item value="item3">未通过</t-menu-item>
+      <t-menu theme="light" v-model="status" height="700px" width="200px">
+        <t-menu-item value="all" @click="search">全部社团</t-menu-item>
+        <t-menu-item value="2" @click="search">待审核</t-menu-item>
+        <t-menu-item value="1" @click="search">已通过</t-menu-item>
+        <t-menu-item value="0" @click="search">未通过</t-menu-item>
       </t-menu>
     </t-aside>
     <t-content>
-      <t-header>
-        <t-head-menu default-value="2-1" expand-type="popup">
-          <t-submenu value="1" title="校区">
-            <t-submenu value="GuangZhou" title="广州校区">
-              <t-menu-item value="north"> 北校区 </t-menu-item>
-              <t-menu-item value="south"> 南校区 </t-menu-item>
-              <t-menu-item value="east"> 东校区 </t-menu-item>
-            </t-submenu>
-            <t-menu-item value="ZhuHai"> 珠海校区 </t-menu-item>
-            <t-menu-item value="ShenZhen"> 深圳校区 </t-menu-item>
-          </t-submenu>
-          <t-submenu value="2" title="类型">
-            <t-menu-item value="2-1"> 体育类 </t-menu-item>
-            <t-menu-item value="2-2"> 游戏类 </t-menu-item>
-            <t-menu-item value="2-3"> 艺术类 </t-menu-item>
-          </t-submenu>
-        </t-head-menu>
+      <t-header style="height: 100px">
+        <t-space direction="vertical">
+          <t-radio-group variant="primary-filled" v-model:value="campus" @click="search">
+            <t-radio-button value="all">全部校区</t-radio-button>
+            <t-radio-button value="南校区">南校区</t-radio-button>
+            <t-radio-button value="东校区">东校区</t-radio-button>
+            <t-radio-button value="北校区">北校区</t-radio-button>
+            <t-radio-button value="深圳校区">深圳校区</t-radio-button>
+            <t-radio-button value="珠海校区">珠海校区</t-radio-button>
+          </t-radio-group>
+          <t-radio-group variant="primary-filled" v-model:value="category" @click="search">
+            <t-radio-button value="all">全部类别</t-radio-button>
+            <t-radio-button value="学术类">学术类</t-radio-button>
+            <t-radio-button value="体育类">体育类</t-radio-button>
+            <t-radio-button value="艺术类">艺术类</t-radio-button>
+            <t-radio-button value="公益类">公益类</t-radio-button>
+            <t-radio-button value="科技类">科技类</t-radio-button>
+            <t-radio-button value="其他类">其他类</t-radio-button>
+          </t-radio-group>
+        </t-space>
       </t-header>
-      <div>
+      <t-space>
         <t-table row-key="index" :data="data" :columns="columns" :hide-sort-tips="false" :stripe="stripe"
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
@@ -35,7 +38,7 @@
             <t-button theme="primary" @click="detail(row)">申请详情</t-button>
           </template>
         </t-table>
-      </div>
+      </t-space>
     </t-content>
   </t-layout>
   <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :on-confirm="onConfirm">
@@ -68,27 +71,33 @@
 import { onUnmounted, ref } from 'vue';
 
 
-const value = ref('item1');
+
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } from 'tdesign-icons-vue-next';
 import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
+// 审核状态
+const status = ref('all');
+// 校区
+const campus = ref('all');
+// 类别
+const category = ref('all');
 
 //对话框
 const visibleModal = ref(false);
 const clubInfo = ref({
-  clubName: '篮球社',
-  establishmentDate: '2022-05-01',
-  responsibleDepartment: '体育部',
-  mainCompus: "广州校区",
-  clubDescription: '篮球社是一个篮球社团',
-  clubCategory: '体育类',
-  adminGuideTeacher: '张老师',
-  businessGuideTeacher: '李老师',
-  contactPerson: '张三',
-  contactPhone: '123456789',
-  clubStatus: 1,
-  file: "file",
+  clubName: '',
+  establishmentDate: '',
+  responsibleDepartment: '',
+  mainCompus: "",
+  clubDescription: '',
+  clubCategory: '',
+  adminGuideTeacher: '',
+  businessGuideTeacher: '',
+  contactPerson: '',
+  contactPhone: '',
+  clubStatus: '',
+  file: "",
 });
 
 // 表格
@@ -98,33 +107,31 @@ const statusNameListMap = {
   2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
 };
 const clubsData = []
-const data = []
-const total = ref(0)
+const data = ref([])
 function assignment() {
-  total.value = clubsData.value.length
-  for (let i = 0; i < total.value; ++i) {
-    data.push({
-      index: clubsData.value[i].clubId,
-      clubName: clubsData.value[i].clubName,
-      campus: clubsData.value[i].campus,
-      clubCategory: clubsData.value[i].clubCategory,
-      createTime: clubsData.value[i].createTime,
-      status: clubsData.value[i].status,
-    })
-  }
+  pagination.value.total = clubsData.value.length
+  data.value = clubsData.value
 }
 
 if (Object.keys(store.state.clubsData).length === 0) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
 } else {
   clubsData.value = store.state.clubsData
-  assignment()
+  data.value = clubsData.value
 }
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
   clubsData.value = data
   assignment()
 })
 
+const search = () => {
+  data.value = clubsData.value.filter((item)=>{
+    return (item.status.toString() === status.value || status.value === 'all') &&
+        (item.campus === campus.value || campus.value === 'all') &&
+        (item.clubCategory === category.value || category.value === 'all');
+  })
+  pagination.value.total = data.value.length
+}
 
 const stripe = ref(true);
 const bordered = ref(true);
@@ -154,11 +161,11 @@ const columns = ref([
 ]);
 
 
-const pagination = {
+const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 5,
-  total: total.value,
-};
+  total: data.value.length,
+});
 
 const detail = (value) => {
   visibleModal.value = true;

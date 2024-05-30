@@ -1,4 +1,58 @@
 const url_data = {
+    /*——————————————认证中心——————————————*/
+    // url:/api/auth/login
+    login:{// 登录
+        params: {// post参数
+            email: '',  // 邮箱
+            pwd: '',    // 密码
+        },
+        // 如果账号密码正确
+        success:{
+            code: 1, // 1代表注册/登录成功
+            token:'',   // 安全令牌
+            studentId:1, // 学生个人标识id
+        },
+        // 如果账号或密码错误
+        failed:{
+            msg:'用户名或密码错误'
+        },
+    },
+    // url:/api/auth/register
+    register:{// 注册
+        params:{// post参数
+            email:'',   // 用户邮箱
+            verifyCode:'',  // 验证码
+            pwd:'', // 密码
+        },
+        // 如果注册成功
+        success:{
+            code: 1,    // 1代表注册/登录成功
+            token: '',  // 令牌
+            studentId: '',  // 学生个人标识id
+        },
+        // 如果注册失败
+        failed:{
+            msg:'注册失败提示信息'  //邮箱重复或验证码不正确
+        }
+    },
+    // url:/api/auth/adminLogin
+    postAdminLogin:{// 管理员登录
+        params: {// post参数
+            adminId: '',    //管理员账号
+            password: '',   //管理员密码
+        },
+        // 登陆成功
+        success:{
+            code: 9,    // 代表管理员登录成功
+            token:'',   // 令牌
+            uid:'',     // 管理员uid
+        },
+        // 登录失败
+        failed:{
+            msg:'',   // 登陆失败原因
+        },
+    },
+
     /*——————————————学生——————————————*/
     // get
     // url:/api/student/userInfo
@@ -44,41 +98,6 @@ const url_data = {
     },
 
     // post
-    // url:/api/student/login
-    login:{// 登录
-        params: {// post参数
-            email: '',  // 邮箱
-            pwd: '',    // 密码
-        },
-        // 如果账号密码正确
-        success:{
-            code: 1, // 1代表注册/登录成功
-            token:'',   // 安全令牌
-            studentId:1, // 学生个人标识id
-        },
-        // 如果账号或密码错误
-        failed:{
-            msg:'用户名或密码错误'
-        },
-    },
-    // url:/api/student/register
-    register:{// 注册
-        params:{// post参数
-            email:'',   // 用户邮箱
-            verifyCode:'',  // 验证码
-            pwd:'', // 密码
-        },
-        // 如果注册成功
-        success:{
-            code: 1,    // 1代表注册/登录成功
-            token: '',  // 令牌
-            studentId: '',  // 学生个人标识id
-        },
-        // 如果注册失败
-        failed:{
-            msg:'注册失败提示信息'  //邮箱重复或验证码不正确
-        }
-    },
     // url:/api/student/userInfoUpdate
     userInfoUpdate:{// 更新用户信息
         params:{// post参数
@@ -234,23 +253,6 @@ const url_data = {
         }
     },
     // post
-    // url:/api/admin/adminLogin
-    postAdminLogin:{// 管理员登录
-        params: {// post参数
-            adminId: '',    //管理员账号
-            password: '',   //管理员密码
-        },
-        // 登陆成功
-        success:{
-            code: 9,    // 代表管理员登录成功
-            token:'',   // 令牌
-            uid:'',     // 管理员uid
-        },
-        // 登录失败
-        failed:{
-          msg:'',   // 登陆失败原因
-        },
-    },
     // url:/api/admin/adminInfoUpdate
     adminInfoUpdate:{// 更新管理员信息
         params: {//post参数
