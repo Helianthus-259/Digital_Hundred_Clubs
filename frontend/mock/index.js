@@ -418,7 +418,7 @@ mock.onGet(path.clubApplyList).reply((config) => {
     for (let i = 0; i < 15; i++) {
         applyList.push({
             studentId: i,
-            studentName: '张三',
+            stName: '张三',
             college: '计算机学院',
             politicalStatus: '共青团员',
             status: i % 3,

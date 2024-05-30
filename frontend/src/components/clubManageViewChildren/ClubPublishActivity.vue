@@ -79,7 +79,7 @@
                 { xs: 6, sm: 12, md: 18, lg: 24, xl: 24, xxl: 32 },
                 { xs: 6, sm: 12, md: 18, lg: 24, xl: 24, xxl: 32 },
             ]">
-                <t-col :span="3" v-for="(item, index) in activityView" :key="index">
+                <t-col :span="4" v-for="(item, index) in activityView" :key="index">
                     <t-card>
                         <template #header>
                             {{ item.activityName }}
@@ -88,6 +88,24 @@
                         </template>
                         <template #cover>
                             <img :src="item.imageUrl">
+                        </template>
+                        <template #footer>
+                            <div style="display: flex; justify-content: end;">
+                                <t-button :disabled="item.status !== 2" variant="text" shape="square"
+                                    :style="{ 'margin-right': '8px' }"
+                                    @click="openUploadPerformance(item.activityId, true)">
+                                    <t-popup content="上传活动中的个人成效" placement="top" show-arrow>
+                                        <t-icon name="upload" />
+                                    </t-popup>
+                                </t-button>
+                                <t-button :disabled="item.status !== 2" variant="text" shape="square"
+                                    :style="{ 'margin-right': '8px' }"
+                                    @click="openUploadPerformance(item.activityId, false)">
+                                    <t-popup content="上传活动成效" placement="top" show-arrow>
+                                        <t-icon name="building" />
+                                    </t-popup>
+                                </t-button>
+                            </div>
                         </template>
                     </t-card>
                 </t-col>
@@ -111,7 +129,7 @@
         <template #header>
             发布活动
         </template>
-        <t-form :data="newActivityForm">
+        <t-form style="width: 800px;" :data="newActivityForm">
             <t-form-item label="活动名称">
                 <t-input v-model="newActivityForm.activityName" style="width: 300px;" clearable placeholder="请输入活动名称" />
             </t-form-item>
@@ -149,6 +167,39 @@
             <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
+
+    <!-- 上传个人绩效弹窗 -->
+    <myDialog ref="uploadPerformanceDialogRef">
+        <template #header>
+            <div style="font-size: 24px; font-weight: bold;">{{ personalOrActivity ? '个人绩效' : '活动绩效' }}</div>
+        </template>
+        <div style="width: 600px;" v-show="personalOrActivity">
+            <div style="margin-bottom: 20px;">
+                <t-upload :autoUpload="false" :onSelectChange="fileSelectChangeHandler"
+                    :onRemove="fileRemoveHandler"></t-upload>
+            </div>
+            <div style="width: 90%;">
+                <t-table row-key="studentNumber" :columns="excelColumns" :data="excelData" bordered></t-table>
+            </div>
+        </div>
+        <div v-show="!personalOrActivity">
+            <div style="margin-top: 30px;">
+                <t-form>
+                    <t-form-item label="活动绩效" name="activityEffect">
+                        <t-input v-model="activityEffect" style="width: 300px;" clearable />
+                    </t-form-item>
+                </t-form>
+            </div>
+        </div>
+        <template #footer>
+            <t-button v-show="personalOrActivity" style="margin: 0 10px;" theme="primary" variant="outline"
+                @click="submitPersonalEffect">提交</t-button>
+            <t-button v-show="!personalOrActivity" style="margin: 0 10px;" theme="primary" variant="outline"
+                @click="submitActivityEffect">提交</t-button>
+            <t-button style="margin: 0 10px;" theme="default" variant="outline"
+                @click="closeUploadPerformance">关闭</t-button>
+        </template>
+    </myDialog>
 </template>
 
 <script setup>
@@ -159,6 +210,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
+import * as XLSX from 'xlsx'
 
 // 请求活动需要的数据
 const route = useRoute();
@@ -222,6 +274,29 @@ const submitNewActivity = () => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postNewActivity, { clubId, ...newActivityForm })
 };
 
+// 打开上传个人绩效对话框
+const uploadPerformanceDialogRef = ref(null);
+const personalOrActivity = ref(true)
+let curActivityId = -1
+const openUploadPerformance = (activityId, flag) => {
+    uploadPerformanceDialogRef.value.openDialog();
+    curActivityId = activityId
+    personalOrActivity.value = flag
+};
+
+// 关闭上传个人绩效对话框
+const closeUploadPerformance = () => {
+    excelData.value = []
+    uploadPerformanceDialogRef.value.closeDialog();
+};
+
+const submitPersonalEffect = () => {
+
+}
+
+const submitActivityEffect = () => {
+
+}
 
 // 富文本编辑器
 const editor = ClassicEditor
@@ -266,8 +341,54 @@ const activityStatusTheme = {
     2: 'warning'
 }
 
+const activityEffect = ref('')
+
 const selectChangeHandler = (fileList) => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
+}
+
+// 上传excel文件
+const fileSelectChangeHandler = (fileList) => {
+    const file = fileList[0]
+    const fileName = file.name
+    const fileType = fileName.split('.').pop()
+    if (fileType === 'xlsx' || fileType === 'xls') {
+        importExcelFile(file)
+    } else {
+        MessagePlugin.warning('请上传Excel文件')
+        return
+    }
+}
+
+const fileRemoveHandler = () => {
+    excelData.value = []
+}
+
+const excelData = ref([])
+const excelColumns = [
+    { colKey: 'stName', title: '姓名' },
+    { colKey: 'studentNumber', title: '学号' },
+    { colKey: 'personalEffect', title: '个人成效' },
+]
+
+const importExcelFile = (file) => {
+    const fileReader = new FileReader()
+    fileReader.readAsArrayBuffer(file)
+    fileReader.onload = (e) => {
+        const data = e.target.result
+        const workbook = XLSX.read(data, { type: 'array' })
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]]
+        const jsonData = XLSX.utils.sheet_to_json(worksheet)
+        jsonData.forEach((item) => {
+            const keys = Object.keys(item)
+            const values = Object.values(item)
+            const newItem = {}
+            excelColumns.forEach((col, index) => {
+                newItem[col.colKey] = values[keys.indexOf(col.title)]
+            });
+            excelData.value.push(newItem)
+        })
+    }
 }
 
 onMounted(() => {
@@ -279,12 +400,11 @@ onMounted(() => {
         activityList.value.push(...data)
         activityNumber.value = activityList.value.length
         // 初始化展示的活动数据
-        activityView.value = activityList.value.slice(0, pageSize.value)
+        activityView.value = activityList.value.slice((current.value - 1) * pageSize.value, current.value * pageSize.value)
         pNumber++
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         newActivityForm.imageUrl = data.url
-        console.log(newActivityForm.imageUrl);
     })
 })
 
