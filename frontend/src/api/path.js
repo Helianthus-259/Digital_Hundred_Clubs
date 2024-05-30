@@ -1,18 +1,24 @@
 const api = '/api'
+const auth = api + '/auth'
 const student = api + '/student'
 const admin = api + '/admin'
 const club = api + '/club'
 const activity = api + '/activity'
 const file = api + '/file'
 const base = {
+    /*——————————————认证中心——————————————*/
+    login: auth + '/login', // 登录
+    register: auth + '/register', // 注册
+    postAdminLogin: auth + '/adminLogin', //管理员登录
+
+
     /*——————————————学生——————————————*/
     // get
     userInfo: student + '/userInfo', // 获取用户信息
     verifyCode: student + '/verifyCode', // 获取验证码
 
     // post
-    login: student + '/login', // 登录
-    register: student + '/register', // 注册
+
     userInfoUpdate: student + '/userInfoUpdate', // 更新用户信息
     backBoneEvaluate: student + '/backBoneEvaluate', // 提交骨干评优申请
 
@@ -25,7 +31,6 @@ const base = {
     clubEvaluations: admin + '/clubEvaluations', // 获取所有社团评优
 
     // post
-    postAdminLogin: admin + '/adminLogin', //管理员登录
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
 
 

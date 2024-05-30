@@ -35,7 +35,6 @@ const router = createRouter({
               meta: { requireAuth: false, },
             },
           ]
-
         },
 
         { // 个人界面

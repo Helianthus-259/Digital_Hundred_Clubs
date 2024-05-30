@@ -2,10 +2,10 @@
   <t-layout>
     <t-aside>
       <t-menu theme="light" v-model="value" height="700px" width="200px">
-        <t-menu-item value="item0">全部活动</t-menu-item>
-        <t-menu-item value="item1">待审批</t-menu-item>
-        <t-menu-item value="item2">已通过</t-menu-item>
-        <t-menu-item value="item3">已驳回</t-menu-item>
+        <t-menu-item value="item0" @click="getAllActivities">全部活动</t-menu-item>
+        <t-menu-item value="item1" @click="getPendingActivities">待审批</t-menu-item>
+        <t-menu-item value="item2" @click="getPassedActivities">已通过</t-menu-item>
+        <t-menu-item value="item3" @click="getUnPassedActivities">已驳回</t-menu-item>
       </t-menu>
     </t-aside>
     <t-layout>
@@ -54,7 +54,7 @@
 import { onUnmounted, ref } from 'vue';
 
 
-const value = ref('item1');
+const value = ref('item0');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
@@ -70,15 +70,15 @@ const activities = []
 const data = ref([]);
 const visibleModal = ref(false)
 const activity = ref({
-  activityName: "活动名称",
-  clubName: "社团名称",
-  activityLocation: "活动地点",
-  createTime: "2023-04-12 12:00:00",
-  status: 2,
-  activityStartTime: "2023-04-12 12:00:00",
-  activityEndTime: "2023-04-12 12:00",
-  activityIntroduction: "活动介绍",
-  activityAttachment: "活动附件",
+  activityName: "",
+  clubName: "",
+  activityLocation: "",
+  createTime: "",
+  status: '',
+  activityStartTime: "",
+  activityEndTime: "",
+  activityIntroduction: "",
+  activityAttachment: "",
 })
 
 function assignment() {
@@ -131,6 +131,26 @@ const detail = (value) => {
   console.log(value)
   eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: value.activityId })
   visibleModal.value = true;
+}
+
+const getAllActivities = () => {
+  data.value = activities.value
+  pagination.value.total = data.value.length
+}
+
+const getPassedActivities = () => {
+  data.value = activities.value.filter(item => item.status === 1)
+  pagination.value.total = data.value.length
+}
+
+const getUnPassedActivities = () => {
+  data.value = activities.value.filter(item => item.status === 0)
+  pagination.value.total = data.value.length
+}
+
+const getPendingActivities = () => {
+  data.value = activities.value.filter(item => item.status === 1)
+  pagination.value.total = data.value.length
 }
 
 eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
