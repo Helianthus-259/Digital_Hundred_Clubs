@@ -30,7 +30,7 @@
 
 .listCardOperation {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 10px;
     padding: 0 20px;
@@ -67,12 +67,32 @@
 <template>
     <div class="activityPublishBox">
         <div class="listCardOperation">
-            <t-button theme="primary" @click="openDialog" variant="outline">发布活动</t-button>
-            <t-input placeholder="输入你想搜索的内容" style="width: 350px;">
-                <template #suffix-icon>
-                    <t-icon name="search" />
-                </template>
-            </t-input>
+            <div style="width: 10%; display: flex; justify-content: center;">
+                <t-button theme="primary" @click="openDialog" variant="outline">发布活动</t-button>
+            </div>
+            <div style="width: 90%; display: flex; justify-content: space-around;">
+                <div style="display: flex; align-items: center;">
+                    <label for="select">活动状态：</label>
+                    <t-select id="select" :defaultValue="-1" @change="handleStatusChange" style="width: 200px;"
+                        placeholder="请选择">
+                        <t-option :value="-1" label="全部"></t-option>
+                        <t-option :value="0" label="未开始"></t-option>
+                        <t-option :value="1" label="进行中"></t-option>
+                        <t-option :value="2" label="已结束"></t-option>
+                    </t-select>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <t-input v-model="searchValue" placeholder="输入你想搜索的内容" style="width: 200px;">
+                        <template #suffix-icon>
+                            <t-icon name="search" />
+                        </template>
+                    </t-input>
+                    <t-button theme="primary" variant="outline" style="margin: 0 5px;"
+                        @click="handleSearch">查询</t-button>
+                    <t-button theme="default" variant="outline" style="margin: 0 5px;"
+                        @click="handleReset">重置</t-button>
+                </div>
+            </div>
         </div>
         <div class="listCardItem">
             <t-row :gutter="[
@@ -111,7 +131,7 @@
                 </t-col>
             </t-row>
         </div>
-        <div class="listCardPagination">
+        <div v-show="paginationShow" class="listCardPagination">
             <t-pagination v-model="current" v-model:pageSize="pageSize" :total="activityNumber" theme="simple"
                 :pageSizeOptions="['12', '24', '36']" @page-size-change="onPageSizeChange"
                 @current-change="onCurrentChange" />
@@ -222,6 +242,34 @@ const activityList = ref([])
 const activityNumber = ref(0)
 // 展示的活动数据
 const activityView = ref([])
+
+// 查询不同状态的活动
+const paginationShow = ref(true)
+const handleStatusChange = (value) => {
+    if (value === -1) {
+        activityView.value = activityList.value.slice((current.value - 1) * pageSize.value, current.value * pageSize.value)
+        paginationShow.value = true
+    } else {
+        activityView.value = activityList.value.filter(activity => activity.status === value)
+        paginationShow.value = false
+    }
+}
+
+// 通过查找框查找活动
+const searchValue = ref('')
+
+const handleSearch = () => {
+    if (searchValue.value !== '') {
+        activityView.value = activityList.value.filter(activity => activity.activityName.includes(searchValue.value))
+        paginationShow.value = false
+    }
+}
+
+const handleReset = () => {
+    activityView.value = activityList.value.slice((current.value - 1) * pageSize.value, current.value * pageSize.value)
+    searchValue.value = ''
+    paginationShow.value = true
+}
 
 // 获取活动信息
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
