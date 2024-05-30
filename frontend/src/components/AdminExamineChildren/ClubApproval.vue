@@ -77,18 +77,18 @@ import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 //对话框
 const visibleModal = ref(false);
 const clubInfo = ref({
-  "clubName": '篮球社',
-  "establishmentDate": '2022-05-01',
-  "responsibleDepartment": '体育部',
-  "mainCompus": "广州校区",
-  "clubDescription": '篮球社是一个篮球社团',
-  "clubCategory": '体育类',
-  "adminGuideTeacher": '张老师',
-  "businessGuideTeacher": '李老师',
-  "contactPerson": '张三',
-  "contactPhone": '123456789',
-  "clubStatus": 1,
-  "file": "file",
+  clubName: '篮球社',
+  establishmentDate: '2022-05-01',
+  responsibleDepartment: '体育部',
+  mainCompus: "广州校区",
+  clubDescription: '篮球社是一个篮球社团',
+  clubCategory: '体育类',
+  adminGuideTeacher: '张老师',
+  businessGuideTeacher: '李老师',
+  contactPerson: '张三',
+  contactPhone: '123456789',
+  clubStatus: 1,
+  file: "file",
 });
 
 // 表格

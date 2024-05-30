@@ -20,6 +20,9 @@ const base = {
     /*———————————————管理员——————————————*/
     // get
     adminInfo: admin + '/adminInfo',//获取管理员信息
+    backBoneEvaluations: admin + '/backBoneEvaluations',  // 获取所有的骨干评优信息
+    clubAnnuals: admin + '/clubAnnuals',    // 获取所有社团年审
+    clubEvaluations: admin + '/clubEvaluations', // 获取所有社团评优
 
     // post
     postAdminLogin: admin + '/adminLogin', //管理员登录

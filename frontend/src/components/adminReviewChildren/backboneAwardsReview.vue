@@ -199,8 +199,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {onUnmounted, ref} from "vue";
 import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
+import eventEmitter from "@/utils/eventEmitter.js";
+import {APIEnum, APIEventEnum} from "@/Enum/index.js";
 
 const choose = ref(-1)
 const theme = ["primary", "success"]
@@ -237,38 +239,15 @@ const detail = (data) => {
   backBoneEvaluate.value = data
 }
 
-const backBoneEvaluations = getEvaluations()
-function getEvaluations() {
-  const data = [];
-  for (let i = 0; i < 10; i++) {
-    data.push({
-      recordId: i,
-      stName: ["小红", "小强", "小王"][i % 3],
-      studentNumber: [1, 2, 3][i % 3],
-      contact: '114514',
-      college: ["人工智能", "软件工程", "测绘"][i % 3],
-      politicalStatus: ["群众", "党员"][i % 2],
-      clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
-      position: ["社长", "副社长"][i % 2],
-      tenurePeriod: '100',
-      achievements: {
-        gpa: '4.0/5',
-        rank: '1/122',
-        rankRatio: '0.82%',
-      },
-      trainingParticipation: [
-        { time: '2022', location: '党校', organization: '学院' },
-      ],
-      associationAwards: [
-        { name: 'xx奖项', time: '2022', organization: '学院' },
-      ],
-      awards: [
-        { name: 'xx个人奖项', time: '2022', organization: '学院' },
-      ],
-      clubWorkStatus: '工作描述',
-    })
-  }
-  return data
-}
+const backBoneEvaluations = ref([])
+
+eventEmitter.emit(APIEventEnum.request, APIEnum.getBackBoneEvaluations)
+eventEmitter.on(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluationsSuccess', (data)=>{
+  backBoneEvaluations.value = data
+})
+
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluationsSuccess')
+})
 
 </script>

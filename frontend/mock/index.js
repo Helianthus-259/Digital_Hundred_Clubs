@@ -510,6 +510,8 @@ mock.onPost(path.uploadImage).reply((config) => {
     }]
 })
 
+
+
 // 删除社团干部mock
 mock.onPost(path.deleteClubMember).reply((config) => {
     return [200, {
@@ -535,5 +537,130 @@ mock.onPost(path.addClubMember).reply((config) => {
 mock.onPost(path.updateClubInfo).reply((config) => {
     return [200, {
         code: 25, // 25代表更新社团信息成功
+    }]
+})
+
+// 获取骨干评审信息mock
+mock.onGet(path.backBoneEvaluations).reply( (config) =>{
+    const data = [];
+    for(let i = 0; i < 10; i++){
+        data.push({
+            recordId:i,
+            stName: ["小红","小强","小王"][i % 3],
+            studentNumber: [1,2,3][i % 3],
+            contact: '114514',
+            college: ["人工智能","软件工程","测绘"][i % 3],
+            politicalStatus: ["群众","党员"][i % 2],
+            clubName: ["篮球社","围棋社","街舞社"][i % 3],
+            position: ["社长", "副社长"][i % 2],
+            tenurePeriod: '100',
+            achievements: {
+                gpa: '4.0/5',
+                rank: '1/122',
+                rankRatio: '0.82%',
+            },
+            trainingParticipation: [
+                { time: '2022', location: '党校', organization: '学院' },
+            ],
+            associationAwards: [
+                { name: 'xx奖项', time: '2022', organization: '学院' },
+            ],
+            awards: [
+                { name: 'xx个人奖项', time: '2022', organization: '学院' },
+            ],
+            clubWorkStatus: '工作描述',
+        })
+    }
+    return [200, {
+        code: 26, // 26代表获取骨干申请成功
+        data,
+    }]
+})
+
+mock.onGet(path.clubAnnuals).reply((config) => {
+    const data = [];
+    for(let i = 0; i < 20; i++){
+        data.push({
+            declarationId:i,
+            declarationYear: ["2020", "2021", "2022"][i % 3],
+            clubName: ["篮球社","围棋社","街舞社"][i % 3],
+        })
+    }
+    return [200, {
+        code: 27, // 27代表获取社团年审成功
+        data,
+    }]
+})
+
+mock.onGet(path.clubEvaluations).reply((config) => {
+    const data = [];
+    for(let i = 0; i < 10; i++){
+        data.push({
+            recordId: i,
+            declarationYear: ["2021", "2022", "2023"][i % 3],
+            clubId: i,
+            clubName: "xx社团",
+            handoverMethod: [0, 1][i % 2],//0全员大会,1骨干例会
+            handoverParticipantsCount: 100,
+            guideTeacher: [0, 1][i % 2],
+            meetings: [
+                {
+                    activityId: 0,
+                    clubId: 0,
+                    time: "2022-1-1",
+                    location: "会议地点",
+                    staffMeetingOrbackBoneMeeting: 0,//0全员大会,1骨干例会
+                    guideTeacher: 1,
+                }
+            ],
+            associationAwards: [
+                {
+                    name: "xx奖",
+                    time: "2022-02-02",
+                    organization: "中山大学"
+                }
+            ],
+            publicityManagementEffectiveness: {
+                submissionsCount: 5,
+                PublicityAboveSchoolLevel: [
+                    {
+                        platform: "平台",
+                        content: "内容",
+                    }
+                ],
+            },
+            hostedSchoolLevelActivities: {
+                schoolLv: [
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                municipal: [
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                provincial: [
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ]
+            },
+            activities: [
+                {
+                    activityName: "活动名称",
+                    activityTime: "活动时间",
+                    activityEffect: "活动成效",
+                }
+            ],
+            clubWorkIntroduction: "工作简介"
+        })
+    }
+    return [200, {
+        code: 28, // 28代表获取社团评优成功
+        data,
     }]
 })

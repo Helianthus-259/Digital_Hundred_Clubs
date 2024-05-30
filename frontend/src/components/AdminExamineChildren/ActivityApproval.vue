@@ -70,15 +70,15 @@ const activities = []
 const data = ref([]);
 const visibleModal = ref(false)
 const activity = ref({
-  "activityName": "活动名称",
-  "clubName": "社团名称",
-  "activityLocation": "活动地点",
-  "createTime": "2023-04-12 12:00:00",
-  "status": 2,
-  "activityStartTime": "2023-04-12 12:00:00",
-  "activityEndTime": "2023-04-12 12:00",
-  "activityIntroduction": "活动介绍",
-  "activityAttachment": "活动附件",
+  activityName: "活动名称",
+  clubName: "社团名称",
+  activityLocation: "活动地点",
+  createTime: "2023-04-12 12:00:00",
+  status: 2,
+  activityStartTime: "2023-04-12 12:00:00",
+  activityEndTime: "2023-04-12 12:00",
+  activityIntroduction: "活动介绍",
+  activityAttachment: "活动附件",
 })
 
 function assignment() {
