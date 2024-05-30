@@ -219,7 +219,7 @@ const submitReject = () => {
 
 // 表格的表头
 const columns = [
-    { colKey: 'studentName', title: '申请人名称' },
+    { colKey: 'stName', title: '申请人名称' },
     { colKey: 'college', title: '学院' },
     { colKey: 'politicalStatus', title: '政治面貌' },
     { colKey: 'status', title: '申请状态' },

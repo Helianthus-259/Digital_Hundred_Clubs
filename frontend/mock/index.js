@@ -418,7 +418,7 @@ mock.onGet(path.clubApplyList).reply((config) => {
     for (let i = 0; i < 15; i++) {
         applyList.push({
             studentId: i,
-            studentName: '张三',
+            stName: '张三',
             college: '计算机学院',
             politicalStatus: '共青团员',
             status: i % 3,
@@ -541,17 +541,17 @@ mock.onPost(path.updateClubInfo).reply((config) => {
 })
 
 // 获取骨干评审信息mock
-mock.onGet(path.backBoneEvaluations).reply( (config) =>{
+mock.onGet(path.backBoneEvaluations).reply((config) => {
     const data = [];
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
         data.push({
-            recordId:i,
-            stName: ["小红","小强","小王"][i % 3],
-            studentNumber: [1,2,3][i % 3],
+            recordId: i,
+            stName: ["小红", "小强", "小王"][i % 3],
+            studentNumber: [1, 2, 3][i % 3],
             contact: '114514',
-            college: ["人工智能","软件工程","测绘"][i % 3],
-            politicalStatus: ["群众","党员"][i % 2],
-            clubName: ["篮球社","围棋社","街舞社"][i % 3],
+            college: ["人工智能", "软件工程", "测绘"][i % 3],
+            politicalStatus: ["群众", "党员"][i % 2],
+            clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
             position: ["社长", "副社长"][i % 2],
             tenurePeriod: '100',
             achievements: {
@@ -579,11 +579,11 @@ mock.onGet(path.backBoneEvaluations).reply( (config) =>{
 
 mock.onGet(path.clubAnnuals).reply((config) => {
     const data = [];
-    for(let i = 0; i < 20; i++){
+    for (let i = 0; i < 20; i++) {
         data.push({
-            declarationId:i,
+            declarationId: i,
             declarationYear: ["2020", "2021", "2022"][i % 3],
-            clubName: ["篮球社","围棋社","街舞社"][i % 3],
+            clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
         })
     }
     return [200, {
@@ -594,7 +594,7 @@ mock.onGet(path.clubAnnuals).reply((config) => {
 
 mock.onGet(path.clubEvaluations).reply((config) => {
     const data = [];
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
         data.push({
             recordId: i,
             declarationYear: ["2021", "2022", "2023"][i % 3],
@@ -662,5 +662,19 @@ mock.onGet(path.clubEvaluations).reply((config) => {
     return [200, {
         code: 28, // 28代表获取社团评优成功
         data,
+    }]
+})
+
+// 提交个人绩效mock
+mock.onPost(path.personalPerformance).reply((config) => {
+    return [200, {
+        code: 29, // 29代表提交个人绩效成功
+    }]
+})
+
+// 提交活动绩效mock
+mock.onPost(path.activityPerformance).reply((config) => {
+    return [200, {
+        code: 30, // 30代表提交活动绩效成功
     }]
 })

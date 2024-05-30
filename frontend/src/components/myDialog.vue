@@ -29,11 +29,12 @@
 }
 
 .dialog-body {
-    max-width: calc(60vw);
-    min-width: calc(40vw);
+    max-width: 1000px;
+    min-width: 400px;
     max-height: calc(100vh - 250px);
     min-height: 250px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* 滚动条样式 */
