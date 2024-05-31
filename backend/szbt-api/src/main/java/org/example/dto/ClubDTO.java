@@ -6,7 +6,7 @@ import lombok.Data;
 public class ClubDTO {
     private Integer clubId;
     private String clubName;
-    private String position; // 假设位置是社长
+    private String position;
     private Integer clubStatus;
     private Integer collegeReviewStatus;
     private Integer universityStudentUnionReviewStatus;

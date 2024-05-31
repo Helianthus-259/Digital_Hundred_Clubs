@@ -10,10 +10,11 @@
         <result property="activityName" column="activity_name" jdbcType="VARCHAR"/>
         <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
         <result property="personalEffect" column="personal_effect" jdbcType="VARCHAR"/>
+        <result property="awardWiningTime" column="award_wining_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         activity_member_id,student_id,activity_name,
-        activity_id,personal_effect
+        activity_id,personal_effect,award_wining_time
     </sql>
 </mapper>

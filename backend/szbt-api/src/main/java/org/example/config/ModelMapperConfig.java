@@ -1,5 +1,7 @@
 package org.example.config;
 
+import org.example.dto.ActivityMemberDTO;
+import org.example.entity.Activitymember;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -40,7 +42,14 @@ public class ModelMapperConfig {
 
         modelMapper.addConverter(dateToStringConverter);
 
+        //configureActivityMemberDTO(modelMapper);
+
         return modelMapper;
     }
 
+    private void configureActivityMemberDTO(ModelMapper modelMapper) {
+        modelMapper.typeMap(ActivityMemberDTO.class, Activitymember.class)
+                //.addMappings(mapper -> mapper.skip(User::setPassword))
+                .addMappings(mapper -> mapper.map(ActivityMemberDTO::getIndex,Activitymember::setActivityMemberId));
+    }
 }

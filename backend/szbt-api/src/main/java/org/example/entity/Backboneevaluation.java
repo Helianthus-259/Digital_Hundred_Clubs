@@ -4,60 +4,59 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 
+ *
  * @TableName backboneevaluation
  */
 @TableName(value ="backboneevaluation")
 @Data
 public class Backboneevaluation implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer recordId;
 
     /**
-     * 
+     *
      */
     private Integer declarationYear;
 
     /**
-     * 
+     *
      */
     private Integer studentId;
 
     /**
-     * 
+     *
      */
     private Integer clubId;
 
     /**
-     * 
+     *
      */
-    private Integer tenurePeriod;
+    private String tenurePeriod;
 
     /**
-     * 
+     *
      */
     private Object achievements;
 
     /**
-     * 
+     *
      */
     private Object trainingParticipation;
 
     /**
-     * 
+     *
      */
     private Object awards;
 
     /**
-     * 
+     *
      */
     private String clubWorkStatus;
 
@@ -77,14 +76,14 @@ public class Backboneevaluation implements Serializable {
         }
         Backboneevaluation other = (Backboneevaluation) that;
         return (this.getRecordId() == null ? other.getRecordId() == null : this.getRecordId().equals(other.getRecordId()))
-            && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
-            && (this.getStudentId() == null ? other.getStudentId() == null : this.getStudentId().equals(other.getStudentId()))
-            && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getTenurePeriod() == null ? other.getTenurePeriod() == null : this.getTenurePeriod().equals(other.getTenurePeriod()))
-            && (this.getAchievements() == null ? other.getAchievements() == null : this.getAchievements().equals(other.getAchievements()))
-            && (this.getTrainingParticipation() == null ? other.getTrainingParticipation() == null : this.getTrainingParticipation().equals(other.getTrainingParticipation()))
-            && (this.getAwards() == null ? other.getAwards() == null : this.getAwards().equals(other.getAwards()))
-            && (this.getClubWorkStatus() == null ? other.getClubWorkStatus() == null : this.getClubWorkStatus().equals(other.getClubWorkStatus()));
+                && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
+                && (this.getStudentId() == null ? other.getStudentId() == null : this.getStudentId().equals(other.getStudentId()))
+                && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
+                && (this.getTenurePeriod() == null ? other.getTenurePeriod() == null : this.getTenurePeriod().equals(other.getTenurePeriod()))
+                && (this.getAchievements() == null ? other.getAchievements() == null : this.getAchievements().equals(other.getAchievements()))
+                && (this.getTrainingParticipation() == null ? other.getTrainingParticipation() == null : this.getTrainingParticipation().equals(other.getTrainingParticipation()))
+                && (this.getAwards() == null ? other.getAwards() == null : this.getAwards().equals(other.getAwards()))
+                && (this.getClubWorkStatus() == null ? other.getClubWorkStatus() == null : this.getClubWorkStatus().equals(other.getClubWorkStatus()));
     }
 
     @Override

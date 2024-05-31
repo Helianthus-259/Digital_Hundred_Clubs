@@ -1,5 +1,6 @@
 package com.szbt.studentserver.controller;
 
+import com.szbt.studentserver.service.BackboneevaluationService;
 import com.szbt.studentserver.service.StudentService;
 import com.szbt.studentserver.util.ImageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +8,7 @@ import org.aspectj.internal.lang.reflect.StringToType;
 import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityMemberDTO;
 import org.example.dto.ClubDTO;
+import org.example.entity.Backboneevaluation;
 import org.example.service.ActivityClientService;
 import org.example.service.ClubClientService;
 import org.example.service.FileClientService;
@@ -30,6 +32,9 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
+    private BackboneevaluationService backboneevaluationService;
+
+    @Autowired
     private FileClientService fileClientService;
 
     @Autowired
@@ -50,6 +55,18 @@ public class StudentController {
         List<ClubDTO> clubDTOS = clubClientService.getClubInfoBySId(id);
         List<ActivityMemberDTO> activityMemberDTOS = activityClientService.getActivityMemberBySid(id);
         return studentService.getStudentInfoById(id,clubDTOS,activityMemberDTOS);
+    }
+
+    @PostMapping("/userInfoUpdate")
+    public Object studentInfoUpdate(@RequestHeader(value = RequestKeyConstants.ID) Integer id,@RequestBody Student student){
+        System.out.println(student);
+        return studentService.studentInfoUpdate(student);
+    }
+
+    @PostMapping("/backBoneEvaluate")
+    public Object addBackBoneEvaluate(@RequestHeader(value = RequestKeyConstants.ID) Integer id, @RequestBody Backboneevaluation backboneevaluation){
+        System.out.println(backboneevaluation);
+        return null;
     }
 
 }

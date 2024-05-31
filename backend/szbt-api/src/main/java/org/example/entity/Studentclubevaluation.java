@@ -60,6 +60,16 @@ public class Studentclubevaluation implements Serializable {
      */
     private String clubWorkIntroduction;
 
+    /**
+     *
+     */
+    private String imageUrl;
+
+    /**
+     *
+     */
+    private String clubEducationCaseAttachment;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -83,7 +93,9 @@ public class Studentclubevaluation implements Serializable {
                 && (this.getAdvisorParticipation() == null ? other.getAdvisorParticipation() == null : this.getAdvisorParticipation().equals(other.getAdvisorParticipation()))
                 && (this.getPublicityManagementEffectiveness() == null ? other.getPublicityManagementEffectiveness() == null : this.getPublicityManagementEffectiveness().equals(other.getPublicityManagementEffectiveness()))
                 && (this.getHostedSchoolLevelActivities() == null ? other.getHostedSchoolLevelActivities() == null : this.getHostedSchoolLevelActivities().equals(other.getHostedSchoolLevelActivities()))
-                && (this.getClubWorkIntroduction() == null ? other.getClubWorkIntroduction() == null : this.getClubWorkIntroduction().equals(other.getClubWorkIntroduction()));
+                && (this.getClubWorkIntroduction() == null ? other.getClubWorkIntroduction() == null : this.getClubWorkIntroduction().equals(other.getClubWorkIntroduction()))
+                && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
+                && (this.getClubEducationCaseAttachment() == null ? other.getClubEducationCaseAttachment() == null : this.getClubEducationCaseAttachment().equals(other.getClubEducationCaseAttachment()));
     }
 
     @Override
@@ -99,6 +111,8 @@ public class Studentclubevaluation implements Serializable {
         result = prime * result + ((getPublicityManagementEffectiveness() == null) ? 0 : getPublicityManagementEffectiveness().hashCode());
         result = prime * result + ((getHostedSchoolLevelActivities() == null) ? 0 : getHostedSchoolLevelActivities().hashCode());
         result = prime * result + ((getClubWorkIntroduction() == null) ? 0 : getClubWorkIntroduction().hashCode());
+        result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
+        result = prime * result + ((getClubEducationCaseAttachment() == null) ? 0 : getClubEducationCaseAttachment().hashCode());
         return result;
     }
 
@@ -117,6 +131,8 @@ public class Studentclubevaluation implements Serializable {
         sb.append(", publicityManagementEffectiveness=").append(publicityManagementEffectiveness);
         sb.append(", hostedSchoolLevelActivities=").append(hostedSchoolLevelActivities);
         sb.append(", clubWorkIntroduction=").append(clubWorkIntroduction);
+        sb.append(", imageUrl=").append(imageUrl);
+        sb.append(", clubEducationCaseAttachment=").append(clubEducationCaseAttachment);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

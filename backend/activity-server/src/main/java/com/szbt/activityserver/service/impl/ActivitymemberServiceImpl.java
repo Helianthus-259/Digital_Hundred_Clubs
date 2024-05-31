@@ -7,10 +7,13 @@ import org.example.dto.ActivityMemberDTO;
 import org.example.entity.Activitymember;
 import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import com.szbt.activityserver.service.ActivitymemberService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * @author 小壳儿
@@ -24,12 +27,22 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
     @Autowired
     private ActivitymemberMapper activitymemberMapper;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public List<ActivityMemberDTO> getActivityMemberBySid(Integer id) {
+        System.out.println(id);
         MPJLambdaWrapper<Activitymember> wrapper = new MPJLambdaWrapper<Activitymember>()
                 .selectAll(Activitymember.class)
                 .eq(Activitymember::getStudentId,id);
-        List<ActivityMemberDTO> activityMemberDTOS = activitymemberMapper.selectJoinList(ActivityMemberDTO.class, wrapper);
+        //List<ActivityMemberDTO> activityMemberDTOS = activitymemberMapper.selectJoinList(ActivityMemberDTO.class, wrapper);
+        List<Activitymember> activityMembers = activitymemberMapper.selectJoinList(Activitymember.class, wrapper);
+        // 使用 ModelMapper 映射
+        List<ActivityMemberDTO> activityMemberDTOS = modelMapper.map(activityMembers, new TypeToken<List<ActivityMemberDTO>>() {}.getType());
+        for (int i = 0; i < activityMemberDTOS.size(); i++) {
+            activityMemberDTOS.get(i).setIndex(activityMembers.get(i).getActivityMemberId());
+        }
         System.out.println(activityMemberDTOS);
         return activityMemberDTOS;
     }

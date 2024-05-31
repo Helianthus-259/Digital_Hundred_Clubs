@@ -7,10 +7,12 @@ import com.szbt.studentserver.dao.mapper.StudentMapper;
 //import com.szbt.studentserver.util.EmailUtil;
 import org.example.dto.ActivityMemberDTO;
 import org.example.dto.ClubDTO;
-import org.example.dto.StudentInfoDTO;
+import org.example.enums.ResultCode;
 import org.example.util.Result;
 import org.example.enums.StatusCode;
-import org.example.vo.StudentInfoVO;
+import org.example.dto.UserInfoDTO;
+import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
 import org.example.vo.UploadSuccess;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,36 +38,35 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 
     @Override
     public Object savaAvatar(String relativePath, Integer studentId) {
-        if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
         Student student = new Student();
         student.setStudentId(studentId);
         student.setImageUrl(relativePath);
         int ok = studentMapper.updateById(student);
         System.out.println(ok);
-        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
         return Result.success(new UploadSuccess(relativePath));
     }
 
     @Override
     public Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS) {
 
-//        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.eq("email", email);
-//        Student student = studentMapper.selectOne(queryWrapper,true);
-//        StudentInfoDTO studentInfoDto = modelMapper.map(student, StudentInfoDTO.class);
-//        System.out.println(student);
-//        System.out.println(studentInfoDto);
-//        return studentInfoDto;
-
         MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
                 .selectAll(Student.class)
                 .eq(Student::getStudentId,id);
-        StudentInfoVO studentInfoVO = studentMapper.selectJoinOne(StudentInfoVO.class, wrapper);
-        studentInfoVO.setAchievements(activityMemberDTOS);
-        studentInfoVO.setClubs(clubDTOS);
-        System.out.println(studentInfoVO);
+        UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
+        userInfoDTO.setAchievements(activityMemberDTOS);
+        userInfoDTO.setClubs(clubDTOS);
+        System.out.println(userInfoDTO);
 
-        return Result.success(studentInfoVO);
+        return Result.success(new DataVO(ResultCode.USER_INFO,userInfoDTO));
+    }
+
+    @Override
+    public Object studentInfoUpdate(Student student) {
+        int updateById = studentMapper.updateById(student);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_STUDENT_INFO_ERROR,new SendMsg("更新学生信息失败"));
+        return Result.success(ResultCode.UPDATE_USER_INFO);
     }
 
 //    @Autowired

@@ -23,5 +23,7 @@ public interface StudentService extends IService<Student> {
 
     Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS);
 
+    Object studentInfoUpdate(Student student);
+
 //    Object checkImageVerifyCode(boolean ok);
 }

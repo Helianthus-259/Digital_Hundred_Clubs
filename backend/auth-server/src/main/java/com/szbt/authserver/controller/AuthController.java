@@ -33,20 +33,21 @@ public class AuthController {
     private StudentClientService studentClientService;
 
 
-    @PostMapping("/student/login")
-    public Object login(String email, String password, String imageVerifyCode)
+    @PostMapping("/login")
+    public Object login(String email, String pwd, String imageVerifyCode)
     {
         boolean ok = verifyCodeService.checkImageVerifyCode(imageVerifyCode);
-        return studentService.login(email,password,ok);
+        System.out.println(email);
+        return studentService.login(email,pwd,ok);
     }
 
-    @PostMapping("/student/register")
-    public Object register(String email, String verifyCode, String password){
+    @PostMapping("/register")
+    public Object register(String email, String verifyCode, String pwd){
         boolean ok = verifyCodeService.checkMailVerifyCode(verifyCode,email);
-        return studentService.register(email,password,ok);
+        return studentService.register(email,pwd,ok);
     }
 
-    @PostMapping("/admin/login")
+    @PostMapping("/adminLogin")
     public Object adminLogin(String account, String password, String imageVerifyCode)
     {
         boolean ok = verifyCodeService.checkImageVerifyCode(imageVerifyCode);
@@ -54,7 +55,7 @@ public class AuthController {
     }
 
     //用来临时添加管理员测试
-    @PostMapping("/admin/register")
+    @PostMapping("/adminRegister")
     public Object adminRegister(String account,String password){
         return administratorService.register(account,password);
     }
