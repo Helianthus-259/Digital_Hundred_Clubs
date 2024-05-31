@@ -129,6 +129,13 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postClubAnnualAuditFormSuccess)
         } else if (response.data.code === 35) { // 提交社团评优表成功
             eventEmitter.emit(APIEventEnum.postClubEvaluationFormSuccess)
+        } else if (response.data.code === 36) { // 获取社团通知列表成功
+            const { notices } = response.data
+            eventEmitter.emit(APIEventEnum.getClubNoticeListSuccess, notices)
+        } else if (response.data.code === 37) { // 发布新通知成功
+            eventEmitter.emit(APIEventEnum.postNewNoticeSuccess)
+        } else if (response.data.code === 38) { // 发布新会议成功
+            eventEmitter.emit(APIEventEnum.postNewMeetingSuccess)
         }
     }
 }

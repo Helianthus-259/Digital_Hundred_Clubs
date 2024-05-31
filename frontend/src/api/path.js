@@ -10,12 +10,12 @@ const base = {
     login: auth + '/login', // 登录
     register: auth + '/register', // 注册
     postAdminLogin: auth + '/adminLogin', //管理员登录
+    verifyCode: auth + '/verifyCode', // 获取验证码
 
 
     /*——————————————学生——————————————*/
     // get
     userInfo: student + '/userInfo', // 获取用户信息
-    verifyCode: student + '/verifyCode', // 获取验证码
 
     // post
 
@@ -44,6 +44,7 @@ const base = {
     clubApplyList: club + '/clubApplyList', // 获取社团申请列表
     clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
     topTenClubs: club + '/topTenClubs', // 获取十佳社团
+    clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
 
     // post
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
@@ -55,6 +56,8 @@ const base = {
     updateClubInfo: club + '/updateClubInfo', // 更新社团信息
     clubAnnualAuditForm: club + '/clubAnnualAuditForm', // 提交社团年审表
     clubEvaluationForm: club + '/clubEvaluationForm', // 提交社团评优表
+    newNotice: club + '/newNotice', // 提交新通知
+    newMeeting: club + '/newMeeting', // 提交新会议
 
 
     /*——————————————活动——————————————*/

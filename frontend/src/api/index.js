@@ -260,6 +260,28 @@ const api = {
             imageUrl: params.imageUrl,
         }
     }),
+    'getClubNoticeList': (params) => axios.get(path.clubNoticeList, { // 获取社团通知列表
+        params: {
+            clubId: params.clubId,
+        }
+    }),
+    'postNewNotice': (params) => axios.post(path.newNotice, { // 添加社团通知
+        params: {
+            clubId: params.clubId,
+            title: params.title,
+            content: params.content,
+            imageUrl: params.imageUrl,
+        }
+    }),
+    'postNewMeeting': (params) => axios.post(path.newMeeting, { // 添加社团会议
+        params: {
+            clubId: params.clubId,
+            meetingTime: params.meetingTime,
+            location: params.location,
+            category: params.category,
+            advisorName: params.advisorName,
+        }
+    })
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

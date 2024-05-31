@@ -742,3 +742,36 @@ mock.onPost(path.clubEvaluationForm).reply((config) => {
         code: 35, // 35代表提交社团评优表成功
     }]
 })
+
+// 获取社团通知列表mock
+mock.onGet(path.clubNoticeList).reply((config) => {
+    const notices = []
+    for (let i = 0; i < 10; i++) {
+        notices.push({
+            announcementId: i,
+            title: "标题" + i,
+            content: "内容" + i,
+            imageUrl: `https://picsum.photos/400/300?${i}`,
+            publishTime: "2022-01-01 00:00:00",
+            modifyTime: "2022-01-01 00:00:00",
+        })
+    }
+    return [200, {
+        code: 36, // 36代表获取社团通知列表成功
+        notices,
+    }]
+})
+
+// 提交新通知mock
+mock.onPost(path.newNotice).reply((config) => {
+    return [200, {
+        code: 37, // 37代表提交新通知成功
+    }]
+})
+
+// 发布新会议mock
+mock.onPost(path.newMeeting).reply((config) => {
+    return [200, {
+        code: 38, // 38代表发布新会议成功
+    }]
+})
