@@ -9,11 +9,13 @@
 .leftSide {
     width: 80%;
     padding: 5px;
+    margin-right: 2%;
+    margin-left: 2%;
 }
 
 /* 左边部分内容 */
 .leftSideContent {
-    background-color: #fff;
+    background-color: #d8eeff;
     border-radius: 5px;
     height: 100%;
     display: flex;
@@ -46,8 +48,9 @@
 
 /* 右边部分 */
 .rightSide {
-    width: 20%;
+    width: 14%;
     padding: 5px;
+    margin-left: 2%;
 }
 
 /* 右边部分内容 */
@@ -81,130 +84,169 @@
 
 <template>
     <div class="mainBox">
-        <div class="leftSide">
-            <div class="leftSideContent">
-                <Achievements :achievements="activitiesHistory" :on-change="handleSelectedHistory"></Achievements>
+        <div class="rightSide">
+            <div class="rightSideContent">
+              <t-space style="margin-left:10%; margin-top: 20%;" direction="vertical">
+                <t-checkbox style="" :checked="checkAll" :indeterminate="indeterminate" :on-change="handleSelectAll">展示全部记录</t-checkbox>
+                <t-checkbox-group style="" v-model="value1" :options="options1" @change="onChange1" />
+              </t-space>
             </div>
         </div>
 
-        <div class="rightSide">
-            <div class="rightSideContent">
-                <div class="ribbon">
-                    <div>
-                        <t-radio-group :default-value="defaultFormat" @change="groupChangeFn">
-                            <t-radio name="radio" value=".docx" label="导出为word" />
-                            <t-radio name="radio" value=".pdf" label="导出为pdf" />
-                        </t-radio-group>
-                    </div>
-                    <t-button theme="primary" @click="exportFile">导出</t-button>
-                </div>
+        <div class="leftSide">
+            <div class="leftSideContent">
+                <t-space direction="vertical" style="background-color:#ffffff; border-radius: 25px;">
+                    <t-space style="margin-left:5% ;margin-top:3%; margin-bottom:1%; ">
+                    <t-checkbox v-model="stripe"> 显示斑马纹 </t-checkbox>
+                    <t-checkbox v-model="bordered"> 显示表格边框 </t-checkbox>
+                    <t-checkbox v-model="hover"> 显示悬浮效果 </t-checkbox>
+                    <!-- <t-checkbox v-model="tableLayout"> 宽度自适应 </t-checkbox> -->
+                    <t-checkbox v-model="showHeader"> 显示表头 </t-checkbox>
+                    </t-space>
+
+                    <!-- 当数据为空需要占位时，会显示 cellEmptyContent -->
+                    <t-table
+                    row-key="index"
+                    :data="showedData"
+                    :columns="columns"
+                    :fields="value1"
+                    :stripe="stripe"
+                    :bordered="bordered"
+                    :hover="hover"
+                    table-layout="fixed"
+                    :size="size"
+                    :pagination="pagination"
+                    :show-header="showHeader"
+                    cell-empty-content="-"
+                    resizable
+                    lazy-load
+                    @row-click="handleRowClick"
+                    >
+                    </t-table>
+                </t-space>
             </div>
         </div>
+
+        
     </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-import Achievements from '../Achievements.vue'
-import store from '@/store';
-import jsPDF from 'jspdf';
+<script setup lang="jsx">
+import { ref, computed } from 'vue';
 import 'jspdf-autotable';
 import '@/utils/simhei-normal'
-import { Document, Packer, Paragraph, Table, TableCell, TableRow, WidthType } from 'docx';
-import { saveAs } from 'file-saver';
 
-// 获取的成就
-const activitiesHistory = ref(store.state.userInfo.activitiesHistory)
+/////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
+const options1 = [
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  { value: '活动结束', label: '活动结束' },
+  { value: '活动进行中', label: '活动进行中' },
+  { value: '活动取消', label: '活动取消' },
+  { value: '活动未开始', label: '活动未开始' },
+];
+const value1 = ref(['活动结束','活动进行中','活动取消','活动未开始']);
+//全选
+const checkAll = computed(() => options1.length === value1.value.length);
+//半选indeterminate
+const indeterminate = computed(() => !!(options1.length > value1.value.length && value1.value.length));
 
-// 选中的成就
-const checkedHistory = ref([])
-
-const handleSelectedHistory = (selectedHistory) => {
-    checkedHistory.value = selectedHistory
-}
-
-// 导出选中的成就成word或者pdf的形式
-const defaultFormat = ref('.docx')
-const format = ref('.docx')
-const groupChangeFn = (value) => {
-    format.value = value
-}
-
-const exportFile = () => {
-    if (checkedAchievements.value.length === 0) {
-        return
+//全选按钮对应showedData处理
+const handleSelectAll = (checked) => {
+  value1.value = checked ? ['活动结束','活动进行中','活动取消','活动未开始'] : [];
+  showedData=[]
+  for(let i=0;i<data.length;i++)
+  {
+    let flag=false
+    
+    for(let j=0;j<value1.value.length;j++) 
+      if(statusNameListMap[data[i].status].label===value1.value[j])
+        flag=true
+    
+    if(flag) {
+      showedData.push(data[i])
     }
-    if (format.value === '.docx') {
-        const table = new Table({
-            rows: [
-                new TableRow({
-                    children: [
-                        new TableCell({
-                            children: [new Paragraph('活动名称')],
-                            width: { size: 150, type: WidthType.DXA },
-                        }),
-                        new TableCell({
-                            children: [new Paragraph('成就')],
-                            width: { size: 150, type: WidthType.DXA },
-                        }),
-                        new TableCell({
-                            children: [new Paragraph('获取时间')],
-                            width: { size: 150, type: WidthType.DXA },
-                        }),
-                    ],
-                }),
-                ...checkedAchievements.value.map(
-                    (item) =>
-                        new TableRow({
-                            children: [
-                                new TableCell({
-                                    children: [new Paragraph(item.name)],
-                                    width: { size: 300, type: WidthType.DXA },
-                                }),
-                                new TableCell({
-                                    children: [new Paragraph(item.award)],
-                                    width: { size: 300, type: WidthType.DXA },
-                                }),
-                                new TableCell({
-                                    children: [new Paragraph(item.awardWiningTime)],
-                                    width: { size: 300, type: WidthType.DXA },
-                                }),
-                            ],
-                        })
-                ),
-            ],
-        });
+  }
+};
 
-        const doc = new Document({
-            sections: [
-                {
-                    children: [table]
-                }
-            ]
-        })
+//单独按钮对应showedData处理
+const onChange1 = (val) => {
+  console.log(value1.value, val);
+  showedData=[]
+  for(let i=0;i<data.length;i++)
+  {
+    let flag=false
 
-        Packer.toBlob(doc).then((blob) => {
-            saveAs(blob, 'achievement.docx')
-        })
+    for(let j=0;j<value1.value.length;j++) 
+      if(statusNameListMap[data[i].status].label===value1.value[j])
+        flag=true
+    
+    if(flag) 
+      showedData.push(data[i])
+  }
+};
 
-    } else if (format.value === '.pdf') {
-        const doc = new jsPDF()
-        doc.setFont('simhei')
-        doc.autoTable({
-            head: [['活动名称', '成就', '获取时间']],
-            body: checkedAchievements.value.map(item => [item.name, item.award, item.awardWiningTime]),
-            styles: {
-                font: 'simhei',
-                fontSize: 12,
-            },
-            columnStyles: {
-                0: { cellWidth: 'auto' },
-                1: { cellWidth: 'auto' },
-                2: { cellWidth: 'auto' },
-            },
-        })
-        doc.save('achievements.pdf')
-    }
+
+/////////////////////////以下部分为表格设计代码//////////////////////////////////
+
+const statusNameListMap = {
+  0: { label: '活动结束', theme: 'success'},
+  1: { label: '活动取消', theme: 'danger' },
+  2: { label: '活动未开始', theme: 'warning' },
+  3: { label: '活动进行中', theme: 'primary' },
+};
+const data = [];
+const total = 28;
+//以下循环的功能为获取/制造数据。在连接前后端时此处全部改为获取后端数据
+for (let i = 0; i < total; i++) {
+    data.push({
+    index: i + 1,
+    activitiesName: ['长跑月', '定向越野', '羽毛球比赛','软工歌王','踢毽子大赛','院运会','舞林争霸','桌游日','捉迷藏','转椅竞速赛',][i % 10],
+    status: i % 4,
+    channel: i,
+    detail: {
+      email: ['123456789@qq.com', '12345679@qq.com', '12345789@qq.com'][i % 3],
+    },
+    matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
+    time: [2, 3, 1, 4][i % 4],
+    createTime: ['2022/01/01——2022/02/01', '2022/03/01——2022/03/01', '2023/06/01——2023/06/01', '2024/02/01——2024/03/01', '2024/06/01——2024/06/01'][i % 5],
+    });  
 }
+let showedData=data;
+const stripe = ref(true);
+const bordered = ref(true);
+const hover = ref(true);
+const size = ref('medium');
+const showHeader = ref(true);
+
+const columns = ref([
+  { colKey: 'index', title: '活动id' ,},
+  { colKey: 'activitiesName', title: '活动名称', },
+  {
+    colKey: 'status',
+    title: '活动状态',
+    cell: (h, { row }) => {
+      return (
+        <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
+          {statusNameListMap[row.status].label}
+        </t-tag>
+      );
+    },
+  },
+  { colKey: 'createTime', title: '活动时间段',width:'300'},
+  { colKey: 'detail.email', title: '活动详情', ellipsis: true },
+]);
+
+const handleRowClick = (e) => {
+  console.log(e);
+};
+
+const pagination = {
+  defaultCurrent: 1,
+  defaultPageSize: 10,
+  total,
+};
+
+
+
 
 </script>
