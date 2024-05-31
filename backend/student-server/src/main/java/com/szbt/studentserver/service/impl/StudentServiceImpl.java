@@ -1,25 +1,23 @@
 package com.szbt.studentserver.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.studentserver.service.StudentService;
 import com.szbt.studentserver.dao.mapper.StudentMapper;
 //import com.szbt.studentserver.util.EmailUtil;
-import org.example.util.JWTUtils;
+import org.example.dto.ActivityMemberDTO;
+import org.example.dto.ClubDTO;
+import org.example.dto.StudentInfoDTO;
 import org.example.util.Result;
-import org.example.enums.ResultCode;
-import com.szbt.studentserver.util.SecurityUtil;
-import lombok.val;
-import org.example.vo.SendMsg;
-import org.example.vo.LRSuccess;
 import org.example.enums.StatusCode;
+import org.example.vo.StudentInfoVO;
 import org.example.vo.UploadSuccess;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.entity.Student;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -32,6 +30,43 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 
     @Autowired
     private StudentMapper studentMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public Object savaAvatar(String relativePath, Integer studentId) {
+        if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        Student student = new Student();
+        student.setStudentId(studentId);
+        student.setImageUrl(relativePath);
+        int ok = studentMapper.updateById(student);
+        System.out.println(ok);
+        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
+        return Result.success(new UploadSuccess(relativePath));
+    }
+
+    @Override
+    public Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS) {
+
+//        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq("email", email);
+//        Student student = studentMapper.selectOne(queryWrapper,true);
+//        StudentInfoDTO studentInfoDto = modelMapper.map(student, StudentInfoDTO.class);
+//        System.out.println(student);
+//        System.out.println(studentInfoDto);
+//        return studentInfoDto;
+
+        MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
+                .selectAll(Student.class)
+                .eq(Student::getStudentId,id);
+        StudentInfoVO studentInfoVO = studentMapper.selectJoinOne(StudentInfoVO.class, wrapper);
+        studentInfoVO.setAchievements(activityMemberDTOS);
+        studentInfoVO.setClubs(clubDTOS);
+        System.out.println(studentInfoVO);
+
+        return Result.success(studentInfoVO);
+    }
 
 //    @Autowired
 //    private EmailUtil emailUtil;
@@ -77,28 +112,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 //        }
 //        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
 //    }
-
-    @Override
-    public Object savaAvatar(String relativePath, Integer studentId) {
-        if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
-        Student student = new Student();
-        student.setStudentId(studentId);
-        student.setImageUrl(relativePath);
-        int ok = studentMapper.updateById(student);
-        System.out.println(ok);
-        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,"上传文件失败");
-        return Result.success(new UploadSuccess(relativePath));
-    }
-
-    @Override
-    public Student getStudentInfoByEmail(String email) {
-
-        QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("email", email);
-        Student student = studentMapper.selectOne(queryWrapper,true);
-        return student;
-    }
-
 
 //    @Override
 //    public Object checkImageVerifyCode(boolean ok)

@@ -4,62 +4,66 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 
+ *
  * @TableName annualaudit
  */
 @TableName(value ="annualaudit")
 @Data
 public class Annualaudit implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer declarationId;
 
     /**
-     * 
+     *
      */
     private Integer declarationYear;
 
     /**
-     * 
+     *
      */
     private Integer clubId;
 
     /**
-     * 
+     *
      */
     private String reviewResult;
 
     /**
-     * 
+     *
      */
     private String meetingActivityListAttachment;
 
     /**
-     * 
+     *
      */
     private String externalSponsorshipAttachment;
 
     /**
-     * 
+     *
      */
     private Integer isFinancialInformationPublic;
 
     /**
-     * 
+     *
      */
     private String clubConstitutionAttachment;
 
     /**
-     * 
+     *
      */
     private String departmentOpinion;
+
+    /**
+     *
+     */
+    private Object publicityManagementInfo;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -77,14 +81,15 @@ public class Annualaudit implements Serializable {
         }
         Annualaudit other = (Annualaudit) that;
         return (this.getDeclarationId() == null ? other.getDeclarationId() == null : this.getDeclarationId().equals(other.getDeclarationId()))
-            && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
-            && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getReviewResult() == null ? other.getReviewResult() == null : this.getReviewResult().equals(other.getReviewResult()))
-            && (this.getMeetingActivityListAttachment() == null ? other.getMeetingActivityListAttachment() == null : this.getMeetingActivityListAttachment().equals(other.getMeetingActivityListAttachment()))
-            && (this.getExternalSponsorshipAttachment() == null ? other.getExternalSponsorshipAttachment() == null : this.getExternalSponsorshipAttachment().equals(other.getExternalSponsorshipAttachment()))
-            && (this.getIsFinancialInformationPublic() == null ? other.getIsFinancialInformationPublic() == null : this.getIsFinancialInformationPublic().equals(other.getIsFinancialInformationPublic()))
-            && (this.getClubConstitutionAttachment() == null ? other.getClubConstitutionAttachment() == null : this.getClubConstitutionAttachment().equals(other.getClubConstitutionAttachment()))
-            && (this.getDepartmentOpinion() == null ? other.getDepartmentOpinion() == null : this.getDepartmentOpinion().equals(other.getDepartmentOpinion()));
+                && (this.getDeclarationYear() == null ? other.getDeclarationYear() == null : this.getDeclarationYear().equals(other.getDeclarationYear()))
+                && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
+                && (this.getReviewResult() == null ? other.getReviewResult() == null : this.getReviewResult().equals(other.getReviewResult()))
+                && (this.getMeetingActivityListAttachment() == null ? other.getMeetingActivityListAttachment() == null : this.getMeetingActivityListAttachment().equals(other.getMeetingActivityListAttachment()))
+                && (this.getExternalSponsorshipAttachment() == null ? other.getExternalSponsorshipAttachment() == null : this.getExternalSponsorshipAttachment().equals(other.getExternalSponsorshipAttachment()))
+                && (this.getIsFinancialInformationPublic() == null ? other.getIsFinancialInformationPublic() == null : this.getIsFinancialInformationPublic().equals(other.getIsFinancialInformationPublic()))
+                && (this.getClubConstitutionAttachment() == null ? other.getClubConstitutionAttachment() == null : this.getClubConstitutionAttachment().equals(other.getClubConstitutionAttachment()))
+                && (this.getDepartmentOpinion() == null ? other.getDepartmentOpinion() == null : this.getDepartmentOpinion().equals(other.getDepartmentOpinion()))
+                && (this.getPublicityManagementInfo() == null ? other.getPublicityManagementInfo() == null : this.getPublicityManagementInfo().equals(other.getPublicityManagementInfo()));
     }
 
     @Override
@@ -100,6 +105,7 @@ public class Annualaudit implements Serializable {
         result = prime * result + ((getIsFinancialInformationPublic() == null) ? 0 : getIsFinancialInformationPublic().hashCode());
         result = prime * result + ((getClubConstitutionAttachment() == null) ? 0 : getClubConstitutionAttachment().hashCode());
         result = prime * result + ((getDepartmentOpinion() == null) ? 0 : getDepartmentOpinion().hashCode());
+        result = prime * result + ((getPublicityManagementInfo() == null) ? 0 : getPublicityManagementInfo().hashCode());
         return result;
     }
 
@@ -118,6 +124,7 @@ public class Annualaudit implements Serializable {
         sb.append(", isFinancialInformationPublic=").append(isFinancialInformationPublic);
         sb.append(", clubConstitutionAttachment=").append(clubConstitutionAttachment);
         sb.append(", departmentOpinion=").append(departmentOpinion);
+        sb.append(", publicityManagementInfo=").append(publicityManagementInfo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

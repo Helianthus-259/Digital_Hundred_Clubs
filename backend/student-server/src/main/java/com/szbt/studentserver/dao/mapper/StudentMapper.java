@@ -1,6 +1,7 @@
 package com.szbt.studentserver.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.example.entity.Student;
 /**
@@ -10,7 +11,7 @@ import org.example.entity.Student;
 * @Entity generator.domain.Student
 */
 @Mapper
-public interface StudentMapper extends BaseMapper<Student> {
+public interface StudentMapper extends MPJBaseMapper<Student> {
 
 }
 

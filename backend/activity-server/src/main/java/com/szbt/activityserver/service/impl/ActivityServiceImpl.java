@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.entity.Activity;
 import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     implements ActivityService{
+    @Autowired
+    ActivityMapper activityMapper;
 
 }
 

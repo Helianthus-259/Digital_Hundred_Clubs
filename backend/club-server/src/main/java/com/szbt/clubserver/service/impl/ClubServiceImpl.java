@@ -2,12 +2,16 @@ package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.service.ClubService;
 
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import lombok.val;
+import org.example.dto.ClubDTO;
 import org.example.dto.ClubInfos;
+import org.example.dto.StudentInfoDTO;
 import org.example.entity.Club;
+import org.example.entity.Student;
 import org.example.vo.ClubInfosSuccess;
 import org.example.util.Result;
 import org.example.enums.ResultCode;
@@ -72,6 +76,16 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .collect(Collectors.toList());
         System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
         return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
+    }
+
+    @Override
+    public List<ClubDTO> getClubInfoBySId(Integer id) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getContactPersonId,id);
+        List<ClubDTO> clubDTOs = clubMapper.selectJoinList(ClubDTO.class, wrapper);
+        System.out.println(clubDTOs);
+        return clubDTOs;
     }
 
 
