@@ -330,7 +330,8 @@
                             <t-col id="table" :span="4">
                                 <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
                                     accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
-                                    :auto-upload="false" :onSelectChange="selectFileChangeHandler"
+                                    :auto-upload="false"
+                                    :onSelectChange="(fileList) => selectFileChangeHandler(fileList, 'externalSponsorshipAttachment')"
                                     @validate="onValidate">
                                 </t-upload>
                             </t-col>
@@ -351,7 +352,9 @@
                     <t-col id="table" :span="9">
                         <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
                             accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
-                            :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                            :auto-upload="false"
+                            :onSelectChange="(fileList) => selectFileChangeHandler(fileList, 'clubConstitutionAttachment')"
+                            @validate="onValidate">
                         </t-upload>
                         <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
                             请学生社团另行提供
@@ -365,7 +368,9 @@
                     <t-col id="table" :span="9">
                         <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
                             accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
-                            :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                            :auto-upload="false"
+                            :onSelectChange="(fileList) => selectFileChangeHandler(fileList, 'meetingActivityListAttachment')"
+                            @validate="onValidate">
                         </t-upload>
                         <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
                             包括全员大会、骨干会议、日常活动等，详见附件2
@@ -381,7 +386,7 @@
             </t-row>
         </div>
         <div style="margin:50px auto 50px auto;width: 100%;display: flex;justify-content: center; align-items: center;">
-            <t-button @click="">提交</t-button>
+            <t-button @click="submitClubAnnualAuditForm" theme="primary" variant="outline">提交</t-button>
         </div>
         <div class="downloadContainer">
             <a style="display: block;" href="/download/附件2：2023年学生社团年审活动清单.xlsx" download>附件2：2023年学生社团年审活动清单</a>
@@ -393,6 +398,7 @@
 <script setup>
 import { APIEventEnum, APIEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
+import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, onUnmounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -431,8 +437,16 @@ const onValidate = (context) => {
     }
 };
 
-const selectFileChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, fileList[0])
+const selectFileChangeHandler = (fileList, flag) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, { file: fileList[0], flag })
+}
+
+const submitClubAnnualAuditForm = () => {
+    if (clubAnnualAudit.clubConstitutionAttachment === '' && clubAnnualAudit.meetingActivityListAttachment === '') {
+        MessagePlugin.warning('请填写完整信息')
+        return
+    }
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postClubAnnualAuditForm, { clubId, ...clubAnnualAudit })
 }
 
 onMounted(() => {
@@ -448,6 +462,19 @@ onMounted(() => {
         clubAnnualAudit.politicalStatus = data.politicalStatus
         clubAnnualAudit.isFinancialInformationPublic = data.isFinancialInformationPublic
     })
+    eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        if (data.flag === 'externalSponsorshipAttachment') {
+            clubAnnualAudit.externalSponsorshipAttachment = data.url
+        } else if (data.flag === 'clubConstitutionAttachment') {
+            clubAnnualAudit.clubConstitutionAttachment = data.url
+        } else if (data.flag === 'meetingActivityListAttachment') {
+            clubAnnualAudit.meetingActivityListAttachment = data.url
+        }
+        MessagePlugin.success('上传成功')
+    })
+    eventEmitter.on(APIEventEnum.postClubAnnualAuditFormSuccess, 'postClubAnnualAuditFormSuccess', () => {
+        MessagePlugin.success('提交成功')
+    })
 })
 
 const downloadFile = (url, fileName) => {
@@ -459,5 +486,7 @@ const downloadFile = (url, fileName) => {
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+    eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess')
+    eventEmitter.on(APIEventEnum.postClubAnnualAuditFormSuccess, 'postClubAnnualAuditFormSuccess')
 })
 </script>

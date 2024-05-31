@@ -412,7 +412,7 @@ const activityStatusTheme = {
 const activityEffect = ref('')
 
 const selectChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, { file: fileList[0] })
 }
 
 const onValidate = (context) => {
@@ -422,7 +422,7 @@ const onValidate = (context) => {
 };
 
 const selectFileChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, fileList[0])
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, { file: fileList[0] })
 }
 
 // 上传excel文件

@@ -463,7 +463,7 @@ const saveEdit = () => {
 }
 
 const selectChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, { file: fileList[0] })
 }
 
 const addExecutive = () => {

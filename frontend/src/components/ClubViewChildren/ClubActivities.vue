@@ -208,12 +208,6 @@ const activityStatusTheme = {
     1: 'success',
 }
 
-const activityEffect = ref('')
-
-const selectChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
-}
-
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
     eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (data) => {

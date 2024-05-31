@@ -504,10 +504,12 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
 
 // 上传图片mock
 mock.onPost(path.uploadImage).reply((config) => {
+    // 后端通过config.params.formData.get('image')获取到图片信息
     return [200, {
         code: 21, // 21代表上传图片成功
         image: {
             url: 'https://tdesign.gtimg.com/demo/demo-image-1.png',
+            flag: config.params.flag
         }
     }]
 })
@@ -717,10 +719,26 @@ mock.onGet(path.topTenClubs).reply((config) => {
 
 // 上传文件mock
 mock.onPost(path.uploadFile).reply((config) => {
+    // 后端通过config.params.formData.get('file')获取到文件信息
     return [200, {
         code: 33, // 33代表上传文件成功
         file: {
             url: 'https://tdesign.gtimg.com/demo/demo-image-1.png',
+            flag: config.params.flag
         }
+    }]
+})
+
+// 提交社团年审表mock
+mock.onPost(path.clubAnnualAuditForm).reply((config) => {
+    return [200, {
+        code: 34, // 34代表提交社团年审表成功
+    }]
+})
+
+// 提交社团评优表mock
+mock.onPost(path.clubEvaluationForm).reply((config) => {
+    return [200, {
+        code: 35, // 35代表提交社团评优表成功
     }]
 })

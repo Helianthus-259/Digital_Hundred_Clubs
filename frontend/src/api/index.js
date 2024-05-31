@@ -153,12 +153,16 @@ const api = {
     'getBackBoneEvaluations': (params) => axios.get(path.backBoneEvaluations, {
 
     }),
-    'uploadImage': (file) => {
+    'uploadImage': ({ file, flag = '' }) => {
         const formData = new FormData();
         formData.append('image', file);
-        return axios.post(path.uploadImage, formData, {
+        return axios.post(path.uploadImage, {}, {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            },
+            params: {
+                formData,
+                flag
             }
         })
     },
@@ -214,20 +218,48 @@ const api = {
             clubId: params.clubId,
             activityId: params.activityId,
             activityEffect: params.activityEffect,
-        }
+        },
     }),
     'getTopTenClubs': (params) => axios.get(path.topTenClubs, {
 
     }),
-    'uploadFile': (file) => {
+    'uploadFile': ({ file, flag = '' }) => {
         const formData = new FormData();
         formData.append('file', file);
-        return axios.post(path.uploadFile, formData, {
+        return axios.post(path.uploadFile, {}, {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            },
+            params: {
+                formData,
+                flag
             }
         })
-    }
+    },
+    'postClubAnnualAuditForm': (params) => axios.post(path.clubAnnualAuditForm, { // 提交年审表
+        params: {
+            clubId: params.clubId,
+            meetingActivityListAttachment: params.meetingActivityListAttachment,
+            externalSponsorshipAttachment: params.externalSponsorshipAttachment,
+            isFinancialInformationPublic: params.isFinancialInformationPublic,
+            clubConstitutionAttachment: params.clubConstitutionAttachment,
+            responsibleDepartment: params.responsibleDepartment,
+            publicityManagementInfo: params.publicityManagementInfo,
+        }
+    }),
+    'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, { // 提交评优表
+        params: {
+            clubId: params.clubId,
+            handoverMethod: params.handoverMethod,
+            handoverParticipantsCount: params.handoverParticipantsCount,
+            advisorParticipation: params.advisorParticipation,
+            publicityManagementEffectiveness: params.publicityManagementEffectiveness,
+            hostedSchoolLevelActivities: params.hostedSchoolLevelActivities,
+            clubWorkIntroduction: params.clubWorkIntroduction,
+            clubEducationCaseAttachment: params.clubEducationCaseAttachment,
+            imageUrl: params.imageUrl,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

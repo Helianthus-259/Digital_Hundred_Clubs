@@ -53,6 +53,8 @@ const base = {
     updateClubMember: club + '/updateClubMember', // 更新社团干部信息
     addClubMember: club + '/addClubMember', // 添加社团干部
     updateClubInfo: club + '/updateClubInfo', // 更新社团信息
+    clubAnnualAuditForm: club + '/clubAnnualAuditForm', // 提交社团年审表
+    clubEvaluationForm: club + '/clubEvaluationForm', // 提交社团评优表
 
 
     /*——————————————活动——————————————*/

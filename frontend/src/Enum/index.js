@@ -34,6 +34,8 @@ export const APIEventEnum = {
     postUserInfoSuccess: 'postUserInfoSuccess',
     postNewClubApplySuccess: 'postNewClubApplySuccess',
     uploadFileSuccess: 'uploadFileSuccess',
+    postClubAnnualAuditFormSuccess: 'postClubAnnualAuditFormSuccess',
+    postClubEvaluationFormSuccess: 'postClubEvaluationFormSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -76,6 +78,8 @@ export const APIEnum = {
     getLatestActivities: 'getLatestActivities',
     getTopTenClubs: 'getTopTenClubs',
     uploadFile: 'uploadFile',
+    postClubAnnualAuditForm: 'postClubAnnualAuditForm',
+    postClubEvaluationForm: 'postClubEvaluationForm',
 }
 
 

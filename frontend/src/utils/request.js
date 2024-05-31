@@ -125,6 +125,10 @@ function successHandler(response) {
         } else if (response.data.code === 33) { // 上传文件成功
             const { file } = response.data
             eventEmitter.emit(APIEventEnum.uploadFileSuccess, file)
+        } else if (response.data.code === 34) { // 提交社团年审表成功
+            eventEmitter.emit(APIEventEnum.postClubAnnualAuditFormSuccess)
+        } else if (response.data.code === 35) { // 提交社团评优表成功
+            eventEmitter.emit(APIEventEnum.postClubEvaluationFormSuccess)
         }
     }
 }

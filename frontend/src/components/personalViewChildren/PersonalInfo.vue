@@ -295,11 +295,11 @@ const onValidate = (context) => {
 };
 
 const selectChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, fileList[0])
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, { file: fileList[0] })
 }
 
 const selectImageChangeHandler = (fileList) => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, { file: fileList[0] })
 }
 
 // 检验newClubFrom中的数据是否都已填写

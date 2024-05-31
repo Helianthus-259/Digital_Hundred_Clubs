@@ -478,13 +478,32 @@
                     <t-col :span="3">
                         <div class="text">社团育人成效案例</div>
                     </t-col>
-                    <t-col :span="9" id="table">另附页提交，详见附录要求</t-col>
+                    <t-col :span="9" id="table">
+                        <t-upload :size-limit="{ size: 3000000, unit: 'B' }" accept=".doc,.docx,.docm,.dot,.dotx,.dotm"
+                            :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                        </t-upload>
+                        <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
+                            另附页提交，详见附录要求
+                        </div>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="text">社团代表性照片</div>
                     </t-col>
-                    <t-col :span="9" id="table">请提供一张高清照片，照片以学生社团名称命名</t-col>
+                    <t-col style="padding: 10px 0" :span="9" id="table">
+                        <t-upload :image-viewer-props="{ closeOnEscKeydown: false }"
+                            :size-limit="{ size: 500, unit: 'KB' }" theme="image" accept="image/*" :auto-upload="false"
+                            :show-image-file-name="true" :locale="{
+                                triggerUploadText: {
+                                    image: '请选择图片',
+                                },
+                            }" :onSelectChange="selectChangeHandler">
+                        </t-upload>
+                        <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
+                            请提供一张高清照片，照片以学生社团名称命名
+                        </div>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
@@ -585,7 +604,7 @@ const clubEvaluation = reactive({
     activities: [
         { activityName: '', activityTime: '', activityEffect: '' },
     ],
-    case: '',
+    clubEducationCaseAttachment: '',
     imageUrl: '',
     clubWorkIntroduction: '',
 })
@@ -617,22 +636,6 @@ const clubEvaluationValidate = () => {
     }
     return flag
 }
-
-onMounted(() => {
-    // 获取社团信息
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
-
-    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
-        clubEvaluation.clubName = data.clubName
-        clubEvaluation.totalMembers = data.totalMembers
-        clubEvaluation.backboneNumber = data.backboneNumber
-        clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
-        clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
-        clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
-        clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
-    })
-})
-
 // 换届情况
 const onhandoverMethodChange = (value) => {
     clubEvaluation.handoverMethod = value
@@ -729,12 +732,56 @@ const deleteActivity = (index) => {
         MessagePlugin.error('至少保留一项')
 }
 
+const onValidate = (context) => {
+    if (context.type === 'FILE_OVER_SIZE_LIMIT') {
+        Message.warning('文件大小超出上限');
+    }
+};
+
+const selectFileChangeHandler = (fileList) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, { file: fileList[0] })
+}
+
+const selectChangeHandler = (fileList) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, { file: fileList[0] })
+}
+
 const submitClubEvaluation = () => {
     if (clubEvaluationValidate()) {
-
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postClubEvaluationForm, { clubId, ...clubEvaluation })
     }
 }
+
+onMounted(() => {
+    // 获取社团信息
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
+
+    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+        clubEvaluation.clubName = data.clubName
+        clubEvaluation.totalMembers = data.totalMembers
+        clubEvaluation.backboneNumber = data.backboneNumber
+        clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
+        clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
+        clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
+        clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
+    })
+    eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        clubEvaluation.clubEducationCaseAttachment = data.url
+        MessagePlugin.success('文件上传成功')
+    })
+    eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
+        clubEvaluation.imageUrl = data.url
+        MessagePlugin.success('图片上传成功')
+    })
+    eventEmitter.on(APIEventEnum.postClubEvaluationFormSuccess, 'postClubEvaluationFormSuccess', () => {
+        MessagePlugin.success('提交成功')
+    })
+})
+
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+    eventEmitter.off(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess')
+    eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
+    eventEmitter.off(APIEventEnum.postClubEvaluationFormSuccess, 'postClubEvaluationFormSuccess')
 })
 </script>
