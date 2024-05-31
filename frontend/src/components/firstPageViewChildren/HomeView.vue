@@ -133,9 +133,9 @@
             <!-- 年度最佳社团轮播图 -->
             <div class="swiperContainer">
                 <t-swiper class="swiper" type="card" :navigation="{ placement: 'outside', showSlideBtn: 'always' }">
-                    <t-swiper-item v-for="(item, index) in swiperList" :key="index">
+                    <t-swiper-item v-for="(item, index) in topTenClubs" :key="index">
                         <div style="display: flex; justify-content: center;  background: #ffffff; height: 100%; ">
-                            <img :src="item" />
+                            <img style="cursor: pointer;" @click="go2ClubDetail(item.clubId)" :src="item.imageUrl" />
                         </div>
                     </t-swiper-item>
                 </t-swiper>
@@ -150,18 +150,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import eventEmitter from '../../utils/eventEmitter';
-import { RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
+import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
 import store from '@/store';
 
 // 轮播图
-const imageCdn = 'https://tdesign.gtimg.com/mobile/demos';
-const swiperList = [
-    `${imageCdn}/swiper1.png`,
-    `${imageCdn}/swiper2.png`,
-    `${imageCdn}/swiper1.png`,
-];
+const topTenClubs = ref([])
 
 const handleChange = (index, context) => {
 };
@@ -205,4 +200,22 @@ const checkChange = (checked, type) => {
         eventEmitter.emit(TypeEventEnum.removeType, type);
     }
 }
+
+// 点击轮播图图片跳转到社团详情页
+const go2ClubDetail = (clubId) => {
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubId, clubId)
+    eventEmitter.emit(RouterEventEnum.push, `/club/${clubId}/`)
+}
+
+onMounted(() => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getTopTenClubs)
+    eventEmitter.on(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess', (data) => {
+        topTenClubs.value.push(...data)
+    })
+})
+
+onUnmounted(() => {
+    eventEmitter.off(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess')
+})
 </script>

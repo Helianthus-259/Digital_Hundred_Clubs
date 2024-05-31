@@ -43,6 +43,7 @@ const base = {
     clubActivityList: club + '/clubActivityList', // 获取社团活动列表
     clubApplyList: club + '/clubApplyList', // 获取社团申请列表
     clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
+    topTenClubs: club + '/topTenClubs', // 获取十佳社团
 
     // post
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
@@ -68,7 +69,7 @@ const base = {
 
     /*——————————————文件——————————————*/
     uploadImage: file + '/uploadImage', // 上传图片
-
+    uploadFile: file + '/uploadFile', // 上传文件
 
 
 

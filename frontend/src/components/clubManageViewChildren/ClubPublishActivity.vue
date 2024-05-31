@@ -179,7 +179,10 @@
                 </div>
             </t-form-item>
             <t-form-item label="附件">
-                <t-upload></t-upload>
+                <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
+                    accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
+                    :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                </t-upload>
             </t-form-item>
         </t-form>
         <template #footer>
@@ -412,6 +415,16 @@ const selectChangeHandler = (fileList) => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.uploadImage, fileList[0])
 }
 
+const onValidate = (context) => {
+    if (context.type === 'FILE_OVER_SIZE_LIMIT') {
+        Message.warning('文件大小超出上限');
+    }
+};
+
+const selectFileChangeHandler = (fileList) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, fileList[0])
+}
+
 // 上传excel文件
 const fileSelectChangeHandler = (fileList) => {
     const file = fileList[0]
@@ -470,6 +483,8 @@ onMounted(() => {
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         newActivityForm.imageUrl = data.url
+        MessagePlugin.success('图片上传成功')
+
     })
     eventEmitter.on(APIEventEnum.postPersonalPerformanceSuccess, 'postPersonalPerformanceSuccess', () => {
         MessagePlugin.success('上传成功')
@@ -481,6 +496,10 @@ onMounted(() => {
         activityEffect.value = ''
         closeDialog()
     })
+    eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        newActivityForm.applicationFormAttachment = data.url
+        MessagePlugin.success('附件上传成功')
+    })
 })
 
 onUnmounted(() => {
@@ -489,5 +508,6 @@ onUnmounted(() => {
     eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
     eventEmitter.off(APIEventEnum.postPersonalPerformanceSuccess, 'postPersonalPerformanceSuccess')
     eventEmitter.off(APIEventEnum.postActivityPerformanceSuccess, 'postActivityPerformanceSuccess')
+    eventEmitter.off(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess')
 })
 </script>

@@ -54,7 +54,7 @@ mock.onGet(path.clubsInfo).reply((config) => {
         const width = Math.floor(Math.random() * 100) + 300;
         const height = Math.floor(Math.random() * 100) + 400;
         data.push({
-            imageUrl: `https://loremflickr.com/${width}/${height}?${i}`,
+            imageUrl: `https://picsum.photos/${width}/${height}?${i}`,
             clubName: `社团${i}`,
             clubDescription: `社团${i}介绍`,
             campus: ["北校区", "南校区", "东校区", "珠海校区", "深圳校区"][i % 5],
@@ -88,6 +88,7 @@ mock.onGet(path.userInfo).reply((config) => {
             contact: '13800138000',
             hobby: '篮球',
             specialty: '计算机科学与技术',
+            imageUrl: 'https://picsum.photos/300/300',
             clubs: [
                 {
                     clubId: 1,
@@ -196,17 +197,17 @@ mock.onGet(path.clubActAndNtc).reply((config) => {
         activities.push({
             activityId: i,
             activityName: '社团' + config.params.clubId + '的活动' + i,
-            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://loremflickr.com/300/300" ><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
+            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" ><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
             activityStartTime: '2024-04-29 00:00:00',
             activityEndTime: '2024-05-03 00:00:00',
             activityLocation: '活动' + i + '地点',
-            imageUrl: `https://loremflickr.com/400/300?${i}`,
+            imageUrl: `https://picsum.photos/400/300?${i}`,
         })
         notices.push({
             announcementId: i,
             title: '社团' + config.params.clubId + '的通知' + i,
             content: '通知' + i + '介绍',
-            imageUrl: `https://loremflickr.com/400/300?${i}`,
+            imageUrl: `https://picsum.photos/400/300?${i}`,
             publishTime: '2024-04-29 00:00:00',
         })
     }
@@ -249,26 +250,26 @@ mock.onGet(path.clubMembers).reply((config) => {
                 position: '社长',
                 contact: '12345678901',
                 studentNumber: '201900001',
-                imageUrl: 'https://loremflickr.com/300/300',
+                imageUrl: 'https://picsum.photos/300/300?0',
             },
             executives: [
                 {
                     stName: '李四',
                     position: '副社长',
                     studentNumber: '201900002',
-                    imageUrl: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://picsum.photos/300/300?1',
                 },
                 {
                     stName: '王五',
                     position: '干部',
                     studentNumber: '201900003',
-                    imageUrl: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://picsum.photos/300/300?2',
                 },
                 {
                     stName: '赵六',
                     position: '干部',
                     studentNumber: '201900004',
-                    imageUrl: 'https://loremflickr.com/300/300',
+                    imageUrl: 'https://picsum.photos/300/300?3',
                 }
             ],
             others: {
@@ -362,7 +363,7 @@ mock.onGet(path.activityInfo).reply((config) => {
             activityId: 1,
             clubName: '社团名称',
             activityName: '活动名称',
-            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://loremflickr.com/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
+            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
             createTime: '2023-04-19 12:00:00',
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
@@ -380,7 +381,7 @@ mock.onGet(path.activitiesInfo).reply((config) => {
             activityId: i,
             clubName: `社团${i}`,
             activityName: '活动名称',
-            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://loremflickr.com/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
+            activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
             createTime: '2023-04-19 12:00:00',
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
@@ -398,11 +399,12 @@ mock.onGet(path.activitiesInfo).reply((config) => {
 mock.onGet(path.clubActivityList).reply((config) => {
     const activityList = []
     const pageSize = config.params.pageSize
-    for (let i = 0; i < pageSize; i++) {
+    const pageNumber = config.params.pageNumber
+    for (let i = pageNumber * pageSize; i < (pageNumber + 1) * pageSize; i++) {
         activityList.push({
             activityId: i,
             activityName: `活动名称${i}`,
-            imageUrl: `https://loremflickr.com/400/300`,
+            imageUrl: `https://picsum.photos/400/300?`,
             status: i % 3,
         })
     }
@@ -688,11 +690,37 @@ mock.onGet(path.latestActivities).reply((config) => {
         activities.push({
             activityId: i,
             activityName: '活动名称' + pageNumber + i,
-            imageUrl: `https://loremflickr.com/400/300`,
+            imageUrl: `https://picsum.photos/400/300`,
         })
     }
     return [200, {
         code: 31, // 31代表获取最新活动成功
         activities,
+    }]
+})
+
+// 获取十佳社团mock
+mock.onGet(path.topTenClubs).reply((config) => {
+    const clubs = []
+    for (let i = 0; i < 10; i++) {
+        clubs.push({
+            clubId: i,
+            clubName: '十佳社团' + i,
+            imageUrl: `https://picsum.photos/400/300?${i}`,
+        })
+    }
+    return [200, {
+        code: 32, // 32代表获取十佳社团成功
+        clubs,
+    }]
+})
+
+// 上传文件mock
+mock.onPost(path.uploadFile).reply((config) => {
+    return [200, {
+        code: 33, // 33代表上传文件成功
+        file: {
+            url: 'https://tdesign.gtimg.com/demo/demo-image-1.png',
+        }
     }]
 })

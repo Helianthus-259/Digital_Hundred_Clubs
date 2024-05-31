@@ -328,7 +328,11 @@
                                 <div class="txt">是否接受校外赞助（如有需填报附件3）</div>
                             </t-col>
                             <t-col id="table" :span="4">
-
+                                <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
+                                    accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
+                                    :auto-upload="false" :onSelectChange="selectFileChangeHandler"
+                                    @validate="onValidate">
+                                </t-upload>
                             </t-col>
                         </t-row>
                         <t-row id="table">
@@ -344,13 +348,29 @@
                     <t-col :span="3">
                         <div class="txt">学生社团章程</div>
                     </t-col>
-                    <t-col id="table" :span="9">请学生社团另行提供</t-col>
+                    <t-col id="table" :span="9">
+                        <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
+                            accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
+                            :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                        </t-upload>
+                        <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
+                            请学生社团另行提供
+                        </div>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
                         <div class="txt">会议及活动清单</div>
                     </t-col>
-                    <t-col id="table" :span="9">包括全员大会、骨干会议、日常活动等，详见附件2</t-col>
+                    <t-col id="table" :span="9">
+                        <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
+                            accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
+                            :auto-upload="false" :onSelectChange="selectFileChangeHandler" @validate="onValidate">
+                        </t-upload>
+                        <div style="color:#2f2f2f; font-size: 12px; margin-left: 5px">
+                            包括全员大会、骨干会议、日常活动等，详见附件2
+                        </div>
+                    </t-col>
                 </t-row>
                 <t-row id="table">
                     <t-col :span="3">
@@ -404,6 +424,16 @@ const clubAnnualAudit = reactive({
     clubConstitutionAttachment: '',
     meetingActivityListAttachment: '',
 })
+
+const onValidate = (context) => {
+    if (context.type === 'FILE_OVER_SIZE_LIMIT') {
+        Message.warning('文件大小超出上限');
+    }
+};
+
+const selectFileChangeHandler = (fileList) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.uploadFile, fileList[0])
+}
 
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })

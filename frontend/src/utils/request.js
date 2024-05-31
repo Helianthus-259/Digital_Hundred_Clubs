@@ -44,9 +44,9 @@ function successHandler(response) {
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setUserInfo, data)
             eventEmitter.emit(APIEventEnum.getUserInfoSuccess, data)
         } else if (response.data.code === 4) { // 更新用户信息成功
-            console.log('更新用户信息成功');
+            eventEmitter.emit(APIEventEnum.postUserInfoSuccess)
         } else if (response.data.code === 5) { // 新建社团申请成功
-            console.log('新建社团申请成功');
+            eventEmitter.emit(APIEventEnum.postNewClubApplySuccess)
         } else if (response.data.code === 6) { // 获取社团活动通知成功
             const { clubId, activities, notices } = response.data
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setclubsActAndNtc, { clubId, activities, notices })
@@ -119,6 +119,12 @@ function successHandler(response) {
         } else if (response.data.code === 31) { // 获取最新活动成功
             const { activities } = response.data
             eventEmitter.emit(APIEventEnum.getLatestActivitiesSuccess, activities)
+        } else if (response.data.code === 32) { // 获取十佳社团成功
+            const { clubs } = response.data
+            eventEmitter.emit(APIEventEnum.getTopTenClubsSuccess, clubs)
+        } else if (response.data.code === 33) { // 上传文件成功
+            const { file } = response.data
+            eventEmitter.emit(APIEventEnum.uploadFileSuccess, file)
         }
     }
 }

@@ -39,6 +39,7 @@ const api = {
     'postUserInfo': (params) => axios.post(path.userInfoUpdate, { // 更新用户信息
         params: {
             studentId: params.studentId,
+            politicalStatus: params.politicalStatus,
             contact: params.contact,
             hobby: params.hobby, // 后端还没有
             specialty: params.specialty // 后端还没有
@@ -215,6 +216,18 @@ const api = {
             activityEffect: params.activityEffect,
         }
     }),
+    'getTopTenClubs': (params) => axios.get(path.topTenClubs, {
+
+    }),
+    'uploadFile': (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        return axios.post(path.uploadFile, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    }
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

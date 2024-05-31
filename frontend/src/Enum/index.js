@@ -30,6 +30,10 @@ export const APIEventEnum = {
     postPersonalPerformanceSuccess: 'postPersonalPerformanceSuccess',
     postActivityPerformanceSuccess: 'postActivityPerformanceSuccess',
     getLatestActivitiesSuccess: 'getLatestActivitiesSuccess',
+    getTopTenClubsSuccess: 'getTopTenClubsSuccess',
+    postUserInfoSuccess: 'postUserInfoSuccess',
+    postNewClubApplySuccess: 'postNewClubApplySuccess',
+    uploadFileSuccess: 'uploadFileSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -70,6 +74,8 @@ export const APIEnum = {
     postPersonalPerformance: 'postPersonalPerformance',
     postActivityPerformance: 'postActivityPerformance',
     getLatestActivities: 'getLatestActivities',
+    getTopTenClubs: 'getTopTenClubs',
+    uploadFile: 'uploadFile',
 }
 
 
