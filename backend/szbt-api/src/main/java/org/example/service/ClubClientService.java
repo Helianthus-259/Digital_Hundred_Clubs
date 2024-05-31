@@ -1,6 +1,8 @@
 package org.example.service;
 
 import org.example.dto.ClubDTO;
+import org.example.entity.Clubmember;
+import org.example.entity.Student;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,4 +19,7 @@ public interface ClubClientService {
 
     @GetMapping("/club/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(@RequestParam("id") Integer id);
+
+    @GetMapping("/club/queryClubMemberInfo")
+    public Clubmember queryClubMemberInfo(@RequestParam("id") Integer id);
 }

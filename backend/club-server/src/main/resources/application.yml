@@ -11,6 +11,11 @@ spring:
 server:
   port: 8082
 
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 mybatis-plus-join:
   #是否打印 mybatis plus join banner 默认true
   banner: true

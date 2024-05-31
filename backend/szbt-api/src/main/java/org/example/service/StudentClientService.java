@@ -19,4 +19,7 @@ public interface StudentClientService {
 
     @PostMapping("/student/studentInfo")
     public Student getStudentInfoByEmail(@RequestParam("email") String email);
+
+    @GetMapping("/student/queryStudentInfo")
+    public Student queryStudentInfo(@RequestParam("id") Integer id);
 }

@@ -13,6 +13,7 @@ import org.example.enums.StatusCode;
 import org.example.dto.UserInfoDTO;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.example.vo.UploadSuccess;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
     public Object studentInfoUpdate(Student student) {
         int updateById = studentMapper.updateById(student);
         if (updateById<=0) return Result.send(StatusCode.UPDATE_STUDENT_INFO_ERROR,new SendMsg("更新学生信息失败"));
-        return Result.success(ResultCode.UPDATE_USER_INFO);
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_USER_INFO));
     }
 
 //    @Autowired

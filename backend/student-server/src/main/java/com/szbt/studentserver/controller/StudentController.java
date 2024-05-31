@@ -58,15 +58,19 @@ public class StudentController {
     }
 
     @PostMapping("/userInfoUpdate")
-    public Object studentInfoUpdate(@RequestHeader(value = RequestKeyConstants.ID) Integer id,@RequestBody Student student){
+    public Object studentInfoUpdate(@RequestHeader(value = RequestKeyConstants.ID) Integer id,@ModelAttribute Student student){
         System.out.println(student);
         return studentService.studentInfoUpdate(student);
     }
 
     @PostMapping("/backBoneEvaluate")
-    public Object addBackBoneEvaluate(@RequestHeader(value = RequestKeyConstants.ID) Integer id, @RequestBody Backboneevaluation backboneevaluation){
+    public Object addBackBoneEvaluate(@RequestHeader(value = RequestKeyConstants.ID) Integer id, @ModelAttribute Backboneevaluation backboneevaluation){
         System.out.println(backboneevaluation);
-        return null;
+        return backboneevaluationService.addBackBoneEvaluate(backboneevaluation);
     }
 
+    @GetMapping("/queryStudentInfo")
+    public Student queryStudentInfo(Integer id){
+        return studentService.getById(id);
+    }
 }

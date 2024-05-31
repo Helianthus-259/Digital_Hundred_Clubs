@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.adminserver.dao.mapper.ClubmemberMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Clubmember">
+            <id property="clubMemberId" column="club_member_id" jdbcType="INTEGER"/>
+            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="clubName" column="club_name" jdbcType="VARCHAR"/>
+            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+            <result property="position" column="position" jdbcType="INTEGER"/>
+            <result property="joinDate" column="join_date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        club_member_id,student_id,club_name,
+        club_id,position,join_date
+    </sql>
+</mapper>

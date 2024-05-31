@@ -5,6 +5,8 @@ import com.szbt.clubserver.service.ClubmemberService;
 import org.example.dto.ClubDTO;
 import org.example.entity.Club;
 
+import org.example.entity.Clubmember;
+import org.example.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -45,4 +47,9 @@ public class ClubController {
 
     @GetMapping("/tt")
     public Object tt(Integer id){return clubmemberService.queryAllClubMemberBySid(id);}
+
+    @GetMapping("/queryClubMemberInfo")
+    public Clubmember queryClubMemberInfo(Integer id){
+        return clubmemberService.getById(id);
+    }
 }

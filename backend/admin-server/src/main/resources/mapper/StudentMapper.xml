@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.adminserver.dao.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Student">
+            <id property="studentId" column="student_id" jdbcType="INTEGER"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="stName" column="st_name" jdbcType="VARCHAR"/>
+            <result property="studentNumber" column="student_number" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="INTEGER"/>
+            <result property="college" column="college" jdbcType="VARCHAR"/>
+            <result property="grade" column="grade" jdbcType="INTEGER"/>
+            <result property="contact" column="contact" jdbcType="VARCHAR"/>
+            <result property="pwd" column="pwd" jdbcType="VARCHAR"/>
+            <result property="politicalStatus" column="political_status" jdbcType="VARCHAR"/>
+            <result property="dateOfBirth" column="date_of_birth" jdbcType="TIMESTAMP"/>
+            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+            <result property="hobby" column="hobby" jdbcType="VARCHAR"/>
+            <result property="specialty" column="specialty" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        student_id,email,st_name,
+        student_number,gender,college,
+        grade,contact,pwd,
+        political_status,date_of_birth,image_url,
+        hobby,specialty
+    </sql>
+</mapper>
