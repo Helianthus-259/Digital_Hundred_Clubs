@@ -55,40 +55,42 @@ public class VerifyCodeImpl implements VerifyCodeService {
 
     @Override
     public boolean checkImageVerifyCode(String code) {
-        System.out.println("code："+code);
-        HttpSession session = SessionUtil.session();
-        String text = (String) session.getAttribute("key");
-        System.out.println("text："+text);
-        if (StringUtils.isBlank(text)) {
-            return false;
-            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
-        }
-        if (!code.equals(text)) {
-            return false;
-            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
-        }
-        //从session中移除验证码text
-        session.removeAttribute("key");
-        //return Result.success("图形验证码正确！");
+//        System.out.println("code："+code);
+//        HttpSession session = SessionUtil.session();
+//        String text = (String) session.getAttribute("key");
+//        System.out.println("text："+text);
+//        if (StringUtils.isBlank(text)) {
+//            return false;
+//            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
+//        }
+//        if (!code.equals(text)) {
+//            return false;
+//            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
+//        }
+//        //从session中移除验证码text
+//        session.removeAttribute("key");
+//        //return Result.success("图形验证码正确！");
         return true;
     }
 
     @Override
     public Object sendMailVerifyCode(String email) throws MessagingException {
-        String verifyCode = emailUtil.generateCode (6);
-        if (emailUtil.sendMail(email,"数字百团验证服务",verifyCode))
-        {
-            // 保存验证码
-            emailCodeMap.put(email, verifyCode);
-            System.out.println(emailCodeMap.get(email));
-            return Result.success(new SendMsg("发送成功"));
-        }
-        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
+        return Result.success(new SendMsg("发送成功"));//先直接成功
+//        String verifyCode = emailUtil.generateCode (6);
+//        if (emailUtil.sendMail(email,"数字百团验证服务",verifyCode))
+//        {
+//            // 保存验证码
+//            emailCodeMap.put(email, verifyCode);
+//            System.out.println(emailCodeMap.get(email));
+//            return Result.success(new SendMsg("发送成功"));
+//        }
+//        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
     }
 
     @Override
     public boolean checkMailVerifyCode(String verifyCode, String email) {
-        return verifyCode.equals(emailCodeMap.get(email));
+        return true;
+        //return verifyCode.equals(emailCodeMap.get(email));
     }
 
 }

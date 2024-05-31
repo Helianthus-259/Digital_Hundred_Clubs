@@ -4,23 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.authserver.dao.mapper.StudentMapper;
 import com.szbt.authserver.service.StudentService;
-import com.szbt.authserver.util.EmailUtil;
 import com.szbt.authserver.util.SecurityUtil;
-import lombok.val;
 import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.JWTUtils;
 import org.example.util.Result;
-import org.example.vo.LRSuccess;
+import org.example.vo.SLRSuccess;
 import org.example.vo.SendMsg;
-import org.example.vo.UploadSuccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
 * @author 小壳儿
@@ -39,33 +32,36 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 
     @Override
     public Object login(String email, String password,boolean ok) {
-        if(!ok) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
+        if(!ok) return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,new SendMsg("图形验证码错误"));
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
         Student student = studentMapper.selectOne(queryWrapper,true);
-        if(student == null) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
+        System.out.println(student);
+        if(student == null) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("用户名或密码错误"));
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(student);
         String token;
+        System.out.println(password);
         if(SecurityUtil.decrypt(password,student.getPwd())) {
             token = jwtUtils.createJwt(jwtUser);
-            return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN, token, student.getStudentId()));
+            return Result.success(new SLRSuccess(ResultCode.REGISTER_LOGIN, token, student.getStudentId()));
         }
-        return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
+        return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("用户名或密码错误"));
     }
 
     @Override
     public Object register(String email, String password, boolean ok) {
-        if(!ok) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
+        if(!ok) return Result.send(StatusCode.VERIFY_MAIL_CODE_ERROR,new SendMsg("邮箱验证码错误"));
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
-        if(studentMapper.exists(queryWrapper)) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
+        if(studentMapper.exists(queryWrapper)) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("邮箱重复"));
         Student student = new Student();
         student.setEmail(email);
         student.setPwd(SecurityUtil.encrypt(password));
-        if(studentMapper.insert(student)==0) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
+        System.out.println(password);
+        if(studentMapper.insert(student)==0) return Result.send(StatusCode.MYSQL_ERROR,new SendMsg("数据插入失败"));
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(student);
         String token = jwtUtils.createJwt(jwtUser);
-        return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN,token,student.getStudentId()));
+        return Result.success(new SLRSuccess(ResultCode.REGISTER_LOGIN,token,student.getStudentId()));
     }
 
 //    @Override

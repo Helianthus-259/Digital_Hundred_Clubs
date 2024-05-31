@@ -7,7 +7,13 @@ public enum ResultCode {
     UPDATE_USER_INFO(4),
     CLUB_APPLICATION(5),
     CLUB_ACTIVITY(6),
-    UPLOAD_FILE_ERROR(7);
+    UPLOAD_FILE_ERROR(7),
+
+    BACKBONE_EVALUATION(19),
+
+    ADMIN_LOGIN(9);
+
+
 
     private final int code;
 

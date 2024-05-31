@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.clubserver.dao.mapper.ClubapplicationrecordMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Clubapplicationrecord">
+            <id property="recordId" column="record_id" jdbcType="INTEGER"/>
+            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+            <result property="collegeReviewStatus" column="college_review_status" jdbcType="INTEGER"/>
+            <result property="universityStudentUnionReviewStatus" column="university_student_union_review_status" jdbcType="INTEGER"/>
+            <result property="collegeReviewOpinion" column="college_review_opinion" jdbcType="VARCHAR"/>
+            <result property="universityStudentUnionReviewOpinion" column="university_student_union_review_opinion" jdbcType="VARCHAR"/>
+            <result property="attachmentUrl" column="attachment_url" jdbcType="VARCHAR"/>
+            <result property="advisorResumeAttachmentUrl" column="advisor_resume_attachment_url" jdbcType="VARCHAR"/>
+            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        record_id,club_id,college_review_status,
+        university_student_union_review_status,college_review_opinion,university_student_union_review_opinion,
+        attachment_url,advisor_resume_attachment_url,student_id
+    </sql>
+</mapper>

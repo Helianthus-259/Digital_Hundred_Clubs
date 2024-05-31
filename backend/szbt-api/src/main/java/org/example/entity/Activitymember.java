@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -40,6 +41,11 @@ public class Activitymember implements Serializable {
      */
     private String personalEffect;
 
+    /**
+     *
+     */
+    private Date awardWiningTime;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +65,8 @@ public class Activitymember implements Serializable {
                 && (this.getStudentId() == null ? other.getStudentId() == null : this.getStudentId().equals(other.getStudentId()))
                 && (this.getActivityName() == null ? other.getActivityName() == null : this.getActivityName().equals(other.getActivityName()))
                 && (this.getActivityId() == null ? other.getActivityId() == null : this.getActivityId().equals(other.getActivityId()))
-                && (this.getPersonalEffect() == null ? other.getPersonalEffect() == null : this.getPersonalEffect().equals(other.getPersonalEffect()));
+                && (this.getPersonalEffect() == null ? other.getPersonalEffect() == null : this.getPersonalEffect().equals(other.getPersonalEffect()))
+                && (this.getAwardWiningTime() == null ? other.getAwardWiningTime() == null : this.getAwardWiningTime().equals(other.getAwardWiningTime()));
     }
 
     @Override
@@ -71,6 +78,7 @@ public class Activitymember implements Serializable {
         result = prime * result + ((getActivityName() == null) ? 0 : getActivityName().hashCode());
         result = prime * result + ((getActivityId() == null) ? 0 : getActivityId().hashCode());
         result = prime * result + ((getPersonalEffect() == null) ? 0 : getPersonalEffect().hashCode());
+        result = prime * result + ((getAwardWiningTime() == null) ? 0 : getAwardWiningTime().hashCode());
         return result;
     }
 
@@ -85,6 +93,7 @@ public class Activitymember implements Serializable {
         sb.append(", activityName=").append(activityName);
         sb.append(", activityId=").append(activityId);
         sb.append(", personalEffect=").append(personalEffect);
+        sb.append(", awardWiningTime=").append(awardWiningTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

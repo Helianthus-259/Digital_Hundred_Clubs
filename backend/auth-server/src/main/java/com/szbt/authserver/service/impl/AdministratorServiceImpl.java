@@ -3,16 +3,15 @@ package com.szbt.authserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.authserver.dao.mapper.AdministratorMapper;
-import com.szbt.authserver.dao.mapper.StudentMapper;
 import com.szbt.authserver.service.AdministratorService;
 import com.szbt.authserver.util.SecurityUtil;
 import org.example.entity.Administrator;
-import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.JWTUtils;
 import org.example.util.Result;
-import org.example.vo.LRSuccess;
+import org.example.vo.ALRSuccess;
+import org.example.vo.SLRSuccess;
 import org.example.vo.SendMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     private JWTUtils jwtUtils;
     @Override
     public Object login(String email, String password, boolean ok) {
-        if(!ok) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
+        if(!ok) return Result.send(StatusCode.VERIFY_MAIL_CODE_ERROR,new SendMsg("邮箱验证码错误"));
         QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
         Administrator administrator = administratorMapper.selectOne(queryWrapper,true);
@@ -41,7 +40,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         String token;
         if(SecurityUtil.decrypt(password,administrator.getPwd())) {
             token = jwtUtils.createJwt(jwtUser);
-            return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN, token, administrator.getAdminId()));
+            return Result.success(new ALRSuccess(ResultCode.ADMIN_LOGIN, token, administrator.getAdminId()));
         }
         return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("登录失败"));
     }
@@ -57,7 +56,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         if(administratorMapper.insert(administrator)==0) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(administrator);
         String token = jwtUtils.createJwt(jwtUser);
-        return Result.success(new LRSuccess(ResultCode.REGISTER_LOGIN,token,administrator.getAdminId()));
+        return Result.success(new ALRSuccess(ResultCode.REGISTER_LOGIN,token,administrator.getAdminId()));
     }
 }
 

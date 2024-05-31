@@ -1,6 +1,7 @@
 package com.szbt.clubserver.controller;
 
 import com.szbt.clubserver.service.ClubService;
+import com.szbt.clubserver.service.ClubmemberService;
 import org.example.dto.ClubDTO;
 import org.example.entity.Club;
 
@@ -19,7 +20,8 @@ import java.util.List;
 public class ClubController {
     @Autowired
     private ClubService clubService;
-
+    @Autowired
+    private ClubmemberService clubmemberService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -40,4 +42,7 @@ public class ClubController {
 
     @GetMapping("/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(Integer id){return clubService.getClubInfoBySId(id);}
+
+    @GetMapping("/tt")
+    public Object tt(Integer id){return clubmemberService.queryAllClubMemberBySid(id);}
 }

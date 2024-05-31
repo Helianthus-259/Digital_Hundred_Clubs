@@ -1,14 +1,12 @@
-package org.example.vo;
+package org.example.dto;
 
 import lombok.Data;
-import org.example.dto.ActivityMemberDTO;
-import org.example.dto.ClubDTO;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class StudentInfoVO {
+public class UserInfoDTO {
     private Integer studentId;
     private String stName;
     private String gender;
