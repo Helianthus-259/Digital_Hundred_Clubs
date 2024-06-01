@@ -11,6 +11,7 @@ const base = {
     register: auth + '/register', // 注册
     postAdminLogin: auth + '/adminLogin', //管理员登录
     verifyCode: auth + '/verifyCode', // 获取验证码
+    getImageVerifyCode: auth + '/getImageVerifyCode', // 获取图片验证码
 
 
     /*——————————————学生——————————————*/
@@ -58,6 +59,7 @@ const base = {
     clubEvaluationForm: club + '/clubEvaluationForm', // 提交社团评优表
     newNotice: club + '/newNotice', // 提交新通知
     newMeeting: club + '/newMeeting', // 提交新会议
+    updateClubDescription: club + '/updateClubDescription', // 更新社团简介
 
 
     /*——————————————活动——————————————*/

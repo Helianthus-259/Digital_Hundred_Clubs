@@ -136,6 +136,11 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postNewNoticeSuccess)
         } else if (response.data.code === 38) { // 发布新会议成功
             eventEmitter.emit(APIEventEnum.postNewMeetingSuccess)
+        } else if (response.data.code === 39) { // 获取图片验证码
+            const { imageUrl } = response.data
+            eventEmitter.emit(APIEventEnum.getImageVerifyCodeSuccess, imageUrl)
+        } else if (response.data.code === 40) { // 更新社团简介成功
+            eventEmitter.emit(APIEventEnum.postUpdateClubDescriptionSuccess)
         }
     }
 }

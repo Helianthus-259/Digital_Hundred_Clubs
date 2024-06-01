@@ -19,7 +19,7 @@
 .bgBox {
     width: 100%;
     height: 100%;
-    background: url('../assets/loginBg.jpg') no-repeat center center;
+    background: url('@/assets/loginBg.jpg') no-repeat center center;
     background-size: 100% 100%;
     position: absolute;
     top: 0;
@@ -93,16 +93,32 @@
                             <t-input clearable placeholder="请输入邮箱" v-model="loginForm.email" :status="loginEmailStatus"
                                 :tips="loginEmailTips" autofocus>
                                 <template #prefix-icon>
-                                    <mail-icon />
+                                    <t-icon name="mail" />
                                 </template>
                             </t-input>
                         </t-form-item>
                         <t-form-item name="password">
                             <t-input placeholder="请输入密码" type="password" v-model="loginForm.pwd">
                                 <template #prefix-icon>
-                                    <lock-on-icon />
+                                    <t-icon name="lock-on" />
                                 </template>
                             </t-input>
+                        </t-form-item>
+                        <t-form-item name="password">
+                            <div
+                                style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                                <t-input style="width: 40%;" placeholder="请输入密码" v-model="loginForm.imageVerifyCode">
+                                    <template #prefix-icon>
+                                        <t-icon name="check-circle" />
+                                    </template>
+                                </t-input>
+                                <div style="width: 50%;">
+                                    <t-popup content="点击刷新" placement="right">
+                                        <img style="width: 100%; cursor: pointer;" :src="imageUrl" alt="验证码"
+                                            @click="getImageVerifyCode">
+                                    </t-popup>
+                                </div>
+                            </div>
                         </t-form-item>
 
                         <t-form-item>
@@ -191,7 +207,7 @@
 
 <script setup>
 import fixedLabelBar from '../components/FixedLabelBar.vue';
-import { reactive, ref, computed, onUnmounted } from 'vue';
+import { reactive, ref, computed, onUnmounted, onMounted } from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum, RouterEventEnum } from '../Enum'
 import { MessagePlugin } from 'tdesign-vue-next';
@@ -233,7 +249,13 @@ const onChange = (value) => {
 const loginForm = reactive({
     email: 'admin@mail2.sysu.edu.cn',
     pwd: '123456',
+    imageVerifyCode: 'n8b7'
 })
+
+const imageUrl = ref('')
+const getImageVerifyCode = () => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getImageVerifyCode)
+}
 
 const loginEmailStatus = computed(() => {
     if (emailValidate(loginForm.email)) {
@@ -252,9 +274,13 @@ const loginEmailTips = computed(() => {
     }
     return '请输入中大邮箱'
 })
+
+// 获取图形验证码
+eventEmitter.emit(APIEventEnum.request, APIEnum.getImageVerifyCode)
+
 // 登录逻辑
 const loginValidate = () => {
-    return emailValidate(loginForm.email) && passwordValidate(loginForm.pwd)
+    return emailValidate(loginForm.email) && passwordValidate(loginForm.pwd) && loginForm.imageVerifyCode !== ''
 }
 
 const handleLogin = () => {
@@ -265,16 +291,6 @@ const handleLogin = () => {
     }
 }
 
-
-// 监听登录成功事件
-eventEmitter.on(APIEventEnum.loginSuccess, 'loginSuccess', () => {
-    MessagePlugin.success('登录成功')
-    eventEmitter.emit(RouterEventEnum.push, '/')
-})
-// 监听登录失败事件
-eventEmitter.on(APIEventEnum.incorrectInput, 'incorrectInput', (msg) => {
-    MessagePlugin.error(msg)
-})
 
 // 注册
 const registerForm = reactive({
@@ -362,9 +378,23 @@ const handleRegister = () => {
     }
 }
 
-// 监听注册失败事件
-eventEmitter.on(APIEventEnum.registerError, 'registerError', (msg) => {
-    MessagePlugin.error(msg)
+onMounted(() => {
+    // 监听登录成功事件
+    eventEmitter.on(APIEventEnum.loginSuccess, 'loginSuccess', () => {
+        MessagePlugin.success('登录成功')
+        eventEmitter.emit(RouterEventEnum.push, '/')
+    })
+    // 监听登录失败事件
+    eventEmitter.on(APIEventEnum.incorrectInput, 'incorrectInput', (msg) => {
+        MessagePlugin.error(msg)
+    })
+    // 监听注册失败事件
+    eventEmitter.on(APIEventEnum.registerError, 'registerError', (msg) => {
+        MessagePlugin.error(msg)
+    })
+    eventEmitter.on(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess', (data) => {
+        imageUrl.value = data
+    })
 })
 
 
@@ -372,5 +402,6 @@ onUnmounted(() => {
     eventEmitter.off(APIEventEnum.loginSuccess, 'loginSuccess')
     eventEmitter.off(APIEventEnum.incorrectInput, 'incorrectInput')
     eventEmitter.off(APIEventEnum.registerError, 'registerError')
+    eventEmitter.off(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess')
 })
 </script>

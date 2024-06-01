@@ -39,6 +39,8 @@ export const APIEventEnum = {
     getClubNoticeListSuccess: 'getClubNoticeListSuccess',
     postNewNoticeSuccess: 'postNewNoticeSuccess',
     postNewMeetingSuccess: 'postNewMeetingSuccess',
+    getImageVerifyCodeSuccess: 'getImageVerifyCodeSuccess',
+    postUpdateClubDescriptionSuccess: 'postUpdateClubDescriptionSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -86,6 +88,8 @@ export const APIEnum = {
     getClubNoticeList: 'getClubNoticeList',
     postNewNotice: 'postNewNotice',
     postNewMeeting: 'postNewMeeting',
+    getImageVerifyCode: 'getImageVerifyCode',
+    postUpdateClubDescription: 'postUpdateClubDescription',
 }
 
 

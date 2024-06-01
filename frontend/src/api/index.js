@@ -8,6 +8,7 @@ const api = {
         params: {
             email: params.email,
             pwd: params.pwd,
+            imageVerifyCode: params.imageVerifyCode,
         }
     }),
     'postRegister': (params) => axios.post(path.register, { // 注册
@@ -281,7 +282,15 @@ const api = {
             category: params.category,
             advisorName: params.advisorName,
         }
-    })
+    }),
+    'getImageVerifyCode': () => axios.get(path.getImageVerifyCode, { // 获取图片验证码
+    }),
+    'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, { // 更新社团简介
+        params: {
+            clubId: params.clubId,
+            clubDescription: params.clubDescription,
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

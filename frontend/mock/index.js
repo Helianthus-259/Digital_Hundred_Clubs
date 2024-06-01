@@ -455,6 +455,7 @@ mock.onPost(path.rejectClubApply).reply((config) => {
 
 // 发布新活动mock
 mock.onPost(path.newActivity).reply((config) => {
+    console.log(JSON.parse(config.data));
     return [200, {
         code: 18, // 18代表发布新活动
     }]
@@ -773,5 +774,20 @@ mock.onPost(path.newNotice).reply((config) => {
 mock.onPost(path.newMeeting).reply((config) => {
     return [200, {
         code: 38, // 38代表发布新会议成功
+    }]
+})
+
+// 获取图片验证码mock
+mock.onGet(path.getImageVerifyCode).reply((config) => {
+    return [200, {
+        code: 39, // 39代表获取图片验证码成功
+        imageUrl: 'src/assets/verify.jpg' // 连接后端之后再做具体处理
+    }]
+})
+
+// 更新社团简介mock
+mock.onPost(path.updateClubDescription).reply((config) => {
+    return [200, {
+        code: 40, // 40代表更新社团简介成功
     }]
 })
