@@ -81,6 +81,7 @@ import fixedLabelBar from '../components/FixedLabelBar.vue';
 import { reactive, ref, computed } from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum } from '../Enum'
+import store from '@/store';
 
 // 为了方便测试，每次都初始化一个正确的管理员账号
 const adminLoginForm = reactive({
@@ -105,6 +106,7 @@ const adminLoginValidate = () => {
 const adminHandleLogin = () => {
     if (adminLoginValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
+        eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
         console.log("管理员登录成功！正在跳转到管理员界面……")
     }
 }

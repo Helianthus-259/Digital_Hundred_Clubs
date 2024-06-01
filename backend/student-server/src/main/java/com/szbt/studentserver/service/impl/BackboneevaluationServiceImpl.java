@@ -8,6 +8,7 @@ import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
     public Object addBackBoneEvaluate(Backboneevaluation backboneevaluation) {
         int inserted = backboneevaluationMapper.insert(backboneevaluation);
         if (inserted<=0) return Result.send(StatusCode.ADD_BACKBONE_EVALUATION_ERROR,new SendMsg("提交骨干评优申请失败"));
-        return Result.success(ResultCode.BACKBONE_EVALUATION);
+        return Result.success(new SingleCodeVO(ResultCode.ADD_BACKBONE_EVALUATION));
     }
 }
 

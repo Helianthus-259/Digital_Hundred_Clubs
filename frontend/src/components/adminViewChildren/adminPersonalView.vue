@@ -3,17 +3,19 @@
 .tabsBox {
     width: 40%;
     margin-left: 10%;
+    margin-top: 3%;
+    background-color: #f0f8fe;
 }
 
 /* 总内容 */
 .contentContainer {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .contentBox {
     width: 80%;
     margin: 0 auto;
-    background-color: #f5f5f5;
+    background-color: #d8eeff;
     padding: 5px;
     box-sizing: border-box;
     border-radius: 4px;
@@ -23,6 +25,7 @@
 </style>
 
 <template>
+    <p>123</p>
     <t-sticky :offset-top="50">
         <div class="tabsBox">
             <t-tabs :value="routerNames" :list="routerlist" :space-evenly="false" @change="onChange" />
@@ -40,8 +43,6 @@ import { RouterEventEnum, StoreEventEnum, StoreEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { ref } from 'vue';
-
-
 
 const routerNames = ref(store.state.routeTabs.adminPersonalTabs)
 

@@ -17,6 +17,24 @@ spring:
       max-file-size: 400MB  #单个文件最大
       max-request-size: 400MB #单个请求文件总和最大
 
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+mybatis-plus-join:
+  #是否打印 mybatis plus join banner 默认true
+  banner: true
+  #全局启用副表逻辑删除(默认true) 关闭后关联查询不会加副表逻辑删除
+  sub-table-logic: true
+  #拦截器MappedStatement缓存(默认true)
+  ms-cache: true
+  #表别名(默认 t)
+  table-alias: t
+  #副表逻辑删除条件的位置，支持where、on
+  #默认ON （1.4.7.2及之前版本默认为where）
+  logic-del-type: on
+
 #eureka地址
 eureka:
   client:

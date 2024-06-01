@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"org.example"})
+@ComponentScan(basePackages = {"org.example","com.szbt.adminserver"})
 public class AdminServerApplication {
 
     public static void main(String[] args) {
