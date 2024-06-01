@@ -1,6 +1,4 @@
-import { APIEventEnum, APIEnum } from "@/Enum";
 import api from "@/api";
-import eventEmitter from "@/utils/eventEmitter";
 
 class MyUploadAdapter {
     constructor(loader) {
