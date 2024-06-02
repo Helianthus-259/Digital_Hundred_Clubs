@@ -9,16 +9,14 @@ import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
 import lombok.val;
-import org.example.dto.ActivityMemberDTO;
-import org.example.dto.ClubDTO;
-import org.example.dto.ClubInfos;
-import org.example.dto.StudentInfoDTO;
+import org.example.dto.*;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 import org.example.entity.Student;
 import org.example.vo.ClubInfosSuccess;
 import org.example.util.Result;
 import org.example.enums.ResultCode;
+import org.example.vo.DataVO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +73,16 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         clubDTOS.addAll(clubDTOS1);
         System.out.println(clubDTOS);
         return clubDTOS;
+    }
+
+    @Override
+    public Club getClubInfoById(Integer id) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getClubId,id);
+        Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
+        System.out.println(clubInfo);
+        return clubInfo;
     }
 
 

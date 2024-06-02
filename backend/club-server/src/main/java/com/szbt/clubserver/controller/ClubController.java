@@ -41,4 +41,7 @@ public class ClubController {
     public Clubmember queryClubMemberInfo(Integer id){
         return clubmemberService.getById(id);
     }
+
+    @GetMapping("/getClubInfoById")
+    public Club  getClubInfoById(Integer id){return clubService.getClubInfoById(id);}
 }
