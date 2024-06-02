@@ -25,9 +25,9 @@ const store = createStore({
             'examineTabs': 'examine',
             'adminManageTabs': 'review',
             'adminPersonalTabs': 'adminPersonalInfo',
-            'clubAnnualReview':'clubAnnualReview',
-            'clubAwardsReview':'clubAwardsReview',
-            'backboneAwardsReview':'backboneAwardsReview',
+            'clubAnnualReview': 'clubAnnualReview',
+            'clubAwardsReview': 'clubAwardsReview',
+            'backboneAwardsReview': 'backboneAwardsReview',
         },
 
         // 有子路由的界面的初始路由
@@ -41,7 +41,7 @@ const store = createStore({
             'activity': '/activity/',
             'clubManage': '/clubManage/',
             'examine': '/adminFirstPage/examine/',
-            'review':'/adminFirstPage/review/',
+            'review': '/adminFirstPage/review/',
         },
 
         // 社团比较新的活动和通知

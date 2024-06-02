@@ -179,12 +179,8 @@
                     <div class="labelBox">社团类别：</div>
                     <div class="valueBox">
                         <t-select v-model="clubInfo.clubCategory" borderless :readonly="!isEditting" showArrow>
-                            <t-option label="体育类" value="体育类" />
-                            <t-option label="艺术类" value="艺术类" />
-                            <t-option label="学术类" value="学术类" />
-                            <t-option label="公益类" value="公益类" />
-                            <t-option label="科技类" value="科技类" />
-                            <t-option label="其他类" value="其他类" />
+                            <t-option v-for="(item, index) in clubCategories" :key="index" :label="item.name"
+                                :value="item.code" />
                         </t-select>
                     </div>
                 </t-col>
@@ -215,11 +211,8 @@
                     <div class="labelBox">主校区：</div>
                     <div class="valueBox">
                         <t-select v-model="clubInfo.mainCompus" borderless :readonly="!isEditting" showArrow>
-                            <t-option label="广州校区北校园" value="广州校区北校园" />
-                            <t-option label="广州校区东校园" value="广州校区东校园" />
-                            <t-option label="广州校区南校园" value="广州校区南校园" />
-                            <t-option label="珠海校区" value="珠海校区" />
-                            <t-option label="深圳校区" value="深圳校区" />
+                            <t-option v-for="(item, index) in mainCampuses" :key="index" :label="item.name"
+                                :value="item.code" />
                         </t-select>
                     </div>
                 </t-col>
@@ -334,6 +327,15 @@ import myDialog from '../myDialog.vue';
 const route = useRoute();
 const clubId = route.params.cid
 
+// 校区枚举
+const mainCampuses = JSON.parse(localStorage.getItem('enumList')).mainCampuses
+
+// 社团类型枚举
+const clubCategories = JSON.parse(localStorage.getItem('enumList')).clubCategories
+
+// 职位枚举
+const positions = JSON.parse(localStorage.getItem('enumList')).positions
+
 // 社团信息
 const clubInfo = reactive({
     clubName: '',
@@ -392,7 +394,12 @@ const openAddDialog = () => {
 }
 const confirmAdd = () => {
     if (newStudentValidate())
-        eventEmitter.emit(APIEventEnum.request, APIEnum.postAddClubMember, { clubId, ...newStudent })
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postAddClubMember, {
+            clubId,
+            studentNumber: newStudent.studentNumber,
+            stName: newStudent.stName,
+            position: positions.filter(item => item.name === newStudent.position)[0].code
+        })
 }
 
 // 控制更新弹窗
@@ -411,7 +418,19 @@ const openUpdateDialog = () => {
 }
 const confirmUpdate = () => {
     if (newStudentValidate())
-        eventEmitter.emit(APIEventEnum.request, APIEnum.postUpdateClubMember, { clubId, oldStudent, newStudent })
+        eventEmitter.emit(APIEventEnum.request, APIEnum.postUpdateClubMember, {
+            clubId,
+            oldStudent: {
+                studentNumber: oldStudent.studentNumber,
+                stName: oldStudent.stName,
+                position: positions.filter(item => item.name === oldStudent.position)[0].code
+            },
+            newStudent: {
+                studentNumber: newStudent.studentNumber,
+                stName: newStudent.stName,
+                position: positions.filter(item => item.name === newStudent.position)[0].code
+            }
+        })
 }
 
 
@@ -505,12 +524,12 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess', (data) => {
         clubMember[0].stName = data.president.stName;
         clubMember[0].studentNumber = data.president.studentNumber;
-        clubMember[0].position = data.president.position;
+        clubMember[0].position = positions[data.president.position].name;
         data.executives.forEach(item => {
             clubMember.push({
                 studentNumber: item.studentNumber,
                 stName: item.stName,
-                position: item.position
+                position: positions[item.position].name
             })
         });
 

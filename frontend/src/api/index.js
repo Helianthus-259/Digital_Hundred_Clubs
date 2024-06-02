@@ -291,9 +291,12 @@ const api = {
             clubDescription: params.clubDescription,
         }
     }),
+    'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {
+    console.log('request', method, params);
     await api[method](params)
 })
 

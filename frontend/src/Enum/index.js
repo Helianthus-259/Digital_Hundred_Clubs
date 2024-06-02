@@ -41,6 +41,7 @@ export const APIEventEnum = {
     postNewMeetingSuccess: 'postNewMeetingSuccess',
     getImageVerifyCodeSuccess: 'getImageVerifyCodeSuccess',
     postUpdateClubDescriptionSuccess: 'postUpdateClubDescriptionSuccess',
+    getEnumListSuccess: 'getEnumListSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -90,6 +91,7 @@ export const APIEnum = {
     postNewMeeting: 'postNewMeeting',
     getImageVerifyCode: 'getImageVerifyCode',
     postUpdateClubDescription: 'postUpdateClubDescription',
+    getEnumList: 'getEnumList',
 }
 
 

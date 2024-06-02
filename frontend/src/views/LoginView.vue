@@ -212,6 +212,7 @@ import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum, RouterEventEnum } from '../Enum'
 import { MessagePlugin } from 'tdesign-vue-next';
 import { MailIcon, LockOnIcon, UserIcon, UsergroupIcon, VerifiedIcon, BuildingIcon } from 'tdesign-icons-vue-next';
+import store from '@/store';
 // 登录和注册
 
 // 检测邮箱格式是否符合中大邮箱
@@ -395,6 +396,12 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess', (data) => {
         imageUrl.value = data
     })
+    // 获取枚举列表
+    if (localStorage.getItem('enumList')) {
+
+    } else {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.getEnumList)
+    }
 })
 
 

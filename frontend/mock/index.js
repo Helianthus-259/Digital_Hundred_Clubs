@@ -57,10 +57,10 @@ mock.onGet(path.clubsInfo).reply((config) => {
             imageUrl: `https://picsum.photos/${width}/${height}?${i}`,
             clubName: `社团${i}`,
             clubDescription: `社团${i}介绍`,
-            campus: ["北校区", "南校区", "东校区", "珠海校区", "深圳校区"][i % 5],
+            campus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
-            clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"][i % 6],
+            clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其它类"][i % 6],
             createTime: '2024-4-30 12:00:00',
             status: i % 3,
         })
@@ -93,7 +93,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 1,
                     clubName: '社团1',
-                    position: '社长',
+                    position: 0,
                     clubStatus: 0,
                     collegeReviewStatus: 0,
                     universityStudentUnionReviewStatus: null,
@@ -103,7 +103,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 2,
                     clubName: '社团2',
-                    position: '副社长',
+                    position: 1,
                     clubStatus: 1,
                     collegeReviewStatus: 1,
                     universityStudentUnionReviewStatus: 1,
@@ -113,7 +113,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 3,
                     clubName: '社团3',
-                    position: '干部',
+                    position: 2,
                     clubStatus: 1,
                     collegeReviewStatus: 1,
                     universityStudentUnionReviewStatus: 1,
@@ -123,7 +123,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 4,
                     clubName: '社团4',
-                    position: '普通成员',
+                    position: 3,
                     clubStatus: 1,
                     collegeReviewStatus: 1,
                     universityStudentUnionReviewStatus: 1,
@@ -133,7 +133,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 5,
                     clubName: '社团5',
-                    position: '社长',
+                    position: 0,
                     clubStatus: 0,
                     collegeReviewStatus: null,
                     universityStudentUnionReviewStatus: null,
@@ -143,7 +143,7 @@ mock.onGet(path.userInfo).reply((config) => {
                 {
                     clubId: 6,
                     clubName: '社团6',
-                    position: '社长',
+                    position: 0,
                     clubStatus: 0,
                     collegeReviewStatus: 1,
                     universityStudentUnionReviewStatus: 0,
@@ -247,7 +247,7 @@ mock.onGet(path.clubMembers).reply((config) => {
         members: {
             president: {
                 stName: '张三',
-                position: '社长',
+                position: 0,
                 contact: '12345678901',
                 studentNumber: '201900001',
                 imageUrl: 'https://picsum.photos/300/300?0',
@@ -255,19 +255,19 @@ mock.onGet(path.clubMembers).reply((config) => {
             executives: [
                 {
                     stName: '李四',
-                    position: '副社长',
+                    position: 1,
                     studentNumber: '201900002',
                     imageUrl: 'https://picsum.photos/300/300?1',
                 },
                 {
                     stName: '王五',
-                    position: '干部',
+                    position: 2,
                     studentNumber: '201900003',
                     imageUrl: 'https://picsum.photos/300/300?2',
                 },
                 {
                     stName: '赵六',
-                    position: '干部',
+                    position: 2,
                     studentNumber: '201900004',
                     imageUrl: 'https://picsum.photos/300/300?3',
                 }
@@ -480,9 +480,9 @@ mock.onGet(path.clubEvaluateInfo).reply((config) => {
         backboneNumber: 10,
         establishmentDate: '2022-05-01',
         responsibleDepartment: '体育部',
-        mainCompus: '北校区',
+        mainCompus: 3,
         clubDescription: '篮球社是一个篮球社团',
-        clubCategory: '体育类',
+        clubCategory: 2,
         contactPerson: '张三',
         politicalStatus: '党员',
         contactPhone: '123456789',
@@ -789,5 +789,40 @@ mock.onGet(path.getImageVerifyCode).reply((config) => {
 mock.onPost(path.updateClubDescription).reply((config) => {
     return [200, {
         code: 40, // 40代表更新社团简介成功
+    }]
+})
+
+// 获取枚举列表mock
+mock.onGet(path.getEnumList).reply((config) => {
+    return [200, {
+        code: 41, // 41代表获取枚举列表成功
+        data: {
+            "positions": [
+                { "name": "社长", "code": 0 },
+                { "name": "副社长", "code": 1 },
+                { "name": "干部", "code": 2 },
+                { "name": "普通成员", "code": 3 }
+            ],
+            "mainCampuses": [
+                { "name": "广州北校园", "code": 0 },
+                { "name": "广州南校园", "code": 1 },
+                { "name": "广州东校园", "code": 2 },
+                { "name": "珠海校区", "code": 3 },
+                { "name": "深圳校区", "code": 4 }
+            ],
+            "clubCategories": [
+                { "name": "学术类", "code": 0 },
+                { "name": "体育类", "code": 1 },
+                { "name": "艺术类", "code": 2 },
+                { "name": "公益类", "code": 3 },
+                { "name": "科技类", "code": 4 },
+                { "name": "其它类", "code": 5 }
+            ],
+            "meetings": [
+                { "name": "骨干例会", "code": 0 },
+                { "name": "全员大会", "code": 1 },
+                { "name": "其他", "code": 2 },
+            ]
+        }
     }]
 })

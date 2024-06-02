@@ -141,6 +141,12 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.getImageVerifyCodeSuccess, imageUrl)
         } else if (response.data.code === 40) { // 更新社团简介成功
             eventEmitter.emit(APIEventEnum.postUpdateClubDescriptionSuccess)
+        } else if (response.data.code === 41) { // 获取获取枚举列表成功
+            const { data } = response.data
+            eventEmitter.emit(APIEventEnum.getEnumListSuccess, data)
+            if (localStorage.getItem('enumList') !== JSON.stringify(data)) {
+                localStorage.setItem('enumList', JSON.stringify(data))
+            }
         }
     }
 }
