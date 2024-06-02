@@ -25,4 +25,7 @@ public class AdminController {
     {
         return backboneevaluationService.queryAllBackBoneEvaluations();
     }
+
+    @GetMapping("/clubAnnuals")
+    private Object queryAllClubAnnuals(){return null;}
 }
