@@ -52,6 +52,22 @@ const url_data = {
             msg:'',   // 登陆失败原因
         },
     },
+    // url:/api/auth/verifyCode
+    verifyCode:{// 获取验证码
+        params:{// get参数
+            email: '',  // 用户邮箱
+        },
+        data:{
+            verifyCode:''   //验证码
+        },
+    },
+    // url:/api/auth/getImageVerifyCode
+    getImageVerifyCode:{// 获取图形验证码
+        data:{
+            code: 39,   // 39代表获取图片验证码成功
+            imageUrl: 'src/assets/verify.jpg',   // 连接后端处理
+        }
+    },
 
     /*——————————————学生——————————————*/
     // get
@@ -91,10 +107,6 @@ const url_data = {
                 },
             ]
         }
-    },
-    // url:/api/student/verifyCode
-    verifyCode:{// 获取验证码
-        verifyCode:''   //验证码
     },
 
     // post
@@ -252,6 +264,7 @@ const url_data = {
             clubWorkIntroduction: "工作简介"
         }
     },
+
     // post
     // url:/api/admin/adminInfoUpdate
     adminInfoUpdate:{// 更新管理员信息
@@ -284,8 +297,6 @@ const url_data = {
             },
         ]
     },
-    // url:/api/club/clubLatestAct(还没写完)
-    clubLatestAct:{},
     // url:/api/club/clubActAndNtc
     clubActAndNtc:{// 获取社团活动通知
         params:{// get参数
@@ -444,6 +455,38 @@ const url_data = {
             },
         }
     },
+    // url:/api/club/topTenClubs
+    topTenClubs:{// 获取十佳社团
+        data:{
+            code: 32,   // 代表获取十佳社团成功
+            clubs:[// 一共10个社团
+                {
+                    clubId:'',  //社团id
+                    clubName:'',    // 社团名
+                    imageUrl:'',    // 社团宣传图
+                },
+            ]
+        }
+    },
+    // url:/api/club/clubNoticeList
+    clubNoticeList:{// 获取社团通知列表
+        params:{// get参数
+            clubId:'',  // 社团标识id
+        },
+        data:{
+            code: 36,   // 36代表获取社团通知列表成功
+            notices:[// 该社团所有的通知
+                {
+                    announcementId: '', // 通知id
+                    title: '',  // 通知标题
+                    content: '',    // 通知内容
+                    imageUrl: '',   // 通知图片
+                    publishTime: '',    // 通知发布时间
+                    modifyTime: ''  // 通知修改时间
+                },
+            ]
+        }
+    },
 
     // post
     // url:/api/club/agreeClubApply
@@ -532,7 +575,111 @@ const url_data = {
             imageUrl: '',   // 社团宣传图
         }
     },
-
+    // url:/api/club/clubAnnualAuditForm
+    clubAnnualAuditForm:{// 提交社团年审表
+        params:{// post参数
+            clubId:'',  // 社团id
+            meetingActivityListAttachment: '',  // 活动及会议清单
+            externalSponsorshipAttachment: '',  // 校外赞助附件
+            isFinancialInformationPublic: '',   // 是否财务公开 0 否 ; 1 是
+            clubConstitutionAttachment: '', // 社团章程附件
+            responsibleDepartment: '',  // 负责部门
+            publicityManagementInfo: {  // 宣传情况
+                // json
+                WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
+                WebSite: { has: '0', name: '' },
+                Blog: { has: '0', name: '' },
+                BiliBili: { has: '0', name: '' },
+                TikTok: { has: '0', name: '' },
+                WeChatVideoAccount: { has: '0', name: '' },
+                KuaiShou: { has: '0', name: '' },
+                Publication: { has: '0', name: '' },
+                Other: { has: '0', name: '' },
+            },
+        },
+        data:{
+            code: 34,   // 34代表提交年审表成功
+        }
+    },
+    // url:/api/club/clubEvaluationForm
+    clubEvaluationForm:{// 提交社团评优表
+        params:{// post参数
+            clubId: '', // 社团id
+            handoverMethod: '', //  换届方式
+            handoverParticipantsCount: '',  // 换届会参与人数
+            advisorParticipation: '',   // 指导老师是否参与
+            publicityManagementEffectiveness: { // 宣传管理成效
+                submissionsCount: '',   // 向学校投稿次数
+                PublicityAboveSchoolLevel:[// 所有的校级以上宣传情况
+                    {// json
+                        platform:'',    // 宣传平台
+                        content: '',    // 宣传内容
+                    },
+                ]
+            },
+            hostedSchoolLevelActivities: {// 承办校级以上活动情况
+                schoolLv: [// 校级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                municipal: [// 市级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ],
+                provincial: [// 省级
+                    {
+                        host: "主办方",
+                        activityName: "活动名",
+                    }
+                ]
+            },
+            clubWorkIntroduction: '',   // 社团工作简介
+            clubEducationCaseAttachment: '',    // 社团育人成效案例附件
+            imageUrl: '',   // 社团代表性图片
+        },
+        data:{
+            code: 35    // 35代表社团评优成功
+        }
+    },
+    // url:/api/club/newNotice
+    newNotice:{// 提交新通知
+        params: {// post参数
+            clubId: '', // 社团id
+            title: '',  // 通知标题
+            content: '',    // 通知内容
+            imageUrl: '',   // 通知图片
+        },
+        data:{
+            code: 37,   // 37代表提交新通知成功
+        }
+    },
+    // url:/api/club/newMeeting
+    newMeeting:{// 提交新会议
+        params:{// post参数
+            clubId: '', // 社团id
+            meetingTime: '',    // 会议时间
+            location: '',   // 会议地点
+            category: '',   // 骨干例会/全员大会
+            advisorName: '',    // 指导老师姓名
+        },
+        data:{
+          code: 37  // 37代表发布新会议成功
+        }
+    },
+    // url:/api/club/updateClubDescription
+    updateClubDescription:{// 更新社团简介
+        params:{// post参数
+            clubId: '', // 社团id
+            clubDescription: '',    // 新的社团简介
+        },
+        data:{
+            code: 40,   // 40代表更新社团简介成功
+        }
+    },
 
     /*——————————————活动——————————————*/
     // get
@@ -574,6 +721,26 @@ const url_data = {
             },
         ]
     },
+    // url:/api/activity/latestActivities
+    latestActivities:{// 获取最新活动
+        params:{// get参数
+            pageNumber: '', // 获取页数(次数)
+            pageSize: '',   // 获取数据量
+            // 当pageNumber = 0， pageSize = 10 时代表获取前0 - 9个数据
+            // 接下来pageNumber = 1， pageSize = 10 时代表10 - 19
+            // 以此类推
+        },
+        data:{
+            code: 31,   // 31代表获取最新活动成功
+            activities:[ // 获取的多个活动
+                {
+                    activityId: '', // 活动id
+                    activityName: '',   // 活动名
+                    imageUrl: '',   // 活动宣传图
+                },
+            ]
+        }
+    },
 
     //post
     // url:/api/activity/newActivity
@@ -592,7 +759,31 @@ const url_data = {
             code: 18,   //18表示发布新活动
         }
     },
-
+    // url:/api/activity/activitiesInfo
+    personalPerformance:{// 提交个人活动表现
+        params: {// post参数
+            clubId: '', // 社团id
+            activityId: '', // 活动id
+            personalEffectList: [   // 个人表现
+                /*学生姓名      学生学号        个人表现*/
+                {stName: '', studentNumber: '', personalEffect: ''},
+            ],
+        },
+        data:{
+            code: 29    // 29代表提交个人绩效成功
+        }
+    },
+    // url:/api/activity/activityPerformance
+    activityPerformance:{// 提交活动表现
+        params: {// post参数
+            clubId: '', // 社团id
+            activityId: '', // 活动id
+            activityEffect: '', // 活动成效
+        },
+        data:{
+            code: 30    // 30代表提交活动绩效成功
+        }
+    },
     /*——————————————文件——————————————*/
     // url:/api/file/uploadImage
     uploadImage:{// 上传图片
@@ -608,5 +799,20 @@ const url_data = {
                 url:'', // 图片地址
             }
         }
-    }
+    },
+    // url:/api/file/uploadFile
+    uploadFile:{// 上传文件
+        headers:{
+          'Content-Type':'multipart/form-data'
+        },
+        params:{// post参数
+            formData:'',    // 图片url
+            flag:'' // 标签?
+        },
+        data:{
+            code: 33,  // 33代表上传图片成功
+            url:'', // 图片url
+            flag:'',    // 标签？
+        }
+    },
 }
