@@ -1,9 +1,9 @@
 package org.example.enums;
 
 public enum MainCampus {
-    NORTH("北校区", 0),
-    SOUTH("南校区", 1),
-    EAST("东校区", 2),
+    NORTH("广州校区北校园", 0),
+    SOUTH("广州校区南校园", 1),
+    EAST("广州校区东校园", 2),
     ZHUHAI("珠海校区", 3),
     SHENZHEN("深圳校区", 4);
 

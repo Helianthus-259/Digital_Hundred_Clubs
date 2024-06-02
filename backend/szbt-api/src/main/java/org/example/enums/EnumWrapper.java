@@ -8,6 +8,8 @@ public class EnumWrapper {
     private List<EnumData> clubCategories;
     private List<EnumData> meetings;
 
+    private List<EnumData> statusCodes;
+
     public List<EnumData> getPositions() {
         return positions;
     }
@@ -38,6 +40,14 @@ public class EnumWrapper {
 
     public void setMeetings(List<EnumData> meetings) {
         this.meetings = meetings;
+    }
+
+    public List<EnumData> getStatusCodes() {
+        return statusCodes;
+    }
+
+    public void setStatusCodes(List<EnumData> statusCodes) {
+        this.statusCodes = statusCodes;
     }
 
     public static class EnumData {

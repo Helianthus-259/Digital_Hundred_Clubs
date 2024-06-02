@@ -32,12 +32,17 @@ public class EnumServiceImpl implements EnumService {
                 .map(meeting -> new EnumWrapper.EnumData(meeting.getName(), meeting.getCode()))
                 .collect(Collectors.toList());
 
+        List<EnumWrapper.EnumData> statusCodeData = Arrays.stream(StatusCode.values())
+                .map(statusCode -> new EnumWrapper.EnumData(statusCode.getName(), statusCode.getCode()))
+                .collect(Collectors.toList());
+
 
         EnumWrapper enumWrapper = new EnumWrapper();
         enumWrapper.setPositions(positionData);
         enumWrapper.setMainCampuses(mainCampusData);
         enumWrapper.setClubCategories(clubCategoryData);
         enumWrapper.setMeetings(meetingData);
+        enumWrapper.setStatusCodes(statusCodeData);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
