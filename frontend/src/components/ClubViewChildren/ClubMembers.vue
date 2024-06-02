@@ -178,7 +178,7 @@ p {
                     <img v-show="executive.imageLoaded" :src="executive.imageUrl" :alt="executive.stName"
                         @load="executive.imageLoaded = true" />
                     <h4>{{ executive.stName }}</h4>
-                    <p>职位: {{ executive.position }}</p>
+                    <p>职位: {{ positions[executive.position].name }}</p>
                 </div>
             </div>
         </div>
@@ -207,6 +207,8 @@ const president = reactive({
     imageLoaded: false
 })
 const executives = ref([])
+
+const positions = JSON.parse(localStorage.getItem('enumList')).positions
 
 const memberCount = ref(0)
 const memberComposition = ref('')

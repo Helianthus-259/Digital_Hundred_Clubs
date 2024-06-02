@@ -60,7 +60,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         userInfoDTO.setClubs(clubDTOS);
         System.out.println(userInfoDTO);
 
-        return Result.success(new DataVO(ResultCode.USER_INFO,userInfoDTO));
+        return Result.success(new DataVO(ResultCode.GET_USER_INFO,userInfoDTO));
     }
 
     @Override

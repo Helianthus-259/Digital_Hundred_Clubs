@@ -1,9 +1,12 @@
 package com.szbt.adminserver.controller;
 
 import com.szbt.adminserver.service.AdministratorService;
+import com.szbt.adminserver.service.AnnualauditService;
 import com.szbt.adminserver.service.BackboneevaluationService;
+import com.szbt.adminserver.service.StudentclubevaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.example.constants.RequestKeyConstants;
+import org.example.service.ActivityClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -20,9 +23,23 @@ public class AdminController {
     @Autowired
     private BackboneevaluationService backboneevaluationService;
 
+    @Autowired
+    private AnnualauditService annualauditService;
+    @Autowired
+    private StudentclubevaluationService studentclubevaluationService;
+
     @GetMapping("/backBoneEvaluations")
     private Object queryAllBackBoneEvaluations()
     {
         return backboneevaluationService.queryAllBackBoneEvaluations();
+    }
+
+    @GetMapping("/clubAnnuals")
+    private Object queryAllClubAnnuals(){return annualauditService.queryAllClubAnnuals();}
+
+    @GetMapping("/clubEvaluations")
+    private Object queryAllClubEvaluations()
+    {
+        return studentclubevaluationService.queryAllClubEvaluations();
     }
 }

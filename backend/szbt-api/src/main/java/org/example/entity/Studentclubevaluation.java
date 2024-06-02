@@ -70,6 +70,16 @@ public class Studentclubevaluation implements Serializable {
      */
     private String clubEducationCaseAttachment;
 
+    /**
+     *
+     */
+    private Object meetings;
+
+    /**
+     *
+     */
+    private Object associationAwards;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -95,7 +105,9 @@ public class Studentclubevaluation implements Serializable {
                 && (this.getHostedSchoolLevelActivities() == null ? other.getHostedSchoolLevelActivities() == null : this.getHostedSchoolLevelActivities().equals(other.getHostedSchoolLevelActivities()))
                 && (this.getClubWorkIntroduction() == null ? other.getClubWorkIntroduction() == null : this.getClubWorkIntroduction().equals(other.getClubWorkIntroduction()))
                 && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
-                && (this.getClubEducationCaseAttachment() == null ? other.getClubEducationCaseAttachment() == null : this.getClubEducationCaseAttachment().equals(other.getClubEducationCaseAttachment()));
+                && (this.getClubEducationCaseAttachment() == null ? other.getClubEducationCaseAttachment() == null : this.getClubEducationCaseAttachment().equals(other.getClubEducationCaseAttachment()))
+                && (this.getMeetings() == null ? other.getMeetings() == null : this.getMeetings().equals(other.getMeetings()))
+                && (this.getAssociationAwards() == null ? other.getAssociationAwards() == null : this.getAssociationAwards().equals(other.getAssociationAwards()));
     }
 
     @Override
@@ -113,6 +125,8 @@ public class Studentclubevaluation implements Serializable {
         result = prime * result + ((getClubWorkIntroduction() == null) ? 0 : getClubWorkIntroduction().hashCode());
         result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
         result = prime * result + ((getClubEducationCaseAttachment() == null) ? 0 : getClubEducationCaseAttachment().hashCode());
+        result = prime * result + ((getMeetings() == null) ? 0 : getMeetings().hashCode());
+        result = prime * result + ((getAssociationAwards() == null) ? 0 : getAssociationAwards().hashCode());
         return result;
     }
 
@@ -133,6 +147,8 @@ public class Studentclubevaluation implements Serializable {
         sb.append(", clubWorkIntroduction=").append(clubWorkIntroduction);
         sb.append(", imageUrl=").append(imageUrl);
         sb.append(", clubEducationCaseAttachment=").append(clubEducationCaseAttachment);
+        sb.append(", meetings=").append(meetings);
+        sb.append(", associationAwards=").append(associationAwards);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

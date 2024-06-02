@@ -5,23 +5,23 @@
 <mapper namespace="com.szbt.activityserver.dao.mapper.ActivityMapper">
 
     <resultMap id="BaseResultMap" type="org.example.entity.Activity">
-            <id property="activityId" column="activity_id" jdbcType="INTEGER"/>
-            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
-            <result property="activityName" column="activity_name" jdbcType="VARCHAR"/>
-            <result property="activityPublishTime" column="activity_publish_time" jdbcType="TIMESTAMP"/>
-            <result property="activityStartTime" column="activity_start_time" jdbcType="TIMESTAMP"/>
-            <result property="activityEndtime" column="activity_endTime" jdbcType="TIMESTAMP"/>
-            <result property="activityLocation" column="activity_location" jdbcType="VARCHAR"/>
-            <result property="activityIntroduction" column="activity_introduction" jdbcType="VARCHAR"/>
-            <result property="applicationFormAttachment" column="application_form_attachment" jdbcType="VARCHAR"/>
-            <result property="activityStatus" column="activity_status" jdbcType="INTEGER"/>
-            <result property="activityEffect" column="activity_effect" jdbcType="VARCHAR"/>
-            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <id property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+        <result property="activityName" column="activity_name" jdbcType="VARCHAR"/>
+        <result property="activityPublishTime" column="activity_publish_time" jdbcType="TIMESTAMP"/>
+        <result property="activityStartTime" column="activity_start_time" jdbcType="TIMESTAMP"/>
+        <result property="activityEndTime" column="activity_end_time" jdbcType="TIMESTAMP"/>
+        <result property="activityLocation" column="activity_location" jdbcType="VARCHAR"/>
+        <result property="activityIntroduction" column="activity_introduction" jdbcType="VARCHAR"/>
+        <result property="applicationFormAttachment" column="application_form_attachment" jdbcType="VARCHAR"/>
+        <result property="activityStatus" column="activity_status" jdbcType="INTEGER"/>
+        <result property="activityEffect" column="activity_effect" jdbcType="VARCHAR"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         activity_id,club_id,activity_name,
-        activity_publish_time,activity_start_time,activity_endTime,
+        activity_publish_time,activity_start_time,activity_end_time,
         activity_location,activity_introduction,application_form_attachment,
         activity_status,activity_effect,image_url
     </sql>

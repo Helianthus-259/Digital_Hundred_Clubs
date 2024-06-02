@@ -234,6 +234,7 @@ import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
 import * as XLSX from 'xlsx'
+import { MyCustomUploadAdapterPlugin } from '@/utils/uploadAdapter'
 
 // 请求活动需要的数据
 const route = useRoute();
@@ -393,7 +394,8 @@ const editorConfig = {
             { model: 'heading2', view: 'h2', title: '二级标题', class: 'ck-heading_heading2' },
             { model: 'heading3', view: 'h3', title: '三级标题', class: 'ck-heading_heading3' },
         ]
-    }
+    },
+    extraPlugins: [MyCustomUploadAdapterPlugin],
 }
 
 // 活动状态表示

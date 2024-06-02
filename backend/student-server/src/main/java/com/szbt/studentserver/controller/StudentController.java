@@ -43,11 +43,11 @@ public class StudentController {
     @Autowired
     private ActivityClientService activityClientService;
 
-    @PostMapping("/uploadAvatar")
-    public Object uploadAvatar(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "studentId") Integer studentId){
-        String relativePath = fileClientService.uploadFile(file,"image/avatar/");
-        return studentService.savaAvatar(relativePath,studentId);
-    }
+//    @PostMapping("/uploadAvatar")
+//    public Object uploadAvatar(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "studentId") Integer studentId){
+//        String relativePath = fileClientService.uploadFile(file,"image/avatar/");
+//        return studentService.savaAvatar(relativePath,studentId);
+//    }
 
     @GetMapping("/userInfo")
     public Object getStudentInfoById(@RequestHeader(value = RequestKeyConstants.ID) Integer id){

@@ -8,6 +8,7 @@ const api = {
         params: {
             email: params.email,
             pwd: params.pwd,
+            imageVerifyCode: params.imageVerifyCode,
         }
     }),
     'postRegister': (params) => axios.post(path.register, { // 注册
@@ -282,6 +283,16 @@ const api = {
             advisorName: params.advisorName,
         }
     }),
+    'getImageVerifyCode': () => axios.get(path.getImageVerifyCode, { // 获取图片验证码
+    }),
+    'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, { // 更新社团简介
+        params: {
+            clubId: params.clubId,
+            clubDescription: params.clubDescription,
+        }
+    }),
+    'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
+    }),
     'getMyClubBackboneExamData':(params) => axios.get(path.myClubBackboneExamData, { // 获取特定社团的年审记录
         params: {
             clubId: params.clubId,
@@ -300,6 +311,7 @@ const api = {
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {
+    console.log('request', method, params);
     await api[method](params)
 })
 

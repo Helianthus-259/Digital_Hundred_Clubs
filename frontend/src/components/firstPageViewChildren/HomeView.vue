@@ -114,18 +114,8 @@
             <t-divider />
             <div class="">
                 <div class="checkBoxes" v-if="checkedShow">
-                    <t-checkbox label="学术类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '学术类')" />
-                    <t-checkbox label="体育类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '体育类')" />
-                    <t-checkbox label="艺术类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '艺术类')" />
-                    <t-checkbox label="公益类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '公益类')" />
-                    <t-checkbox label="科技类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '科技类')" />
-                    <t-checkbox label="其他类" default-checked icon="rectangle"
-                        @change="(checked) => checkChange(checked, '其他类')" />
+                    <t-checkbox v-for="item in enumList" :key="item.code" :label="item.name" default-checked
+                        icon="rectangle" @change="(checked) => checkChange(checked, item.name)" />
                 </div>
             </div>
         </div>
@@ -208,8 +198,20 @@ const go2ClubDetail = (clubId) => {
     eventEmitter.emit(RouterEventEnum.push, `/club/${clubId}/`)
 }
 
+// 社团类型类别枚举
+const enumList = ref([])
+
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getTopTenClubs)
+    if (localStorage.getItem('enumList')) {
+        enumList.value = JSON.parse(localStorage.getItem('enumList')).clubCategories
+    } else {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.getEnumList)
+    }
+
+    eventEmitter.on(APIEventEnum.getEnumListSuccess, 'getEnumListSuccess', (data) => {
+        enumList.value = data.clubCategories
+    })
     eventEmitter.on(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess', (data) => {
         topTenClubs.value.push(...data)
     })
@@ -217,5 +219,6 @@ onMounted(() => {
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess')
+    eventEmitter.off(APIEventEnum.getEnumListSuccess, 'getEnumListSuccess')
 })
 </script>

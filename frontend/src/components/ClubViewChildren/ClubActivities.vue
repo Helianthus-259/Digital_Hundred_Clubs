@@ -130,11 +130,8 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
-import { MessagePlugin } from 'tdesign-vue-next';
-import * as XLSX from 'xlsx'
 
 // 请求活动需要的数据
 const route = useRoute();

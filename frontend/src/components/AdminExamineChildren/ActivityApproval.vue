@@ -61,9 +61,9 @@ import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
 // 表格
 const statusNameListMap = {
-  0: { label: '申请通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
-  1: { label: '申请驳回', theme: 'danger', icon: <CloseCircleFilledIcon /> },
-  2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
+  null: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
+  0: { label: '申请驳回', theme: 'danger', icon: <CloseCircleFilledIcon /> },
+  1: { label: '申请通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
 };
 
 const activities = []
@@ -149,7 +149,7 @@ const getUnPassedActivities = () => {
 }
 
 const getPendingActivities = () => {
-  data.value = activities.value.filter(item => item.status === 1)
+  data.value = activities.value.filter(item => item.status === null)
   pagination.value.total = data.value.length
 }
 

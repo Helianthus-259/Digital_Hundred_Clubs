@@ -85,6 +85,7 @@
 
 .content :deep(img) {
     width: 80%;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -201,26 +202,33 @@
 import { APIEnum, APIEventEnum } from '@/Enum';
 import eventEmitter from '@/utils/eventEmitter';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import draggableComponent from 'vuedraggable';
+import { MyCustomUploadAdapterPlugin } from '@/utils/uploadAdapter';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const route = useRoute(); // 获取当前路由参数
-
+const clubId = route.params.cid
 const clubInfo = ref([])
-
-// 调用后端接口，获取社团信息
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: route.params.cid })
-
-eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
-    clubInfo.value = data
-})
 
 const isPanelExpanded = ref(false)
 const isEditing = ref(false)
+
 const togglePanel = () => {
+    if (isEditing.value) {
+        saveChange()
+    } else {
+        editClubInfo()
+    }
+}
+const editClubInfo = () => {
     isPanelExpanded.value = !isPanelExpanded.value
     isEditing.value = !isEditing.value
+}
+
+const saveChange = () => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postUpdateClubDescription, { clubId, clubDescription: clubInfo.value })
 }
 
 const editor = ClassicEditor
@@ -249,7 +257,8 @@ const editorConfig = {
             { model: 'heading2', view: 'h2', title: '二级标题', class: 'ck-heading_heading2' },
             { model: 'heading3', view: 'h3', title: '三级标题', class: 'ck-heading_heading3' },
         ]
-    }
+    },
+    extraPlugins: [MyCustomUploadAdapterPlugin],
 }
 
 const addNewBlock = () => {
@@ -294,6 +303,20 @@ const onEnd = () => {
     console.log('dragging ended');
 
 }
+
+onMounted(() => {
+    // 调用后端接口，获取社团信息
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId })
+
+    eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
+        clubInfo.value = data
+    })
+    eventEmitter.on(APIEventEnum.postUpdateClubDescriptionSuccess, 'postUpdateClubDescriptionSuccess', () => {
+        MessagePlugin.success('保存成功')
+        isPanelExpanded.value = !isPanelExpanded.value
+        isEditing.value = !isEditing.value
+    })
+})
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess')

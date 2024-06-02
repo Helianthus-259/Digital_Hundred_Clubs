@@ -3,9 +3,9 @@
     <t-aside>
       <t-menu theme="light" v-model="status" height="700px" width="200px">
         <t-menu-item value="all" @click="search">全部社团</t-menu-item>
-        <t-menu-item value="2" @click="search">待审核</t-menu-item>
-        <t-menu-item value="1" @click="search">已通过</t-menu-item>
-        <t-menu-item value="0" @click="search">未通过</t-menu-item>
+        <t-menu-item :value="null" @click="search">待审核</t-menu-item>
+        <t-menu-item :value="1" @click="search">已通过</t-menu-item>
+        <t-menu-item :value="0" @click="search">未通过</t-menu-item>
       </t-menu>
     </t-aside>
     <t-content>
@@ -102,9 +102,9 @@ const clubInfo = ref({
 
 // 表格
 const statusNameListMap = {
+  null: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
   0: { label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon /> },
   1: { label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
-  2: { label: '待审批', theme: 'warning', icon: <ErrorCircleFilledIcon /> },
 };
 const clubsData = []
 const data = ref([])
@@ -126,7 +126,7 @@ eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) 
 
 const search = () => {
   data.value = clubsData.value.filter((item)=>{
-    return (item.status.toString() === status.value || status.value === 'all') &&
+    return (item.status === status.value || status.value === 'all') &&
         (item.campus === campus.value || campus.value === 'all') &&
         (item.clubCategory === category.value || category.value === 'all');
   })

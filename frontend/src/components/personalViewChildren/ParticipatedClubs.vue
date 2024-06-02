@@ -467,6 +467,9 @@ const clubsManage = ref([])
 // 不是我管理的社团
 const clubsNotManage = ref([])
 
+// positions
+const positions = JSON.parse(localStorage.getItem('enumList')).positions
+
 const applying = (club) => {
     if (club.clubStatus === 0 && club.collegeReviewStatus !== 0 && club.universityStudentUnionReviewStatus !== 0) {
         return true
@@ -484,7 +487,7 @@ const fail = (club) => {
 clubsFail.value = clubsJoin.value.filter(club => fail(club)) // 申请失败的社团
 
 const manage = (club) => {
-    if (club.clubStatus === 1 && club.position !== "普通成员") {
+    if (club.clubStatus === 1 && club.position !== 3) {
         return true
     }
     return false
@@ -492,7 +495,7 @@ const manage = (club) => {
 clubsManage.value = clubsJoin.value.filter(club => manage(club)) // 我管理的社团
 
 const notManage = (club) => {
-    if (club.clubStatus === 1 && club.position === "普通成员") {
+    if (club.clubStatus === 1 && club.position === 3) {
         return true
     }
     return false

@@ -134,9 +134,8 @@
                     </t-form-item>
                     <t-form-item requiredMark v-show="noticeType" label="会议类型">
                         <t-select v-model="newMeeting.category">
-                            <t-option value="0" label="全员大会"></t-option>
-                            <t-option value="1" label="骨干例会"></t-option>
-                            <t-option value="1" label="其他"></t-option>
+                            <t-option v-for="(item, index) in meetings" :key="index" :value="item.code"
+                                :label="item.name"></t-option>
                         </t-select>
                     </t-form-item>
                     <t-form-item requiredMark v-show="noticeType" label="会议地点">
@@ -178,6 +177,8 @@ import { useRoute } from 'vue-router';
 const route = useRoute();
 const clubId = route.params.cid;
 
+const meetings = JSON.parse(localStorage.getItem('enumList')).meetings
+
 const isMaskVisible = ref(false);
 
 const noticeList = ref([])
@@ -213,7 +214,7 @@ const submitNotice = () => {
             MessagePlugin.warning('请填写完整信息')
             return
         }
-        newNotice.value.content = '会议类型:' + newMeeting.value.category + '\n会议地点:' + newMeeting.value.location + '\n会议时间:' + newMeeting.value.meetingTime + '\n指导教师:' + newMeeting.value.advisorName
+        newNotice.value.content = '会议类型:' + meetings[newMeeting.value.category].name + '\n会议地点:' + newMeeting.value.location + '\n会议时间:' + newMeeting.value.meetingTime + '\n指导教师:' + newMeeting.value.advisorName
         eventEmitter.emit(APIEventEnum.request, APIEnum.postNewNotice, { clubId, ...newNotice.value })
         eventEmitter.emit(APIEventEnum.request, APIEnum.postNewMeeting, { clubId, ...newMeeting.value })
     } else {
