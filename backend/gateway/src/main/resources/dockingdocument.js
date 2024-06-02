@@ -288,12 +288,12 @@ const url_data = {
                 imageUrl: '',   // 社团展示图片
                 clubName: '',   // 社团名称
                 clubDescription: '',    // 社团介绍
-                campus: '', // 社团所在校区
+                campus: '', // 社团所在校区["北校区", "南校区", "东校区", "珠海校区", "深圳校区"]
                 totalMembers: '',   // 总人数
                 clubId: '', // 社团标识id
-                clubCategory: '',   // 社团类别
+                clubCategory: '',   // 社团类别["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"]
                 createTime: '', // 成立时间(作为审核的申请时间)
-                status: '', // 审核状态 2 待审批; 1 审批通过 ;0 审批失败
+                status: '', // 审核状态 null 待审批; 1 审批通过 ;0 审批失败
             },
         ]
     },
@@ -573,6 +573,9 @@ const url_data = {
             mainCompus: '', // 社团校区
             isFinancialInformationPublic: '',   // 财务是否公开
             imageUrl: '',   // 社团宣传图
+        },
+        data:{
+            code: 25,// 25代表社团信息更新成功
         }
     },
     // url:/api/club/clubAnnualAuditForm
@@ -642,7 +645,7 @@ const url_data = {
             imageUrl: '',   // 社团代表性图片
         },
         data:{
-            code: 35    // 35代表社团评优成功
+            code: 35    // 35代表社团评优申请成功
         }
     },
     // url:/api/club/newNotice
