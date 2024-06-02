@@ -12,10 +12,7 @@ import org.example.service.ClubClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,5 +42,9 @@ public class ActivityController {
         return activityService.activityInfo(id, clubInfo);
     }
 
+    @GetMapping("/queryActivityInfoByClubIdList")
+    public List<List<Activity>> queryActivityInfoByClubIdList(@RequestParam List<Integer> idList){
+        return activityService.queryActivityInfoByClubIdList(idList);
+    }
 
 }

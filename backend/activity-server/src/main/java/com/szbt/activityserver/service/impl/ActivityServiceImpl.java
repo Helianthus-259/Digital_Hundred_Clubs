@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,22 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         activity.setClubName(clubInfo.getClubName());
         System.out.println(activity);
         return Result.success(new DataVO(ResultCode.GET_ACTIVITY_INFO, activity));
+    }
+
+    @Override
+    public List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList) {
+        List<List<Activity>> result = new ArrayList<>();
+
+        for (Integer clubId : idList) {
+            MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
+                    .selectAll(Activity.class)
+                    .eq(Activity::getClubId, clubId);
+
+            List<Activity> activityList = activityMapper.selectJoinList(Activity.class, wrapper);
+            result.add(activityList);
+        }
+
+        return result;
     }
 }
 

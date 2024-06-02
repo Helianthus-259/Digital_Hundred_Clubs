@@ -4,76 +4,75 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * 
+ *
  * @TableName activity
  */
 @TableName(value ="activity")
 @Data
 public class Activity implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer activityId;
 
     /**
-     * 
+     *
      */
     private Integer clubId;
 
     /**
-     * 
+     *
      */
     private String activityName;
 
     /**
-     * 
+     *
      */
     private Date activityPublishTime;
 
     /**
-     * 
+     *
      */
     private Date activityStartTime;
 
     /**
-     * 
+     *
      */
-    private Date activityEndtime;
+    private Date activityEndTime;
 
     /**
-     * 
+     *
      */
     private String activityLocation;
 
     /**
-     * 
+     *
      */
     private String activityIntroduction;
 
     /**
-     * 
+     *
      */
     private String applicationFormAttachment;
 
     /**
-     * 
+     *
      */
     private Integer activityStatus;
 
     /**
-     * 
+     *
      */
     private String activityEffect;
 
     /**
-     * 
+     *
      */
     private String imageUrl;
 
@@ -93,17 +92,17 @@ public class Activity implements Serializable {
         }
         Activity other = (Activity) that;
         return (this.getActivityId() == null ? other.getActivityId() == null : this.getActivityId().equals(other.getActivityId()))
-            && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getActivityName() == null ? other.getActivityName() == null : this.getActivityName().equals(other.getActivityName()))
-            && (this.getActivityPublishTime() == null ? other.getActivityPublishTime() == null : this.getActivityPublishTime().equals(other.getActivityPublishTime()))
-            && (this.getActivityStartTime() == null ? other.getActivityStartTime() == null : this.getActivityStartTime().equals(other.getActivityStartTime()))
-            && (this.getActivityEndtime() == null ? other.getActivityEndtime() == null : this.getActivityEndtime().equals(other.getActivityEndtime()))
-            && (this.getActivityLocation() == null ? other.getActivityLocation() == null : this.getActivityLocation().equals(other.getActivityLocation()))
-            && (this.getActivityIntroduction() == null ? other.getActivityIntroduction() == null : this.getActivityIntroduction().equals(other.getActivityIntroduction()))
-            && (this.getApplicationFormAttachment() == null ? other.getApplicationFormAttachment() == null : this.getApplicationFormAttachment().equals(other.getApplicationFormAttachment()))
-            && (this.getActivityStatus() == null ? other.getActivityStatus() == null : this.getActivityStatus().equals(other.getActivityStatus()))
-            && (this.getActivityEffect() == null ? other.getActivityEffect() == null : this.getActivityEffect().equals(other.getActivityEffect()))
-            && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
+                && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
+                && (this.getActivityName() == null ? other.getActivityName() == null : this.getActivityName().equals(other.getActivityName()))
+                && (this.getActivityPublishTime() == null ? other.getActivityPublishTime() == null : this.getActivityPublishTime().equals(other.getActivityPublishTime()))
+                && (this.getActivityStartTime() == null ? other.getActivityStartTime() == null : this.getActivityStartTime().equals(other.getActivityStartTime()))
+                && (this.getActivityEndTime() == null ? other.getActivityEndTime() == null : this.getActivityEndTime().equals(other.getActivityEndTime()))
+                && (this.getActivityLocation() == null ? other.getActivityLocation() == null : this.getActivityLocation().equals(other.getActivityLocation()))
+                && (this.getActivityIntroduction() == null ? other.getActivityIntroduction() == null : this.getActivityIntroduction().equals(other.getActivityIntroduction()))
+                && (this.getApplicationFormAttachment() == null ? other.getApplicationFormAttachment() == null : this.getApplicationFormAttachment().equals(other.getApplicationFormAttachment()))
+                && (this.getActivityStatus() == null ? other.getActivityStatus() == null : this.getActivityStatus().equals(other.getActivityStatus()))
+                && (this.getActivityEffect() == null ? other.getActivityEffect() == null : this.getActivityEffect().equals(other.getActivityEffect()))
+                && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
     }
 
     @Override
@@ -115,7 +114,7 @@ public class Activity implements Serializable {
         result = prime * result + ((getActivityName() == null) ? 0 : getActivityName().hashCode());
         result = prime * result + ((getActivityPublishTime() == null) ? 0 : getActivityPublishTime().hashCode());
         result = prime * result + ((getActivityStartTime() == null) ? 0 : getActivityStartTime().hashCode());
-        result = prime * result + ((getActivityEndtime() == null) ? 0 : getActivityEndtime().hashCode());
+        result = prime * result + ((getActivityEndTime() == null) ? 0 : getActivityEndTime().hashCode());
         result = prime * result + ((getActivityLocation() == null) ? 0 : getActivityLocation().hashCode());
         result = prime * result + ((getActivityIntroduction() == null) ? 0 : getActivityIntroduction().hashCode());
         result = prime * result + ((getApplicationFormAttachment() == null) ? 0 : getApplicationFormAttachment().hashCode());
@@ -136,7 +135,7 @@ public class Activity implements Serializable {
         sb.append(", activityName=").append(activityName);
         sb.append(", activityPublishTime=").append(activityPublishTime);
         sb.append(", activityStartTime=").append(activityStartTime);
-        sb.append(", activityEndtime=").append(activityEndtime);
+        sb.append(", activityEndTime=").append(activityEndTime);
         sb.append(", activityLocation=").append(activityLocation);
         sb.append(", activityIntroduction=").append(activityIntroduction);
         sb.append(", applicationFormAttachment=").append(applicationFormAttachment);

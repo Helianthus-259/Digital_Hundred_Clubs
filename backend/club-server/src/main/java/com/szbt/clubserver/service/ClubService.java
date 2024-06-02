@@ -19,5 +19,5 @@ public interface ClubService extends IService<Club> {
 
     Club getClubInfoById(Integer id);
 
-    List<Club> getClubNameList(List<Integer> idList);
+    List<Club> getClubList(List<Integer> idList);
 }

@@ -86,13 +86,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     }
 
     @Override
-    public List<Club> getClubNameList(List<Integer> idList) {
-        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
-                .selectAll(Club.class)
-                .in(Club::getClubId, idList);
-        List<Club> clubList = clubMapper.selectJoinList(Club.class, wrapper);
-        System.out.println(clubList);
-        return clubList;
+    public List<Club> getClubList(List<Integer> idList) {
+//        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+//                .selectAll(Club.class)
+//                .in(Club::getClubId, idList);
+//        List<Club> clubList = clubMapper.selectJoinList(Club.class, wrapper);
+//        System.out.println(clubList);
+//        return clubList;
+        return clubMapper.selectBatchIds(idList);
     }
 
 
