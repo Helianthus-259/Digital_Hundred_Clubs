@@ -1,8 +1,10 @@
 package org.example.enums;
 
 public enum Meeting {
-    CORE("骨干例会", 0),
-    GENERAL("全员大会", 1);
+    CORE("骨干例会", 1),
+    GENERAL("全员大会", 2),
+
+    OTHER("其它",3);
 
     private final String name;
 
