@@ -25,7 +25,7 @@ public enum StatusCode {
     UPDATE_STUDENT_INFO_ERROR(3002),
     ADD_BACKBONE_EVALUATION_ERROR(3003),
 
-    //
+    //4000-4999 file-server
     UPLOAD_FILE_ERROR(4001),
     UPLOAD_IMAGE_ERROR(4002);
 
