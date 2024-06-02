@@ -1,6 +1,7 @@
 package com.szbt.fileserver.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -11,6 +12,12 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.example.constants.FileConstants;
+import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
+import org.example.util.Result;
+import org.example.vo.FileVO;
+import org.example.vo.SendMsg;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.http.HttpHeaders;
@@ -22,12 +29,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.imageio.ImageIO;
+import javax.print.DocFlavor;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.UUID;
 
+import static org.example.constants.FileConstants.*;
 
 
 @RequestMapping("/file")
@@ -37,14 +47,11 @@ import java.util.UUID;
 @SpringBootApplication
 public class FileController {
 
-    String baseRoot = System.getProperty("user.dir") + "/file-server/storage/";
-
     @Resource(name = "captchaBean")
     private DefaultKaptcha defaultKaptcha;
 
     @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "pathPrefix") String pathPrefix) {
-        System.out.println("fileType:" + pathPrefix);
+    public Object uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "flag") String flag) {
         long size = file.getSize();
         String contentType = file.getContentType();
         String name = file.getName();
@@ -57,7 +64,7 @@ public class FileController {
         String suffix = orgFilename.substring(orgFilename.lastIndexOf("."));//后缀
         String filenameWithoutExtension = orgFilename.substring(0, orgFilename.lastIndexOf("."));//文件名前缀
         String uuid = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();//唯一文件名后缀
-        File dest = new File(baseRoot + pathPrefix + filenameWithoutExtension + "_" + uuid + suffix);
+        File dest = new File(baseRoot + filePathPrefix + filenameWithoutExtension + "_" + uuid + suffix);
         try {
             file.transferTo(dest);
             // 获取文件的规范路径
@@ -66,21 +73,60 @@ public class FileController {
             // 获取相对路径
             String relativePath = absolutePath.substring(baseRoot.length());
             // 返回相对路径
-            return relativePath;
+            // 创建一个HashMap
+            HashMap<String, Object> dataMap = new HashMap<>();
+            dataMap.put("code", ResultCode.UPLOAD_FILE.getCode());
+            dataMap.put("file", new FileVO(relativePath,flag));
+            return Result.success(dataMap);
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
+            Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
         }
-        return null;
+        return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
+    }
+
+    @PostMapping(value = "/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Object uploadImage(@RequestPart(value = "image") MultipartFile file, @RequestParam(value = "flag") String flag) {
+        long size = file.getSize();
+        String contentType = file.getContentType();
+        String name = file.getName();
+        String orgFilename = file.getOriginalFilename();
+        System.out.println("size:" + size);
+        System.out.println("contentType:" + contentType);
+        System.out.println("name:" + name);
+        System.out.println("orgFilename:" + orgFilename);
+
+        String suffix = orgFilename.substring(orgFilename.lastIndexOf("."));//后缀
+        String filenameWithoutExtension = orgFilename.substring(0, orgFilename.lastIndexOf("."));//文件名前缀
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();//唯一文件名后缀
+        File dest = new File(baseRoot + imagePathPrefix + filenameWithoutExtension + "_" + uuid + suffix);
+        try {
+            file.transferTo(dest);
+            // 获取文件的规范路径
+            String absolutePath = dest.getCanonicalPath();
+            System.out.println(absolutePath);
+            // 获取相对路径
+            String relativePath = absolutePath.substring(baseRoot.length());
+            // 返回相对路径
+            // 创建一个HashMap
+            HashMap<String, Object> dataMap = new HashMap<>();
+            dataMap.put("code", ResultCode.UPLOAD_FILE.getCode());
+            dataMap.put("image", new FileVO(relativePath,flag));
+            return Result.success(dataMap);
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+            Result.send(StatusCode.UPLOAD_IMAGE_ERROR,new SendMsg("上传图片失败"));
+        }
+        return Result.send(StatusCode.UPLOAD_IMAGE_ERROR,new SendMsg("上传图片失败"));
     }
 
 
     /**
      * 文件（二进制数据）下载
-     * @param filePath 文件路径
      */
-    @RequestMapping("/downloadFile")
-    public ResponseEntity<byte[]> downloadFile(@RequestPart(value = "filePath") String filePath, HttpServletRequest request ) {
-        System.out.println(request.getParameter("filePath"));
+    @RequestMapping("/downloadFile/{folder}/{fileName:.+}")
+    public ResponseEntity<byte[]> downloadFile(HttpServletRequest request, @PathVariable String folder, @PathVariable String fileName) {
+        String filePath = folder+"\\"+fileName;
         System.out.println("参数filePath: " + filePath);
         HttpHeaders headers = new HttpHeaders();
         ResponseEntity<byte[]> entity = null;

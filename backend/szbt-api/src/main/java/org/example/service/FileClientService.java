@@ -11,15 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 @FeignClient(name = "file-server")
 public interface FileClientService {
-    @PostMapping(value = "/file/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "pathPrefix") String pathPrefix);
-
-    @GetMapping("/file/downloadFile")
-    ResponseEntity<byte[]> downloadFile(@RequestParam(value = "filePath")  String filePath);
-
-    @GetMapping("/file/getImageVerifyCode")
-    byte[] getImageVerifyCode() throws Exception;
-
-    @PostMapping("/file/checkImageVerifyCode")
-    Boolean checkImageVerifyCode(@RequestParam(value = "code") String code);
+//    @PostMapping(value = "/file/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    String uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "pathPrefix") String pathPrefix);
+//
+//    @GetMapping("/file/downloadFile")
+//    ResponseEntity<byte[]> downloadFile(@RequestParam(value = "filePath")  String filePath);
+//
+//    @GetMapping("/file/getImageVerifyCode")
+//    byte[] getImageVerifyCode() throws Exception;
+//
+//    @PostMapping("/file/checkImageVerifyCode")
+//    Boolean checkImageVerifyCode(@RequestParam(value = "code") String code);
 }

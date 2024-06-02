@@ -1,7 +1,11 @@
 package com.szbt.activityserver.service;
 
+import org.example.dto.ClubDTO;
 import org.example.entity.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.entity.Club;
+
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -9,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2024-05-25 21:55:21
 */
 public interface ActivityService extends IService<Activity> {
+    Object activityInfo(Integer id, Club clubInfo);
 }

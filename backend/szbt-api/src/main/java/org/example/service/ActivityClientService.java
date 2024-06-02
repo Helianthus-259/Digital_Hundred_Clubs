@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.ActivityMemberDTO;
 import org.example.dto.ClubDTO;
+import org.example.entity.Activity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

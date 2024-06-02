@@ -9,16 +9,14 @@ import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
 import lombok.val;
-import org.example.dto.ActivityMemberDTO;
-import org.example.dto.ClubDTO;
-import org.example.dto.ClubInfos;
-import org.example.dto.StudentInfoDTO;
+import org.example.dto.*;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 import org.example.entity.Student;
 import org.example.vo.ClubInfosSuccess;
 import org.example.util.Result;
 import org.example.enums.ResultCode;
+import org.example.vo.DataVO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,48 +51,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         List<ClubInfos> clubInfos = clubList.stream()
                 .map(ClubInfos::mapClubToClubInfo)
                 .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
+        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
+        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
     }
 
-    @Override
-    public Object queryClubsByName(String name) {
-        QueryWrapper<Club> wapper = new QueryWrapper();
-        wapper.eq("club_name",name);
-        List<Club> clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
-    }
-
-    @Override
-    public Object queryUnpassClubs() {
-        QueryWrapper<Club> wapper = new QueryWrapper<>();
-        wapper.eq("club_status", 0);
-        val clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
-    }
-
-    @Override
-    public Object queryPassClubs() {
-        QueryWrapper<Club> wapper = new QueryWrapper<>();
-        wapper.eq("club_status", 1);
-        val clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.CLUB_INFO,clubInfos));
-    }
 
     @Override
     public List<ClubDTO> getClubInfoBySId(Integer id) {
+
         List<ClubDTO> clubDTOS1 = clubmemberService.queryAllClubMemberBySid(id);
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
         wrapper.select(Club::getClubId, Club::getClubName, Club::getClubStatus)
@@ -109,16 +73,26 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         clubDTOS.addAll(clubDTOS1);
         System.out.println(clubDTOS);
         return clubDTOS;
-        //        //clubDTOs = modelMapper.map(clubApplicationRecords, new TypeToken<List<Clubapplicationrecord>>() {}.getType());
-//        // 使用 ModelMapper 进行二次映射
-//        for (ClubDTO clubDTO : clubDTOs) {
-//            for (Clubapplicationrecord record : clubApplicationRecords) {
-//                if (clubDTO.getClubId().equals(record.getClubId())) {
-//                    // 将 record 的字段映射到 clubDTO
-//                    modelMapper.map(record, clubDTO);
-//                }
-//            }
-//        }
+    }
+
+    @Override
+    public Club getClubInfoById(Integer id) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getClubId,id);
+        Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
+        System.out.println(clubInfo);
+        return clubInfo;
+    }
+
+    @Override
+    public List<Club> getClubNameList(List<Integer> idList) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .in(Club::getClubId, idList);
+        List<Club> clubList = clubMapper.selectJoinList(Club.class, wrapper);
+        System.out.println(clubList);
+        return clubList;
     }
 
 

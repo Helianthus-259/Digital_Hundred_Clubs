@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.dto.ClubDTO;
+import org.example.entity.Club;
 import org.example.entity.Clubmember;
 import org.example.entity.Student;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,4 +23,10 @@ public interface ClubClientService {
 
     @GetMapping("/club/queryClubMemberInfo")
     public Clubmember queryClubMemberInfo(@RequestParam("id") Integer id);
+
+    @GetMapping("/club/getClubInfoById")
+    public Club getClubInfoById(@RequestParam("id") Integer id);
+
+    @GetMapping("/club/getClubNameList")
+    public List<Club> getClubList(@RequestParam List<Integer> idList);
 }

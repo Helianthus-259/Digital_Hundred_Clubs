@@ -1,19 +1,16 @@
 package org.example.enums;
 
-public enum ClubCategory {
+public enum Meeting {
+    CORE("骨干例会", 1),
+    GENERAL("全员大会", 2),
 
-    ACADEMIC("学术类", 1),
-    SPORTS("体育类", 2),
-    ART("艺术类", 3),
-    PUBLIC_SERVICE("公益类", 4),
-    TECHNOLOGY("科技类", 5),
-    OTHER("其它类", 6);
+    OTHER("其它",3);
 
     private final String name;
 
     private final  int code;
 
-    ClubCategory(String name, int code) {
+    Meeting(String name, int code) {
         this.name = name;
         this.code = code;
     }
