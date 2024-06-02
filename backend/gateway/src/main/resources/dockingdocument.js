@@ -1,3 +1,11 @@
+// 枚举类
+const list={
+    status:[null, 0, 1],// 待审核， 失败， 通过
+    campus:["北校区", "南校区", "东校区", "珠海校区", "深圳校区"],
+    category: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"],
+    meeting:[0, 1]// 骨干例会/全员大会
+}
+//url
 const url_data = {
     /*——————————————认证中心——————————————*/
     // url:/api/auth/login
@@ -288,10 +296,10 @@ const url_data = {
                 imageUrl: '',   // 社团展示图片
                 clubName: '',   // 社团名称
                 clubDescription: '',    // 社团介绍
-                campus: '', // 社团所在校区["北校区", "南校区", "东校区", "珠海校区", "深圳校区"]
+                campus: '', // 社团所在校区
                 totalMembers: '',   // 总人数
                 clubId: '', // 社团标识id
-                clubCategory: '',   // 社团类别["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"]
+                clubCategory: '',   // 社团类别
                 createTime: '', // 成立时间(作为审核的申请时间)
                 status: '', // 审核状态 null 待审批; 1 审批通过 ;0 审批失败
             },
@@ -392,7 +400,7 @@ const url_data = {
                     activityId: '', // 活动标识id
                     activityName: '',   // 活动名称
                     imageUrl: '',   // 活动宣传图
-                    status: '', // 活动审核状态 2 待审核; 1 审核驳回; 0 审核成功
+                    status: '', // 活动审核状态 null 待审核; 0 审核驳回; 1 审核成功
                 },
             ]
         }
@@ -703,7 +711,7 @@ const url_data = {
                 activityEndTime: '',    // 活动结束时间
                 activityLocation: '',   // 活动地点
                 activityAttachment: '', // 活动附件
-                status: ''  // 审核状态 0通过 :1未通过 :2待审核
+                status: ''  // 审核状态 1通过 :0未通过 :null待审核
             }
         }
     },
@@ -720,7 +728,7 @@ const url_data = {
                 activityEndTime: '',    // 活动结束时间
                 activityLocation: '',   // 活动地点
                 activityAttachment: '', // 活动附件
-                status: ''  // 审核状态 0通过 :1未通过 :2待审核
+                status: ''  // 审核状态 1通过 :0未通过 :null待审核
             },
         ]
     },

@@ -62,7 +62,7 @@ mock.onGet(path.clubsInfo).reply((config) => {
             clubId: i,
             clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其他类"][i % 6],
             createTime: '2024-4-30 12:00:00',
-            status: i % 3,
+            status: [null, 0, 1][i % 3],
         })
     }
     console.log(data);
@@ -386,7 +386,7 @@ mock.onGet(path.activitiesInfo).reply((config) => {
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
-            status: i % 3,
+            status: [null, 0, 1][i % 3],
         })
     }
     return [200, {
@@ -405,7 +405,7 @@ mock.onGet(path.clubActivityList).reply((config) => {
             activityId: i,
             activityName: `活动名称${i}`,
             imageUrl: `https://picsum.photos/400/300?`,
-            status: i % 3,
+            status: [null, 0, 1][i % 3],
         })
     }
     return [200, {
@@ -423,7 +423,7 @@ mock.onGet(path.clubApplyList).reply((config) => {
             stName: '张三',
             college: '计算机学院',
             politicalStatus: '共青团员',
-            status: i % 3,
+            status: [null, 0, 1][i % 3],
             email: '123@qq.com',
             createTime: '2023-04-20 12:00:00',
             reason: '我是张三，我申请加入计算机学院',
