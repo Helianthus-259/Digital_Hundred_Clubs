@@ -14,6 +14,7 @@ public enum StatusCode {
 
     //2000-2999 auth-server
     REGISTER_LOGIN_ERROR(2001),
+    GET_ENUM_LIST_ERROR(2002),
 
     SEND_VERIFY_CODE_ERROR(2002),
     VERIFY_MAIL_CODE_ERROR(2003),

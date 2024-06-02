@@ -60,6 +60,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public List<ClubDTO> getClubInfoBySId(Integer id) {
+
         List<ClubDTO> clubDTOS1 = clubmemberService.queryAllClubMemberBySid(id);
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
         wrapper.select(Club::getClubId, Club::getClubName, Club::getClubStatus)
@@ -74,16 +75,6 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         clubDTOS.addAll(clubDTOS1);
         System.out.println(clubDTOS);
         return clubDTOS;
-        //        //clubDTOs = modelMapper.map(clubApplicationRecords, new TypeToken<List<Clubapplicationrecord>>() {}.getType());
-//        // 使用 ModelMapper 进行二次映射
-//        for (ClubDTO clubDTO : clubDTOs) {
-//            for (Clubapplicationrecord record : clubApplicationRecords) {
-//                if (clubDTO.getClubId().equals(record.getClubId())) {
-//                    // 将 record 的字段映射到 clubDTO
-//                    modelMapper.map(record, clubDTO);
-//                }
-//            }
-//        }
     }
 
 

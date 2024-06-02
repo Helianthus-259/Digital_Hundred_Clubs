@@ -1,17 +1,24 @@
 package com.szbt.authserver.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szbt.authserver.service.AdministratorService;
+import com.szbt.authserver.service.EnumService;
 import com.szbt.authserver.service.VerifyCodeService;
 import com.szbt.authserver.service.StudentService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Student;
+import org.example.enums.*;
 import org.example.service.FileClientService;
 import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -31,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private StudentClientService studentClientService;
+
+    @Autowired
+    private EnumService enumService;
 
 
     @PostMapping("/login")
@@ -68,6 +78,11 @@ public class AuthController {
     @GetMapping("/getImageVerifyCode")
     public byte[] getImageVerifyCode() throws Exception {
         return verifyCodeService.sendImageVerifyCode();
+    }
+
+    @GetMapping("/getEnumList")
+    public Object getEnumList(){
+        return enumService.getEnumList();
     }
 
 //    @PostMapping("/checkImageVerifyCode")

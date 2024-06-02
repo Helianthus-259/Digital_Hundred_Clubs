@@ -5,6 +5,7 @@ public enum ResultCode {
     REGISTER_LOGIN(1),
     ADMIN_LOGIN(9),
     GET_IMAGE_VERIFY_CODE(39),
+    GET_ENUM_LIST(41),
 
     //STUDENT
     GET_USER_INFO(3),

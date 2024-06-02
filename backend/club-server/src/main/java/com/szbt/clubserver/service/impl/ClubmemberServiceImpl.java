@@ -28,11 +28,7 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
     ClubmemberMapper clubmemberMapper;
     @Override
     public List<ClubDTO> queryAllClubMemberBySid(Integer id) {
-//        MPJLambdaWrapper<Clubmember> wrapper = new MPJLambdaWrapper<Clubmember>()
-//                .selectAll(Clubmember.class)
-//                .eq(Clubmember::getStudentId,id);
-//        List<Clubmember> clubMembers = clubmemberMapper.selectJoinList(Clubmember.class, wrapper);
-//        return clubMembers;
+
         MPJLambdaWrapper<Clubmember> wrapper = new MPJLambdaWrapper<>();
         wrapper.selectAll(Clubmember.class)
                 .select(Club::getClubName, Club::getClubStatus)
