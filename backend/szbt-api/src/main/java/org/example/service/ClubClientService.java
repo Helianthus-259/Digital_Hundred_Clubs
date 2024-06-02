@@ -26,4 +26,7 @@ public interface ClubClientService {
 
     @GetMapping("/club/getClubInfoById")
     public Club getClubInfoById(@RequestParam("id") Integer id);
+
+    @GetMapping("/club/getClubNameList")
+    public List<Club> getClubList(@RequestParam List<Integer> idList);
 }
