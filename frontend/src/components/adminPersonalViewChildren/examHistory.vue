@@ -96,13 +96,6 @@
         <div class="leftSide">
             <div class="leftSideContent">
                 <t-space direction="vertical" style="background-color:#ffffff; border-radius: 25px;">
-                    <t-space style="margin-left:5% ;margin-top:3%; margin-bottom:1%; ">
-                    <t-checkbox v-model="stripe"> 显示斑马纹 </t-checkbox>
-                    <t-checkbox v-model="bordered"> 显示表格边框 </t-checkbox>
-                    <t-checkbox v-model="hover"> 显示悬浮效果 </t-checkbox>
-                    <!-- <t-checkbox v-model="tableLayout"> 宽度自适应 </t-checkbox> -->
-                    <t-checkbox v-model="showHeader"> 显示表头 </t-checkbox>
-                    </t-space>
 
                     <!-- 当数据为空需要占位时，会显示 cellEmptyContent -->
                     <t-table
@@ -121,8 +114,10 @@
                     resizable
                     lazy-load
                     @row-click="handleRowClick"
+                    cellEmptyContent="暂无数据"
                     >
                     </t-table>
+                    
                 </t-space>
             </div>
         </div>
@@ -135,7 +130,10 @@
 import { ref, computed } from 'vue';
 import 'jspdf-autotable';
 import '@/utils/simhei-normal'
-
+import store from '@/store';
+import eventEmitter from '@/utils/eventEmitter';
+import { APIEnum, APIEventEnum } from '@/Enum';
+import { MessagePlugin } from 'tdesign-vue-next';
 /////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
 const options1 = [
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -152,20 +150,19 @@ const indeterminate = computed(() => !!(options1.length > value1.value.length &&
 
 const handleSelectAll = (checked) => {
   value1.value = checked ? ['申请通过','申请失败','申请退回','申请中'] : [];
-  showedData=[]
+  showedData=[];
   for(let i=0;i<data.length;i++)
   {
-    let flag=false
-    for(let j=0;j<value1.value.length;j++) {
+    let flag=false;
+
+    for(let j=0;j<value1.value.length;j++)
       if(statusNameListMap[data[i].status].label===value1.value[j])
-      {
-        flag=true
-      }
-    }
-    if(flag) {
+        flag=true;
+
+    if(flag)
       showedData.push(data[i])
-    }
   }
+  total=showedData.length;
 };
 
 const onChange1 = (val) => {
@@ -181,6 +178,7 @@ const onChange1 = (val) => {
     if(flag)
       showedData.push(data[i])
   }
+  total=showedData.length;
 };
 
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
@@ -192,24 +190,86 @@ const statusNameListMap = {
   3: { label: '申请中', theme: 'primary' },
 };
 const data = [];
-const total = 28;
-//以下循环的功能为制造数据。在连接前后端时此处全部改为获取后端数据
-for (let i = 0; i < total; i++) {
-  data.push({
-    index: i + 1,
-    examName: ['长跑月活动举办申请', '定向越野活动举办申请','2023社团评优申请', '羽毛球比赛活动举办申请','软工歌王活动举办申请','2023社团年度审核申请','桌游日活动举办申请','捉迷藏活动举办申请','2024社团年度审核申请','转椅竞速赛活动举办申请',][i % 10],
-    status: i % 4,
-    examHistoryId: i,
-    detail: {
-      email: ['123456789@qq.com', '12345679@qq.com', '12345789@qq.com'][i % 3],
-    },
-    matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-    time: [2, 3, 1, 4][i % 4],
-    activitiesSort: ['普通社团活动申请', '普通社团活动申请', '年度审核/社团评优',][i % 3],
-  });
+let showedData = [];
+const clubId = store.state.userInfo.clubs.clubId;
+let pNumber = 0;
+const pSize = 48;
+let total = 48;
+
+function getClubActivityData () {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+  eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (returnData) => {
+        let i=0;
+        for(i=0;i<pSize;i++)
+        {
+          const examItem = returnData[i];
+          data.push({
+            examName: examItem.activityName,
+            status: examItem.status,
+            examId: examItem.activityId,
+            examdetail: examItem.activityPlace,
+            examSort: examItem.activitiesSort,
+          })
+        }
+    })
 }
 
-let showedData=data;
+function getMyClubAnnualExamData () {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubAnnualExamData, { clubId })
+  eventEmitter.on(APIEventEnum.getMyClubAnnualExamDataSuccess, 'getMyClubAnnualExamDataSuccess', (returnData) => {
+        // console.log("收到数据："+returnData)
+        for(let i=0;i<returnData.length;i++){
+          const examItem=returnData[i];
+          data.push({
+            examName: examItem.examName,
+            status: examItem.status,
+            examId: examItem.examId,
+            examdetail: examItem.examdetail,
+            examSort: examItem.examSort,
+          })
+        }
+    })
+}
+
+function getMyClubBackboneExamData () {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubBackboneExamData, { clubId })
+  eventEmitter.on(APIEventEnum.getMyClubBackboneExamDataSuccess, 'getMyClubBackboneExamDataSuccess', (returnData) => {
+        // console.log("收到数据："+returnData)
+        for(let i=0;i<returnData.length;i++){
+          const examItem=returnData[i];
+          data.push({
+            examName: examItem.examName,
+            status: examItem.status,
+            examId: examItem.examId,
+            examdetail: examItem.examdetail,
+            examSort: examItem.examSort,
+          })
+        }
+    })
+}
+
+function getMyClubTeacherExamData () {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubTeacherExamData, { clubId })
+  eventEmitter.on(APIEventEnum.getMyClubTeacherExamDataSuccess, 'getMyClubTeacherExamDataSuccess', (returnData) => {
+        // console.log("收到数据："+returnData)
+        for(let i=0;i<returnData.length;i++){
+          const examItem=returnData[i];
+          data.push({
+            examName: examItem.examName,
+            status: examItem.status,
+            examId: examItem.examId,
+            examdetail: examItem.examdetail,
+            examSort: examItem.examSort,
+          })
+        }
+    })
+}
+
+getClubActivityData();
+getMyClubAnnualExamData();
+getMyClubBackboneExamData ();
+getMyClubTeacherExamData ();
+showedData=data;
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(true);
@@ -217,11 +277,12 @@ const size = ref('medium');
 const showHeader = ref(true);
 
 const columns = ref([
-  { colKey: 'examHistoryId', title: '审批记录id' ,},
-  { colKey: 'examName', title: '审批名称',width:'250'},
+  { colKey: 'examId', title: '审批提交时间' ,},
+  { colKey: 'examName', title: '审批事项',},
+  { colKey: 'examdetail', title: '审批细节',},
   {
     colKey: 'status',
-    title: '审批进度',
+    title: '审批状态',
     cell: (h, { row }) => {
       return (
         <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
@@ -230,14 +291,16 @@ const columns = ref([
       );
     },
   },
-  { colKey: 'activitiesSort', title: '审批类别',width:'250'},
-  { colKey: 'detail.email', title: '审批详细信息', ellipsis: true },
+  {
+    colKey: 'examSort',
+  },
+
 ]);
 
 const handleRowClick = (e) => {
   console.log(e);
+  console.log("showedData:"+showedData.length)
 };
-
 const pagination = {
   defaultCurrent: 1,
   defaultPageSize: 10,

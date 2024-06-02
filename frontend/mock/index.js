@@ -283,7 +283,6 @@ mock.onGet(path.clubMembers).reply((config) => {
 mock.onPost(path.postAdminLogin).reply((config) => {
     const configData = JSON.parse(config.data);
     if (configData.params.adminId === 'administer' && configData.params.password === '123456') {
-        console.log("管理员登录：mock部分成功")
         return [200, {
             code: 9, // 9代表管理员登录成功
             token: 'admin',
@@ -324,24 +323,6 @@ mock.onGet(path.adminInfo).reply((config) => {
                 totalMembership: '这是社团总人数',
                 financePublicity: '这是是否成员财务公开'
             },
-
-            activitiesHistory: [
-                {
-                    activityName: '活动1', // 获得荣誉的活动名称
-                    award: 'xxx', // 荣誉名称
-                    awardWiningTime: '2024-04-03 00:00:00', // 获奖时间
-                },
-                {
-                    activityName: '活动2', // 获得荣誉的活动名称
-                    award: 'xxx', // 荣誉名称
-                    awardWiningTime: '2024-05-04 00:00:00', // 获奖时间
-                },
-                {
-                    activityName: '活动3', // 获得荣誉的活动名称
-                    award: 'xxx', // 荣誉名称
-                    awardWiningTime: '2024-05-05 00:00:00', // 获奖时间
-                },
-            ]
         },
 
     }]
@@ -405,7 +386,9 @@ mock.onGet(path.clubActivityList).reply((config) => {
             activityId: i,
             activityName: `活动名称${i}`,
             imageUrl: `https://picsum.photos/400/300?`,
-            status: i % 3,
+            status: i % 3, //此处需要区分活动审批状态和活动进行状态
+            activitiesSort: ['普通社团活动', '跨社团联合活动', '社团与外界联合活动',][i % 3],
+            activityPlace: ['珠海校区新体育馆', '校外区域', '广州南校英东体育场','广州南校新体育馆',][i % 4],
         })
     }
     return [200, {
@@ -514,8 +497,6 @@ mock.onPost(path.uploadImage).reply((config) => {
     }]
 })
 
-
-
 // 删除社团干部mock
 mock.onPost(path.deleteClubMember).reply((config) => {
     return [200, {
@@ -581,6 +562,7 @@ mock.onGet(path.backBoneEvaluations).reply((config) => {
     }]
 })
 
+//所有社团年审
 mock.onGet(path.clubAnnuals).reply((config) => {
     const data = [];
     for (let i = 0; i < 20; i++) {
@@ -773,5 +755,65 @@ mock.onPost(path.newNotice).reply((config) => {
 mock.onPost(path.newMeeting).reply((config) => {
     return [200, {
         code: 38, // 38代表发布新会议成功
+    }]
+})
+
+//获取特定社团的骨干评优记录
+mock.onGet(path.myClubBackboneExamData).reply((config) => {
+    let cid=config.clubId;
+    //根据clubId返回骨干评优信息：
+    const returnData = [];
+    for (let i = 0; i < 3; i++) {
+        returnData.push({
+            examName: `${2020+i}骨干评优：张三`,
+            status: i%3,
+            examId: i,
+            examdetail: '评优通过',
+            examSort: '骨干评优',
+        })
+    }
+    return [200, {
+        code: 39, // 40代表获取社团年审信息成功
+        returnData,
+    }]
+})
+
+//获取特定社团的年审记录
+mock.onGet(path.myClubAnnualExamData).reply((config) => {
+    let cid=config.clubId;
+    //根据clubId返回年审信息：
+    const returnData = [];
+    for (let i = 0; i < 3; i++) {
+        returnData.push({
+            examName: `${2020+i}年审：篮球社`,
+            status: i%3,
+            examId: i,
+            examdetail: '备注为空',
+            examSort: '年度审核',
+        })
+    }
+    return [200, {
+        code: 40, // 40代表获取社团年审信息成功
+        returnData,
+    }]
+})
+
+//获取特定社团的骨干评优记录
+mock.onGet(path.myClubTeacherExamData).reply((config) => {
+    let cid=config.clubId;
+    //根据clubId返回教师评优记录：
+    const returnData = [];
+    for (let i = 0; i < 3; i++) {
+        returnData.push({
+            examName: `${2020+i}教师评优：刘华强`,
+            status: i%3,
+            examId: i,
+            examdetail: '评优通过',
+            examSort: '教师评优',
+        })
+    }
+    return [200, {
+        code: 41, // 41代表获取社团教师评优记录成功
+        returnData,
     }]
 })

@@ -172,7 +172,6 @@ if (isEmptyObject(store.state.userInfo)) {
   assignment();
 }
 
-console.log("store.state.userInfo is empty:"+isEmptyObject(store.state.userInfo))
 
 //初次加载界面时借此获取信息
 eventEmitter.on(APIEventEnum.getAdminInfoSuccess, (data) => {

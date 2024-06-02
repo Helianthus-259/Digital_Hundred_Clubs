@@ -29,6 +29,9 @@ const base = {
     backBoneEvaluations: admin + '/backBoneEvaluations',  // 获取所有的骨干评优信息
     clubAnnuals: admin + '/clubAnnuals',    // 获取所有社团年审
     clubEvaluations: admin + '/clubEvaluations', // 获取所有社团评优
+    myClubAnnualExamData: admin +'/myClubAnnualExamData',//获取特定社团的年审详细信息
+    myClubBackboneExamData: admin +'/myClubBackboneExamData',//获取特定社团的骨干评优信息
+    myClubTeacherExamData: admin +'/myClubTeacherExamData',//获取特定社团的骨干评优信息
 
     // post
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
