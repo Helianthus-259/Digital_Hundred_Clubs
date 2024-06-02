@@ -44,4 +44,6 @@ public class ActivityController {
         Club clubInfo = clubClientService.getClubInfoById(id);
         return activityService.activityInfo(id, clubInfo);
     }
+
+
 }

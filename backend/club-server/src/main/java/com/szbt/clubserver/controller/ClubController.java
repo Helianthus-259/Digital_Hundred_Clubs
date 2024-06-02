@@ -43,5 +43,8 @@ public class ClubController {
     }
 
     @GetMapping("/getClubInfoById")
-    public Club  getClubInfoById(Integer id){return clubService.getClubInfoById(id);}
+    public Club getClubInfoById(Integer id){return clubService.getClubInfoById(id);}
+
+    @GetMapping("/getClubNameList")
+    public List<Club> getClubList(@RequestParam List<Integer> idList){return clubService.getClubNameList(idList);}
 }
