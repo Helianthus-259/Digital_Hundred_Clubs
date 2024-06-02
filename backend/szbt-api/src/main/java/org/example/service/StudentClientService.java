@@ -14,8 +14,8 @@ public interface StudentClientService {
     @PostMapping("/student/register")
     public Object register(@RequestParam("email") String email, @RequestParam("verifyCode") String verifyCode, @RequestParam("password") String password);
 
-    @GetMapping("/student/verifyCode")
-    public Object sendVerifyCode(@RequestParam("email") String email);
+//    @GetMapping("/student/verifyCode")
+//    public Object sendVerifyCode(@RequestParam("email") String email);
 
     @PostMapping("/student/studentInfo")
     public Student getStudentInfoByEmail(@RequestParam("email") String email);

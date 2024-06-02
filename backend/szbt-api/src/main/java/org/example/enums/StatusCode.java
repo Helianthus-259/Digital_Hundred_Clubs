@@ -26,7 +26,8 @@ public enum StatusCode {
     ADD_BACKBONE_EVALUATION_ERROR(3003),
 
     //
-    UPLOAD_FILE_ERROR(2002);
+    UPLOAD_FILE_ERROR(4001),
+    UPLOAD_IMAGE_ERROR(4002);
 
     private final int code;
 
