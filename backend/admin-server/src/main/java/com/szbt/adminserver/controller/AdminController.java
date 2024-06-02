@@ -1,6 +1,7 @@
 package com.szbt.adminserver.controller;
 
 import com.szbt.adminserver.service.AdministratorService;
+import com.szbt.adminserver.service.AnnualauditService;
 import com.szbt.adminserver.service.BackboneevaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.example.constants.RequestKeyConstants;
@@ -20,6 +21,9 @@ public class AdminController {
     @Autowired
     private BackboneevaluationService backboneevaluationService;
 
+    @Autowired
+    private AnnualauditService annualauditService;
+
     @GetMapping("/backBoneEvaluations")
     private Object queryAllBackBoneEvaluations()
     {
@@ -27,5 +31,5 @@ public class AdminController {
     }
 
     @GetMapping("/clubAnnuals")
-    private Object queryAllClubAnnuals(){return null;}
+    private Object queryAllClubAnnuals(){return annualauditService.queryAllClubAnnuals();}
 }
