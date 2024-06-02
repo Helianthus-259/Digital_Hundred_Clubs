@@ -15,11 +15,5 @@ import java.util.List;
 public interface ClubService extends IService<Club> {
     Object queryAllClubs();
 
-    Object queryClubsByName(String name);
-
-    Object queryUnpassClubs();
-
-    Object queryPassClubs();
-
     List<ClubDTO> getClubInfoBySId(Integer id);
 }

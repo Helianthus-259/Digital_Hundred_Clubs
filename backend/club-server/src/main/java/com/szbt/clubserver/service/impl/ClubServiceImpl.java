@@ -57,41 +57,6 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
     }
 
-    @Override
-    public Object queryClubsByName(String name) {
-        QueryWrapper<Club> wapper = new QueryWrapper();
-        wapper.eq("club_name",name);
-        List<Club> clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
-    }
-
-    @Override
-    public Object queryUnpassClubs() {
-        QueryWrapper<Club> wapper = new QueryWrapper<>();
-        wapper.eq("club_status", 0);
-        List<Club> clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
-    }
-
-    @Override
-    public Object queryPassClubs() {
-        QueryWrapper<Club> wapper = new QueryWrapper<>();
-        wapper.eq("club_status", 1);
-        val clubList = clubMapper.selectList(wapper);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO, clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
-    }
 
     @Override
     public List<ClubDTO> getClubInfoBySId(Integer id) {
