@@ -1,5 +1,7 @@
 package com.szbt.activityserver.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.example.constants.RequestKeyConstants;
@@ -10,13 +12,18 @@ import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +64,42 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
         return result;
     }
+
+    @Override
+    public List<ActivityDTO> activitiesInfo() {
+        MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
+                .selectAll(Activity.class);
+        List<ActivityDTO> activity = activityMapper.selectJoinList(ActivityDTO.class, wrapper);
+        System.out.println(activity);
+        return activity;
+    }
+
+    @Override
+    public Object getLatestActivities(Integer pageNumber, Integer pageSize) {
+        IPage<Activity> page = new Page<>(pageNumber, pageSize);
+        MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
+                .selectAll(Activity.class)
+                .orderByDesc(Activity::getActivityPublishTime);
+        IPage<Activity>  activity = activityMapper.selectPage(page, wrapper);
+        return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activity.getRecords()));
+    }
+
+    @Override
+    public Object addActivity(Activity activity) {
+        Date date = new Date();
+        activity.setActivityPublishTime(date);
+        int inserted = activityMapper.insert(activity);
+        if (inserted<=0) return Result.send(StatusCode.ADD_ACTIVITY_ERROR,new SendMsg("提交新活动失败"));
+        return Result.success(new SingleCodeVO(ResultCode.ADD_ACTIVITY));
+    }
+
+    @Override
+    public Object activityPerformance(Activity activity) {
+        int updateById = activityMapper.updateById(activity);
+        if (updateById<=0) return Result.send(StatusCode.ADD_ACTIVITY_PERFORMANCE_ERROR,new SendMsg("更新社团活动成效"));
+        return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
+    }
+
 }
 
 

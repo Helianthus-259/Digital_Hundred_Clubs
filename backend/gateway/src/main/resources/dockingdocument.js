@@ -719,20 +719,23 @@ const url_data = {
     },
     // url:/api/activity/activitiesInfo
     activitiesInfo:{// 获取所有活动信息
-        data:[// 所有活动申请数据
-            {
-                activityId: '', // 活动标识id
-                clubName: '',   // 社团名
-                activityName: '',   // 活动名
-                activityIntroduction: '',   // 活动介绍
-                createTime: '', //申请时间
-                activityStartTime: '',  // 活动开始时间
-                activityEndTime: '',    // 活动结束时间
-                activityLocation: '',   // 活动地点
-                activityAttachment: '', // 活动附件
-                status: ''  // 审核状态 1通过 :0未通过 :null待审核
-            },
-        ]
+        data:{
+            code: 13,
+            activities:[// 所有活动申请数据
+                {
+                    activityId: '', // 活动标识id
+                    clubName: '',   // 社团名
+                    activityName: '',   // 活动名
+                    activityIntroduction: '',   // 活动介绍
+                    createTime: '', //申请时间
+                    activityStartTime: '',  // 活动开始时间
+                    activityEndTime: '',    // 活动结束时间
+                    activityLocation: '',   // 活动地点
+                    activityAttachment: '', // 活动附件
+                    status: ''  // 审核状态 1通过 :0未通过 :null待审核
+                },
+            ]
+        }
     },
     // url:/api/activity/latestActivities
     latestActivities:{// 获取最新活动
@@ -772,7 +775,7 @@ const url_data = {
             code: 18,   //18表示发布新活动
         }
     },
-    // url:/api/activity/activitiesInfo
+    // url:/api/activity/personalPerformance
     personalPerformance:{// 提交个人活动表现
         params: {// post参数
             clubId: '', // 社团id

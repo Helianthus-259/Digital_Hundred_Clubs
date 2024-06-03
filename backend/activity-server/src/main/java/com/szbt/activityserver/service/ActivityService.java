@@ -1,5 +1,6 @@
 package com.szbt.activityserver.service;
 
+import org.example.dto.ActivityDTO;
 import org.example.dto.ClubDTO;
 import org.example.entity.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -16,4 +17,12 @@ public interface ActivityService extends IService<Activity> {
     Object activityInfo(Integer id, Club clubInfo);
 
     List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList);
+
+    List<ActivityDTO> activitiesInfo();
+
+    Object getLatestActivities(Integer pageNumber, Integer pageSize);
+
+    Object addActivity(Activity activity);
+
+    Object activityPerformance(Activity activity);
 }

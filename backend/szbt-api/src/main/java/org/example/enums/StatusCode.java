@@ -28,7 +28,12 @@ public enum StatusCode {
 
     //4000-4999 file-server
     UPLOAD_FILE_ERROR("UPLOAD_FILE_ERROR",4001),
-    UPLOAD_IMAGE_ERROR("UPLOAD_IMAGE_ERROR",4002);
+    UPLOAD_IMAGE_ERROR("UPLOAD_IMAGE_ERROR",4002),
+
+    //5000-5999 activity-server
+    ADD_ACTIVITY_ERROR("ADD_ACTIVITY_ERROR", 5001),
+
+    ADD_ACTIVITY_PERFORMANCE_ERROR("ADD_ACTIVITY_PERFORMANCE_ERROR", 5002);
 
     private final String name;
     private final int code;
