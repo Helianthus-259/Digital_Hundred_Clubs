@@ -51,6 +51,12 @@ public class ClubController {
         return clubService.queryClubIntroductionByClubId(clubId);
     }
 
+    @GetMapping("/clubMembers")
+    public Object queryClubMemberByClubId(@RequestParam("clubId") Integer clubId)
+    {
+        return clubmemberService.queryClubMemberByClubId(clubId);
+    }
+
     @GetMapping("/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(Integer id){return clubService.getClubInfoBySId(id);}
 

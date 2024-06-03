@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import static org.example.constants.FileConstants.fileServerDownloadUrl;
 
 /**
 * @author 小壳儿
@@ -44,6 +47,12 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                 .eq(Clubannouncement::getClubId,clubId);
         try {
             List<NoticeDTO> noticeDTOList = clubannouncementMapper.selectJoinList(NoticeDTO.class, wrapper);
+            //处理文件请求
+            IntStream.range(0, noticeDTOList.size())
+                    .forEach(i -> {
+                        String imageUrl = noticeDTOList.get(i).getImageUrl();
+                        noticeDTOList.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                    });
             List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityList, new TypeToken<List<ActivityShowDTO>>() {}.getType());
             ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
             return Result.success(clubActAndNtcVO);

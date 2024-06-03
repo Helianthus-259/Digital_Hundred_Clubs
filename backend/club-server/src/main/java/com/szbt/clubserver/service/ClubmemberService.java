@@ -3,6 +3,7 @@ package com.szbt.clubserver.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.dto.ClubDTO;
 import org.example.entity.Clubmember;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
 */
 public interface ClubmemberService extends IService<Clubmember> {
     List<ClubDTO> queryAllClubMemberBySid(Integer id);
+
+    Object queryClubMemberByClubId(Integer clubId);
 }

@@ -22,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.example.constants.FileConstants.fileServerDownloadUrl;
 
 /**
 * @author 小壳儿
@@ -40,6 +44,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Autowired
     private ClubmemberService clubmemberService;
 
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -48,6 +53,12 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
         wrapper.selectAll(Club.class);
         List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
+        //处理文件请求
+        IntStream.range(0, clubInfoDTOS.size())
+                .forEach(i -> {
+                    String imageUrl = clubInfoDTOS.get(i).getImageUrl();
+                    clubInfoDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                });
         return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
     }
 

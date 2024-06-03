@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
+
+import static org.example.constants.FileConstants.fileServerDownloadUrl;
 
 /**
 * @author 小壳儿
@@ -60,6 +63,12 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                         .selectAll(Activity.class)
                         .eq(Activity::getClubId, clubId);
                 List<Activity> activityList = activityMapper.selectJoinList(Activity.class, wrapper);
+                //处理文件请求
+                IntStream.range(0, activityList.size())
+                        .forEach(i -> {
+                            String imageUrl = activityList.get(i).getImageUrl();
+                            activityList.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                        });
                 result.add(activityList);
             });
             return result;
