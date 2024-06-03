@@ -3,15 +3,15 @@ package com.szbt.activityserver.controller;
 import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.service.ActivitymemberService;
 import lombok.extern.slf4j.Slf4j;
-import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityDTO;
+import org.example.dto.ActivityEffectGroup;
 import org.example.dto.ActivityMemberDTO;
-import org.example.dto.ClubDTO;
 import org.example.entity.Activity;
 import org.example.entity.Club;
 import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.service.ClubClientService;
+import org.example.service.StudentClientService;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,9 @@ public class ActivityController {
 
     @Autowired
     private ActivitymemberService activitymemberService;
+
+    @Autowired
+    private StudentClientService studentClientService;
 
     @GetMapping("/getActivityMemberBySid")
     public List<ActivityMemberDTO> getActivityMemberBySid(Integer id) {
@@ -72,19 +75,26 @@ public class ActivityController {
     }
 
     @PostMapping("/newActivity")
-    public Object addActivity(@RequestHeader(value = RequestKeyConstants.ID) Integer id, @ModelAttribute Activity activity){
+    public Object addActivity(@ModelAttribute Activity activity){
         System.out.println(activity);
         return  activityService.addActivity(activity);
     }
 
     @PostMapping("/personalPerformance")
-    public Object personalPerformance(@RequestHeader(value = RequestKeyConstants.ID) Integer id){
-
-        return null;
+    public Object personalPerformance(Integer activityId, @ModelAttribute List<ActivityEffectGroup> activityEffectGroup){
+        System.out.println(activityId);
+        System.out.println(activityEffectGroup);
+        Activity activity = activityService.getById(activityId);
+        System.out.println(activity);
+        List<String> studentNumberList = activityEffectGroup.stream().map(ActivityEffectGroup::getStudentNumber).collect(Collectors.toList());
+        System.out.println(studentNumberList);
+        List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
+        System.out.println(studentList);
+        return activityService.personalPerformance(activity, activityEffectGroup, studentList);
     }
 
     @PostMapping("/activityPerformance")
-    public Object activityPerformance(@RequestHeader(value = RequestKeyConstants.ID) Integer id, @ModelAttribute Activity activity){
+    public Object activityPerformance(@ModelAttribute Activity activity){
         return activityService.activityPerformance(activity);
     }
 }

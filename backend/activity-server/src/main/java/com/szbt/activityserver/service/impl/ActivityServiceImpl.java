@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import org.example.constants.RequestKeyConstants;
-import org.example.dto.ActivityDTO;
-import org.example.dto.ActivityShowDTO;
-import org.example.dto.ClubDTO;
-import org.example.dto.NoticeDTO;
+import org.example.dto.*;
 import org.example.entity.Activity;
 import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
+import org.example.entity.Activitymember;
 import org.example.entity.Club;
+import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
 * @author 小壳儿
@@ -40,6 +41,9 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     implements ActivityService{
     @Autowired
     ActivityMapper activityMapper;
+
+    @Autowired
+    ActivitymemberMapper activitymemberMapper;
 
     @Override
     public Object activityInfo(@RequestHeader(value = RequestKeyConstants.ID) Integer id, Club clubInfo) {
@@ -104,6 +108,25 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         int updateById = activityMapper.updateById(activity);
         if (updateById<=0) return Result.send(StatusCode.ADD_ACTIVITY_PERFORMANCE_ERROR,new SendMsg("更新社团活动成效"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
+    }
+
+    @Override
+    public Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList) {
+        String activityName = activity.getActivityName();
+        int  activityId = activity.getActivityId();
+        IntStream.range(0, activityEffectGroup.size()).forEach(i->{
+            Activitymember activitymember  = new Activitymember();
+            activitymember.setActivityId(activityId);
+            activitymember.setActivityName(activityName);
+            activitymember.setStudentId(studentList.get(i).getStudentId());
+            activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
+            try {
+                activitymemberMapper.insert(activitymember);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+        return Result.success(new SingleCodeVO(ResultCode.ADD_PERSONAL_PERFORMANCE));
     }
 
 }

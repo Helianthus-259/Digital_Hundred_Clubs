@@ -70,6 +70,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_USER_INFO));
     }
 
+    @Override
+    public List<Student> getStudentByNumber(List<String> number) {
+        MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
+                .selectAll(Student.class)
+                .in(Student::getStudentNumber, number);
+        List<Student> studentList = studentMapper.selectJoinList(Student.class, wrapper);
+        System.out.println(studentList);
+        return studentList;
+    }
+
 //    @Autowired
 //    private EmailUtil emailUtil;
 //

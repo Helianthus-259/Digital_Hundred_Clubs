@@ -73,4 +73,9 @@ public class StudentController {
     public Student queryStudentInfo(Integer id){
         return studentService.getById(id);
     }
+
+    @GetMapping("/getStudentByNumber")
+    public List<Student>  getStudentByNumber(List<String> number){
+        return studentService.getStudentByNumber(number);
+    }
 }
