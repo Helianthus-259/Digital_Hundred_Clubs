@@ -293,6 +293,21 @@ const api = {
     }),
     'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
     }),
+    'getMyClubBackboneExamData': (params) => axios.get(path.myClubBackboneExamData, { // 获取特定社团的年审记录
+        params: {
+            clubId: params.clubId,
+        }
+    }),
+    'getMyClubAnnualExamData': (params) => axios.get(path.myClubAnnualExamData, { // 获取特定社团的年审记录
+        params: {
+            clubId: params.clubId,
+        }
+    }),
+    'getMyClubTeacherExamData': (params) => axios.get(path.myClubTeacherExamData, { // 获取特定社团的年审记录
+        params: {
+            clubId: params.clubId,
+        }
+    }),
     'getAssociationAwards': (params) => axios.get(path.associationAwards, { // 获取社团获奖情况
         params: {
             clubId: params.clubId,

@@ -14,4 +14,6 @@ import java.util.List;
 */
 public interface ActivityService extends IService<Activity> {
     Object activityInfo(Integer id, Club clubInfo);
+
+    List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList);
 }

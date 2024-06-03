@@ -96,38 +96,35 @@
         <div class="leftSide">
             <div class="leftSideContent">
                 <t-space direction="vertical" style="background-color:#ffffff; border-radius: 25px;">
-                    <t-space style="margin-left:5% ;margin-top:3%; margin-bottom:1%; ">
-                    <t-checkbox v-model="stripe"> 显示斑马纹 </t-checkbox>
-                    <t-checkbox v-model="bordered"> 显示表格边框 </t-checkbox>
-                    <t-checkbox v-model="hover"> 显示悬浮效果 </t-checkbox>
-                    <!-- <t-checkbox v-model="tableLayout"> 宽度自适应 </t-checkbox> -->
-                    <t-checkbox v-model="showHeader"> 显示表头 </t-checkbox>
-                    </t-space>
-
                     <!-- 当数据为空需要占位时，会显示 cellEmptyContent -->
                     <t-table
-                    row-key="index"
-                    :data="showedData"
-                    :columns="columns"
-                    :fields="value1"
-                    :stripe="stripe"
-                    :bordered="bordered"
-                    :hover="hover"
-                    table-layout="fixed"
-                    :size="size"
-                    :pagination="pagination"
-                    :show-header="showHeader"
-                    cell-empty-content="-"
-                    resizable
-                    lazy-load
-                    @row-click="handleRowClick"
+                      row-key="index"
+                      :data="showedData"
+                      :columns="columns"
+                      :fields="value1"
+                      :stripe="true"
+                      :bordered="true"
+                      :hover="true"
+                      table-layout="fixed"
+                      size='medium'
+                      :pagination="pagination"
+                      :show-header="true"
+                      cell-empty-content="暂无数据"
+                      resizable
+                      lazy-load
+                      @row-click="handleRowClick"
                     >
                     </t-table>
+
+                    <!-- <t-pagination
+                      style="background-color:#d8eeff; margin-left:25px;"
+                      v-model="current"
+                      v-model:pageSize="pageSize"
+                      :total="total"
+                    /> -->
                 </t-space>
             </div>
         </div>
-
-        
     </div>
 </template>
 
@@ -135,20 +132,20 @@
 import { ref, computed } from 'vue';
 import 'jspdf-autotable';
 import '@/utils/simhei-normal'
+import store from '@/store';
+import eventEmitter from '@/utils/eventEmitter';
+import { APIEnum, APIEventEnum } from '@/Enum';
 
 /////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
 const options1 = [
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { value: '活动结束', label: '活动结束' },
-  { value: '活动进行中', label: '活动进行中' },
-  { value: '活动取消', label: '活动取消' },
-  { value: '活动未开始', label: '活动未开始' },
+  { value: '活动结束', label: '活动结束',theme: 'success' },
+  { value: '活动进行中', label: '活动进行中',theme: 'primary' },
+  { value: '活动取消', label: '活动取消', theme: 'danger' },
+  { value: '活动未开始', label: '活动未开始', theme: 'warning' },
 ];
 const value1 = ref(['活动结束','活动进行中','活动取消','活动未开始']);
-//全选
-const checkAll = computed(() => options1.length === value1.value.length);
-//半选indeterminate
-const indeterminate = computed(() => !!(options1.length > value1.value.length && value1.value.length));
+const checkAll = computed(() => options1.length === value1.value.length);//全选
+const indeterminate = computed(() => !!(options1.length > value1.value.length && value1.value.length));//半选indeterminate
 
 //全选按钮对应showedData处理
 const handleSelectAll = (checked) => {
@@ -159,13 +156,14 @@ const handleSelectAll = (checked) => {
     let flag=false
     
     for(let j=0;j<value1.value.length;j++) 
-      if(statusNameListMap[data[i].status].label===value1.value[j])
+      if(options1[data[i].status].label===value1.value[j])
         flag=true
     
     if(flag) {
       showedData.push(data[i])
     }
   }
+  total=showedData.length;
 };
 
 //单独按钮对应showedData处理
@@ -177,75 +175,76 @@ const onChange1 = (val) => {
     let flag=false
 
     for(let j=0;j<value1.value.length;j++) 
-      if(statusNameListMap[data[i].status].label===value1.value[j])
+      if(options1[data[i].status].label===value1.value[j])
         flag=true
     
     if(flag) 
       showedData.push(data[i])
   }
+  total=showedData.length;
 };
-
 
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
 
-const statusNameListMap = {
-  0: { label: '活动结束', theme: 'success'},
-  1: { label: '活动取消', theme: 'danger' },
-  2: { label: '活动未开始', theme: 'warning' },
-  3: { label: '活动进行中', theme: 'primary' },
-};
 const data = [];
-const total = 28;
-//以下循环的功能为获取/制造数据。在连接前后端时此处全部改为获取后端数据
-for (let i = 0; i < total; i++) {
-    data.push({
-    index: i + 1,
-    activitiesName: ['长跑月', '定向越野', '羽毛球比赛','软工歌王','踢毽子大赛','院运会','舞林争霸','桌游日','捉迷藏','转椅竞速赛',][i % 10],
-    status: i % 4,
-    channel: i,
-    detail: {
-      email: ['123456789@qq.com', '12345679@qq.com', '12345789@qq.com'][i % 3],
-    },
-    matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-    time: [2, 3, 1, 4][i % 4],
-    createTime: ['2022/01/01——2022/02/01', '2022/03/01——2022/03/01', '2023/06/01——2023/06/01', '2024/02/01——2024/03/01', '2024/06/01——2024/06/01'][i % 5],
-    });  
-}
-let showedData=data;
-const stripe = ref(true);
-const bordered = ref(true);
-const hover = ref(true);
-const size = ref('medium');
-const showHeader = ref(true);
+const clubId=store.state.userInfo.clubs.clubId;
+let pNumber = 0;
+const pSize = 48;
+let total = 48;
 
+function getClubActivityData () {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+  eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (returnData) => {
+        let i=0;
+        for(i=0;i<pSize;i++)
+        {
+          const activity = returnData[i];
+          data.push({
+            index: activity.activityId,
+            activityName: activity.activityName,
+            status: activity.status,
+            activityId: activity.activityId,
+            activityPlace: activity.activityPlace,
+            activitiesSort: activity.activitiesSort,
+          })
+        }
+    })
+}
+
+getClubActivityData();
+
+let showedData=data;
 const columns = ref([
-  { colKey: 'index', title: '活动id' ,},
-  { colKey: 'activitiesName', title: '活动名称', },
+  { colKey: 'activityId', title: '活动id' ,},
+  { colKey: 'activityName', title: '活动名称',},
+  { colKey: 'activityPlace', title: '活动场地',},
   {
     colKey: 'status',
-    title: '活动状态',
+    title: '活动审批状态',
     cell: (h, { row }) => {
       return (
-        <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-          {statusNameListMap[row.status].label}
+        <t-tag shape="round" theme={options1[row.status].theme} variant="light-outline">
+          {options1[row.status].label}
         </t-tag>
       );
     },
   },
-  { colKey: 'createTime', title: '活动时间段',width:'300'},
-  { colKey: 'detail.email', title: '活动详情', ellipsis: true },
+  { colKey: 'activitiesSort', title: '活动类别',width:'250'},
+  
 ]);
 
 const handleRowClick = (e) => {
   console.log(e);
 };
 
+// const current=1;
 const pagination = {
   defaultCurrent: 1,
   defaultPageSize: 10,
-  total,
+  total: total,
+  // pageSize: pSize,
+  // current: current,
 };
-
 
 
 

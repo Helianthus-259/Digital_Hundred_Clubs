@@ -107,7 +107,6 @@ const adminHandleLogin = () => {
     if (adminLoginValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
         eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
-        console.log("管理员登录成功！正在跳转到管理员界面……")
     }
 }
 

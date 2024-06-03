@@ -42,6 +42,9 @@ export const APIEventEnum = {
     getImageVerifyCodeSuccess: 'getImageVerifyCodeSuccess',
     postUpdateClubDescriptionSuccess: 'postUpdateClubDescriptionSuccess',
     getEnumListSuccess: 'getEnumListSuccess',
+    getMyClubAnnualExamDataSuccess: 'getMyClubAnnualExamDataSuccess',
+    getMyClubBackboneExamDataSuccess: 'getMyClubBackboneExamDataSuccess',
+    getMyClubTeacherExamDataSuccess: 'getMyClubTeacherExamDataSuccess',
     getAssociationAwardsSuccess: 'getAssociationAwardsSuccess',
     getMeetingsSuccess: 'getMeetingsSuccess',
 
@@ -94,6 +97,9 @@ export const APIEnum = {
     getImageVerifyCode: 'getImageVerifyCode',
     postUpdateClubDescription: 'postUpdateClubDescription',
     getEnumList: 'getEnumList',
+    getMyClubAnnualExamData: 'getMyClubAnnualExamData',
+    getMyClubBackboneExamData: 'getMyClubBackboneExamData',
+    getMyClubTeacherExamData: 'getMyClubTeacherExamData',
     getAssociationAwards: 'getAssociationAwards',
     getMeetings: 'getMeetings',
 }

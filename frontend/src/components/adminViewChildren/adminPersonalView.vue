@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { RouterEventEnum, StoreEventEnum, StoreEnum } from '@/Enum';
+import { RouterEventEnum, APIEventEnum, APIEnum, StoreEventEnum, StoreEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { ref } from 'vue';
@@ -57,10 +57,8 @@ const routerlist = [
 
 const onChange = (value) => {
     routerNames.value = value
-    console.log("parentRoute:"+parentRoute)
     const selfRoute = parentRoute + value
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminPersonalTabs', value: value })
 }
-
 </script>

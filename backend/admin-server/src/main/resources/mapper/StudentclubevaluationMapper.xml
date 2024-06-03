@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.adminserver.dao.mapper.StudentclubevaluationMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Studentclubevaluation">
+        <id property="recordId" column="record_id" jdbcType="INTEGER"/>
+        <result property="declarationYear" column="declaration_year" jdbcType="INTEGER"/>
+        <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+        <result property="handoverMethod" column="handover_method" jdbcType="VARCHAR"/>
+        <result property="handoverParticipantsCount" column="handover_participants_count" jdbcType="INTEGER"/>
+        <result property="advisorParticipation" column="advisor_participation" jdbcType="INTEGER"/>
+        <result property="publicityManagementEffectiveness" column="publicity_management_effectiveness" jdbcType="OTHER"/>
+        <result property="hostedSchoolLevelActivities" column="hosted_school_level_activities" jdbcType="OTHER"/>
+        <result property="clubWorkIntroduction" column="club_work_introduction" jdbcType="VARCHAR"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="clubEducationCaseAttachment" column="club_education_case_attachment" jdbcType="VARCHAR"/>
+        <result property="meetings" column="meetings" jdbcType="OTHER"/>
+        <result property="associationAwards" column="association_awards" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        record_id,declaration_year,club_id,
+        handover_method,handover_participants_count,advisor_participation,
+        publicity_management_effectiveness,hosted_school_level_activities,club_work_introduction,
+        image_url,club_education_case_attachment,meetings,
+        association_awards
+    </sql>
+</mapper>

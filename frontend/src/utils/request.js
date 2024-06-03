@@ -147,10 +147,19 @@ function successHandler(response) {
             if (localStorage.getItem('enumList') !== JSON.stringify(data)) {
                 localStorage.setItem('enumList', JSON.stringify(data))
             }
-        } else if (response.data.code === 42) { // 获取社团获奖信息
+        } else if (response.data.code === 42) { // 获取特定社团骨干评优记录成功
+            const backboneExamData = response.data.returnData;
+            eventEmitter.emit(APIEventEnum.getMyClubBackboneExamDataSuccess, backboneExamData)
+        } else if (response.data.code === 43) { // 获取特定社团年审记录成功
+            const annualExamData = response.data.returnData;
+            eventEmitter.emit(APIEventEnum.getMyClubAnnualExamDataSuccess, annualExamData)
+        } else if (response.data.code === 44) { // 获取特定社团骨干评优记录成功
+            const teacherExamData = response.data.returnData;
+            eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess, teacherExamData)
+        } else if (response.data.code === 45) { // 获取社团获奖信息
             const { associationAwards } = response.data
             eventEmitter.emit(APIEventEnum.getAssociationAwardsSuccess, associationAwards)
-        } else if (response.data.code === 43) { // 获取社团会议
+        } else if (response.data.code === 46) { // 获取社团会议
             const { meetings } = response.data
             eventEmitter.emit(APIEventEnum.getMeetingsSuccess, meetings)
         }
