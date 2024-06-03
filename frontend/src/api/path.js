@@ -12,6 +12,7 @@ const base = {
     postAdminLogin: auth + '/adminLogin', //管理员登录
     verifyCode: auth + '/verifyCode', // 获取验证码
     getImageVerifyCode: auth + '/getImageVerifyCode', // 获取图片验证码
+    getEnumList: auth + '/getEnumList', // 获取枚举列表
 
 
     /*——————————————学生——————————————*/
@@ -49,6 +50,8 @@ const base = {
     clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
     topTenClubs: club + '/topTenClubs', // 获取十佳社团
     clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
+    associationAwards: club + '/associationAwards', // 获取社团获奖信息
+    meetings: club + '/meetings', // 获取社团会议列表
 
     // post
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请

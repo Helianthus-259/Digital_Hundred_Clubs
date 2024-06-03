@@ -141,7 +141,7 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.getImageVerifyCodeSuccess, imageUrl)
         } else if (response.data.code === 40) { // 更新社团简介成功
             eventEmitter.emit(APIEventEnum.postUpdateClubDescriptionSuccess)
-        } else if (response.data.code === 41) { // 获取获取枚举列表成功
+        } else if (response.data.code === 41) { // 获取枚举列表成功
             const { data } = response.data
             eventEmitter.emit(APIEventEnum.getEnumListSuccess, data)
             if (localStorage.getItem('enumList') !== JSON.stringify(data)) {
@@ -149,13 +149,19 @@ function successHandler(response) {
             }
         } else if (response.data.code === 42) { // 获取特定社团骨干评优记录成功
             const backboneExamData = response.data.returnData;
-            eventEmitter.emit(APIEventEnum.getMyClubBackboneExamDataSuccess,backboneExamData)        
+            eventEmitter.emit(APIEventEnum.getMyClubBackboneExamDataSuccess, backboneExamData)
         } else if (response.data.code === 43) { // 获取特定社团年审记录成功
             const annualExamData = response.data.returnData;
-            eventEmitter.emit(APIEventEnum.getMyClubAnnualExamDataSuccess,annualExamData)
+            eventEmitter.emit(APIEventEnum.getMyClubAnnualExamDataSuccess, annualExamData)
         } else if (response.data.code === 44) { // 获取特定社团骨干评优记录成功
             const teacherExamData = response.data.returnData;
-            eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess,teacherExamData)        
+            eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess, teacherExamData)
+        } else if (response.data.code === 45) { // 获取社团获奖信息
+            const { associationAwards } = response.data
+            eventEmitter.emit(APIEventEnum.getAssociationAwardsSuccess, associationAwards)
+        } else if (response.data.code === 46) { // 获取社团会议
+            const { meetings } = response.data
+            eventEmitter.emit(APIEventEnum.getMeetingsSuccess, meetings)
         }
     }
 }

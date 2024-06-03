@@ -53,14 +53,14 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     public List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList) {
         List<List<Activity>> result = new ArrayList<>();
 
-        for (Integer clubId : idList) {
+        idList.forEach(clubId -> {
             MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
                     .selectAll(Activity.class)
                     .eq(Activity::getClubId, clubId);
 
             List<Activity> activityList = activityMapper.selectJoinList(Activity.class, wrapper);
             result.add(activityList);
-        }
+        });
 
         return result;
     }

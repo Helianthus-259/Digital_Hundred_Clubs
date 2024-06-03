@@ -388,7 +388,7 @@ mock.onGet(path.clubActivityList).reply((config) => {
             imageUrl: `https://picsum.photos/400/300?`,
             status: i % 3, //此处需要区分活动审批状态和活动进行状态
             activitiesSort: ['普通社团活动', '跨社团联合活动', '社团与外界联合活动',][i % 3],
-            activityPlace: ['珠海校区新体育馆', '校外区域', '广州南校英东体育场','广州南校新体育馆',][i % 4],
+            activityPlace: ['珠海校区新体育馆', '校外区域', '广州南校英东体育场', '广州南校新体育馆',][i % 4],
         })
     }
     return [200, {
@@ -776,6 +776,7 @@ mock.onPost(path.updateClubDescription).reply((config) => {
 
 // 获取枚举列表mock
 mock.onGet(path.getEnumList).reply((config) => {
+    console.log(1111111111);
     return [200, {
         code: 41, // 41代表获取枚举列表成功
         data: {
@@ -811,13 +812,13 @@ mock.onGet(path.getEnumList).reply((config) => {
 
 //获取特定社团的骨干评优记录
 mock.onGet(path.myClubBackboneExamData).reply((config) => {
-    let cid=config.clubId;
+    let cid = config.clubId;
     //根据clubId返回骨干评优信息：
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020+i}骨干评优：张三`,
-            status: i%3,
+            examName: `${2020 + i}骨干评优：张三`,
+            status: i % 3,
             examId: i,
             examdetail: '评优通过',
             examSort: '骨干评优',
@@ -831,13 +832,13 @@ mock.onGet(path.myClubBackboneExamData).reply((config) => {
 
 //获取特定社团的年审记录
 mock.onGet(path.myClubAnnualExamData).reply((config) => {
-    let cid=config.clubId;
+    let cid = config.clubId;
     //根据clubId返回年审信息：
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020+i}年审：篮球社`,
-            status: i%3,
+            examName: `${2020 + i}年审：篮球社`,
+            status: i % 3,
             examId: i,
             examdetail: '备注为空',
             examSort: '年度审核',
@@ -851,13 +852,13 @@ mock.onGet(path.myClubAnnualExamData).reply((config) => {
 
 //获取特定社团的骨干评优记录
 mock.onGet(path.myClubTeacherExamData).reply((config) => {
-    let cid=config.clubId;
+    let cid = config.clubId;
     //根据clubId返回教师评优记录：
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020+i}教师评优：刘华强`,
-            status: i%3,
+            examName: `${2020 + i}教师评优：刘华强`,
+            status: i % 3,
             examId: i,
             examdetail: '评优通过',
             examSort: '教师评优',
@@ -866,5 +867,45 @@ mock.onGet(path.myClubTeacherExamData).reply((config) => {
     return [200, {
         code: 44, // 44代表获取社团教师评优记录成功
         returnData,
+    }]
+})
+
+// 获取社团获奖信息mock
+mock.onGet(path.associationAwards).reply((config) => {
+    const associationAwards = []
+    for (let i = 0; i < 3; i++) {
+        associationAwards.push({
+            awardName: i + "活动一等奖",
+            awardTime: "2022-01-01",
+            issuingAuthority: "广东省教育厅",
+        })
+    }
+    return [200, {
+        code: 45, // 42代表获取社团获奖信息成功
+        associationAwards
+    }]
+})
+
+// 获取社团会议
+mock.onGet(path.meetings).reply((config) => {
+    return [200, {
+        code: 46, // 43代表获取社团获奖信息成功
+        meetings: [
+            {
+                meetingTime: "2022-01-01",
+                location: "广州校区",
+                category: 0,
+            },
+            {
+                meetingTime: "2022-01-01",
+                location: "广州校区",
+                category: 1,
+            },
+            {
+                meetingTime: "2022-01-01",
+                location: "线上",
+                category: 0,
+            },
+        ]
     }]
 })

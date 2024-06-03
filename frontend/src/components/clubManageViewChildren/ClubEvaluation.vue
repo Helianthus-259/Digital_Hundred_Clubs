@@ -221,17 +221,15 @@
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
-                                        <t-input v-model="item.time" style="width: 60%;" borderless />
+                                        <t-input v-model="item.meetingTime" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-input v-model="item.location" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-select v-model="item.staffMeetingOrbackBoneMeeting"
-                                            @change="(value) => staffMeetingOrbackBoneMeetingChange(value, index)"
-                                            style="width: 60%;">
-                                            <t-option label="成员大会" value="staffMetting" />
-                                            <t-option label="骨干例会" value="backBoneMeeting" />
+                                        <t-select v-model="item.category" style="width: 60%;">
+                                            <t-option label="成员大会" :value="1" />
+                                            <t-option label="骨干例会" :value="0" />
                                         </t-select>
                                     </t-col>
                                 </t-row>
@@ -267,13 +265,13 @@
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
-                                        <t-input v-model="item.name" style="width: 60%;" borderless />
+                                        <t-input v-model="item.awardName" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-input v-model="item.time" style="width: 60%;" borderless />
+                                        <t-input v-model="item.awardTime" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-input v-model="item.organization" style="width: 60%;" borderless />
+                                        <t-input v-model="item.issuingAuthority" style="width: 60%;" borderless />
                                     </t-col>
                                 </t-row>
                             </t-popup>
@@ -464,7 +462,7 @@
                                         <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-input v-model="item.activityTime" style="width: 60%;" borderless />
+                                        <t-input v-model="item.activityEndTime" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-input v-model="item.activityEffect" style="width: 60%;" borderless />
@@ -579,10 +577,10 @@ const clubEvaluation = reactive({
     advisorParticipation: '',
     isFinancialInformationPublic: '',
     meetings: [
-        { time: '', location: '', staffMeetingOrbackBoneMeeting: '' }
+        { meetingTime: '', location: '', category: '' }
     ],
     associationAwards: [
-        { name: '', time: '', organization: '' }
+        { awardName: '', awardTime: '', issuingAuthority: '' }
     ],
     publicityManagementEffectiveness: {
         submissionsCount: '',
@@ -602,7 +600,7 @@ const clubEvaluation = reactive({
         ]
     },
     activities: [
-        { activityName: '', activityTime: '', activityEffect: '' },
+        { activityName: '', activityEndTime: '', activityEffect: '' },
     ],
     clubEducationCaseAttachment: '',
     imageUrl: '',
@@ -624,7 +622,7 @@ const clubEvaluationValidate = () => {
     } else if (clubEvaluation.meetings.length === 0) {
         flag = false
         MessagePlugin.warning('请输入会议情况')
-    } else if (clubEvaluation.associationAwards === 0) {
+    } else if (clubEvaluation.associationAwards.length === 0) {
         flag = false
         MessagePlugin.warning('请输入社团获奖情况')
     } else if (clubEvaluation.publicityManagementEffectiveness.submissionsCount === '' && clubEvaluation.publicityManagementEffectiveness.PublicityAboveSchoolLevel.length === 0) {
@@ -647,7 +645,7 @@ const onadvisorParticipationChange = (value) => {
 
 // 全员大会、骨干例会情况
 const addMettings = () => {
-    clubEvaluation.meetings.push({ time: '', location: '', staffMeetingOrbackBoneMeeting: '' })
+    clubEvaluation.meetings.push({ meetingTime: '', location: '', category: '' })
 }
 
 const deleteMettings = (index) => {
@@ -657,13 +655,9 @@ const deleteMettings = (index) => {
         MessagePlugin.error('至少保留一项')
 }
 
-const staffMeetingOrbackBoneMeetingChange = (value, index) => {
-    clubEvaluation.meetings[index].staffMeetingOrbackBoneMeeting = value
-}
-
 // 社团获奖情况
 const addAssociationAwards = () => {
-    clubEvaluation.associationAwards.push({ name: '', time: '', organization: '' })
+    clubEvaluation.associationAwards.push({ awardName: '', awardTime: '', issuingAuthority: '' })
 }
 
 const deleteAssociationAwards = (index) => {
@@ -756,6 +750,10 @@ onMounted(() => {
     // 获取社团信息
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getAssociationAwards, { clubId })
+
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getMeetings, { clubId })
+
     eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
         clubEvaluation.clubName = data.clubName
         clubEvaluation.totalMembers = data.totalMembers
@@ -776,6 +774,18 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.postClubEvaluationFormSuccess, 'postClubEvaluationFormSuccess', () => {
         MessagePlugin.success('提交成功')
     })
+    eventEmitter.on(APIEventEnum.getAssociationAwardsSuccess, 'getAssociationAwardsSuccess', (data) => {
+        if (data.length > 0) {
+            clubEvaluation.associationAwards.pop()
+            clubEvaluation.associationAwards.push(...data)
+        }
+    })
+    eventEmitter.on(APIEventEnum.getMeetingsSuccess, 'getMeetingsSuccess', (data) => {
+        if (data.length > 0) {
+            clubEvaluation.meetings.pop()
+            clubEvaluation.meetings.push(...data)
+        }
+    })
 })
 
 onUnmounted(() => {
@@ -783,5 +793,7 @@ onUnmounted(() => {
     eventEmitter.off(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess')
     eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
     eventEmitter.off(APIEventEnum.postClubEvaluationFormSuccess, 'postClubEvaluationFormSuccess')
+    eventEmitter.off(APIEventEnum.getAssociationAwardsSuccess, 'getAssociationAwardsSuccess')
+    eventEmitter.off(APIEventEnum.getMeetingsSuccess, 'getMeetingsSuccess')
 })
 </script>
