@@ -47,12 +47,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public Object queryAllClubs() {
-        val clubList = clubMapper.selectList(null);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
+        wrapper.selectAll(Club.class);
+        List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
+        return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
     }
 
 
@@ -94,6 +92,11 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 //        System.out.println(clubList);
 //        return clubList;
         return clubMapper.selectBatchIds(idList);
+    }
+
+    @Override
+    public Object queryClubActAndNtc(Integer clubId) {
+        return null;
     }
 
 

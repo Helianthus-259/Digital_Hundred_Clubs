@@ -31,6 +31,9 @@ public class ClubController {
         return clubService.queryAllClubs();
     }
 
+    @GetMapping("/clubActAndNtc")
+    public Object queryClubActAndNtc(@RequestParam("clubId") Integer clubId){return null;}
+
     @GetMapping("/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(Integer id){return clubService.getClubInfoBySId(id);}
 
