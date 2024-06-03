@@ -13,10 +13,13 @@ import org.example.dto.*;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 import org.example.entity.Student;
+import org.example.enums.StatusCode;
+import org.example.vo.ClubDescriptionVO;
 import org.example.vo.ClubInfosSuccess;
 import org.example.util.Result;
 import org.example.enums.ResultCode;
 import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +97,19 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         return clubMapper.selectBatchIds(idList);
     }
 
+    @Override
+    public Object queryClubIntroductionByClubId(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getClubId,clubId);
+        try {
+            Object clubDescription = clubMapper.selectOne(wrapper, true).getClubDescription();
+            return Result.success(new ClubDescriptionVO(ResultCode.GET_CLUB_INTRODUCTION,clubDescription));
+        } catch (Exception e) {
+            String exceptionAsString = e.toString();
+            return Result.send(StatusCode.GET_CLUB_INTRODUCTION_ERROR,new SendMsg(exceptionAsString));
+        }
+    }
 
 
 }

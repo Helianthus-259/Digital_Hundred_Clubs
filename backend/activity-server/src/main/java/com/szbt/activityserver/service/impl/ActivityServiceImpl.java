@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityDTO;
+import org.example.dto.ActivityShowDTO;
 import org.example.dto.ClubDTO;
+import org.example.dto.NoticeDTO;
 import org.example.entity.Activity;
 import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
@@ -14,9 +16,11 @@ import org.example.entity.Club;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
+import org.example.vo.ClubActAndNtcVO;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -52,17 +56,19 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     @Override
     public List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList) {
         List<List<Activity>> result = new ArrayList<>();
-
-        idList.forEach(clubId -> {
-            MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
-                    .selectAll(Activity.class)
-                    .eq(Activity::getClubId, clubId);
-
-            List<Activity> activityList = activityMapper.selectJoinList(Activity.class, wrapper);
-            result.add(activityList);
-        });
-
-        return result;
+        try {
+            idList.forEach(clubId -> {
+                MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
+                        .selectAll(Activity.class)
+                        .eq(Activity::getClubId, clubId);
+                List<Activity> activityList = activityMapper.selectJoinList(Activity.class, wrapper);
+                result.add(activityList);
+            });
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

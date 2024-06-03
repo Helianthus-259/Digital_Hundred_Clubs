@@ -11,8 +11,11 @@ import org.example.entity.Clubannouncement;
 import com.szbt.clubserver.dao.mapper.ClubannouncementMapper;
 import com.szbt.clubserver.service.ClubannouncementService;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.ClubActAndNtcVO;
+import org.example.vo.ClubDescriptionVO;
+import org.example.vo.SendMsg;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +43,15 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
         MPJLambdaWrapper<Clubannouncement> wrapper = new MPJLambdaWrapper<Clubannouncement>();
         wrapper.selectAll(Clubannouncement.class)
                 .eq(Clubannouncement::getClubId,clubId);
-        List<NoticeDTO> noticeDTOList = clubannouncementMapper.selectJoinList(NoticeDTO.class, wrapper);
-        List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityList, new TypeToken<List<ActivityShowDTO>>() {}.getType());
-        ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
-        return Result.success(clubActAndNtcVO);
+        try {
+            List<NoticeDTO> noticeDTOList = clubannouncementMapper.selectJoinList(NoticeDTO.class, wrapper);
+            List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityList, new TypeToken<List<ActivityShowDTO>>() {}.getType());
+            ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
+            return Result.success(clubActAndNtcVO);
+        } catch (Exception e) {
+            String exceptionAsString = e.toString();
+            return Result.send(StatusCode.GET_CLUB_ACT_AND_NTC_ERROR,new SendMsg(exceptionAsString));
+        }
     }
 }
 

@@ -48,6 +48,12 @@ public class ClubController {
         return clubannouncementService.queryClubActAndNtc(clubId,activityInfoLists.get(0));
     }
 
+    @GetMapping("/clubIntroduction")
+    public Object queryClubIntroductionByClubId(@RequestParam("clubId") Integer clubId)
+    {
+        return clubService.queryClubIntroductionByClubId(clubId);
+    }
+
     @GetMapping("/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(Integer id){return clubService.getClubInfoBySId(id);}
 
