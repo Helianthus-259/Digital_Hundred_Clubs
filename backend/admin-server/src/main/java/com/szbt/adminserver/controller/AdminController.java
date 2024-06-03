@@ -6,6 +6,7 @@ import com.szbt.adminserver.service.BackboneevaluationService;
 import com.szbt.adminserver.service.StudentclubevaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.example.constants.RequestKeyConstants;
+import org.example.entity.Administrator;
 import org.example.service.ActivityClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,4 +43,7 @@ public class AdminController {
     {
         return studentclubevaluationService.queryAllClubEvaluations();
     }
+
+    @PostMapping("/adminInfoUpdate")
+    private Object updateAdminInfo(@ModelAttribute Administrator administrator) {return administratorService.updateAdminInfo(administrator);}
 }
