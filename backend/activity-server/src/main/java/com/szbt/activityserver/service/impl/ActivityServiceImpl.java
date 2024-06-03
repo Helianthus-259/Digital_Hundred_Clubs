@@ -1,5 +1,7 @@
 package com.szbt.activityserver.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,6 +11,8 @@ import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import com.szbt.activityserver.service.ActivityService;
 import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityDTO;
+import org.example.dto.ActivityEffectDTO;
+import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Activity;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
@@ -17,13 +21,13 @@ import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 import static org.example.constants.FileConstants.fileServerDownloadUrl;
@@ -41,6 +45,9 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     @Autowired
     ActivitymemberMapper activitymemberMapper;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public Object activityInfo(@RequestHeader(value = RequestKeyConstants.ID) Integer id, Club clubInfo) {
@@ -111,6 +118,38 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         int updateById = activityMapper.updateById(activity);
         if (updateById<=0) return Result.send(StatusCode.ADD_ACTIVITY_PERFORMANCE_ERROR,new SendMsg("更新社团活动成效"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
+    }
+
+    @Override
+    public Object queryClubActivityList(Integer clubId, Integer pageNumber, Integer pageSize) {
+        System.out.println(pageNumber);
+        System.out.println(pageSize);
+        // 创建分页对象
+        Page<Activity> page = new Page<>(pageNumber, pageSize);
+        page.setSearchCount(true);
+        // 构建查询条件
+        QueryWrapper<Activity> wrapper = new QueryWrapper<>();
+        wrapper.eq("club_id", clubId);
+        // 执行分页查询
+        activityMapper.selectPage(page, wrapper);
+        // 获取分页结果
+        List<Activity> activityList = page.getRecords();
+        long total = page.getTotal();
+        System.out.println(total);
+        //映射到DTO
+        List<ClubActivityListDTO> clubActivityListDTOS = modelMapper.map(activityList, new TypeToken<List<ClubActivityListDTO>>() {}.getType());
+        //处理图片请求
+        IntStream.range(0, clubActivityListDTOS.size())
+                .forEach(i -> {
+                    String imageUrl = clubActivityListDTOS.get(i).getImageUrl();
+                    clubActivityListDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                });
+        // 构造结果对象
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", ResultCode.GET_CLUB_ACTIVITY_LIST.getCode());
+        result.put("activityList", clubActivityListDTOS);
+
+        return Result.success(result);
     }
 
 

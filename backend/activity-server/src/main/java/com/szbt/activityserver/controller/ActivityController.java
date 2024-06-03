@@ -97,4 +97,10 @@ public class ActivityController {
     public Object activityPerformance(@ModelAttribute Activity activity){
         return activityService.activityPerformance(activity);
     }
+
+    @GetMapping("/clubActivityList")
+    public Object queryClubActivityList(Integer clubId,Integer pageNumber, Integer pageSize)
+    {
+        return activityService.queryClubActivityList(clubId,pageNumber,pageSize);
+    }
 }

@@ -25,4 +25,6 @@ public interface ActivityService extends IService<Activity> {
 
     Object activityPerformance(Activity activity);
 
+    Object queryClubActivityList(Integer clubId,Integer pageNumber, Integer pageSize);
+
 }
