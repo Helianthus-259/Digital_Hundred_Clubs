@@ -1,15 +1,8 @@
 package com.szbt.clubserver.controller;
 
-import com.szbt.clubserver.dao.mapper.ClubannouncementMapper;
-import com.szbt.clubserver.service.ClubService;
-import com.szbt.clubserver.service.ClubannouncementService;
-import com.szbt.clubserver.service.ClubmemberService;
+import com.szbt.clubserver.service.*;
 import org.example.dto.ClubDTO;
-import org.example.entity.Activity;
-import org.example.entity.Club;
-
-import org.example.entity.Clubmember;
-import org.example.entity.Student;
+import org.example.entity.*;
 import org.example.service.ActivityClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +10,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @EnableDiscoveryClient
@@ -33,7 +25,12 @@ public class ClubController {
     private ClubannouncementService clubannouncementService;
     @Autowired
     private ActivityClientService activityClientService;
-
+    @Autowired
+    private ClubmeetingService  clubmeetingService;
+    @Autowired
+    private StudentclubevaluationService  studentclubevaluationService;
+    @Autowired
+    private AnnualauditService annualauditService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -71,4 +68,29 @@ public class ClubController {
     @GetMapping("/getClubList")
     public List<Club> getClubList(@RequestParam List<Integer> idList){
         return clubService.getClubList(idList);}
+
+    @PostMapping("/updateClubDescription")
+    public Object updateClubDescription(@ModelAttribute Club club){
+        return clubService.updateClubDescription(club);
+    }
+
+    @PostMapping("/newMeeting")
+    public Object newMeeting(@ModelAttribute Clubmeeting clubmeeting){
+        return clubmeetingService.newMeeting(clubmeeting);
+    }
+
+    @PostMapping("/newNotice")
+    public Object newNotice(@ModelAttribute Clubannouncement clubannouncement){
+        return clubannouncementService.newNotice(clubannouncement);
+    }
+
+    @PostMapping("/clubEvaluationForm")
+    public Object  clubEvaluationForm(@ModelAttribute Studentclubevaluation  studentclubevaluation){
+        return studentclubevaluationService.clubEvaluationForm(studentclubevaluation);
+    }
+
+    @PostMapping("/clubAnnualAuditForm")
+    public Object  clubAnnualAuditForm(@ModelAttribute Annualaudit annualaudit){
+        return annualauditService.clubAnnualAuditForm(annualaudit);
+    }
 }

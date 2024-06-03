@@ -90,7 +90,7 @@ public class ActivityController {
         System.out.println(studentNumberList);
         List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
         System.out.println(studentList);
-        return activityService.personalPerformance(activity, activityEffectGroup, studentList);
+        return activitymemberService.personalPerformance(activity, activityEffectGroup, studentList);
     }
 
     @PostMapping("/activityPerformance")

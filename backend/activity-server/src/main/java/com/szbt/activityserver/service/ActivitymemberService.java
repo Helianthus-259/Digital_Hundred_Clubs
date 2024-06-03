@@ -1,8 +1,11 @@
 package com.szbt.activityserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.dto.ActivityEffectGroup;
 import org.example.dto.ActivityMemberDTO;
+import org.example.entity.Activity;
 import org.example.entity.Activitymember;
+import org.example.entity.Student;
 
 import java.util.List;
 
@@ -13,4 +16,6 @@ import java.util.List;
 */
 public interface ActivitymemberService extends IService<Activitymember> {
     List<ActivityMemberDTO> getActivityMemberBySid(Integer id);
+
+    Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList);
 }

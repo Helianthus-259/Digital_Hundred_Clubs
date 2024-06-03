@@ -1,12 +1,9 @@
 package com.szbt.activityserver.service;
 
-import org.example.dto.ActivityDTO;
-import org.example.dto.ActivityEffectGroup;
-import org.example.dto.ClubDTO;
-import org.example.entity.Activity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.dto.ActivityDTO;
+import org.example.entity.Activity;
 import org.example.entity.Club;
-import org.example.entity.Student;
 
 import java.util.List;
 
@@ -28,5 +25,4 @@ public interface ActivityService extends IService<Activity> {
 
     Object activityPerformance(Activity activity);
 
-    Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList);
 }

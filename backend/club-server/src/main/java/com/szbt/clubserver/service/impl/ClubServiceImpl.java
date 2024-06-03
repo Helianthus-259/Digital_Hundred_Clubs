@@ -1,32 +1,27 @@
 package com.szbt.clubserver.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.szbt.clubserver.service.ClubService;
-
 import com.szbt.clubserver.dao.mapper.ClubMapper;
+import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
-import lombok.val;
-import org.example.dto.*;
+import org.example.dto.ClubDTO;
+import org.example.dto.ClubInfoDTO;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
-import org.example.entity.Student;
-import org.example.enums.StatusCode;
-import org.example.vo.ClubDescriptionVO;
-import org.example.vo.ClubInfosSuccess;
-import org.example.util.Result;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
+import org.example.util.Result;
+import org.example.vo.ClubDescriptionVO;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
 * @author 小壳儿
@@ -111,6 +106,12 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         }
     }
 
+    @Override
+    public Object updateClubDescription(Club club) {
+        int updateById = clubMapper.updateById(club);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
+    }
 
 }
 

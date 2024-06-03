@@ -4,32 +4,26 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
-import org.example.constants.RequestKeyConstants;
-import org.example.dto.*;
-import org.example.entity.Activity;
-import com.szbt.activityserver.service.ActivityService;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
-import org.example.entity.Activitymember;
+import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
+import com.szbt.activityserver.service.ActivityService;
+import org.example.constants.RequestKeyConstants;
+import org.example.dto.ActivityDTO;
+import org.example.entity.Activity;
 import org.example.entity.Club;
-import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
-import org.example.vo.ClubActAndNtcVO;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
 * @author 小壳儿
@@ -110,24 +104,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
     }
 
-    @Override
-    public Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList) {
-        String activityName = activity.getActivityName();
-        int  activityId = activity.getActivityId();
-        IntStream.range(0, activityEffectGroup.size()).forEach(i->{
-            Activitymember activitymember  = new Activitymember();
-            activitymember.setActivityId(activityId);
-            activitymember.setActivityName(activityName);
-            activitymember.setStudentId(studentList.get(i).getStudentId());
-            activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
-            try {
-                activitymemberMapper.insert(activitymember);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        return Result.success(new SingleCodeVO(ResultCode.ADD_PERSONAL_PERFORMANCE));
-    }
 
 }
 

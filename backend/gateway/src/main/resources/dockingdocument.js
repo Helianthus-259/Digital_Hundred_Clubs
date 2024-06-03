@@ -680,7 +680,7 @@ const url_data = {
             advisorName: '',    // 指导老师姓名
         },
         data:{
-          code: 37  // 37代表发布新会议成功
+          code: 38  // 38代表发布新会议成功
         }
     },
     // url:/api/club/updateClubDescription

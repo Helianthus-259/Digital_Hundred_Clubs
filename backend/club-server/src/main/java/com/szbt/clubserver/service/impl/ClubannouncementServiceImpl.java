@@ -2,25 +2,24 @@ package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.example.dto.ActivityEffectDTO;
+import com.szbt.clubserver.dao.mapper.ClubannouncementMapper;
+import com.szbt.clubserver.service.ClubannouncementService;
 import org.example.dto.ActivityShowDTO;
 import org.example.dto.NoticeDTO;
 import org.example.entity.Activity;
-import org.example.entity.Club;
 import org.example.entity.Clubannouncement;
-import com.szbt.clubserver.dao.mapper.ClubannouncementMapper;
-import com.szbt.clubserver.service.ClubannouncementService;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.ClubActAndNtcVO;
-import org.example.vo.ClubDescriptionVO;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +51,15 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
             String exceptionAsString = e.toString();
             return Result.send(StatusCode.GET_CLUB_ACT_AND_NTC_ERROR,new SendMsg(exceptionAsString));
         }
+    }
+
+    @Override
+    public Object newNotice(Clubannouncement clubannouncement) {
+        Date date = new Date();
+        clubannouncement.setPublishTime(date);
+        int inserted = clubannouncementMapper.insert(clubannouncement);
+        if (inserted<=0) return Result.send(StatusCode.ADD_NOTICE_ERROR, new SendMsg("发布新通知失败"));
+        return Result.success(new SingleCodeVO(ResultCode.ADD_NOTICE));
     }
 }
 

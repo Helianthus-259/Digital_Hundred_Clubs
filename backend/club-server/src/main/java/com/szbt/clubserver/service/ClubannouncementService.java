@@ -15,4 +15,6 @@ public interface ClubannouncementService extends IService<Clubannouncement> {
 
     Object queryClubActAndNtc(Integer clubId, List<Activity> activityList);
 
+    Object newNotice(Clubannouncement clubannouncement);
+
 }
