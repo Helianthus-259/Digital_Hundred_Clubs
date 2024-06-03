@@ -794,6 +794,7 @@ mock.onPost(path.updateClubDescription).reply((config) => {
 
 // 获取枚举列表mock
 mock.onGet(path.getEnumList).reply((config) => {
+    console.log(1111111111);
     return [200, {
         code: 41, // 41代表获取枚举列表成功
         data: {
@@ -824,5 +825,45 @@ mock.onGet(path.getEnumList).reply((config) => {
                 { "name": "其他", "code": 2 },
             ]
         }
+    }]
+})
+
+// 获取社团获奖信息mock
+mock.onGet(path.associationAwards).reply((config) => {
+    const associationAwards = []
+    for (let i = 0; i < 3; i++) {
+        associationAwards.push({
+            awardName: i + "活动一等奖",
+            awardTime: "2022-01-01",
+            issuingAuthority: "广东省教育厅",
+        })
+    }
+    return [200, {
+        code: 42, // 42代表获取社团获奖信息成功
+        associationAwards
+    }]
+})
+
+// 获取社团会议
+mock.onGet(path.meetings).reply((config) => {
+    return [200, {
+        code: 43, // 43代表获取社团获奖信息成功
+        meetings: [
+            {
+                meetingTime: "2022-01-01",
+                location: "广州校区",
+                category: 0,
+            },
+            {
+                meetingTime: "2022-01-01",
+                location: "广州校区",
+                category: 1,
+            },
+            {
+                meetingTime: "2022-01-01",
+                location: "线上",
+                category: 0,
+            },
+        ]
     }]
 })

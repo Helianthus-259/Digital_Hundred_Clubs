@@ -293,10 +293,19 @@ const api = {
     }),
     'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
     }),
+    'getAssociationAwards': (params) => axios.get(path.associationAwards, { // 获取社团获奖情况
+        params: {
+            clubId: params.clubId,
+        }
+    }),
+    'getMeetings': (params) => axios.get(path.meetings, { // 获取社团会议列表
+        params: {
+            clubId: params.clubId,
+        }
+    })
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {
-    console.log('request', method, params);
     await api[method](params)
 })
 
