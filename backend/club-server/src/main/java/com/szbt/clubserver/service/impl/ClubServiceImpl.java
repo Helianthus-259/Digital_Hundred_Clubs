@@ -94,10 +94,6 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         return clubMapper.selectBatchIds(idList);
     }
 
-    @Override
-    public Object queryClubActAndNtc(Integer clubId) {
-        return null;
-    }
 
 
 }
