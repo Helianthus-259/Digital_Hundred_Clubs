@@ -574,6 +574,7 @@ const url_data = {
     // url:/api/club/updateClubInfo
     updateClubInfo:{// 更新社团信息
         params: {
+            clubId:'',  // 社团id(前端没给)
             clubName: '',   // 社团名称
             establishmentDate: '',  // 建立时间
             clubCategory: '',   // 社团类型

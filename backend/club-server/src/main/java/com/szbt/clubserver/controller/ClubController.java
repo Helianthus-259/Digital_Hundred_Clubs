@@ -99,4 +99,21 @@ public class ClubController {
     public Object  clubAnnualAuditForm(@ModelAttribute Annualaudit annualaudit){
         return annualauditService.clubAnnualAuditForm(annualaudit);
     }
+
+    @PostMapping("/updateClubInfo")
+    public Object updateClubInfo(@ModelAttribute Club club){
+        return clubService.updateClubInfo(club);
+    }
+
+    @PostMapping("/addClubMember")
+    public Object addClubMember(@ModelAttribute Clubmember clubmember){
+        return clubmemberService.addClubMember(clubmember);
+    }
+    @PostMapping("/updateClubMember")
+    public Object updateClubMember(Integer clubId, String oldStudent, String newStudent){
+        return clubmemberService.updateClubMember(clubId,oldStudent,newStudent);
+    }
+
+
+
 }

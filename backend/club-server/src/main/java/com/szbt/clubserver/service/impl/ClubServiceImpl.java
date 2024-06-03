@@ -21,8 +21,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.example.constants.FileConstants.fileServerDownloadUrl;
@@ -119,6 +119,15 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public Object updateClubDescription(Club club) {
+        int updateById = clubMapper.updateById(club);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_DESCRIPTION_ERROR,new SendMsg("更新社团简介失败"));
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_DESCRIPTION));
+    }
+
+    @Override
+    public Object updateClubInfo(Club club) {
+        Date date = new Date();
+        club.setEstablishmentDate(date);
         int updateById = clubMapper.updateById(club);
         if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));

@@ -1,25 +1,27 @@
 package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
-import com.szbt.clubserver.service.ClubService;
+import com.szbt.clubserver.dao.mapper.ClubmemberMapper;
+import com.szbt.clubserver.service.ClubmemberService;
 import org.example.dto.ClubDTO;
 import org.example.dto.ExecutiveDTO;
 import org.example.dto.PresidentDTO;
 import org.example.dto.TotalMemberDTO;
-import org.example.entity.*;
-import com.szbt.clubserver.dao.mapper.ClubmemberMapper;
-import com.szbt.clubserver.service.ClubmemberService;
+import org.example.entity.Club;
+import org.example.entity.Clubapplicationrecord;
+import org.example.entity.Clubmember;
+import org.example.entity.Student;
 import org.example.enums.Position;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.MemberVO;
+import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.example.entity.Clubapplicationrecord;
 
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +108,46 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
             e.printStackTrace();
             return Result.send(StatusCode.GET_CLUB_MEMBER_ERROR,e.toString());
         }
+    }
+
+    @Override
+    public Object updateClubMember(Integer clubId, String oldStudent, String newStudent) {
+        // 查询旧数据
+        MPJLambdaWrapper<Clubmember>  wrapper1 = new MPJLambdaWrapper<Clubmember>()
+                .selectAll(Clubmember.class)
+                .eq(Clubmember::getClubId, clubId)
+                .eq(Clubmember::getStudentId, oldStudent);
+        Clubmember oldClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper1);
+
+        // 查询新数据
+        MPJLambdaWrapper<Clubmember>  wrapper2 = new MPJLambdaWrapper<Clubmember>()
+                .selectAll(Clubmember.class)
+                .eq(Clubmember::getClubId, clubId)
+                .eq(Clubmember::getStudentId, newStudent);
+        Clubmember newClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper2);
+        // 交换职位
+        Integer oldPosition = oldClubmember.getPosition();
+        oldClubmember.setPosition(newClubmember.getPosition());
+        newClubmember.setPosition(oldPosition);
+        // 更新
+        int updateById = clubmemberMapper.updateById(newClubmember);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("新干部数据更新失败"));
+        updateById = clubmemberMapper.updateById(oldClubmember);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("旧干部数据更新失败"));
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_MEMBER));
+    }
+
+    @Override
+    public Object addClubMember(Clubmember clubmember) {
+        MPJLambdaWrapper<Clubmember>  wrapper = new MPJLambdaWrapper<Clubmember>()
+                .selectAll(Clubmember.class)
+                .eq(Clubmember::getClubId, clubmember.getClubId())
+                .eq(Clubmember::getStudentId, clubmember.getStudentId());
+        Clubmember newClubMember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
+        newClubMember.setPosition(clubmember.getPosition());
+        int updateById = clubmemberMapper.updateById(newClubMember);
+        if (updateById<=0) return Result.send(StatusCode.ADD_CLUB_MEMBER_ERROR,new SendMsg("新增干部失败"));
+        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBER));
     }
 }
 

@@ -25,5 +25,6 @@ public interface ClubService extends IService<Club> {
 
     Object updateClubDescription(Club club);
 
+    Object updateClubInfo(Club club);
 
 }
