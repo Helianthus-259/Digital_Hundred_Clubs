@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -105,8 +106,12 @@ public class ActivityController {
     }
 
     @PostMapping("/joinActivity")
-    public Object joinActivity(Integer activityId, Integer studentNumber)
+    public Object joinActivity(Integer activityId, String studentNumber)
     {
-        return null;
+        List<String> studentNumberList = new ArrayList<>();
+        studentNumberList.add(studentNumber);
+        List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
+        Activity activity = activityService.getById(activityId);
+        return activitymemberService.joinActivity(studentList.get(0),activity);
     }
 }

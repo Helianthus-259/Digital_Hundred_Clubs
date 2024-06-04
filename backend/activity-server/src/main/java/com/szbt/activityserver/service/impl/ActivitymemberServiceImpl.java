@@ -1,5 +1,6 @@
 package com.szbt.activityserver.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
@@ -10,6 +11,7 @@ import org.example.entity.Activity;
 import org.example.entity.Activitymember;
 import org.example.entity.Student;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
@@ -53,9 +55,22 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
     }
 
     @Override
-    public Object joinActivity(Integer activityId, Integer studentNumber) {
+    public Object joinActivity(Student student,Activity activity) {
+        String activityName = activity.getActivityName();
+        int  activityId = activity.getActivityId();
+        Activitymember activitymember  = new Activitymember();
+        activitymember.setActivityId(activityId);
+        activitymember.setActivityName(activityName);
+        activitymember.setStudentId(student.getStudentId());
+        try{
+            int inserted = activitymemberMapper.insert(activitymember);
+            if(inserted<=0) return Result.send(StatusCode.JOIN_ACTIVITY_ERROR,"加入活动失败");
+            return Result.success(new SingleCodeVO(ResultCode.JOIN_ACTIVITY));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        return null;
+        return Result.send(StatusCode.JOIN_ACTIVITY_ERROR,"加入活动失败");
     }
 
     @Override
@@ -63,13 +78,19 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
         String activityName = activity.getActivityName();
         int  activityId = activity.getActivityId();
         IntStream.range(0, activityEffectGroup.size()).forEach(i->{
-            Activitymember activitymember  = new Activitymember();
-            activitymember.setActivityId(activityId);
-            activitymember.setActivityName(activityName);
-            activitymember.setStudentId(studentList.get(i).getStudentId());
-            activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
+            // Activitymember activitymember  = new Activitymember();
+            // activitymember.setActivityId(activityId);
+            // activitymember.setActivityName(activityName);
+            // activitymember.setStudentId(studentList.get(i).getStudentId());
+            // activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
             try {
-                activitymemberMapper.insert(activitymember);
+                // activitymemberMapper.insert(activitymember);
+                QueryWrapper<Activitymember> wrapper = new QueryWrapper<>();
+                wrapper.eq("studentId",studentList.get(i).getStudentId());
+                wrapper.eq("activityId",activityId);
+                Activitymember activitymember = activitymemberMapper.selectOne(wrapper, true);
+                activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
+                activitymemberMapper.updateById(activitymember);
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -17,7 +17,7 @@ import java.util.List;
 public interface ActivitymemberService extends IService<Activitymember> {
     List<ActivityMemberDTO> getActivityMemberBySid(Integer id);
 
-    Object joinActivity(Integer activityId, Integer studentNumber);
+    Object joinActivity(Student student,Activity activity);
 
     Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList);
 }
