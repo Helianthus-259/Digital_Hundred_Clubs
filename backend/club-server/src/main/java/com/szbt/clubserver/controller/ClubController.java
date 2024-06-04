@@ -4,6 +4,7 @@ import com.szbt.clubserver.service.*;
 import org.example.dto.ClubDTO;
 import org.example.entity.*;
 import org.example.service.ActivityClientService;
+import org.example.service.AdminClientService;
 import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,6 +42,8 @@ public class ClubController {
     private ClubMembershipApplicationService clubMembershipApplicationService;
     @Autowired
     private  ClubawardsService  clubawardsService;
+    @Autowired
+    private AdminClientService  adminClientService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -172,4 +175,23 @@ public class ClubController {
     public Object associationAwards(Integer clubId){
         return clubawardsService.associationAwards(clubId);
     }
+
+    @GetMapping("/clubNoticeList")
+    public Object clubNoticeList(Integer clubId){
+        return clubannouncementService.clubNoticeList(clubId);
+    }
+
+    @GetMapping("/topTenClubs")//   暂时使用人数数量来进行top10排序
+    public Object topTenClubs(){
+        return clubService.topTenClubs();
+    }
+
+    @GetMapping("/clubEvaluateInfo")// 未实现
+    public Object clubEvaluateInfo(Integer clubId){
+        Club clubInfo =  clubService.getClubInfoById(clubId);
+        Student studentInfo = studentClientService.queryStudentInfo(clubInfo.getContactPersonId());
+        String responsibleDepartment = adminClientService.getAdminInfo(clubInfo.getResponsibleDepartmentId());
+        return studentclubevaluationService.clubEvaluateInfo(clubId, clubInfo, studentInfo,responsibleDepartment);
+    }
+
 }

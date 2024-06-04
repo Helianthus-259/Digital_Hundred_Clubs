@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.example.constants.FileConstants.fileServerDownloadUrl;
@@ -131,6 +132,21 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         int updateById = clubMapper.updateById(club);
         if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
+    }
+
+    @Override
+    public Object topTenClubs() {
+        MPJLambdaWrapper<Club>  wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .orderByDesc(Club::getTotalMembers);
+        try{
+            List<Club> clubList = clubMapper.selectJoinList(Club.class, wrapper).stream().limit(10).collect(Collectors.toList());
+            System.out.println(clubList);
+            return  Result.success(new DataVO(ResultCode.GET_TOP_TEN_CLUB,clubList));
+        }catch (Exception e){
+            String exceptionAsString = e.toString();
+            return Result.send(StatusCode.GET_TOP_TEN_CLUB_ERROR,new SendMsg(exceptionAsString));
+        }
     }
 
 }

@@ -4,6 +4,8 @@ package com.szbt.clubserver.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.szbt.clubserver.dao.mapper.StudentclubevaluationMapper;
 import com.szbt.clubserver.service.StudentclubevaluationService;
+import org.example.entity.Club;
+import org.example.entity.Student;
 import org.example.entity.Studentclubevaluation;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
@@ -33,6 +35,11 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
         int inserted = studentclubevaluationMapper.insert(studentclubevaluation);
         if (inserted<=0) return Result.send(StatusCode.ADD_CLUB_EVALUATION_ERROR, new SendMsg("提交社团评优失败"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_EVALUATION));
+    }
+
+    @Override
+    public Object clubEvaluateInfo(Integer clubId, Club clubInfo, Student studentInfo, String department) {
+        return null;
     }
 
 }

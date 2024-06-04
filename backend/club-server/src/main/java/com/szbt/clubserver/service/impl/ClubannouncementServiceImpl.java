@@ -12,6 +12,7 @@ import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.ClubActAndNtcVO;
+import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
@@ -70,6 +71,22 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
         if (inserted<=0) return Result.send(StatusCode.ADD_NOTICE_ERROR, new SendMsg("发布新通知失败"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_NOTICE));
     }
+
+    @Override
+    public Object clubNoticeList(Integer clubId) {
+        MPJLambdaWrapper<Clubannouncement>  wrapper = new MPJLambdaWrapper<Clubannouncement>()
+                .selectAll(Clubannouncement.class)
+                .eq(Clubannouncement::getClubId,clubId);
+        try{
+            List<Clubannouncement>  clubannouncementList = clubannouncementMapper.selectJoinList(Clubannouncement.class,wrapper);
+            return Result.success(new DataVO(ResultCode.GET_CLUB_NOTICE_LIST,  clubannouncementList));
+        }catch (Exception e){
+            String exceptionAsString = e.toString();
+            return Result.send(StatusCode.GET_CLUB_NOTICE_LIST_ERROR,new SendMsg(exceptionAsString));
+        }
+    }
+
+
 }
 
 

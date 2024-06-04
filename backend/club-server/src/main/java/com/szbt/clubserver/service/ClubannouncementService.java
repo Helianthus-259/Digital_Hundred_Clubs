@@ -17,4 +17,6 @@ public interface ClubannouncementService extends IService<Clubannouncement> {
 
     Object newNotice(Clubannouncement clubannouncement);
 
+    Object clubNoticeList(Integer clubId);
+
 }

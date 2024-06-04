@@ -1,6 +1,8 @@
 package com.szbt.clubserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.entity.Club;
+import org.example.entity.Student;
 import org.example.entity.Studentclubevaluation;
 
 /**
@@ -10,4 +12,6 @@ import org.example.entity.Studentclubevaluation;
 */
 public interface StudentclubevaluationService extends IService<Studentclubevaluation> {
     Object  clubEvaluationForm(Studentclubevaluation studentclubevaluation);
+
+    Object clubEvaluateInfo(Integer clubId, Club clubInfo, Student studentInfo, String department);
 }

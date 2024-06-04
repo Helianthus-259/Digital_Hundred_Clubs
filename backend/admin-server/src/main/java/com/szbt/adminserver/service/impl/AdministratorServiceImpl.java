@@ -1,6 +1,7 @@
 package com.szbt.adminserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.adminserver.service.AdministratorService;
 import org.example.entity.Administrator;
 import com.szbt.adminserver.dao.mapper.AdministratorMapper;
@@ -27,6 +28,22 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
         int updateById = administratorMapper.updateById(administrator);
         if(updateById<=0) return Result.send(StatusCode.UPDATE_ADMIN_INFO_ERROR,new SendMsg("更新管理员信息失败"));
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_ADMIN_INFO));
+    }
+
+    @Override
+    public Object getAdminInfo(Integer adminId) {
+        MPJLambdaWrapper<Administrator>  wrapper = new MPJLambdaWrapper<Administrator>()
+                .select(Administrator::getDepartmentName)
+                .eq(Administrator::getAdminId, adminId);
+        try{
+            String departmentName = administratorMapper.selectOne(wrapper).getDepartmentName();
+            System.out.println(departmentName);
+            return departmentName;
+        }catch (Exception e){
+            String exceptionAsString = e.toString();
+            System.out.println(exceptionAsString);
+            return "";
+        }
     }
 }
 

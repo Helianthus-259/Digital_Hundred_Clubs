@@ -27,4 +27,6 @@ public interface ClubService extends IService<Club> {
 
     Object updateClubInfo(Club club);
 
+    Object topTenClubs();
+
 }

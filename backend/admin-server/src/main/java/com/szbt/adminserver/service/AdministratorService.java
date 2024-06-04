@@ -1,8 +1,7 @@
 package com.szbt.adminserver.service;
 
-import org.example.entity.Administrator;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.example.entity.Administrator;
 
 /**
 * @author 小壳儿
@@ -11,4 +10,5 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 */
 public interface AdministratorService extends IService<Administrator> {
     Object updateAdminInfo(Administrator administrator);
+    Object getAdminInfo(Integer adminId);
 }

@@ -5,9 +5,7 @@ import com.szbt.adminserver.service.AnnualauditService;
 import com.szbt.adminserver.service.BackboneevaluationService;
 import com.szbt.adminserver.service.StudentclubevaluationService;
 import lombok.extern.slf4j.Slf4j;
-import org.example.constants.RequestKeyConstants;
 import org.example.entity.Administrator;
-import org.example.service.ActivityClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -46,4 +44,8 @@ public class AdminController {
 
     @PostMapping("/adminInfoUpdate")
     private Object updateAdminInfo(@ModelAttribute Administrator administrator) {return administratorService.updateAdminInfo(administrator);}
+
+    @GetMapping("/getAdminInfo")
+    private Object getAdminInfo(Integer adminId) {return administratorService.getAdminInfo(adminId);}
+
 }
