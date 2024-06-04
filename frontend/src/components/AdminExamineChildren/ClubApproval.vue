@@ -97,7 +97,7 @@ const clubInfo = ref({
   contactPerson: '',
   contactPhone: '',
   clubStatus: '',
-  file: "",
+  attachmentUrl: "",
 });
 
 // 表格
@@ -170,17 +170,17 @@ const pagination = ref({
 const detail = (value) => {
   visibleModal.value = true;
   // 获取社团信息
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: value.index })
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, { value: value.index })
 
 }
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (data) => {
   console.log(data)
   clubInfo.value.clubName = data.clubName
   clubInfo.value.clubCategory = data.clubCategory
   clubInfo.value.mainCompus = data.mainCompus
   clubInfo.value.clubDescription = data.clubDescription
-  clubInfo.value.file = data.file
+  clubInfo.value.attachmentUrl = data.attachmentUrl
   clubInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
   clubInfo.value.businessGuideTeacher = data.businessGuideTeacherName
   clubInfo.value.establishmentDate = data.establishmentDate
@@ -197,7 +197,7 @@ const onConfirm = (text) => {
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess')
-  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubApprovalSuccess')
 })
 </script>
 

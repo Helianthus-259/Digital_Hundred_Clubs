@@ -322,24 +322,21 @@ const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubReviewInfo = ref({
-  code: 20, // 20代表获取社团评优所需信息
   clubName: '',
-  totalMembers: '',
-  isFinancialInformationPublic: '',
-  administrativeGuideTeacherName: '',
-  businessGuideTeacherName: '',
-  backboneNumber: '',
-  establishmentDate: '',
-  responsibleDepartment: '',
+  clubCategory: '',
   mainCompus: '',
   clubDescription: '',
-  clubCategory: '',
+  totalMembers: '',
+  file: '',
+  administrativeGuideTeacherName: '',
+  businessGuideTeacherName: '',
+  establishmentDate: '',
   contactPerson: '',
-  politicalStatus: '',
   contactPhone: '',
   clubStatus: '',
-  file: '',
-  communistRelatedBackBoneNumber: '',
+  responsibleDepartment: '',
+  politicalStatus: '',
+  isFinancialInformationPublic: '',
   publicityManagementInfo: {
     WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
     WebSite: { has: '', name: '' },
@@ -361,8 +358,9 @@ eventEmitter.on(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess', (da
 const detail = (data) => {
   console.log(data)
   choose.value = data
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: data })
-  eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, { value: data })
+  eventEmitter.on(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess', (data) => {
+    console.log(data)
     clubReviewInfo.value.clubName = data.clubName
     clubReviewInfo.value.clubCategory = data.clubCategory
     clubReviewInfo.value.mainCompus = data.mainCompus
@@ -385,7 +383,7 @@ const detail = (data) => {
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
-  eventEmitter.off(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess')
+  eventEmitter.off(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess')
 })
 
 </script>

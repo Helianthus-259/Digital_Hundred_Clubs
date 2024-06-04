@@ -166,6 +166,12 @@ function successHandler(response) {
             eventEmitter.emit(APIEventEnum.postJoinClubSuccess)
         } else if (response.data.code === 48) { // 报名活动成功
             eventEmitter.emit(APIEventEnum.postJoinActivitySuccess)
+        } else if(response.data.code === 49){   // 获取建立社团申请详细信息成功
+            const data = response.data
+            eventEmitter.emit(APIEventEnum.getClubApprovalSuccess, data)
+        } else if(response.data.code === 50){   // 获取社团年审详细信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubAnnualSuccess, data)
         }
     }
 }

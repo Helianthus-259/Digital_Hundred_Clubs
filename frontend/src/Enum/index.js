@@ -49,7 +49,8 @@ export const APIEventEnum = {
     getMeetingsSuccess: 'getMeetingsSuccess',
     postJoinClubSuccess: 'postJoinClubSuccess',
     postJoinActivitySuccess: 'postJoinActivitySuccess',
-
+    getClubApprovalSuccess:'getClubApprovalSuccess',
+    getClubAnnualSuccess:'getClubAnnualSuccess',
     // 请求失败事件
     incorrectInput: 'incorrectInput',
     registerError: 'registerError',
@@ -106,6 +107,8 @@ export const APIEnum = {
     getMeetings: 'getMeetings',
     postJoinClub: 'postJoinClub',
     postJoinActivity: 'postJoinActivity',
+    getClubApproval:'getClubApproval',
+    getClubAnnual:'getClubAnnual',
 }
 
 

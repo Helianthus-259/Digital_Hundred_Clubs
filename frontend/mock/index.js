@@ -924,3 +924,59 @@ mock.onPost(path.joinActivity).reply((config) => {
         code: 48, // 48代表加入活动申请
     }]
 })
+
+mock.onGet(path.clubApplicationInfo).reply((config)=>{
+    const data = {
+        clubName: '',
+        establishmentDate: '',
+        responsibleDepartment: '',
+        mainCompus: "",
+        clubDescription: '',
+        clubCategory: '',
+        adminGuideTeacher: '',
+        businessGuideTeacher: '',
+        contactPerson: '',
+        contactPhone: '',
+        clubStatus: '',
+        attachmentUrl: "",
+    }
+    return[200,{
+        code: 49, // 获取建立社团申请详细信息
+        data
+    }]
+})
+
+mock.onGet(path.clubAnnual).reply((config)=>{
+    const data = {
+        clubName: 'hh',
+        clubCategory: '1',
+        mainCompus: '1',
+        clubDescription: 'hh',
+        totalMembers: '12',
+        file: 'hh',
+        administrativeGuideTeacherName: 'hh',
+        businessGuideTeacherName: 'hh',
+        establishmentDate: 't',
+        contactPerson: 't',
+        contactPhone: '1',
+        clubStatus: '1',
+        responsibleDepartment: '学院',
+        politicalStatus: '1',
+        isFinancialInformationPublic: '1',
+        publicityManagementInfo: {
+            WeChatPublicAccount: { name: 'hh', submitCount: '12', Auditors: { name1: 'hh', name2: 'hh', name3: 'hh' } },
+            WebSite: { has: '1', name: '2' },
+            Blog: { has: '1', name: '2' },
+            BiliBili: { has: '1', name: '2' },
+            TikTok: { has: '1', name: '2' },
+            WeChatVideoAccount: { has: '1', name: '2' },
+            KuaiShou: { has: '1', name: '2' },
+            Publication: { has: '1', name: '2' },
+            Other: { has: '1', name: '2' },
+        },
+    }
+    return[200,{
+        code: 50, // 获取社团年审详细信息
+        data
+    }]
+})

@@ -51,9 +51,10 @@ const base = {
     clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
     associationAwards: club + '/associationAwards', // 获取社团获奖信息
     meetings: club + '/meetings', // 获取社团会议列表
-    joinClub: club + '/joinClub', // 加入社团
-
+    clubApplicationInfo: club + '/clubApplicationInfo', // 获取建立社团申请详细信息
+    clubAnnual: club + '/getClubAnnual', // 获取详细年审信息
     // post
+    joinClub: club + '/joinClub', // 加入社团
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
     rejectClubApply: club + '/rejectClubApply', // 拒绝社团申请
     newClubApply: club + '/newClubApply', // 提交新社团申请

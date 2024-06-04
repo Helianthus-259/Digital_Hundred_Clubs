@@ -330,6 +330,16 @@ const api = {
             activityId: params.activityId,
             studentNumber: params.studentNumber,
         }
+    }),
+    'getClubApproval':(params)=> axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
+        params:{
+            clubId: params.clubId,
+        }
+    }),
+    'getClubAnnual':(params)=> axios.get(path.clubAnnual, {
+        params:{
+            clubId: params.clubId,
+        }
     })
 }
 
