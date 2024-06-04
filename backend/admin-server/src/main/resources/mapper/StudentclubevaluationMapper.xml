@@ -20,6 +20,8 @@
         <result property="clubEducationCaseAttachment" column="club_education_case_attachment" jdbcType="VARCHAR"/>
         <result property="communistRelatedBackBoneNumber" column="communist_related_back_bone_number" jdbcType="INTEGER"/>
         <result property="backboneNumber" column="backbone_number" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="reviewOpinion" column="review_opinion" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -27,6 +29,7 @@
         handover_method,handover_participants_count,advisor_participation,
         meetings,association_awards,publicity_management_effectiveness,
         hosted_school_level_activities,club_work_introduction,image_url,
-        club_education_case_attachment,communist_related_back_bone_number,backbone_number
+        club_education_case_attachment,communist_related_back_bone_number,backbone_number,
+        status,review_opinion
     </sql>
 </mapper>

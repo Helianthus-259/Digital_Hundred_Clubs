@@ -90,6 +90,16 @@ public class Studentclubevaluation implements Serializable {
      */
     private Integer backboneNumber;
 
+    /**
+     *
+     */
+    private Integer status;
+
+    /**
+     *
+     */
+    private String reviewOpinion;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -119,7 +129,9 @@ public class Studentclubevaluation implements Serializable {
                 && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
                 && (this.getClubEducationCaseAttachment() == null ? other.getClubEducationCaseAttachment() == null : this.getClubEducationCaseAttachment().equals(other.getClubEducationCaseAttachment()))
                 && (this.getCommunistRelatedBackBoneNumber() == null ? other.getCommunistRelatedBackBoneNumber() == null : this.getCommunistRelatedBackBoneNumber().equals(other.getCommunistRelatedBackBoneNumber()))
-                && (this.getBackboneNumber() == null ? other.getBackboneNumber() == null : this.getBackboneNumber().equals(other.getBackboneNumber()));
+                && (this.getBackboneNumber() == null ? other.getBackboneNumber() == null : this.getBackboneNumber().equals(other.getBackboneNumber()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getReviewOpinion() == null ? other.getReviewOpinion() == null : this.getReviewOpinion().equals(other.getReviewOpinion()));
     }
 
     @Override
@@ -141,6 +153,8 @@ public class Studentclubevaluation implements Serializable {
         result = prime * result + ((getClubEducationCaseAttachment() == null) ? 0 : getClubEducationCaseAttachment().hashCode());
         result = prime * result + ((getCommunistRelatedBackBoneNumber() == null) ? 0 : getCommunistRelatedBackBoneNumber().hashCode());
         result = prime * result + ((getBackboneNumber() == null) ? 0 : getBackboneNumber().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getReviewOpinion() == null) ? 0 : getReviewOpinion().hashCode());
         return result;
     }
 
@@ -165,6 +179,8 @@ public class Studentclubevaluation implements Serializable {
         sb.append(", clubEducationCaseAttachment=").append(clubEducationCaseAttachment);
         sb.append(", communistRelatedBackBoneNumber=").append(communistRelatedBackBoneNumber);
         sb.append(", backboneNumber=").append(backboneNumber);
+        sb.append(", status=").append(status);
+        sb.append(", reviewOpinion=").append(reviewOpinion);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

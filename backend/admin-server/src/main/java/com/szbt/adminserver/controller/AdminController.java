@@ -48,4 +48,10 @@ public class AdminController {
     @GetMapping("/getAdminInfo")
     private Object getAdminInfo(Integer adminId) {return administratorService.getAdminInfo(adminId);}
 
+    @GetMapping("/myClubBackboneExamData")
+    private Object queryMyClubBackboneExamData(Integer clubId)
+    {
+        return null;
+    }
+
 }

@@ -5,20 +5,23 @@
 <mapper namespace="com.szbt.studentserver.dao.mapper.BackboneevaluationMapper">
 
     <resultMap id="BaseResultMap" type="org.example.entity.Backboneevaluation">
-            <id property="recordId" column="record_id" jdbcType="INTEGER"/>
-            <result property="declarationYear" column="declaration_year" jdbcType="INTEGER"/>
-            <result property="studentId" column="student_id" jdbcType="INTEGER"/>
-            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
-            <result property="tenurePeriod" column="tenure_period" jdbcType="VARCHAR"/>
-            <result property="achievements" column="achievements" jdbcType="OTHER"/>
-            <result property="trainingParticipation" column="training_participation" jdbcType="OTHER"/>
-            <result property="awards" column="awards" jdbcType="OTHER"/>
-            <result property="clubWorkStatus" column="club_work_status" jdbcType="VARCHAR"/>
+        <id property="recordId" column="record_id" jdbcType="INTEGER"/>
+        <result property="declarationYear" column="declaration_year" jdbcType="INTEGER"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+        <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+        <result property="tenurePeriod" column="tenure_period" jdbcType="VARCHAR"/>
+        <result property="achievements" column="achievements" jdbcType="OTHER"/>
+        <result property="trainingParticipation" column="training_participation" jdbcType="OTHER"/>
+        <result property="awards" column="awards" jdbcType="OTHER"/>
+        <result property="clubWorkStatus" column="club_work_status" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="reviewOpinion" column="review_opinion" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         record_id,declaration_year,student_id,
         club_id,tenure_period,achievements,
-        training_participation,awards,club_work_status
+        training_participation,awards,club_work_status,
+        status,review_opinion
     </sql>
 </mapper>

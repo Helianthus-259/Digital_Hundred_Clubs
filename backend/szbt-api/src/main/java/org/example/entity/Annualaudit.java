@@ -65,6 +65,16 @@ public class Annualaudit implements Serializable {
      */
     private Object publicityManagementInfo;
 
+    /**
+     *
+     */
+    private Integer status;
+
+    /**
+     *
+     */
+    private String reviewOpinion;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -89,7 +99,9 @@ public class Annualaudit implements Serializable {
                 && (this.getIsFinancialInformationPublic() == null ? other.getIsFinancialInformationPublic() == null : this.getIsFinancialInformationPublic().equals(other.getIsFinancialInformationPublic()))
                 && (this.getClubConstitutionAttachment() == null ? other.getClubConstitutionAttachment() == null : this.getClubConstitutionAttachment().equals(other.getClubConstitutionAttachment()))
                 && (this.getDepartmentOpinion() == null ? other.getDepartmentOpinion() == null : this.getDepartmentOpinion().equals(other.getDepartmentOpinion()))
-                && (this.getPublicityManagementInfo() == null ? other.getPublicityManagementInfo() == null : this.getPublicityManagementInfo().equals(other.getPublicityManagementInfo()));
+                && (this.getPublicityManagementInfo() == null ? other.getPublicityManagementInfo() == null : this.getPublicityManagementInfo().equals(other.getPublicityManagementInfo()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getReviewOpinion() == null ? other.getReviewOpinion() == null : this.getReviewOpinion().equals(other.getReviewOpinion()));
     }
 
     @Override
@@ -106,6 +118,8 @@ public class Annualaudit implements Serializable {
         result = prime * result + ((getClubConstitutionAttachment() == null) ? 0 : getClubConstitutionAttachment().hashCode());
         result = prime * result + ((getDepartmentOpinion() == null) ? 0 : getDepartmentOpinion().hashCode());
         result = prime * result + ((getPublicityManagementInfo() == null) ? 0 : getPublicityManagementInfo().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getReviewOpinion() == null) ? 0 : getReviewOpinion().hashCode());
         return result;
     }
 
@@ -125,6 +139,8 @@ public class Annualaudit implements Serializable {
         sb.append(", clubConstitutionAttachment=").append(clubConstitutionAttachment);
         sb.append(", departmentOpinion=").append(departmentOpinion);
         sb.append(", publicityManagementInfo=").append(publicityManagementInfo);
+        sb.append(", status=").append(status);
+        sb.append(", reviewOpinion=").append(reviewOpinion);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

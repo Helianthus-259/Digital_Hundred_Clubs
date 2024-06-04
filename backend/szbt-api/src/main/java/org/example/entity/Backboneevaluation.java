@@ -60,6 +60,16 @@ public class Backboneevaluation implements Serializable {
      */
     private String clubWorkStatus;
 
+    /**
+     *
+     */
+    private Integer status;
+
+    /**
+     *
+     */
+    private String reviewOpinion;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -83,7 +93,9 @@ public class Backboneevaluation implements Serializable {
                 && (this.getAchievements() == null ? other.getAchievements() == null : this.getAchievements().equals(other.getAchievements()))
                 && (this.getTrainingParticipation() == null ? other.getTrainingParticipation() == null : this.getTrainingParticipation().equals(other.getTrainingParticipation()))
                 && (this.getAwards() == null ? other.getAwards() == null : this.getAwards().equals(other.getAwards()))
-                && (this.getClubWorkStatus() == null ? other.getClubWorkStatus() == null : this.getClubWorkStatus().equals(other.getClubWorkStatus()));
+                && (this.getClubWorkStatus() == null ? other.getClubWorkStatus() == null : this.getClubWorkStatus().equals(other.getClubWorkStatus()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getReviewOpinion() == null ? other.getReviewOpinion() == null : this.getReviewOpinion().equals(other.getReviewOpinion()));
     }
 
     @Override
@@ -99,6 +111,8 @@ public class Backboneevaluation implements Serializable {
         result = prime * result + ((getTrainingParticipation() == null) ? 0 : getTrainingParticipation().hashCode());
         result = prime * result + ((getAwards() == null) ? 0 : getAwards().hashCode());
         result = prime * result + ((getClubWorkStatus() == null) ? 0 : getClubWorkStatus().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getReviewOpinion() == null) ? 0 : getReviewOpinion().hashCode());
         return result;
     }
 
@@ -117,6 +131,8 @@ public class Backboneevaluation implements Serializable {
         sb.append(", trainingParticipation=").append(trainingParticipation);
         sb.append(", awards=").append(awards);
         sb.append(", clubWorkStatus=").append(clubWorkStatus);
+        sb.append(", status=").append(status);
+        sb.append(", reviewOpinion=").append(reviewOpinion);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
