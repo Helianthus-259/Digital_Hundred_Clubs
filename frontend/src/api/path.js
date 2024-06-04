@@ -31,9 +31,9 @@ const base = {
     backBoneEvaluations: admin + '/backBoneEvaluations',  // 获取所有的骨干评优信息
     clubAnnuals: admin + '/clubAnnuals',    // 获取所有社团年审
     clubEvaluations: admin + '/clubEvaluations', // 获取所有社团评优
-    myClubAnnualExamData: admin +'/myClubAnnualExamData',//获取特定社团的年审详细信息
-    myClubBackboneExamData: admin +'/myClubBackboneExamData',//获取特定社团的骨干评优信息
-    myClubTeacherExamData: admin +'/myClubTeacherExamData',//获取特定社团的骨干评优信息
+    myClubAnnualExamData: admin + '/myClubAnnualExamData',//获取特定社团的年审详细信息
+    myClubBackboneExamData: admin + '/myClubBackboneExamData',//获取特定社团的骨干评优信息
+    myClubTeacherExamData: admin + '/myClubTeacherExamData',//获取特定社团的骨干评优信息
 
     // post
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
@@ -45,7 +45,6 @@ const base = {
     clubActAndNtc: club + '/clubActAndNtc', // 获取社团活动通知
     clubIntroduction: club + '/clubIntroduction', // 获取社团简介
     clubMembers: club + '/clubMembers', // 获取社团成员
-    clubActivityList: club + '/clubActivityList', // 获取社团活动列表
     clubApplyList: club + '/clubApplyList', // 获取社团申请列表
     clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
     topTenClubs: club + '/topTenClubs', // 获取十佳社团
@@ -73,6 +72,7 @@ const base = {
     activityInfo: activity + '/activityInfo', // 获取活动信息
     activitiesInfo: activity + '/activitiesInfo', // 获取所有活动信息
     latestActivities: activity + '/latestActivities', // 获取最新活动
+    clubActivityList: activity + '/clubActivityList', // 获取社团活动列表
 
     // post
     newActivity: activity + '/newActivity', // 提交新活动
