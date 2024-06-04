@@ -19,6 +19,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -89,8 +90,21 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
                 wrapper.eq("studentId",studentList.get(i).getStudentId());
                 wrapper.eq("activityId",activityId);
                 Activitymember activitymember = activitymemberMapper.selectOne(wrapper, true);
-                activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
-                activitymemberMapper.updateById(activitymember);
+                if (activitymember == null)
+                {
+                    activitymember.setActivityId(activityId);
+                    activitymember.setActivityName(activityName);
+                    activitymember.setStudentId(studentList.get(i).getStudentId());
+                    activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
+                    activitymember.setAwardWiningTime(new Date());
+                    activitymemberMapper.insert(activitymember);
+                }
+                else
+                {
+                    activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
+                    activitymember.setAwardWiningTime(new Date());
+                    activitymemberMapper.updateById(activitymember);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
