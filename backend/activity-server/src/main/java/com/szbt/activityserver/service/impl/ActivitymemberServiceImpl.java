@@ -53,6 +53,12 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
     }
 
     @Override
+    public Object joinActivity(Integer activityId, Integer studentNumber) {
+
+        return null;
+    }
+
+    @Override
     public Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList) {
         String activityName = activity.getActivityName();
         int  activityId = activity.getActivityId();

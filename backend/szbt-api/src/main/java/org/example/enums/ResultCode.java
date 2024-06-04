@@ -48,6 +48,7 @@ public enum ResultCode {
     ADD_PERSONAL_PERFORMANCE(29),
     ADD_activityPerformance(30),
     GET_LATEST_ACTIVITY(31),
+    JOIN_ACTIVITY(48),
 
     //ADMIN
     GET_ADMIN_INFO(10),

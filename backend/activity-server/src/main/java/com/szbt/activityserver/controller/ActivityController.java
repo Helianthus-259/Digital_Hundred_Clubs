@@ -103,4 +103,10 @@ public class ActivityController {
     {
         return activityService.queryClubActivityList(clubId,pageNumber,pageSize);
     }
+
+    @PostMapping("/joinActivity")
+    public Object joinActivity(Integer activityId, Integer studentNumber)
+    {
+        return null;
+    }
 }
