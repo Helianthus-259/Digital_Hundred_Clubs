@@ -2,6 +2,7 @@ package com.szbt.clubserver.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.yulichang.base.MPJBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.example.entity.ClubMembershipApplication;
 
 /**
@@ -10,6 +11,7 @@ import org.example.entity.ClubMembershipApplication;
 * @createDate 2024-06-04 11:24:18
 * @Entity generator.domain.ClubMembershipApplication
 */
+@Mapper
 public interface ClubMembershipApplicationMapper extends MPJBaseMapper<ClubMembershipApplication> {
 
 }
