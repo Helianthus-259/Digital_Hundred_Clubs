@@ -1,8 +1,6 @@
 package com.szbt.activityserver.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -11,7 +9,6 @@ import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import com.szbt.activityserver.service.ActivityService;
 import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityDTO;
-import org.example.dto.ActivityEffectDTO;
 import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Activity;
 import org.example.entity.Club;
@@ -96,12 +93,17 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     @Override
     public Object getLatestActivities(Integer pageNumber, Integer pageSize) {
-        IPage<Activity> page = new Page<>(pageNumber, pageSize);
+        // 创建分页对象
+        Page<Activity> page = new Page<>(pageNumber, pageSize);
+        page.setSearchCount(true);
+        // 构建查询条件
         MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
-                .selectAll(Activity.class)
-                .orderByDesc(Activity::getActivityPublishTime);
-        IPage<Activity>  activity = activityMapper.selectPage(page, wrapper);
-        return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activity.getRecords()));
+                .selectAll(Activity.class);
+        // 执行分页查询
+        activityMapper.selectPage(page, wrapper);
+        // 获取分页结果
+        List<Activity> activityList = page.getRecords();
+        return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activityList));
     }
 
     @Override

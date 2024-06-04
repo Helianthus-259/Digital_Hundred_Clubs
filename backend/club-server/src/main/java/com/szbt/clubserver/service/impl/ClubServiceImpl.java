@@ -133,6 +133,15 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
     }
 
+    @Override
+    public Object newClubApply(Club club) {
+        club.setEstablishmentDate(new Date());
+        club.setTotalMembers(1);
+        int insertById = clubMapper.insert(club);
+        if (insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请新社团失败"));
+        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_APPLICATION));
+    }
+
 }
 
 
