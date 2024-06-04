@@ -12,6 +12,8 @@ import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
+
 /**
 * @author 小壳儿
 * @description 针对表【backboneevaluation】的数据库操作Service实现
@@ -25,6 +27,8 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
     BackboneevaluationMapper backboneevaluationMapper;
     @Override
     public Object addBackBoneEvaluate(Backboneevaluation backboneevaluation) {
+        int currentYear = Year.now().getValue();
+        backboneevaluation.setDeclarationYear(currentYear);
         int inserted = backboneevaluationMapper.insert(backboneevaluation);
         if (inserted<=0) return Result.send(StatusCode.ADD_BACKBONE_EVALUATION_ERROR,new SendMsg("提交骨干评优申请失败"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_BACKBONE_EVALUATION));

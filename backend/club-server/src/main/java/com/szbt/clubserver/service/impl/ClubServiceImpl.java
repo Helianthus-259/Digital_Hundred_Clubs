@@ -1,29 +1,31 @@
 package com.szbt.clubserver.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.szbt.clubserver.service.ClubService;
-
 import com.szbt.clubserver.dao.mapper.ClubMapper;
+import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
-import lombok.val;
-import org.example.dto.*;
+import org.example.dto.ClubDTO;
+import org.example.dto.ClubInfoDTO;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
-import org.example.entity.Student;
-import org.example.vo.ClubInfosSuccess;
-import org.example.util.Result;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
+import org.example.util.Result;
+import org.example.vo.ClubDescriptionVO;
 import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.example.constants.FileConstants.fileServerDownloadUrl;
 
 /**
 * @author 小壳儿
@@ -42,17 +44,22 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Autowired
     private ClubmemberService clubmemberService;
 
+
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public Object queryAllClubs() {
-        val clubList = clubMapper.selectList(null);
-        List<ClubInfos> clubInfos = clubList.stream()
-                .map(ClubInfos::mapClubToClubInfo)
-                .collect(Collectors.toList());
-        System.out.println(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
-        return Result.success(new ClubInfosSuccess(ResultCode.GET_CLUB_INFO,clubInfos));
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
+        wrapper.selectAll(Club.class);
+        List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
+        //处理文件请求
+        IntStream.range(0, clubInfoDTOS.size())
+                .forEach(i -> {
+                    String imageUrl = clubInfoDTOS.get(i).getImageUrl();
+                    clubInfoDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                });
+        return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
     }
 
 
@@ -96,6 +103,35 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         return clubMapper.selectBatchIds(idList);
     }
 
+    @Override
+    public Object queryClubIntroductionByClubId(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getClubId,clubId);
+        try {
+            Object clubDescription = clubMapper.selectOne(wrapper, true).getClubDescription();
+            return Result.success(new ClubDescriptionVO(ResultCode.GET_CLUB_INTRODUCTION,clubDescription));
+        } catch (Exception e) {
+            String exceptionAsString = e.toString();
+            return Result.send(StatusCode.GET_CLUB_INTRODUCTION_ERROR,new SendMsg(exceptionAsString));
+        }
+    }
+
+    @Override
+    public Object updateClubDescription(Club club) {
+        int updateById = clubMapper.updateById(club);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_DESCRIPTION_ERROR,new SendMsg("更新社团简介失败"));
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_DESCRIPTION));
+    }
+
+    @Override
+    public Object updateClubInfo(Club club) {
+        Date date = new Date();
+        club.setEstablishmentDate(date);
+        int updateById = clubMapper.updateById(club);
+        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
+        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
+    }
 
 }
 

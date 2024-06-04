@@ -4,91 +4,90 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
- * 
+ *
  * @TableName club
  */
 @TableName(value ="club")
 @Data
 public class Club implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Integer clubId;
 
     /**
-     * 
+     *
      */
     private String clubName;
 
     /**
-     * 
+     *
      */
     private Date establishmentDate;
 
     /**
-     * 
+     *
      */
     private Integer responsibleDepartmentId;
 
     /**
-     * 
+     *
      */
-    private String clubDescription;
+    private Object clubDescription;
 
     /**
-     * 
+     *
      */
     private Integer clubCategory;
 
     /**
-     * 
+     *
      */
     private String administrativeGuideTeacherName;
 
     /**
-     * 
+     *
      */
     private String businessGuideTeacherName;
 
     /**
-     * 
+     *
      */
     private Integer contactPersonId;
 
     /**
-     * 
+     *
      */
     private Integer clubStatus;
 
     /**
-     * 
+     *
      */
     private Integer mainCampus;
 
     /**
-     * 
+     *
      */
     private Integer totalMembers;
 
     /**
-     * 
+     *
      */
     private Integer isFinancialInformationPublic;
 
     /**
-     * 
+     *
      */
     private Object publicityManagementInfo;
 
     /**
-     * 
+     *
      */
     private String imageUrl;
 
@@ -108,20 +107,20 @@ public class Club implements Serializable {
         }
         Club other = (Club) that;
         return (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
-            && (this.getClubName() == null ? other.getClubName() == null : this.getClubName().equals(other.getClubName()))
-            && (this.getEstablishmentDate() == null ? other.getEstablishmentDate() == null : this.getEstablishmentDate().equals(other.getEstablishmentDate()))
-            && (this.getResponsibleDepartmentId() == null ? other.getResponsibleDepartmentId() == null : this.getResponsibleDepartmentId().equals(other.getResponsibleDepartmentId()))
-            && (this.getClubDescription() == null ? other.getClubDescription() == null : this.getClubDescription().equals(other.getClubDescription()))
-            && (this.getClubCategory() == null ? other.getClubCategory() == null : this.getClubCategory().equals(other.getClubCategory()))
-            && (this.getAdministrativeGuideTeacherName() == null ? other.getAdministrativeGuideTeacherName() == null : this.getAdministrativeGuideTeacherName().equals(other.getAdministrativeGuideTeacherName()))
-            && (this.getBusinessGuideTeacherName() == null ? other.getBusinessGuideTeacherName() == null : this.getBusinessGuideTeacherName().equals(other.getBusinessGuideTeacherName()))
-            && (this.getContactPersonId() == null ? other.getContactPersonId() == null : this.getContactPersonId().equals(other.getContactPersonId()))
-            && (this.getClubStatus() == null ? other.getClubStatus() == null : this.getClubStatus().equals(other.getClubStatus()))
-            && (this.getMainCampus() == null ? other.getMainCampus() == null : this.getMainCampus().equals(other.getMainCampus()))
-            && (this.getTotalMembers() == null ? other.getTotalMembers() == null : this.getTotalMembers().equals(other.getTotalMembers()))
-            && (this.getIsFinancialInformationPublic() == null ? other.getIsFinancialInformationPublic() == null : this.getIsFinancialInformationPublic().equals(other.getIsFinancialInformationPublic()))
-            && (this.getPublicityManagementInfo() == null ? other.getPublicityManagementInfo() == null : this.getPublicityManagementInfo().equals(other.getPublicityManagementInfo()))
-            && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
+                && (this.getClubName() == null ? other.getClubName() == null : this.getClubName().equals(other.getClubName()))
+                && (this.getEstablishmentDate() == null ? other.getEstablishmentDate() == null : this.getEstablishmentDate().equals(other.getEstablishmentDate()))
+                && (this.getResponsibleDepartmentId() == null ? other.getResponsibleDepartmentId() == null : this.getResponsibleDepartmentId().equals(other.getResponsibleDepartmentId()))
+                && (this.getClubDescription() == null ? other.getClubDescription() == null : this.getClubDescription().equals(other.getClubDescription()))
+                && (this.getClubCategory() == null ? other.getClubCategory() == null : this.getClubCategory().equals(other.getClubCategory()))
+                && (this.getAdministrativeGuideTeacherName() == null ? other.getAdministrativeGuideTeacherName() == null : this.getAdministrativeGuideTeacherName().equals(other.getAdministrativeGuideTeacherName()))
+                && (this.getBusinessGuideTeacherName() == null ? other.getBusinessGuideTeacherName() == null : this.getBusinessGuideTeacherName().equals(other.getBusinessGuideTeacherName()))
+                && (this.getContactPersonId() == null ? other.getContactPersonId() == null : this.getContactPersonId().equals(other.getContactPersonId()))
+                && (this.getClubStatus() == null ? other.getClubStatus() == null : this.getClubStatus().equals(other.getClubStatus()))
+                && (this.getMainCampus() == null ? other.getMainCampus() == null : this.getMainCampus().equals(other.getMainCampus()))
+                && (this.getTotalMembers() == null ? other.getTotalMembers() == null : this.getTotalMembers().equals(other.getTotalMembers()))
+                && (this.getIsFinancialInformationPublic() == null ? other.getIsFinancialInformationPublic() == null : this.getIsFinancialInformationPublic().equals(other.getIsFinancialInformationPublic()))
+                && (this.getPublicityManagementInfo() == null ? other.getPublicityManagementInfo() == null : this.getPublicityManagementInfo().equals(other.getPublicityManagementInfo()))
+                && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
     }
 
     @Override

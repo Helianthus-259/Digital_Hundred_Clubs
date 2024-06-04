@@ -7,7 +7,7 @@ import org.example.entity.Club;
 public class ClubInfos {
     private String src;
     private String name;
-    private String introduction;
+    private Object introduction;
     private Integer clubID;
     private String type;
 

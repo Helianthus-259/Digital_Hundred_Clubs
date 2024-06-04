@@ -13,4 +13,10 @@ import java.util.List;
 */
 public interface ClubmemberService extends IService<Clubmember> {
     List<ClubDTO> queryAllClubMemberBySid(Integer id);
+
+    Object queryClubMemberByClubId(Integer clubId);
+
+    Object updateClubMember(Integer clubId, String oldStudent, String newStudent);
+
+    Object addClubMember(Clubmember clubmember);
 }

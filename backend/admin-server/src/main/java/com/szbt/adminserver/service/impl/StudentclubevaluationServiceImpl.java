@@ -53,12 +53,12 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
                 .collect(Collectors.toList());
         List<Club> clubList = clubClientService.getClubList(clubIdList);
         List<List<Activity>> activityLists = activityClientService.queryActivityInfoByClubIdList(clubIdList);
-        for (int i = 0; i < clubEvaluationDTOS.size(); i++)
-        {
-            clubEvaluationDTOS.get(i).setClubName(clubList.get(i).getClubName());
-            List<ActivityEffectDTO> activityEffectDTO = modelMapper.map(activityLists.get(i), new TypeToken<List<ActivityEffectDTO>>() {}.getType());
-            clubEvaluationDTOS.get(i).setActivities(activityEffectDTO);
-        }
+        IntStream.range(0, clubEvaluationDTOS.size())
+                .forEach(i -> {
+                    clubEvaluationDTOS.get(i).setClubName(clubList.get(i).getClubName());
+                    List<ActivityEffectDTO> activityEffectDTO = modelMapper.map(activityLists.get(i), new TypeToken<List<ActivityEffectDTO>>() {}.getType());
+                    clubEvaluationDTOS.get(i).setActivities(activityEffectDTO);
+                });
         return Result.success(new DataVO(ResultCode.GET_ALL_CLUB_EVALUATION,clubEvaluationDTOS));
     }
 }
