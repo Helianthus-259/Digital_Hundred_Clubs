@@ -3,6 +3,8 @@ package com.szbt.adminserver.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.example.dto.AnnualAuditDTO;
+import org.example.dto.SpecialClubAnnualDTO;
+import org.example.dto.SpecialClubBackboneDTO;
 import org.example.entity.*;
 import com.szbt.adminserver.dao.mapper.AnnualauditMapper;
 import com.szbt.adminserver.service.AnnualauditService;
@@ -12,6 +14,7 @@ import org.example.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -34,6 +37,21 @@ public class AnnualauditServiceImpl extends ServiceImpl<AnnualauditMapper, Annua
                 .leftJoin(Club.class, Club::getClubId, Annualaudit::getClubId);
         List<AnnualAuditDTO> annualAuditDTOS = annualauditMapper.selectJoinList(AnnualAuditDTO.class, wrapper);
         return Result.success(new DataVO(ResultCode.GET_ALL_CLUB_ANNUAL,annualAuditDTOS));
+    }
+
+    @Override
+    public Object queryMyClubAnnualExamData(Integer clubId) {
+        MPJLambdaWrapper<Annualaudit> wrapper = new MPJLambdaWrapper<>();
+        wrapper.selectAll(Annualaudit.class)
+                .select(Club::getClubName)
+                .leftJoin(Club.class, Club::getClubId, Backboneevaluation::getClubId)
+                .eq(Backboneevaluation::getClubId,clubId);
+        List<SpecialClubAnnualDTO> specialClubAnnualDTOS = annualauditMapper.selectJoinList(SpecialClubAnnualDTO.class, wrapper);
+        //创建返回对象
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("code", ResultCode.GET_SPECIAL_CLUB_ANNUAL.getCode());
+        result.put("returnData",specialClubAnnualDTOS);
+        return Result.success(result);
     }
 }
 

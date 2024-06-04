@@ -54,4 +54,10 @@ public class AdminController {
         return backboneevaluationService.queryMyClubBackboneExamData(clubId);
     }
 
+    @GetMapping("/myClubAnnualExamData")
+    private Object queryMyClubAnnualExamData(Integer clubId)
+    {
+        return annualauditService.queryMyClubAnnualExamData(clubId);
+    }
+
 }
