@@ -890,7 +890,7 @@ mock.onGet(path.associationAwards).reply((config) => {
 // 获取社团会议
 mock.onGet(path.meetings).reply((config) => {
     return [200, {
-        code: 46, // 46代表获取社团获奖信息成功
+        code: 46, // 46代表获取社团会议信息成功
         meetings: [
             {
                 meetingTime: "2022-01-01",

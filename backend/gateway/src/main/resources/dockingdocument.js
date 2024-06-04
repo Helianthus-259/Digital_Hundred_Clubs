@@ -497,6 +497,38 @@ const url_data = {
             ]
         }
     },
+    // url:/api/club/associationAwards
+    associationAwards:{// 获取社团获奖信息
+        params: {// get参数
+            clubId: '', // 社团标识id
+        },
+        data:{
+            code: 45,   // 45标识获取社团获奖信息成功
+            associationAwards:[ // 所有的获奖信息
+                {
+                    awardName: '',  // 奖项名
+                    awardTime: '',  // 获奖时间
+                    issuingAuthority: '',   // 颁奖单位
+                },
+            ]
+        }
+    },
+    // url:/api/club/meetings
+    meetings:{
+        params: {   // get参数
+            clubId: '', // 社团标识id
+        },
+        data:{
+            code: 46,   // 46代表获取社团会议信息成功
+            meetings:[
+                {
+                    meetingTime: '',    // 会议时间
+                    location: '',   // 地点
+                    category: '',   // 会议类型
+                },
+            ]
+        }
+    },
 
     // post
     // url:/api/club/agreeClubApply
@@ -695,6 +727,18 @@ const url_data = {
             code: 40,   // 40代表更新社团简介成功
         }
     },
+    // url:/api/club/joinClub
+    joinClub:{// 加入社团
+        params: {   // post参数
+            clubId: '',
+            studentId: '',
+            reason: '',
+        },
+        data:{
+            code: 47,   // 47代表加入社团申请
+        }
+    },
+
 
     /*——————————————活动——————————————*/
     // get
@@ -800,6 +844,16 @@ const url_data = {
         },
         data:{
             code: 30    // 30代表提交活动绩效成功
+        }
+    },
+    // url:/api/activity/joinActivity
+    joinActivity:{// 参加活动
+        params: {   // post参数
+            activityId: '', // 活动id
+            studentNumber: '',  // 学生学号
+        },
+        data:{
+            code: 48,   // 48代表加入活动申请
         }
     },
     /*——————————————文件——————————————*/

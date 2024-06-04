@@ -1,6 +1,7 @@
 package com.szbt.clubserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface ClubapplicationrecordService extends IService<Clubapplicationre
     List<Clubapplicationrecord> queryClubApplicationRecordBySId(Integer id);
 
     Object queryClubApplyList(Integer clubId);
+
+    Object newClubApply(Club club, String advisorResumeAttachmentUrl);
+
 }

@@ -35,6 +35,8 @@ public class ClubController {
     private AnnualauditService annualauditService;
     @Autowired
     private StudentClientService  studentClientService;
+    @Autowired
+    private ClubapplicationrecordService clubapplicationrecordService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -135,13 +137,20 @@ public class ClubController {
     }
 
     @PostMapping("/newClubApply")
-    public Object newClubApply(@ModelAttribute Club club){
+    public Object newClubApply(@ModelAttribute Club club, String advisorResumeAttachmentUrl){
         System.out.println(club);
-        return clubService.newClubApply(club);
+        return clubapplicationrecordService.newClubApply(club, advisorResumeAttachmentUrl);
     }
 
     @PostMapping("/rejectClubApply")
-    public Object rejectClubApply(@ModelAttribute Club club){
+    public Object rejectClubApply(Integer clubId, Integer studentId, String rejectReason){
         return null;
     }
+
+    @PostMapping("/agreeClubApply")
+    public  Object agreeClubApply(Integer clubId, Integer studentId){
+        return null;
+    }
+
+
 }
