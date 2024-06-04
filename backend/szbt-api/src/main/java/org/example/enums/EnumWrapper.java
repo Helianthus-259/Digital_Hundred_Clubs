@@ -8,6 +8,8 @@ public class EnumWrapper {
     private List<EnumData> clubCategories;
     private List<EnumData> meetings;
 
+    private List<EnumData> genders;
+
     private List<EnumData> statusCodes;
 
     public List<EnumData> getPositions() {
@@ -48,6 +50,12 @@ public class EnumWrapper {
 
     public void setStatusCodes(List<EnumData> statusCodes) {
         this.statusCodes = statusCodes;
+    }
+
+    public List<EnumData> getGenders() { return genders; }
+
+    public void setGenders(List<EnumData> gender) {
+        this.genders = gender;
     }
 
     public static class EnumData {

@@ -1,10 +1,10 @@
 package org.example.enums;
 
 public enum Position {
-    PRESIDENT("社长", 1),
-    VICE_PRESIDENT("副社长", 2),
-    OFFICER("干部", 3),
-    MEMBER("普通成员", 4);
+    PRESIDENT("社长", 0),
+    VICE_PRESIDENT("副社长", 1),
+    OFFICER("干部", 2),
+    MEMBER("普通成员", 3);
 
     private final String name;
 
