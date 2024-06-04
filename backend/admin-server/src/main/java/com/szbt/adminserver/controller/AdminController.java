@@ -51,7 +51,7 @@ public class AdminController {
     @GetMapping("/myClubBackboneExamData")
     private Object queryMyClubBackboneExamData(Integer clubId)
     {
-        return null;
+        return backboneevaluationService.queryMyClubBackboneExamData(clubId);
     }
 
 }

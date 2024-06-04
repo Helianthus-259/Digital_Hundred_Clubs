@@ -10,4 +10,6 @@ import org.example.entity.Backboneevaluation;
 */
 public interface BackboneevaluationService extends IService<Backboneevaluation> {
     Object queryAllBackBoneEvaluations();
+
+    Object queryMyClubBackboneExamData(Integer clubId);
 }

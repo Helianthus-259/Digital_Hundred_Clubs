@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import org.example.dto.BackBoneEvaluationDTO;
 import org.example.dto.ClubDTO;
+import org.example.dto.ExamDataDTO;
+import org.example.dto.SpecialClubBackboneDTO;
 import org.example.entity.*;
 import com.szbt.adminserver.dao.mapper.BackboneevaluationMapper;
 import com.szbt.adminserver.service.BackboneevaluationService;
@@ -12,6 +14,9 @@ import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -35,6 +40,21 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
                 .eq(Clubmember::getStudentId, Backboneevaluation::getStudentId);
         return Result.success(new DataVO(ResultCode.GET_ALL_BACKBONE_EVALUATION,
                 backboneevaluationMapper.selectJoinList(BackBoneEvaluationDTO.class,wrapper)));
+    }
+
+    @Override
+    public Object queryMyClubBackboneExamData(Integer clubId) {
+        MPJLambdaWrapper<Backboneevaluation> wrapper = new MPJLambdaWrapper<>();
+        wrapper.selectAll(Backboneevaluation.class)
+                .select(Student::getStName)
+                .leftJoin(Student.class, Student::getStudentId, Backboneevaluation::getStudentId)
+                .eq(Backboneevaluation::getClubId,clubId);
+        List<SpecialClubBackboneDTO> specialClubBackboneDTOS = backboneevaluationMapper.selectJoinList(SpecialClubBackboneDTO.class, wrapper);
+        //创建返回对象
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("code", ResultCode.GET_SPECIAL_CLUB_BACKBONE.getCode());
+        result.put("returnData",specialClubBackboneDTOS);
+        return Result.success(result);
     }
 }
 
