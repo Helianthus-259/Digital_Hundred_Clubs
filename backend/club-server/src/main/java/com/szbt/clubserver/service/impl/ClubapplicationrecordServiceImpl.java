@@ -41,10 +41,6 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
         return clubapplicationrecords;
     }
 
-    @Override
-    public Object queryClubApplyList(Integer clubId) {
-        return null;
-    }
 
     @Override
     public Object newClubApply(Club club, String advisorResumeAttachmentUrl) {

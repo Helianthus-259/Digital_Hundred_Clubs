@@ -37,6 +37,8 @@ public class ClubController {
     private StudentClientService  studentClientService;
     @Autowired
     private ClubapplicationrecordService clubapplicationrecordService;
+    @Autowired
+    private ClubMembershipApplicationService clubMembershipApplicationService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -66,7 +68,7 @@ public class ClubController {
     @GetMapping("/clubApplyList")
     public  Object queryClubApplyList(Integer clubId)
     {
-        return null;
+        return clubMembershipApplicationService.queryClubApplyList(clubId);
     }
 
     @GetMapping("/getClubInfoBySId")

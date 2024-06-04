@@ -9,5 +9,5 @@ import org.example.entity.ClubMembershipApplication;
 * @createDate 2024-06-04 11:24:18
 */
 public interface ClubMembershipApplicationService extends IService<ClubMembershipApplication> {
-
+    Object queryClubApplyList(Integer clubId);
 }
