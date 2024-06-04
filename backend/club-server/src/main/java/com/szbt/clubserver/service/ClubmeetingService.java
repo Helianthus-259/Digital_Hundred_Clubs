@@ -10,4 +10,6 @@ import org.example.entity.Clubmeeting;
 */
 public interface ClubmeetingService extends IService<Clubmeeting> {
     Object newMeeting(Clubmeeting clubmeeting);
+
+    Object meetings(Integer clubId);
 }

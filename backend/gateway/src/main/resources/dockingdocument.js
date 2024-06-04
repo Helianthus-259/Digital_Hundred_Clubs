@@ -730,9 +730,9 @@ const url_data = {
     // url:/api/club/joinClub
     joinClub:{// 加入社团
         params: {   // post参数
-            clubId: '',
-            studentId: '',
-            reason: '',
+            clubId: '', // 社团标识id
+            studentId: '',  // 学生标识id
+            reason: '', // 入社原因
         },
         data:{
             code: 47,   // 47代表加入社团申请

@@ -28,7 +28,7 @@ public class ClubController {
     @Autowired
     private ActivityClientService activityClientService;
     @Autowired
-    private ClubmeetingService  clubmeetingService;
+    private ClubmeetingService clubmeetingService;
     @Autowired
     private StudentclubevaluationService  studentclubevaluationService;
     @Autowired
@@ -39,6 +39,8 @@ public class ClubController {
     private ClubapplicationrecordService clubapplicationrecordService;
     @Autowired
     private ClubMembershipApplicationService clubMembershipApplicationService;
+    @Autowired
+    private  ClubawardsService  clubawardsService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -146,13 +148,28 @@ public class ClubController {
 
     @PostMapping("/rejectClubApply")
     public Object rejectClubApply(Integer clubId, Integer studentId, String rejectReason){
-        return null;
+        return clubMembershipApplicationService.rejectClubApply(clubId,studentId,rejectReason);
     }
 
     @PostMapping("/agreeClubApply")
     public  Object agreeClubApply(Integer clubId, Integer studentId){
-        return null;
+        Club club = clubService.getClubInfoById(clubId);
+        return clubMembershipApplicationService.agreeClubApply(club,studentId);
     }
 
+    @PostMapping("/joinClub")
+    public Object joinClub(@ModelAttribute ClubMembershipApplication clubMembershipApplication){
+        System.out.println(clubMembershipApplication);
+        return clubMembershipApplicationService.joinClub(clubMembershipApplication);
+    }
 
+    @GetMapping("/meetings")
+    public Object meetings(Integer clubId){
+        return clubmeetingService.meetings(clubId);
+    }
+
+    @GetMapping("/associationAwards")
+    public Object associationAwards(Integer clubId){
+        return clubawardsService.associationAwards(clubId);
+    }
 }

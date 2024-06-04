@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szbt.clubserver.dao.mapper.ClubawardsMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.entity.Clubawards">
+            <id property="awardId" column="award_id" jdbcType="INTEGER"/>
+            <result property="clubId" column="club_id" jdbcType="INTEGER"/>
+            <result property="awardName" column="award_name" jdbcType="VARCHAR"/>
+            <result property="awardTime" column="award_time" jdbcType="TIMESTAMP"/>
+            <result property="issuingAuthority" column="issuing_authority" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        award_id,club_id,award_name,
+        award_time,issuing_authority
+    </sql>
+</mapper>

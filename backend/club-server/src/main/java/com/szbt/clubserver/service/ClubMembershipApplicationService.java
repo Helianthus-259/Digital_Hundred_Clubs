@@ -1,6 +1,7 @@
 package com.szbt.clubserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.example.entity.Club;
 import org.example.entity.ClubMembershipApplication;
 
 /**
@@ -10,4 +11,10 @@ import org.example.entity.ClubMembershipApplication;
 */
 public interface ClubMembershipApplicationService extends IService<ClubMembershipApplication> {
     Object queryClubApplyList(Integer clubId);
+
+    Object joinClub(ClubMembershipApplication clubMembershipApplication);
+
+    Object agreeClubApply(Club club, Integer studentId);
+
+    Object rejectClubApply(Integer clubId, Integer studentId, String rejectReason);
 }
