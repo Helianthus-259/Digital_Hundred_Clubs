@@ -2,23 +2,19 @@ package com.szbt.studentserver.controller;
 
 import com.szbt.studentserver.service.BackboneevaluationService;
 import com.szbt.studentserver.service.StudentService;
-import com.szbt.studentserver.util.ImageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.internal.lang.reflect.StringToType;
 import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityMemberDTO;
 import org.example.dto.ClubDTO;
 import org.example.entity.Backboneevaluation;
+import org.example.entity.Student;
 import org.example.service.ActivityClientService;
 import org.example.service.ClubClientService;
 import org.example.service.FileClientService;
-import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
-import org.example.entity.Student;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -75,7 +71,7 @@ public class StudentController {
     }
 
     @GetMapping("/getStudentByNumber")
-    public List<Student>  getStudentByNumber(List<String> number){
+    public List<Student>  getStudentByNumber(@RequestParam("number") List<String> number){
         return studentService.getStudentByNumber(number);
     }
 }

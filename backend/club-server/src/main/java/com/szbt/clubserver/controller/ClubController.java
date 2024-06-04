@@ -4,12 +4,14 @@ import com.szbt.clubserver.service.*;
 import org.example.dto.ClubDTO;
 import org.example.entity.*;
 import org.example.service.ActivityClientService;
+import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @EnableDiscoveryClient
@@ -31,6 +33,8 @@ public class ClubController {
     private StudentclubevaluationService  studentclubevaluationService;
     @Autowired
     private AnnualauditService annualauditService;
+    @Autowired
+    private StudentClientService  studentClientService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -114,6 +118,24 @@ public class ClubController {
         return clubmemberService.updateClubMember(clubId,oldStudent,newStudent);
     }
 
+    @PostMapping("/deleteClubMember")
+    public Object deleteClubMember(Integer clubId, String studentNumber){
+        List<String> number = Collections.singletonList(studentNumber);
+        System.out.println(number);
+        List<Student> studentList = studentClientService.getStudentByNumber(number);
+        Student student = studentList.get(0);
+        System.out.println(student);
+        return  clubmemberService.deleteClubMember(clubId,student.getStudentId());
+    }
 
+    @PostMapping("/newClubApply")
+    public Object newClubApply(@ModelAttribute Club club){
+        System.out.println(club);
+        return clubService.newClubApply(club);
+    }
 
+    @PostMapping("/rejectClubApply")
+    public Object rejectClubApply(@ModelAttribute Club club){
+        return null;
+    }
 }

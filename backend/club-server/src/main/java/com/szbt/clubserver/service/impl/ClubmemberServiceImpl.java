@@ -149,6 +149,19 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
         if (updateById<=0) return Result.send(StatusCode.ADD_CLUB_MEMBER_ERROR,new SendMsg("新增干部失败"));
         return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBER));
     }
+
+    @Override
+    public Object deleteClubMember(Integer clubId, Integer studentId) {
+        MPJLambdaWrapper<Clubmember>  wrapper = new MPJLambdaWrapper<Clubmember>()
+                .selectAll(Clubmember.class)
+                .eq(Clubmember::getClubId, clubId)
+                .eq(Clubmember::getStudentId, studentId);
+        Clubmember clubmember = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
+        clubmember.setPosition(Position.MEMBER.getCode());// 设置为普通成员
+        int deleteById = clubmemberMapper.updateById(clubmember);
+        if (deleteById<=0) return Result.send(StatusCode.DELETE_CLUB_MEMBER_ERROR,new SendMsg("删除干部失败"));
+        return Result.success(new SingleCodeVO(ResultCode.DELETE_CLUB_MEMBER));
+    }
 }
 
 

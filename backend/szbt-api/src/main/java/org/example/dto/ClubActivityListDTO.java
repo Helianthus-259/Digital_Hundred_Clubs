@@ -8,4 +8,7 @@ public class ClubActivityListDTO {
     private String activityName;
     private String imageUrl;
     private Integer activityStatus;
+    private String activityLocation;
+    private Integer status;
+
 }

@@ -26,5 +26,5 @@ public interface StudentClientService {
     public Student queryStudentInfo(@RequestParam("id") Integer id);
 
     @GetMapping("/student/getStudentByNumber")
-    public List<Student> getStudentByNumber(List<String> number);
+    public List<Student> getStudentByNumber(@RequestParam("number") List<String> number);
 }

@@ -533,6 +533,7 @@ const url_data = {
             administrativeGuideTeacherName: '', // 行政指导老师名
             businessGuideTeacherName: '',   // 业务指导老师名
             advisorResumeAttachmentUrl: '', // 入社材料
+            // 缺少负责部门
         },
         data:{
             code: 5, // 5代表入社申请
@@ -542,7 +543,7 @@ const url_data = {
     deleteClubMember:{// 删除社团干部，即将社团干部变成普通成员
         params: {// post参数
             clubId: '', // 社团id
-            studentNumber: '',  // 学生id
+            studentNumber: '',  // 学号
         },
         data:{
             code: 22,   // 22代表删除社团干部成功
