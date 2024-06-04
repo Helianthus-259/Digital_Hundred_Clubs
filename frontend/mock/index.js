@@ -57,7 +57,7 @@ mock.onGet(path.clubsInfo).reply((config) => {
             imageUrl: `https://picsum.photos/${width}/${height}?${i}`,
             clubName: `社团${i}`,
             clubDescription: `社团${i}介绍`,
-            campus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
+            mainCampus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
             clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其它类"][i % 6],
@@ -386,7 +386,8 @@ mock.onGet(path.clubActivityList).reply((config) => {
             activityId: i,
             activityName: `活动名称${i}`,
             imageUrl: `https://picsum.photos/400/300?`,
-            status: i % 3, //此处需要区分活动审批状态和活动进行状态
+            activityStatus: i % 3, //此处需要区分活动审批状态和活动进行状态
+            status: i % 3, //此处需要区分活动进行状态
             activitiesSort: ['普通社团活动', '跨社团联合活动', '社团与外界联合活动',][i % 3],
             activityPlace: ['珠海校区新体育馆', '校外区域', '广州南校英东体育场', '广州南校新体育馆',][i % 4],
         })

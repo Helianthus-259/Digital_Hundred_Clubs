@@ -125,10 +125,10 @@ eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) 
 })
 
 const search = () => {
-  data.value = clubsData.value.filter((item)=>{
+  data.value = clubsData.value.filter((item) => {
     return (item.status === status.value || status.value === 'all') &&
-        (item.campus === campus.value || campus.value === 'all') &&
-        (item.clubCategory === category.value || category.value === 'all');
+      (item.mainCampus === campus.value || campus.value === 'all') &&
+      (item.clubCategory === category.value || category.value === 'all');
   })
   pagination.value.total = data.value.length
 }
@@ -142,7 +142,7 @@ const showHeader = ref(true);
 
 const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
-  { colKey: 'campus', title: '校区' },
+  { colKey: 'mainCampus', title: '校区' },
   { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
   { colKey: 'createTime', title: '申请时间' },
   {
