@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 04/06/2024 11:31:25
+ Date: 04/06/2024 16:04:09
 */
 
 SET NAMES utf8mb4;
@@ -72,11 +72,11 @@ DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE `administrator`  (
   `admin_id` int(0) NOT NULL AUTO_INCREMENT,
   `account` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ad_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `authority` int(0) NOT NULL,
+  `ad_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `authority` int(0) NULL DEFAULT NULL,
   `pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `contact` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `department_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `department_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`admin_id`) USING BTREE,
   UNIQUE INDEX `account`(`account`) USING BTREE,
   UNIQUE INDEX `ad_name`(`ad_name`) USING BTREE
@@ -177,12 +177,13 @@ CREATE TABLE `club_membership_application`  (
   `status` int(0) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `reject_reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   PRIMARY KEY (`application_id`) USING BTREE,
   INDEX `student_id`(`student_id`) USING BTREE,
   INDEX `club_id`(`club_id`) USING BTREE,
   CONSTRAINT `club_membership_application_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `club_membership_application_ibfk_2` FOREIGN KEY (`club_id`) REFERENCES `club` (`club_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of club_membership_application
@@ -318,8 +319,8 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student`  (
   `student_id` int(0) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `st_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `student_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `st_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `student_number` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `gender` int(0) NULL DEFAULT NULL,
   `college` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `grade` int(0) NULL DEFAULT NULL,

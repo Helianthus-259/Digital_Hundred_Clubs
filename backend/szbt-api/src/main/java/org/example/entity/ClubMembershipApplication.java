@@ -46,6 +46,11 @@ public class ClubMembershipApplication implements Serializable {
      */
     private String reason;
 
+    /**
+     *
+     */
+    private String rejectReason;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -66,7 +71,8 @@ public class ClubMembershipApplication implements Serializable {
                 && (this.getClubId() == null ? other.getClubId() == null : this.getClubId().equals(other.getClubId()))
                 && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
                 && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getReason() == null ? other.getReason() == null : this.getReason().equals(other.getReason()));
+                && (this.getReason() == null ? other.getReason() == null : this.getReason().equals(other.getReason()))
+                && (this.getRejectReason() == null ? other.getRejectReason() == null : this.getRejectReason().equals(other.getRejectReason()));
     }
 
     @Override
@@ -79,6 +85,7 @@ public class ClubMembershipApplication implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getReason() == null) ? 0 : getReason().hashCode());
+        result = prime * result + ((getRejectReason() == null) ? 0 : getRejectReason().hashCode());
         return result;
     }
 
@@ -94,6 +101,7 @@ public class ClubMembershipApplication implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append(", reason=").append(reason);
+        sb.append(", rejectReason=").append(rejectReason);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

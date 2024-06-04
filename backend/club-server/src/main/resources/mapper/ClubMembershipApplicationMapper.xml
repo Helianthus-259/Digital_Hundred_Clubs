@@ -11,10 +11,12 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="reason" column="reason" jdbcType="VARCHAR"/>
+        <result property="rejectReason" column="reject_reason" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         application_id,student_id,club_id,
-        status,create_time,reason
+        status,create_time,reason,
+        reject_reason
     </sql>
 </mapper>
