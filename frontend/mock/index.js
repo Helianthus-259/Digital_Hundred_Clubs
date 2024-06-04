@@ -882,7 +882,7 @@ mock.onGet(path.associationAwards).reply((config) => {
         })
     }
     return [200, {
-        code: 45, // 42代表获取社团获奖信息成功
+        code: 45, // 45代表获取社团获奖信息成功
         associationAwards
     }]
 })
@@ -890,7 +890,7 @@ mock.onGet(path.associationAwards).reply((config) => {
 // 获取社团会议
 mock.onGet(path.meetings).reply((config) => {
     return [200, {
-        code: 46, // 43代表获取社团获奖信息成功
+        code: 46, // 46代表获取社团获奖信息成功
         meetings: [
             {
                 meetingTime: "2022-01-01",
@@ -908,5 +908,19 @@ mock.onGet(path.meetings).reply((config) => {
                 category: 0,
             },
         ]
+    }]
+})
+
+// 加入社团mock
+mock.onPost(path.joinClub).reply((config) => {
+    return [200, {
+        code: 47, // 47代表加入社团申请
+    }]
+})
+
+// 加入活动mock
+mock.onPost(path.joinActivity).reply((config) => {
+    return [200, {
+        code: 48, // 48代表加入活动申请
     }]
 })

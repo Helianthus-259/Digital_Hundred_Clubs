@@ -47,6 +47,8 @@ export const APIEventEnum = {
     getMyClubTeacherExamDataSuccess: 'getMyClubTeacherExamDataSuccess',
     getAssociationAwardsSuccess: 'getAssociationAwardsSuccess',
     getMeetingsSuccess: 'getMeetingsSuccess',
+    postJoinClubSuccess: 'postJoinClubSuccess',
+    postJoinActivitySuccess: 'postJoinActivitySuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -102,6 +104,8 @@ export const APIEnum = {
     getMyClubTeacherExamData: 'getMyClubTeacherExamData',
     getAssociationAwards: 'getAssociationAwards',
     getMeetings: 'getMeetings',
+    postJoinClub: 'postJoinClub',
+    postJoinActivity: 'postJoinActivity',
 }
 
 

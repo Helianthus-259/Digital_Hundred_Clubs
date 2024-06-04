@@ -198,7 +198,7 @@ p {
 import { APIEnum, APIEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 
 const president = reactive({
     imageUrl: '',
@@ -213,15 +213,17 @@ const positions = JSON.parse(localStorage.getItem('enumList')).positions
 const memberCount = ref(0)
 const memberComposition = ref('')
 
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId: store.state.clubId })
+onMounted(() => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId: store.state.clubId })
 
-eventEmitter.on(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess', (members) => {
-    president.imageUrl = members.president.imageUrl
-    president.stName = members.president.stName
-    president.contact = members.president.contact
-    executives.value = members.executives.map(exec => ({ ...exec, imageLoaded: false }))
-    memberCount.value = members.others.totalMembers
-    memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + (members.others.totalMembers - (1 + members.executives.length)) + '人'
+    eventEmitter.on(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess', (members) => {
+        president.imageUrl = members.president.imageUrl
+        president.stName = members.president.stName
+        president.contact = members.president.contact
+        executives.value = members.executives.map(exec => ({ ...exec, imageLoaded: false }))
+        memberCount.value = members.others.totalMembers
+        memberComposition.value = '干部：' + (1 + members.executives.length) + '人，普通成员：' + (members.others.totalMembers - (1 + members.executives.length)) + '人'
+    })
 })
 
 onUnmounted(() => {

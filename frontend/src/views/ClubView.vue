@@ -51,12 +51,39 @@
         <template #header>
             加入社团申请表
         </template>
-        <template #body>
-
-        </template>
+        <t-form style="width: 600px;" colon>
+            <t-form-item label="姓名">
+                {{ user.stName }}
+            </t-form-item>
+            <t-form-item label="学号">
+                {{ user.studentNumber }}
+            </t-form-item>
+            <t-form-item label="学院">
+                {{ user.college }}
+            </t-form-item>
+            <t-form-item label="年级">
+                {{ user.grade }}
+            </t-form-item>
+            <t-form-item label="年级">
+                {{ user.grade }}
+            </t-form-item>
+            <t-form-item label="邮箱">
+                {{ user.email }}
+            </t-form-item>
+            <t-form-item label="手机号">
+                {{ user.contact }}
+            </t-form-item>
+            <t-form-item label="特长">
+                {{ user.specialty }}
+            </t-form-item>
+            <t-form-item requiredMark label="申请理由">
+                <t-textarea style="width: 80%;" v-model="reason" placeholder="请输入申请理由"
+                    :autosize="{ minRows: 3, maxRows: 5 }" />
+            </t-form-item>
+        </t-form>
         <template #footer>
-            <t-button style="margin: 0 10px;" theme="primary" size="small">发送</t-button>
-            <t-button style="margin: 0 10px;" theme="default" size="small" @click="closeDialog">关闭</t-button>
+            <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="sendRequest">发送</t-button>
+            <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
         </template>
     </myDialog>
 </template>
@@ -67,7 +94,8 @@ import FixedLabelBar from '@/components/FixedLabelBar.vue';
 import myDialog from '@/components/myDialog.vue';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { onUnmounted, ref } from 'vue';
+import { MessagePlugin } from 'tdesign-vue-next';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const routerNames = ref(store.state.routeTabs.clubTabs);
 // 社团标签页
@@ -92,46 +120,12 @@ const onNextChange = (value) => {
     eventEmitter.emit(RouterEventEnum.push, selfRoute)
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'clubTabs', value: value })
 };
-const phone = ref('')
-const hobby = ref('')
-const specialty = ref('')
-const name = ref('')
-const age = ref('')
-const gender = ref('')
-const studentID = ref('')
-const faculty = ref('')
-const email = ref('')
 const user = ref({})
-
-// 为上面定义的变量赋值
-function assignment() {
-    phone.value = user.value.phone
-    hobby.value = user.value.hobby
-    specialty.value = user.value.specialty
-    name.value = user.value.name
-    age.value = user.value.age + ''
-    gender.value = user.value.gender
-    studentID.value = user.value.studentID
-    faculty.value = user.value.faculty
-    email.value = user.value.email
-}
+const reason = ref('')
 
 function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
-
-if (isEmptyObject(store.state.userInfo)) {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { uid: store.state.uid })
-}
-else {
-    user.value = store.state.userInfo
-    assignment()
-}
-
-eventEmitter.on(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess', (data) => {
-    user.value = data
-    assignment()
-})
 
 // 申请加入社团弹窗
 const dialogRef = ref(null);
@@ -141,11 +135,37 @@ const openDialog = () => {
 const closeDialog = () => {
     dialogRef.value.closeDialog()
 }
+const sendRequest = () => {
+    if (reason.value === '') {
+        return MessagePlugin.warning('申请理由不能为空')
+    }
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postJoinClub, { studentId: store.state.studentId, clubId: store.state.clubId, reason: reason.value })
+}
 
 // 返回首页
 const back2Home = () => {
     eventEmitter.emit(RouterEventEnum.push, '/')
 }
+
+onMounted(() => {
+    if (isEmptyObject(store.state.userInfo)) {
+        eventEmitter.emit(APIEventEnum.request, APIEnum.getUserInfo, { uid: store.state.uid })
+    }
+    else {
+        user.value = store.state.userInfo
+        console.log(user.value);
+    }
+
+    eventEmitter.on(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess', (data) => {
+        console.log(data);
+        user.value = data
+    })
+    eventEmitter.on(APIEventEnum.postJoinClubSuccess, 'postJoinClubSuccess', () => {
+        reason.value = ''
+        MessagePlugin.success('申请成功')
+        closeDialog()
+    })
+})
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getUserInfoSuccess, 'getUserInfoSuccess')

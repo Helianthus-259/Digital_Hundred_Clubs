@@ -51,6 +51,7 @@ const base = {
     clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
     associationAwards: club + '/associationAwards', // 获取社团获奖信息
     meetings: club + '/meetings', // 获取社团会议列表
+    joinClub: club + '/joinClub', // 加入社团
 
     // post
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
@@ -78,6 +79,7 @@ const base = {
     newActivity: activity + '/newActivity', // 提交新活动
     personalPerformance: activity + '/personalPerformance', // 提交个人活动表现
     activityPerformance: activity + '/activityPerformance', // 提交活动表现
+    joinActivity: activity + '/joinActivity', // 参加活动
 
 
     /*——————————————文件——————————————*/

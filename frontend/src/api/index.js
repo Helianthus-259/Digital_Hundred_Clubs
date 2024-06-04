@@ -317,6 +317,19 @@ const api = {
         params: {
             clubId: params.clubId,
         }
+    }),
+    'postJoinClub': (params) => axios.post(path.joinClub, { // 加入社团
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+            reason: params.reason,
+        }
+    }),
+    'postJoinActivity': (params) => axios.post(path.joinActivity, { // 加入活动
+        params: {
+            activityId: params.activityId,
+            studentNumber: params.studentNumber,
+        }
     })
 }
 

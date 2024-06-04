@@ -162,6 +162,10 @@ function successHandler(response) {
         } else if (response.data.code === 46) { // 获取社团会议
             const { meetings } = response.data
             eventEmitter.emit(APIEventEnum.getMeetingsSuccess, meetings)
+        } else if (response.data.code === 47) { // 加入社团申请成功
+            eventEmitter.emit(APIEventEnum.postJoinClubSuccess)
+        } else if (response.data.code === 48) { // 报名活动成功
+            eventEmitter.emit(APIEventEnum.postJoinActivitySuccess)
         }
     }
 }
