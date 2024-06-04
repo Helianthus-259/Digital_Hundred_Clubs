@@ -32,6 +32,11 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
         List<Clubapplicationrecord> clubapplicationrecords = clubapplicationrecordMapper.selectJoinList(Clubapplicationrecord.class, wrapper);
         return clubapplicationrecords;
     }
+
+    @Override
+    public Object queryClubApplyList(Integer clubId) {
+        return null;
+    }
 }
 
 

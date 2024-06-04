@@ -61,6 +61,12 @@ public class ClubController {
         return clubmemberService.queryClubMemberByClubId(clubId);
     }
 
+    @GetMapping("/clubApplyList")
+    public  Object queryClubApplyList(Integer clubId)
+    {
+        return null;
+    }
+
     @GetMapping("/getClubInfoBySId")
     public List<ClubDTO> getClubInfoBySId(Integer id){return clubService.getClubInfoBySId(id);}
 

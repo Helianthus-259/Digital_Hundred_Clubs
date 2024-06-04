@@ -12,4 +12,6 @@ import java.util.List;
 */
 public interface ClubapplicationrecordService extends IService<Clubapplicationrecord> {
     List<Clubapplicationrecord> queryClubApplicationRecordBySId(Integer id);
+
+    Object queryClubApplyList(Integer clubId);
 }
