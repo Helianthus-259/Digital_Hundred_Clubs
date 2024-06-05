@@ -108,6 +108,19 @@
                     </t-col>
                   </t-row>
                   <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text" id="table">意见</div>
+                    </t-col>
+                    <t-col :span="9" id="table">
+                      <t-textarea
+                          v-model="opinion"
+                          placeholder="请输入意见"
+                          name="description"
+                          :autosize="true"
+                      />
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
                     <t-col :span="6">
                       <t-button size="large" theme="success" @click="passActivityApproval">通过</t-button>
                     </t-col>
@@ -140,6 +153,7 @@ const statusNameListMap = {
   1: { label: '申请通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
 };
 
+const opinion = ref("")
 const activities = []
 const data = ref([]);
 const visibleModal = ref(false)
@@ -247,13 +261,15 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
 })
 const passActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passActivityApproval, {
-    recordId:activity.value.activityId
+    recordId:activity.value.activityId,
+    opinion: opinion.value
   })
 }
 
 const unPassActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassActivityApproval, {
-    recordId:activity.value.activityId
+    recordId:activity.value.activityId,
+    opinion: opinion.value
   })
 }
 
@@ -282,7 +298,7 @@ onUnmounted(() => {
 <style scoped>
 .clubEvaluationContainer {
   width: 100%;
-  height: 450px;
+  height: 600px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;

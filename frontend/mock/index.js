@@ -538,6 +538,7 @@ mock.onGet(path.backBoneEvaluations).reply((config) => {
             stName: ["小红", "小强", "小王"][i % 3],
             studentNumber: [1, 2, 3][i % 3],
             contact: '114514',
+            declarationYear:[2021,2022,2023][i % 3],
             college: ["人工智能", "软件工程", "测绘"][i % 3],
             politicalStatus: ["群众", "党员"][i % 2],
             clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
@@ -1040,5 +1041,75 @@ mock.onPost(path.passActivityApproval).reply((config)=>{
 mock.onPost(path.unPassActivityApproval).reply((config)=>{
     return[200,{
         code: 56,
+    }]
+})
+mock.onPost(path.passBackboneAwardsReview).reply((config)=>{
+    return[200,{
+        code: 57,
+    }]
+})
+
+mock.onPost(path.unPassBackboneAwardsReview).reply((config)=>{
+    return[200,{
+        code: 58,
+    }]
+})
+
+mock.onGet(path.thisYearClubAnnual).reply((config)=>{
+    const data = {
+        clubName: 'hh',
+        clubCategory: '1',
+        mainCompus: '1',
+        clubDescription: 'hh',
+        totalMembers: '12',
+        file: 'hh',
+        administrativeGuideTeacherName: 'hh',
+        businessGuideTeacherName: 'hh',
+        establishmentDate: 't',
+        contactPerson: 't',
+        contactPhone: '1',
+        clubStatus: '1',
+        responsibleDepartment: '学院',
+        politicalStatus: '1',
+        isFinancialInformationPublic: '1',
+        publicityManagementInfo: {
+            WeChatPublicAccount: { name: 'hh', submitCount: '12', Auditors: { name1: 'hh', name2: 'hh', name3: 'hh' } },
+            WebSite: { has: '1', name: '2' },
+            Blog: { has: '1', name: '2' },
+            BiliBili: { has: '1', name: '2' },
+            TikTok: { has: '1', name: '2' },
+            WeChatVideoAccount: { has: '1', name: '2' },
+            KuaiShou: { has: '1', name: '2' },
+            Publication: { has: '1', name: '2' },
+            Other: { has: '1', name: '2' },
+        },
+    }
+    return[200,{
+        code: 59, // 获取今年社团年审详细信息
+        data
+    }]
+})
+
+mock.onPost(path.passClubAnnualReview).reply((config)=>{
+    return[200,{
+        code: 60,
+    }]
+})
+
+mock.onPost(path.unPassClubAnnualReview).reply((config)=>{
+    return[200,{
+        code: 61,
+    }]
+})
+
+mock.onPost(path.passClubAwardReview).reply((config)=>{
+    return[200,{
+        code: 62,
+    }]
+})
+
+mock.onPost(path.unPassClubAwardReview).reply((config)=>{
+    return[200,{
+        code: 63,
     }]
 })

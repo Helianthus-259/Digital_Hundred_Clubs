@@ -190,6 +190,27 @@ function successHandler(response) {
         } else if (response.data.code === 56){  // 驳回活动请求成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassActivityApprovalSuccess)
+        } else if (response.data.code === 57){  // 通过骨干评优审核成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passBackboneAwardsReviewSuccess)
+        } else if (response.data.code === 58){  // 驳回骨干评优审核成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassBackboneAwardsReviewSuccess)
+        } else if (response.data.code === 59){  // 获取今年社团评优信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getThisYearClubAnnualSuccess, data)
+        } else if (response.data.code === 60){  // 通过社团年审成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubAnnualReviewSuccess)
+        } else if (response.data.code === 61){  // 驳回社团年审成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubAnnualReviewSuccess)
+        } else if (response.data.code === 62){  // 通过社团评优成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubAwardReviewSuccess)
+        } else if (response.data.code === 63){  // 驳回社团评优成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubAwardReviewSuccess)
         }
     }
 }

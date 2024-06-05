@@ -67,7 +67,7 @@
                   <div class="text">发起人数</div>
                 </t-col>
                 <t-col :span="2" id="table">
-
+                  1
                 </t-col>
                 <t-col :span="2" id="table">
                   <div class="text">所属校园(区)</div>
@@ -144,6 +144,19 @@
                 </t-col>
               </t-row>
               <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">意见</div>
+                </t-col>
+                <t-col :span="10" id="table">
+                  <t-textarea
+                      v-model="universityStudentUnionReviewOpinion"
+                      placeholder="请输入意见"
+                      name="description"
+                      :autosize="true"
+                  />
+                </t-col>
+              </t-row>
+              <t-row id="table">
                 <t-col :span="6">
                   <t-button size="large" theme="success" @click="passClubApproval">通过</t-button>
                 </t-col>
@@ -202,6 +215,7 @@ const statusNameListMap = {
 };
 const clubsData = []
 const data = ref([])
+const universityStudentUnionReviewOpinion = ref("")
 function assignment() {
   pagination.value.total = clubsData.value.length
   data.value = clubsData.value
@@ -290,13 +304,15 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
 
 const passClubApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passClubApproval, {
-    recordId:clubInfo.value.recordId
+    recordId:clubInfo.value.recordId,
+    universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
   })
 }
 
 const unPassClubApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubApproval, {
-    recordId:clubInfo.value.recordId
+    recordId:clubInfo.value.recordId,
+    universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
   })
 }
 
@@ -325,7 +341,7 @@ onUnmounted(() => {
 <style scoped>
 .clubEvaluationContainer {
   width: 100%;
-  height: 450px;
+  height: 500px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;

@@ -41,6 +41,12 @@ const base = {
     unPassClubApproval: admin+ '/unPassClubApproval',   // 驳回社团建立申请
     passActivityApproval: admin + '/passActivityApproval',  // 通过社团建立申请
     unPassActivityApproval: admin+ '/unPassActivityApproval',   // 驳回社团建立申请
+    passBackboneAwardsReview: admin + '/passBackboneAwardsReview',  // 通过骨干评优申请
+    unPassBackboneAwardsReview: admin + '/unPassBackboneAwardsReview',  // 驳回骨干评优申请
+    passClubAnnualReview: admin + '/passClubAnnualReview',  // 通过社团年审
+    unPassClubAnnualReview: admin + '/unPassClubAnnualReview', //驳回社团年审
+    passClubAwardReview: admin + '/passClubAwardReview',  // 通过社团评优
+    unPassClubAwardReview: admin + '/unPassClubAwardReview', //驳回社团评优
 
 
     /*————————————————社团————————————————*/
@@ -59,6 +65,7 @@ const base = {
     clubAnnual: club + '/getClubAnnual', // 获取详细年审信息
     clubAward: club + '/getClubAward',  // 获取详细社团评优信息
     clubInfo: club + '/clubInfo',   // 获取详细社团信息
+    thisYearClubAnnual: club + '/thisYearClubAnnual', // 获取今年社团年审信息
 
     // post
     joinClub: club + '/joinClub', // 加入社团

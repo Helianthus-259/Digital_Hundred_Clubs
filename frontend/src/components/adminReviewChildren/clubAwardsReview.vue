@@ -1,7 +1,7 @@
 <style scoped>
 .clubEvaluationContainer {
   width: 100%;
-  height: 690px;
+  height: 550px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;
@@ -79,7 +79,7 @@
 
 <template>
   <t-aside>
-    <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
+    <t-list stripe="true" style="max-height: 600px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="evaluation in evaluations" style="width: auto" :key="evaluation.recordId">
         <t-list-item-meta :title="evaluation.clubName" :description="evaluation.declarationYear" />
         <template #action>
@@ -416,13 +416,11 @@
           </t-row>
         </div>
       </div>
-    </t-content>
-    <t-footer>
-      <t-space direction="horizontal" size="50%" style="margin-left: 15%">
-        <t-button theme="danger">评优条件不符</t-button>
-        <t-button theme="success">成为优秀社团</t-button>
+      <t-space direction="horizontal" size="50%" style="margin-left: 30%; height: 50px">
+        <t-button theme="danger" style="margin-top: 10px" @click="unPassClubAwardReview">驳回评优</t-button>
+        <t-button theme="success" style="margin-top: 10px" @click="passClubAwardReview">通过评优</t-button>
       </t-space>
-    </t-footer>
+    </t-content>
   </t-layout>
 </template>
 
@@ -438,6 +436,7 @@ const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubEvaluationInfo = ref({
+  recordId:null,
   clubName: '',
   handoverMethod: '',
   handoverParticipantsCount: '',
@@ -509,6 +508,7 @@ const clubEvaluationInfo = ref({
 const detail = (data) => {
   console.log(data)
   choose.value = data.recordId
+  clubEvaluationInfo.value.recordId = data.recordId
   clubEvaluationInfo.value.clubName = data.clubName
   clubEvaluationInfo.value.handoverMethod = data.handoverMethod
   clubEvaluationInfo.value.handoverParticipantsCount = data.handoverParticipantsCount
@@ -519,6 +519,7 @@ const detail = (data) => {
   clubEvaluationInfo.value.hostedSchoolLevelActivities = data.hostedSchoolLevelActivities
   clubEvaluationInfo.value.activities = data.activities
   clubEvaluationInfo.value.clubWorkIntroduction = data.clubWorkIntroduction
+  clubEvaluationInfo.value.declarationYear = data.declarationYear
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAwardInfo, { value: data.recordId })
   eventEmitter.on(APIEventEnum.getClubAwardInfoSuccess, 'getClubAwardInfoSuccess', (data) => {
     clubEvaluationInfo.value.totalMembers = data.totalMembers
@@ -536,11 +537,37 @@ eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSucce
   evaluations.value = data
 })
 
+const passClubAwardReview = () => {
+  if(clubEvaluationInfo.value.recordId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
+}
+
+const unPassClubAwardReview = () => {
+  if(clubEvaluationInfo.value.recordId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
+}
+
+eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuccess', ()=>{
+  console.log("通过成功")
+})
+
+eventEmitter.on(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAwardReviewSuccess', ()=>{
+  console.log("驳回成功")
+})
+
 
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess')
   eventEmitter.off(APIEventEnum.getClubAwardInfoSuccess, 'getClubAwardInfoSuccess')
+  eventEmitter.off(APIEventEnum.passClubAwardReviewSuccess, 'passClubAnnualReviewSuccess')
+  eventEmitter.off(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAnnualReviewSuccess')
 })
 
 </script>
