@@ -153,7 +153,7 @@ function successHandler(response) {
         } else if (response.data.code === 43) { // 获取特定社团年审记录成功
             const annualExamData = response.data.returnData;
             eventEmitter.emit(APIEventEnum.getMyClubAnnualExamDataSuccess, annualExamData)
-        } else if (response.data.code === 44) { // 获取特定社团骨干评优记录成功
+        } else if (response.data.code === 44) { // 获取特定社团教师评优记录成功
             const teacherExamData = response.data.returnData;
             eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess, teacherExamData)
         } else if (response.data.code === 45) { // 获取社团获奖信息

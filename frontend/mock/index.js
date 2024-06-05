@@ -308,21 +308,38 @@ mock.onGet(path.adminInfo).reply((config) => {
             password: '123456',
             contact: '37037037037',
             affiliatedUnit: '软件工程',
-            clubs: {//这是社团管理员所管理的唯一社团，因此不用[]，直接用{}
-                clubId: 1,
-                clubName: '社团1',
-                establishedTime: '2024/05/03',
-                affiliatedUnitId: '这是附属部门id',
-                clubIntroduction: '这是社团简介',
-                clubSort: '这是社团类别的枚举',//0，1，2，3，4
-                clubStatus: '这是社团状态的枚举',//0未通过、1通过
-                administrativeAdvisorName: '这是行政指导老师姓名',
-                businessAdvisorName: '这是业务指导老师姓名',
-                contactsId: '这是联系人Id',
-                location: '广州南校',
-                totalMembership: '这是社团总人数',
-                financePublicity: '这是是否成员财务公开'
-            },
+            clubs: [//这是学院管理员管理的所有社团
+                {
+                    clubId: 1,
+                    clubName: '篮球社',
+                    establishedTime: '2024/05/03',
+                    affiliatedUnitId: '7432',
+                    clubIntroduction: '打篮球的社团。',
+                    clubSort: '0（枚举类，对应体育类）',//0，1，2，3，4
+                    clubStatus: '这是社团1状态的枚举',
+                    administrativeAdvisorName: '刑震',
+                    businessAdvisorName: '叶悟',
+                    contactsId: '21314151',
+                    location: '广州南校',
+                    totalMembership: '40',
+                    financePublicity: '公开'
+                },
+                {
+                    clubId: 2,
+                    clubName: '社团2',
+                    establishedTime: '2023/06/05',
+                    affiliatedUnitId: '这是社团2附属部门id',
+                    clubIntroduction: '这是社团2简介',
+                    clubSort: '这是社团2类别的枚举',//0，1，2，3，4
+                    clubStatus: '这是社团2状态的枚举',
+                    administrativeAdvisorName: '这是行政指导老师姓名',
+                    businessAdvisorName: '这是业务指导老师姓名',
+                    contactsId: '这是社团2联系人Id',
+                    location: '珠海校区',
+                    totalMembership: '这是社团2总人数',
+                    financePublicity: '不公开'
+                }
+            ],
         },
 
     }]
@@ -387,8 +404,8 @@ mock.onGet(path.clubActivityList).reply((config) => {
             activityName: `活动名称${i}`,
             imageUrl: `https://picsum.photos/400/300?`,
             status: i % 3, //此处需要区分活动审批状态和活动进行状态
-            activitiesSort: ['普通社团活动', '跨社团联合活动', '社团与外界联合活动',][i % 3],
             activityPlace: ['珠海校区新体育馆', '校外区域', '广州南校英东体育场', '广州南校新体育馆',][i % 4],
+            activityEffect:['无内容','活动成效描述1','活动成效描述2',][i%3]//活动成效
         })
     }
     return [200, {
@@ -817,11 +834,11 @@ mock.onGet(path.myClubBackboneExamData).reply((config) => {
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020 + i}骨干评优：张三`,
+            stName: '张三',
             status: i % 3,
-            examId: i,
-            examdetail: '评优通过',
-            examSort: '骨干评优',
+            recordId: i,
+            reviewOpinion: '评优通过',//此处可以返回任职时间
+            declarationYear: [2022,2023,2024][i%3],
         })
     }
     return [200, {
@@ -837,11 +854,11 @@ mock.onGet(path.myClubAnnualExamData).reply((config) => {
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020 + i}年审：篮球社`,
+            clubName: '篮球社',
             status: i % 3,
-            examId: i,
-            examdetail: '备注为空',
-            examSort: '年度审核',
+            declarationId: i,
+            reviewOpinion: '备注为空',//此处可以返回部门意见
+            declarationYear: [2022,2023,2024][i%3],
         })
     }
     return [200, {
@@ -850,18 +867,18 @@ mock.onGet(path.myClubAnnualExamData).reply((config) => {
     }]
 })
 
-//获取特定社团的骨干评优记录
+//获取特定社团的教师评优记录
 mock.onGet(path.myClubTeacherExamData).reply((config) => {
     let cid = config.clubId;
     //根据clubId返回教师评优记录：
     const returnData = [];
     for (let i = 0; i < 3; i++) {
         returnData.push({
-            examName: `${2020 + i}教师评优：刘华强`,
-            status: i % 3,
-            examId: i,
-            examdetail: '评优通过',
-            examSort: '教师评优',
+            teacherName: '刘华强',
+            status:i % 3,
+            declarationYear: [2022,2023,2024][i%3],
+            declarationId: i,
+            reviewOpinion: '是个好老师',//此处可以返回评优意见
         })
     }
     return [200, {

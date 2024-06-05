@@ -136,6 +136,26 @@ import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 
+//先确定要获取的数据量
+
+const clubsInfoMap=new Map();
+
+function getAllManagedClubs(){
+  const user = ref(store.state.userInfo);
+  const clubsInfo = ref(user.value.clubs);
+  clubsInfo.value.forEach(element => {
+    clubsInfoMap.set(element.clubId,element.clubName);
+  });
+}
+getAllManagedClubs()
+
+const pSize = 20;
+const pagination = {
+  defaultCurrent: 1,
+  defaultPageSize: 10,
+  total: pSize*clubsInfoMap.size,
+};
+
 /////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
 const options1 = [
   { value: '活动结束', label: '活动结束',theme: 'success' },
@@ -151,73 +171,63 @@ const indeterminate = computed(() => !!(options1.length > value1.value.length &&
 const handleSelectAll = (checked) => {
   value1.value = checked ? ['活动结束','活动进行中','活动取消','活动未开始'] : [];
   showedData=[]
-  for(let i=0;i<data.length;i++)
-  {
-    let flag=false
-    
-    for(let j=0;j<value1.value.length;j++) 
-      if(options1[data[i].status].label===value1.value[j])
-        flag=true
-    
-    if(flag) {
-      showedData.push(data[i])
+  for(let i=0;i<data.value.length;i++){
+    for(let j=0;j<value1.value.length;j++) {
+      if(options1[data.value[i].status].label===value1.value[j]) {
+        showedData.push(data.value[i])
+        break;
+      }
     }
   }
-  total=showedData.length;
+  pagination.total=showedData.length;
 };
 
 //单独按钮对应showedData处理
 const onChange1 = (val) => {
-  console.log(value1.value, val);
   showedData=[]
-  for(let i=0;i<data.length;i++)
-  {
-    let flag=false
-
+  for(let i=0;i<data.value.length;i++)
     for(let j=0;j<value1.value.length;j++) 
-      if(options1[data[i].status].label===value1.value[j])
-        flag=true
-    
-    if(flag) 
-      showedData.push(data[i])
-  }
-  total=showedData.length;
+      if(options1[data.value[i].status].label===value1.value[j])
+      {
+        showedData.push(data.value[i])
+        break;
+      }
+  pagination.total=showedData.length;
 };
-
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
 
-const data = [];
-const clubId=store.state.userInfo.clubs.clubId;
+const data = ref([]);
 let pNumber = 0;
-const pSize = 48;
-let total = 48;
+let showedData=[];
 
-function getClubActivityData () {
+//获取学院管理员本人所管理的所有社团：
+let queue=[];
+function getClubActivityData (clubName,clubId) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+  queue.push(clubName)//放进队列
   eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (returnData) => {
-        let i=0;
-        for(i=0;i<pSize;i++)
-        {
-          const activity = returnData[i];
-          data.push({
-            index: activity.activityId,
-            activityName: activity.activityName,
-            status: activity.status,
-            activityId: activity.activityId,
-            activityPlace: activity.activityPlace,
-            activitiesSort: activity.activitiesSort,
-          })
-        }
+    const tempClubName=queue[0];
+    if(queue.length>1)
+      queue=queue.slice(1);
+
+    returnData.forEach(element =>{ 
+      element.clubName=tempClubName; 
     })
+    
+    if(data.value.length===0)
+      data.value = returnData;
+    else
+      data.value.push(...returnData);
+  })
 }
 
-getClubActivityData();
+clubsInfoMap.forEach(getClubActivityData);
 
-let showedData=data;
 const columns = ref([
+  { colKey: 'clubName', title: '社团名称' ,},  
   { colKey: 'activityId', title: '活动id' ,},
   { colKey: 'activityName', title: '活动名称',},
-  { colKey: 'activityPlace', title: '活动场地',},
+  { colKey: 'activityPlace', title: '活动场地',width:'200'},
   {
     colKey: 'status',
     title: '活动审批状态',
@@ -229,23 +239,12 @@ const columns = ref([
       );
     },
   },
-  { colKey: 'activitiesSort', title: '活动类别',width:'250'},
+  { colKey: 'activityEffect', title: '活动成效',width:'200'},
   
 ]);
 
 const handleRowClick = (e) => {
   console.log(e);
 };
-
-// const current=1;
-const pagination = {
-  defaultCurrent: 1,
-  defaultPageSize: 10,
-  total: total,
-  // pageSize: pSize,
-  // current: current,
-};
-
-
-
+showedData=data;
 </script>

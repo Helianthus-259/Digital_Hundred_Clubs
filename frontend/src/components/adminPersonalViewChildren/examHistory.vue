@@ -133,10 +133,31 @@ import '@/utils/simhei-normal'
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
-import { MessagePlugin } from 'tdesign-vue-next';
+
+const clubsIdList=ref([]);
+const clubsInfoMap=new Map();
+
+function getAllManagedClubs(){
+  const user = ref(store.state.userInfo);
+  const clubsInfo = ref(user.value.clubs);
+  let tempClubsIdList=[];
+  clubsInfo.value.forEach(element => {
+    tempClubsIdList.push(element.clubId);
+    clubsInfoMap.set(element.clubId,element.clubName);
+  });
+  clubsIdList.value=tempClubsIdList;
+}
+getAllManagedClubs()
+
+const pSize = 20;
+const pagination = {
+  defaultCurrent: 1,
+  defaultPageSize: 10,
+  total: pSize*clubsInfoMap.size,
+};
+
 /////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
 const options1 = [
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   { value: '申请通过', label: '申请通过' },
   { value: '申请失败', label: '申请失败' },
   { value: '申请退回', label: '申请退回' },
@@ -151,34 +172,26 @@ const indeterminate = computed(() => !!(options1.length > value1.value.length &&
 const handleSelectAll = (checked) => {
   value1.value = checked ? ['申请通过','申请失败','申请退回','申请中'] : [];
   showedData=[];
-  for(let i=0;i<data.length;i++)
-  {
-    let flag=false;
-
-    for(let j=0;j<value1.value.length;j++)
-      if(statusNameListMap[data[i].status].label===value1.value[j])
-        flag=true;
-
-    if(flag)
-      showedData.push(data[i])
-  }
-  total=showedData.length;
+  for(let i=0;i<data.value.length;i++)
+    for(let j=0;j<value1.value.length;j++) 
+      if(options1[data.value[i].status].label===value1.value[j])
+      {
+        showedData.push(data.value[i])
+        break;
+      }
+  pagination.total=showedData.length;
 };
 
 const onChange1 = (val) => {
-  console.log(value1.value, val);
   showedData=[]
-  for(let i=0;i<data.length;i++) {
-    let flag=false
-
-    for(let j=0;j<value1.value.length;j++)
-      if(statusNameListMap[data[i].status].label===value1.value[j])
-        flag=true
-
-    if(flag)
-      showedData.push(data[i])
-  }
-  total=showedData.length;
+  for(let i=0;i<data.value.length;i++)
+    for(let j=0;j<value1.value.length;j++) 
+      if(options1[data.value[i].status].label===value1.value[j])
+      {
+        showedData.push(data.value[i])
+        break;
+      }
+  pagination.total=showedData.length;
 };
 
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
@@ -189,87 +202,108 @@ const statusNameListMap = {
   2: { label: '申请退回', theme: 'warning' },
   3: { label: '申请中', theme: 'primary' },
 };
-const data = [];
+const data = ref([]);
 let showedData = [];
-const clubId = store.state.userInfo.clubs.clubId;
 let pNumber = 0;
-const pSize = 48;
-let total = 48;
 
-function getClubActivityData () {
+
+let activityClubNameQueue=[];
+function getClubActivityData (clubId) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
+  activityClubNameQueue.push(clubsInfoMap.get(clubId))
   eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (returnData) => {
-        let i=0;
-        for(i=0;i<pSize;i++)
-        {
-          const examItem = returnData[i];
-          data.push({
-            examName: examItem.activityName,
-            status: examItem.status,
-            examId: examItem.activityId,
-            examdetail: examItem.activityPlace,
-            examSort: examItem.activitiesSort,
-          })
-        }
-    })
+    const tempClubName=activityClubNameQueue[0];
+    if(activityClubNameQueue.length>1)
+      activityClubNameQueue=activityClubNameQueue.slice(1);
+    returnData.forEach(element => {
+      element.clubName=tempClubName;
+      element.examId=element.activityId;
+      element.examName=element.activityName;
+      element.examdetail=element.activityEffect;
+    });
+
+    if(data.value.length===0)
+      data.value = returnData;
+    else
+      data.value.push(...returnData);
+  })
 }
 
-function getMyClubAnnualExamData () {
+function getMyClubAnnualExamData (clubId) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubAnnualExamData, { clubId })
   eventEmitter.on(APIEventEnum.getMyClubAnnualExamDataSuccess, 'getMyClubAnnualExamDataSuccess', (returnData) => {
-        // console.log("收到数据："+returnData)
-        for(let i=0;i<returnData.length;i++){
-          const examItem=returnData[i];
-          data.push({
-            examName: examItem.examName,
-            status: examItem.status,
-            examId: examItem.examId,
-            examdetail: examItem.examdetail,
-            examSort: examItem.examSort,
-          })
-        }
-    })
+    // console.log("收到数据："+returnData)
+    for(let i=0;i<returnData.length;i++){
+      const examItem=returnData[i];
+      let year=examItem.declarationYear;
+      let yearString=''+year;
+      data.value.push({
+        clubName: examItem.clubName,
+        examName: yearString +'年度审核',
+        status: examItem.status,
+        examId: examItem.declarationId,
+        examdetail: ( (examItem.reviewOpinion===null) ? '暂无意见' : examItem.reviewOpinion ),
+      })
+      pagination.total++;
+    }
+  })
 }
 
-function getMyClubBackboneExamData () {
+let backboneClubNameQueue=[];
+function getMyClubBackboneExamData (clubId) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubBackboneExamData, { clubId })
+  backboneClubNameQueue.push(clubsInfoMap.get(clubId))
   eventEmitter.on(APIEventEnum.getMyClubBackboneExamDataSuccess, 'getMyClubBackboneExamDataSuccess', (returnData) => {
-        // console.log("收到数据："+returnData)
-        for(let i=0;i<returnData.length;i++){
-          const examItem=returnData[i];
-          data.push({
-            examName: examItem.examName,
-            status: examItem.status,
-            examId: examItem.examId,
-            examdetail: examItem.examdetail,
-            examSort: examItem.examSort,
-          })
-        }
-    })
+    const tempClubName=backboneClubNameQueue[0];
+    if(backboneClubNameQueue.length>1)
+      backboneClubNameQueue=backboneClubNameQueue.slice(1);
+    for(let i=0;i<returnData.length;i++){
+      const examItem=returnData[i];
+      let year=examItem.declarationYear;
+      let yearString=''+year;
+      data.value.push({
+        clubName: tempClubName,
+        examName: examItem.stName+'同学'+ yearString +'年骨干评优',
+        status: examItem.status,
+        examId: examItem.recordId,
+        examdetail: ( (examItem.reviewOpinion===null) ? '暂无意见' : examItem.reviewOpinion ),
+      })
+      pagination.total++;
+    }
+  })
 }
 
-function getMyClubTeacherExamData () {
+let teacherClubNameQueue=[];
+function getMyClubTeacherExamData (clubId) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getMyClubTeacherExamData, { clubId })
+  teacherClubNameQueue.push(clubsInfoMap.get(clubId))
   eventEmitter.on(APIEventEnum.getMyClubTeacherExamDataSuccess, 'getMyClubTeacherExamDataSuccess', (returnData) => {
-        // console.log("收到数据："+returnData)
-        for(let i=0;i<returnData.length;i++){
-          const examItem=returnData[i];
-          data.push({
-            examName: examItem.examName,
-            status: examItem.status,
-            examId: examItem.examId,
-            examdetail: examItem.examdetail,
-            examSort: examItem.examSort,
-          })
-        }
-    })
+    const tempClubName=teacherClubNameQueue[0];
+    if(teacherClubNameQueue.length>1)
+      teacherClubNameQueue=teacherClubNameQueue.slice(1);
+    for(let i=0;i<returnData.length;i++){
+      const examItem=returnData[i];
+      let year=examItem.declarationYear;
+      let yearString=''+year;
+      data.value.push({
+        clubName: tempClubName,
+        examName: examItem.teacherName+'指导教师'+ yearString +'评优',
+        status: examItem.status,
+        examId: examItem.declarationId,
+        examdetail: ( (examItem.reviewOpinion===null) ? '暂无意见' : examItem.reviewOpinion ),
+      })
+      pagination.total++;
+    }
+  })
 }
 
-getClubActivityData();
-getMyClubAnnualExamData();
-getMyClubBackboneExamData ();
-getMyClubTeacherExamData ();
-showedData=data;
+clubsInfoMap.keys().forEach(clubId=>{
+  getClubActivityData(clubId);
+  getMyClubAnnualExamData(clubId);
+  getMyClubBackboneExamData (clubId);
+  getMyClubTeacherExamData (clubId);
+})
+
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(true);
@@ -277,9 +311,9 @@ const size = ref('medium');
 const showHeader = ref(true);
 
 const columns = ref([
-  { colKey: 'examId', title: '审批提交时间' ,},
-  { colKey: 'examName', title: '审批事项',},
-  { colKey: 'examdetail', title: '审批细节',},
+  { colKey: 'clubName', title: '社团名' ,},
+  { colKey: 'examId', title: '活动Id/审批记录Id' ,},
+  { colKey: 'examName', title: '审批事项',width:'250'},
   {
     colKey: 'status',
     title: '审批状态',
@@ -291,22 +325,14 @@ const columns = ref([
       );
     },
   },
-  {
-    colKey: 'examSort',
-  },
+  { colKey: 'examdetail', title:'备注',},
 
 ]);
 
 const handleRowClick = (e) => {
   console.log(e);
-  console.log("showedData:"+showedData.length)
 };
-const pagination = {
-  defaultCurrent: 1,
-  defaultPageSize: 10,
-  total,
-};
-
+showedData=data;
 /////////////////////////以上部分为表格设计代码//////////////////////////////////
 
 </script>

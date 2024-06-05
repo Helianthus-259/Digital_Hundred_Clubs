@@ -45,7 +45,7 @@
 
       <div class="user-left-greeting">
         <div>
-          Hi，{{ affiliatedUnit }}管理员{{adminId}}
+          Hi，{{ user.affiliatedUnit }}管理员{{user.adminId}}
           <span class="regular">欢迎使用数字百团！</span>
         </div>
         <img src="@/assets/数字百团logo.png" class="logo" />
@@ -53,38 +53,38 @@
 
 
       <!-- 社团信息卡 -->
-      <t-card class="user-info-list" :title="clubString" bordered>
+      <t-card class="user-info-list" v-for="item in clubInfo" :title="clubString" bordered>
         <template #actions>
           <t-button theme="primary" shape="square" variant="base" @click="whileClick">
             {{ buttonText }}
           </t-button>
         </template>
 
-        <t-descriptions bordered :column="3">
+        <t-descriptions bordered :column="2">
 
           <t-descriptions-item label="社团名称">
             <!-- <t-auto-complete borderless readonly="true" v-model="clubName" />   -->
-            {{clubName}}
+            {{item.clubName}}
           </t-descriptions-item>
 
           <t-descriptions-item label="附属单位">
-            {{affiliatedUnit}}
+            {{user.affiliatedUnit}}
           </t-descriptions-item>
 
           <t-descriptions-item label="社团总人数">
-            {{totalMembership}}
+            {{item.totalMembership}}
           </t-descriptions-item>
 
           <t-descriptions-item label="成立日期">
-            {{establishedTime}}
+            {{item.establishedTime}}
           </t-descriptions-item>
 
           <t-descriptions-item label="社团类别">
-            {{clubSort}}
+            {{item.clubSort}}
           </t-descriptions-item>
 
           <t-descriptions-item label="主部所在校区">
-            <t-select showArrow v-model="location" :readonly="readOnly">
+            <t-select showArrow v-model="item.location" :readonly="readOnly">
               <t-option key="广州南校" label="广州南校" value="广州南校" />
               <t-option key="广州北校" label="广州北校" value="广州北校" />
               <t-option key="广州东校" label="广州东校" value="广州东校" />
@@ -94,34 +94,32 @@
           </t-descriptions-item>
 
           <t-descriptions-item label="业务指导老师姓名">
-            <t-auto-complete borderless :readonly="readOnly" v-model="businessAdvisorName" />  
+            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="item.businessAdvisorName" />  
           </t-descriptions-item>
 
           <t-descriptions-item label="行政指导老师姓名">
-            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="administrativeAdvisorName" />  
+            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="item.administrativeAdvisorName" />  
           </t-descriptions-item>
 
           <t-descriptions-item label="成员财务是否公开">
-            <t-select showArrow v-model="financePublicity" :readonly="readOnly">
+            <t-select showArrow v-model="item.financePublicity" :readonly="readOnly">
               <t-option key="公开" label="公开" value="公开" />
               <t-option key="不公开" label="不公开" value="不公开" />
             </t-select>
           </t-descriptions-item>
 
-          <t-descriptions-item label="社团邮箱">
-            <t-auto-complete borderless :readonly="readOnly" v-model="clubEmail" />  
-          </t-descriptions-item>
+          <!-- <t-descriptions-item label="社团邮箱">
+            <t-auto-complete borderless :readonly="readOnly" v-model="item.clubEmail" />  
+          </t-descriptions-item> -->
         </t-descriptions>
 
       </t-card>
       
-      <t-card class="content-container" :bordered="false" style="margin-bottom:10px; margin-top: 10px;margin-left:10px;margin-right:10px;">
+      <!-- <t-card class="content-container" :bordered="false" style="margin-bottom:10px; margin-top: 10px;margin-left:10px;margin-right:10px;">
         <t-tabs value="second">
 
-          <t-tab-panel value="first" label="社团概况">
-          </t-tab-panel>
 
-          <t-tab-panel value="second" label="社团数据">
+          <t-tab-panel value="second" label="社团动态">
 
             <t-card :bordered="false" class="card-padding-no" title="社团活动数据" describe="（次）">
               <template #actions>
@@ -134,13 +132,9 @@
               
             </t-card>
 
-          </t-tab-panel>
-
-          <t-tab-panel value="third" label="社团成就">
-          </t-tab-panel>
 
         </t-tabs>
-      </t-card>
+      </t-card> -->
 
     </t-col>
   </t-row>
@@ -158,52 +152,54 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
-// 展示个人信息
-const affiliatedUnit = ref('')
-const affiliatedUnitId = ref('')
-const totalMembership = ref('')
-const clubName = ref('')
-const establishedTime = ref('')
-const clubSort =ref('')
-const businessAdvisorName = ref('')
-const administrativeAdvisorName = ref('')
-const location = ref('')
-const financePublicity = ref('')
-const clubEmail = ref('')
-const adminId = ref('')
+// // 展示个人信息
+// const affiliatedUnit = ref('')
+// const affiliatedUnitId = ref('')
+// const totalMembership = ref('')
+// const clubName = ref('')
+// const establishedTime = ref('')
+// const clubSort =ref('')
+// const businessAdvisorName = ref('')
+// const administrativeAdvisorName = ref('')
+// const location = ref('')
+// const financePublicity = ref('')
+// const clubEmail = ref('')
+// const adminId = ref('')
 
 const user = ref({})
-const clubInfo=ref({})
+// const clubInfo=ref({})
+let clubInfo = []
 
 // 为上面定义的变量赋值
-function assignment() {
-    adminId.value = user.value.adminId
-    affiliatedUnit.value = user.value.affiliatedUnit
-    clubInfo.value = user.value.clubs
-    affiliatedUnitId.value = clubInfo.value.affiliatedUnitId
-    establishedTime.value=clubInfo.value.establishedTime
-    clubSort.value=clubInfo.value.clubSort
-    totalMembership.value = clubInfo.value.totalMembership
-    clubName.value = clubInfo.value.clubName
-    financePublicity.value = clubInfo.value.financePublicity
-    location.value = clubInfo.value.location
-    administrativeAdvisorName.value = clubInfo.value.administrativeAdvisorName
-    businessAdvisorName.value=clubInfo.value.businessAdvisorName
-    clubEmail.value = clubInfo.value.clubEmail
-}
+// function assignment() {
+//     adminId.value = user.value.adminId
+//     affiliatedUnit.value = user.value.affiliatedUnit
+//     clubInfo.value = user.value.clubs
+//     affiliatedUnitId.value = clubInfo.value.affiliatedUnitId
+//     establishedTime.value=clubInfo.value.establishedTime
+//     clubSort.value=clubInfo.value.clubSort
+//     totalMembership.value = clubInfo.value.totalMembership
+//     clubName.value = clubInfo.value.clubName
+//     financePublicity.value = clubInfo.value.financePublicity
+//     location.value = clubInfo.value.location
+//     administrativeAdvisorName.value = clubInfo.value.administrativeAdvisorName
+//     businessAdvisorName.value=clubInfo.value.businessAdvisorName
+//     clubEmail.value = clubInfo.value.clubEmail
+// }
 
 if (isEmptyObject(store.state.userInfo)) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
 } else {
-  console.log("else已经获取信息！准备assignment")
-  user.value = store.state.userInfo
-  assignment()
+  console.log("userInfo已经获取信息！")
+  user.value = store.state.userInfo;
+  clubInfo=user.value.clubs;
+  // assignment();
 }
 
 //初次加载界面时借此获取信息
 eventEmitter.on(APIEventEnum.getAdminInfoSuccess, (data) => {
-    user.value = data
-    assignment()
+    user.value = data;
+    // assignment()
 })
 
 function save() {
