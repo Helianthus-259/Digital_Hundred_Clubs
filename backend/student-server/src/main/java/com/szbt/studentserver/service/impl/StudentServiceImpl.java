@@ -55,12 +55,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
                 .selectAll(Student.class)
                 .eq(Student::getStudentId,id);
-        UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
-        userInfoDTO.setAchievements(activityMemberDTOS);
-        userInfoDTO.setClubs(clubDTOS);
-        System.out.println(userInfoDTO);
-
-        return Result.success(new DataVO(ResultCode.GET_USER_INFO,userInfoDTO));
+        try{
+            UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
+            userInfoDTO.setAchievements(activityMemberDTOS);
+            userInfoDTO.setClubs(clubDTOS);
+            System.out.println(userInfoDTO);
+            return Result.success(new DataVO(ResultCode.GET_USER_INFO,userInfoDTO));
+        }catch (Exception e)
+        {
+            return Result.send(StatusCode.GET_STUDENT_INFO_ERROR,new SendMsg("获取学生信息失败"));
+        }
     }
 
     @Override

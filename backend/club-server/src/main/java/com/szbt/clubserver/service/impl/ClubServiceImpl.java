@@ -79,10 +79,15 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .leftJoin(Clubapplicationrecord.class, Clubapplicationrecord::getClubId, Club::getClubId)
                 .eq(Club::getContactPersonId, id)
                 .eq(Club::getClubStatus, 0);
-        List<ClubDTO> clubDTOS = clubMapper.selectJoinList(ClubDTO.class, wrapper);
-        clubDTOS.addAll(clubDTOS1);
-        System.out.println(clubDTOS);
-        return clubDTOS;
+        try{
+            List<ClubDTO> clubDTOS = clubMapper.selectJoinList(ClubDTO.class, wrapper);
+            clubDTOS.addAll(clubDTOS1);
+            System.out.println(clubDTOS);
+            return clubDTOS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -233,6 +238,20 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         }catch (Exception e){
             e.printStackTrace();
             return Result.send(StatusCode.GET_CLUB_ANNUL_ERROR,new SendMsg("获取详细年审信息失败"));
+        }
+    }
+
+    @Override
+    public Club queryAdminClubInfo(Integer adminId) {
+        QueryWrapper<Club> wrapper = new QueryWrapper<>();
+        wrapper.eq("responsible_department_id", adminId);
+        try{
+            //Club club = clubMapper.selectOne(wrapper);
+            List<Club> clubList = clubMapper.selectList(wrapper);
+            return clubList.get(0);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

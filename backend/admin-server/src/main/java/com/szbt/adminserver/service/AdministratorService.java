@@ -2,6 +2,7 @@ package com.szbt.adminserver.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.entity.Administrator;
+import org.example.entity.Club;
 
 /**
 * @author 小壳儿
@@ -11,4 +12,6 @@ import org.example.entity.Administrator;
 public interface AdministratorService extends IService<Administrator> {
     Object updateAdminInfo(Administrator administrator);
     Object getAdminInfo(Integer adminId);
+
+    Object getAdmin(Integer adminId, Club club);
 }
