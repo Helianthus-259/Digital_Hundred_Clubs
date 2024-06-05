@@ -157,7 +157,8 @@ public class ClubController {
     @PostMapping("/agreeClubApply")
     public  Object agreeClubApply(Integer clubId, Integer studentId){
         Club club = clubService.getClubInfoById(clubId);
-        return clubMembershipApplicationService.agreeClubApply(club,studentId);
+        Boolean ok = clubService.addClubTotalMember(clubId);
+        return clubMembershipApplicationService.agreeClubApply(club,studentId,ok);
     }
 
     @PostMapping("/joinClub")
@@ -200,4 +201,12 @@ public class ClubController {
         return clubService.queryClubApplicationInfo(clubId);
     }
 
+    @GetMapping("/getClubAnnual")
+    public Object queryClubAnnualInfo(Integer clubId){return clubService.queryClubAnnualInfo(clubId);}
+
+    @GetMapping("/getClubAward")
+    public Object queryClubEvaluationInfo(Integer clubId){return studentclubevaluationService.queryClubEvaluationInfo(clubId);}
+
+    @GetMapping("/clubInfo")
+    public Object queryClubInfoInfo(Integer clubId){return clubService.queryClubInfoInfo(clubId);}
 }

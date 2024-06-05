@@ -1,20 +1,17 @@
 package com.szbt.clubserver.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
-import org.example.dto.ClubApplicationInfoDTO;
-import org.example.dto.ClubDTO;
-import org.example.dto.ClubInfoDTO;
-import org.example.entity.Administrator;
-import org.example.entity.Club;
-import org.example.entity.Clubapplicationrecord;
-import org.example.entity.Student;
+import org.example.dto.*;
+import org.example.entity.*;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.ClubDescriptionVO;
 import org.example.vo.DataVO;
@@ -160,18 +157,85 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .selectAll(Club.class)
                 .select(Administrator::getDepartmentName)
                 .select(Student::getStName,Student::getContact)
-                .select(Clubapplicationrecord::getAttachmentUrl)
+                .select(Clubapplicationrecord::getAttachmentUrl,
+                        Clubapplicationrecord::getAdvisorResumeAttachmentUrl)
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
                 .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
                 .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId)
                 .eq(Club::getClubId,clubId);
         ClubApplicationInfoDTO clubApplicationInfoDTO = clubMapper.selectJoinOne(ClubApplicationInfoDTO.class, wrapper);
         String attachmentUrl = clubApplicationInfoDTO.getAttachmentUrl();
-        clubApplicationInfoDTO.setAttachmentUrl(fileServerDownloadUrl+attachmentUrl);
+        clubApplicationInfoDTO.setAttachmentUrl(FileRequestUrlBuilder.buildFileRequestUrl(attachmentUrl));
+        clubApplicationInfoDTO.setAdvisorResumeAttachmentUrl(FileRequestUrlBuilder
+                .buildFileRequestUrl(clubApplicationInfoDTO.getAdvisorResumeAttachmentUrl()));
         // 构造结果对象
         return Result.success(new DataVO(ResultCode.GET_CLUB_APPLICATION_INFO,clubApplicationInfoDTO));
     }
 
+    @Override
+    public Boolean addClubTotalMember(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .eq(Club::getClubId,clubId);
+        Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
+        Integer totalMembers = clubInfo.getTotalMembers();
+        clubInfo.setTotalMembers(totalMembers+1);
+        try{
+            clubMapper.updateById(clubInfo);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Object queryClubInfoInfo(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .select(Administrator::getDepartmentName)
+                .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
+                .eq(Club::getClubId,clubId);
+        try{
+            SingleClubInfoDTO singleClubInfoDTO = clubMapper.selectJoinOne(SingleClubInfoDTO.class, wrapper);
+            singleClubInfoDTO.setImageUrl(FileRequestUrlBuilder
+                    .buildFileRequestUrl(singleClubInfoDTO.getImageUrl()));
+            return Result.success(new DataVO(ResultCode.GET_CLUB_DETAIL,singleClubInfoDTO));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_CLUB_INFO_ERROR,new SendMsg("获取详细社团信息失败"));
+        }
+    }
+
+    @Override
+    public Object queryClubAnnualInfo(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .select(Annualaudit::getClubConstitutionAttachment,
+                        Annualaudit::getExternalSponsorshipAttachment,
+                        Annualaudit::getMeetingActivityListAttachment,
+                        Annualaudit::getPublicityManagementInfo)
+                .select(Administrator::getDepartmentName)
+                .select(Student::getStName,Student::getContact,Student::getPoliticalStatus)
+                .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
+                .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
+                .leftJoin(Annualaudit.class,Annualaudit::getClubId,Club::getClubId)
+                .eq(Annualaudit::getClubId,clubId)
+                .eq(Annualaudit::getDeclarationYear,2023);
+        try{
+            ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
+            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
+            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
+            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
+            return Result.success(new DataVO(ResultCode.GET_CLUB_ANNUL_INFO,clubAnnualDTO));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_CLUB_ANNUL_ERROR,new SendMsg("获取详细年审信息失败"));
+        }
+    }
 }
 
 
