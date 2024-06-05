@@ -6,10 +6,13 @@ import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
+import org.example.dto.ClubApplicationInfoDTO;
 import org.example.dto.ClubDTO;
 import org.example.dto.ClubInfoDTO;
+import org.example.entity.Administrator;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
+import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
@@ -22,7 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -147,6 +152,24 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             String exceptionAsString = e.toString();
             return Result.send(StatusCode.GET_TOP_TEN_CLUB_ERROR,new SendMsg(exceptionAsString));
         }
+    }
+
+    @Override
+    public Object queryClubApplicationInfo(Integer clubId) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .select(Administrator::getDepartmentName)
+                .select(Student::getStName,Student::getContact)
+                .select(Clubapplicationrecord::getAttachmentUrl)
+                .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
+                .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
+                .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId)
+                .eq(Club::getClubId,clubId);
+        ClubApplicationInfoDTO clubApplicationInfoDTO = clubMapper.selectJoinOne(ClubApplicationInfoDTO.class, wrapper);
+        String attachmentUrl = clubApplicationInfoDTO.getAttachmentUrl();
+        clubApplicationInfoDTO.setAttachmentUrl(fileServerDownloadUrl+attachmentUrl);
+        // 构造结果对象
+        return Result.success(new DataVO(ResultCode.GET_CLUB_APPLICATION_INFO,clubApplicationInfoDTO));
     }
 
 }

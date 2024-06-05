@@ -29,4 +29,6 @@ public interface ClubService extends IService<Club> {
 
     Object topTenClubs();
 
+    Object queryClubApplicationInfo(Integer clubId);
+
 }
