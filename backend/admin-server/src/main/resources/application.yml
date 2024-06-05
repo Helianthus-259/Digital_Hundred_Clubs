@@ -8,9 +8,9 @@ spring:
   application:
     name: admin-server
   datasource:
-    url: jdbc:mysql://localhost:3306/digital_club_db?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: a123
+    url: jdbc:mysql://localhost:3306/DigitalClub?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: 'root'
+    password: '030520'
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:

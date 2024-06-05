@@ -172,6 +172,12 @@ function successHandler(response) {
         } else if(response.data.code === 50){   // 获取社团年审详细信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubAnnualSuccess, data)
+        } else if (response.data.code === 51){  // 获取社团详细评优信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubAwardInfoSuccess, data)
+        } else if (response.data.code === 52){  // 获取社团详细信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubInfoSuccess, data)
         }
     }
 }

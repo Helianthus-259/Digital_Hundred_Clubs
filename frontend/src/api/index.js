@@ -340,6 +340,16 @@ const api = {
         params:{
             clubId: params.clubId,
         }
+    }),
+    'getClubAwardInfo':(params)=>axios.get(path.clubAward, {
+        params:{
+            recordId: params.recordId,
+        }
+    }),
+    'getClubInfo':(params)=>axios.get(path.clubInfo, {
+        params:{
+            clubId: params.clubId,
+        }
     })
 }
 

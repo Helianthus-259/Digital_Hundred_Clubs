@@ -448,17 +448,6 @@ const clubEvaluationInfo = ref({
   mainCompus: "",
   backboneNumber: '',
   communistRelatedBackBoneNumber: '',
-  publicityManagementInfo: {
-    wechatOfficial: '',
-    web: '',
-    weibo: '',
-    bilibili: '',
-    tiktok: '',
-    wechatVideo: '',
-    kuaishou: '',
-    journal: '',
-    other: '',
-  },
   file: '',
   declarationYear: '',
   guideTeacher: '',
@@ -530,8 +519,8 @@ const detail = (data) => {
   clubEvaluationInfo.value.hostedSchoolLevelActivities = data.hostedSchoolLevelActivities
   clubEvaluationInfo.value.activities = data.activities
   clubEvaluationInfo.value.clubWorkIntroduction = data.clubWorkIntroduction
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: data.recordId })
-  eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAwardInfo, { value: data.recordId })
+  eventEmitter.on(APIEventEnum.getClubAwardInfoSuccess, 'getClubAwardInfoSuccess', (data) => {
     clubEvaluationInfo.value.totalMembers = data.totalMembers
     clubEvaluationInfo.value.backboneNumber = data.backboneNumber
     clubEvaluationInfo.value.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
@@ -551,7 +540,7 @@ eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSucce
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess')
-  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+  eventEmitter.off(APIEventEnum.getClubAwardInfoSuccess, 'getClubAwardInfoSuccess')
 })
 
 </script>

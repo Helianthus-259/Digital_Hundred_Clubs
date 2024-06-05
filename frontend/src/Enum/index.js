@@ -51,6 +51,8 @@ export const APIEventEnum = {
     postJoinActivitySuccess: 'postJoinActivitySuccess',
     getClubApprovalSuccess:'getClubApprovalSuccess',
     getClubAnnualSuccess:'getClubAnnualSuccess',
+    getClubAwardInfoSuccess:'getClubAwardInfoSuccess',
+    getClubInfoSuccess:'getClubInfoSuccess',
     // 请求失败事件
     incorrectInput: 'incorrectInput',
     registerError: 'registerError',
@@ -109,6 +111,8 @@ export const APIEnum = {
     postJoinActivity: 'postJoinActivity',
     getClubApproval:'getClubApproval',
     getClubAnnual:'getClubAnnual',
+    getClubAwardInfo:'getClubAwardInfo',
+    getClubInfo:'getClubInfo',
 }
 
 

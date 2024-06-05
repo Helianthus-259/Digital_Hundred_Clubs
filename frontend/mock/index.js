@@ -980,3 +980,38 @@ mock.onGet(path.clubAnnual).reply((config)=>{
         data
     }]
 })
+
+mock.onGet(path.clubAward).reply((config)=>{
+    const data = {
+        clubName:'xx社团',
+        totalMembers:'100',
+        backboneNumber:'10',
+        communistRelatedBackBoneNumber:'5',
+        administrativeGuideTeacherName:'张老师',
+        businessGuideTeacherName:'李老师',
+        isFinancialInformationPublic:'0',
+    }
+    return[200,{
+        code: 51,
+        data
+    }]
+})
+
+mock.onGet(path.clubInfo).reply((config)=>{
+    const data={
+        clubName:'xx社团',
+        establishmentDate:'2021/06/05',
+        clubCategory:'1',
+        responsibleDepartment:'1',
+        administrativeGuideTeacherName:'李老师',
+        businessGuideTeacherName:'张老师',
+        mainCompus:'0',
+        totalMembers:'100',
+        isFinancialInformationPublic:'1',
+        imageUrl:'url',
+    }
+    return[200, {
+        code: 52,
+        data
+    }]
+})

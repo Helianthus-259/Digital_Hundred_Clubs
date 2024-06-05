@@ -450,8 +450,8 @@ const submitClubAnnualAuditForm = () => {
 }
 
 onMounted(() => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
-    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, { clubId })
+    eventEmitter.on(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess', (data) => {
         clubAnnualAudit.clubName = data.clubName
         clubAnnualAudit.clubCategory = data.clubCategory
         clubAnnualAudit.responsibleDepartment = data.responsibleDepartment

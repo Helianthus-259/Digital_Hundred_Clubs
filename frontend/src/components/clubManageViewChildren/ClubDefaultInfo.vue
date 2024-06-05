@@ -507,9 +507,9 @@ const deleteExecutive = (index, item) => {
 }
 
 onMounted(() => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId })
-    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+    eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
         clubInfo.clubName = data.clubName
         clubInfo.establishmentDate = data.establishmentDate
         clubInfo.clubCategory = data.clubCategory

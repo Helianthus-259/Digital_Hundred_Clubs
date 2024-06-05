@@ -53,6 +53,9 @@ const base = {
     meetings: club + '/meetings', // 获取社团会议列表
     clubApplicationInfo: club + '/clubApplicationInfo', // 获取建立社团申请详细信息
     clubAnnual: club + '/getClubAnnual', // 获取详细年审信息
+    clubAward: club + '/getClubAward',  // 获取详细社团评优信息
+    clubInfo: club + '/clubInfo',   // 获取详细社团信息
+
     // post
     joinClub: club + '/joinClub', // 加入社团
     agreeClubApply: club + '/agreeClubApply', // 同意社团申请
