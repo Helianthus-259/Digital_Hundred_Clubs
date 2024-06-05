@@ -248,7 +248,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         try{
             //Club club = clubMapper.selectOne(wrapper);
             List<Club> clubList = clubMapper.selectList(wrapper);
-            return clubList.get(0);
+            Club club = clubList.get(0);
+            return club;
         }catch (Exception e){
             e.printStackTrace();
             return null;
