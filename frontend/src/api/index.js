@@ -350,6 +350,26 @@ const api = {
         params:{
             clubId: params.clubId,
         }
+    }),
+    'passClubApproval':(params)=>axios.post(path.passClubApproval, {
+        params:{
+            recordId: params.recordId,
+        }
+    }),
+    'unPassClubApproval':(params)=>axios.post(path.unPassClubApproval, {
+        params:{
+            recordId: params.recordId,
+        }
+    }),
+    'passActivityApproval':(params)=>axios.post(path.passActivityApproval, {
+        params:{
+            activityId: params.activityId,
+        }
+    }),
+    'unPassActivityApproval':(params)=>axios.post(path.unPassActivityApproval, {
+        params:{
+            activityId: params.activityId,
+        }
     })
 }
 

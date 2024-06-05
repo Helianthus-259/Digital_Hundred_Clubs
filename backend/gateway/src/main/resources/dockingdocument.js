@@ -275,6 +275,8 @@ const url_data = {
         }
     },
 
+
+
     // post
     // url:/api/admin/adminInfoUpdate
     adminInfoUpdate:{// 更新管理员信息

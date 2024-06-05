@@ -167,7 +167,7 @@ function successHandler(response) {
         } else if (response.data.code === 48) { // 报名活动成功
             eventEmitter.emit(APIEventEnum.postJoinActivitySuccess)
         } else if(response.data.code === 49){   // 获取建立社团申请详细信息成功
-            const data = response.data
+            const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubApprovalSuccess, data)
         } else if(response.data.code === 50){   // 获取社团年审详细信息成功
             const data = response.data.data
@@ -178,6 +178,18 @@ function successHandler(response) {
         } else if (response.data.code === 52){  // 获取社团详细信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubInfoSuccess, data)
+        } else if (response.data.code === 53){  // 通过建立社团请求成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubApprovalSuccess)
+        } else if (response.data.code === 54){  // 驳回建立社团请求成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubApprovalSuccess)
+        } else if (response.data.code === 55){  // 通过活动请求成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passActivityApprovalSuccess)
+        } else if (response.data.code === 56){  // 驳回活动请求成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassActivityApprovalSuccess)
         }
     }
 }

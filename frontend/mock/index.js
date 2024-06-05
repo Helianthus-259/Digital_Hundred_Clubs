@@ -350,6 +350,8 @@ mock.onGet(path.activityInfo).reply((config) => {
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
             activityAttachment: "file",
+            contactPerson:'小航',
+            contactPhone:'12843251',
             status: 1
         }
     }]
@@ -927,18 +929,20 @@ mock.onPost(path.joinActivity).reply((config) => {
 
 mock.onGet(path.clubApplicationInfo).reply((config)=>{
     const data = {
-        clubName: '',
-        establishmentDate: '',
-        responsibleDepartment: '',
-        mainCompus: "",
-        clubDescription: '',
-        clubCategory: '',
-        adminGuideTeacher: '',
-        businessGuideTeacher: '',
-        contactPerson: '',
-        contactPhone: '',
-        clubStatus: '',
-        attachmentUrl: "",
+        recordId:'1',
+        clubId:'1',
+        clubName: 'xx社团',
+        establishmentDate: '2024-06-05',
+        responsibleDepartment: '学院',
+        mainCompus: '珠海校区',
+        clubDescription: '描述',
+        clubCategory: '1',
+        administrativeGuideTeacherName: '张老师',
+        businessGuideTeacherName: '李老师',
+        contactPerson: '小明',
+        contactPhone: '1864321546',
+        clubStatus: '1',
+        attachmentUrl: 'url',
     }
     return[200,{
         code: 49, // 获取建立社团申请详细信息
@@ -1013,5 +1017,28 @@ mock.onGet(path.clubInfo).reply((config)=>{
     return[200, {
         code: 52,
         data
+    }]
+})
+
+mock.onPost(path.passClubApproval).reply((config)=>{
+    return[200,{
+        code: 53,
+    }]
+})
+
+mock.onPost(path.unPassClubApproval).reply((config)=>{
+    return[200,{
+        code: 54,
+    }]
+})
+mock.onPost(path.passActivityApproval).reply((config)=>{
+    return[200,{
+        code: 55,
+    }]
+})
+
+mock.onPost(path.unPassActivityApproval).reply((config)=>{
+    return[200,{
+        code: 56,
     }]
 })

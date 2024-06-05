@@ -37,6 +37,10 @@ const base = {
 
     // post
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
+    passClubApproval: admin + '/passClubApproval',  // 通过社团建立申请
+    unPassClubApproval: admin+ '/unPassClubApproval',   // 驳回社团建立申请
+    passActivityApproval: admin + '/passActivityApproval',  // 通过社团建立申请
+    unPassActivityApproval: admin+ '/unPassActivityApproval',   // 驳回社团建立申请
 
 
     /*————————————————社团————————————————*/

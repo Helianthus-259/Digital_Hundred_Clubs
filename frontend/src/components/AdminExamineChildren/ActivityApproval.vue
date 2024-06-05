@@ -32,20 +32,94 @@
     </t-layout>
   </t-layout>
   <t-layout>
-      <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :on-confirm="onConfirm">
-        <t-descriptions :title="'活动详情'" :column="2">
-          <t-descriptions-item label="活动名称">{{ activity.activityName }}</t-descriptions-item>
-          <t-descriptions-item label="活动社团">{{ activity.clubName }}</t-descriptions-item>
-          <t-descriptions-item label="申请时间">{{ activity.createTime }}</t-descriptions-item>
-          <t-descriptions-item label="活动开始时间">{{ activity.activityStartTime }}</t-descriptions-item>
-          <t-descriptions-item label="活动结束时间">{{ activity.activityEndTime }}</t-descriptions-item>
-          <t-descriptions-item label="活动地点">{{ activity.activityLocation }}</t-descriptions-item>
-          <t-descriptions-item label="活动附件">{{ activity.activityAttachment }}</t-descriptions-item>
-          <t-descriptions-item label="活动审核状态">{{ activity.status }}</t-descriptions-item>
-        </t-descriptions>
-        <t-descriptions>
-          <t-descriptions-item label="活动介绍">{{ activity.activityIntroduction }}</t-descriptions-item>
-        </t-descriptions>
+      <t-dialog
+          v-model:visible="visibleModal"
+          width="60%"
+          top="20px"
+          destroy-on-close=""
+          :confirm-btn="null"
+          :cancel-btn="null"
+          :closeOnEscKeydown="false"
+      >
+        <t-layout>
+          <t-content>
+            <div class="clubEvaluationContainer">
+              <div class="titleContainer">学生社团活动申请表</div>
+              <div class="tableContainer">
+                <t-row id="border">
+                  <t-row>
+                    <t-col :span="3">
+                      <div class="text">学生社团名称</div>
+                    </t-col>
+                    <t-col :span="9" id="table">
+                      {{ activity.clubName }}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text">活动负责人</div>
+                    </t-col>
+                    <t-col :span="3" id="table">
+                      {{activity.contactPerson}}
+                    </t-col>
+                    <t-col :span="3">
+                      <div class="text">联系电话</div>
+                    </t-col>
+                    <t-col :span="3" id="table">
+                      {{activity.contactPhone}}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text" id="table">活动名称</div>
+                    </t-col>
+                    <t-col :span="9" id="table">
+                      {{activity.activityName}}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text">活动时间</div>
+                    </t-col>
+                    <t-col :span="3" id="table">
+                      {{ activity.activityStartTime }} - {{activity.activityEndTime}}
+                    </t-col>
+                    <t-col :span="3" id="table">
+                      <div class="text">活动开展地点</div>
+                    </t-col>
+                    <t-col :span="3" id="table">
+                      {{ activity.activityLocation }}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text">活动简介</div>
+                    </t-col>
+                    <t-col :span="9" id="table">
+                      {{activity.activityIntroduction}}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="3">
+                      <div class="text">活动附件</div>
+                    </t-col>
+                    <t-col :span="9" id="table">
+                      {{activity.activityAttachment}}
+                    </t-col>
+                  </t-row>
+                  <t-row id="table">
+                    <t-col :span="6">
+                      <t-button size="large" theme="success" @click="passActivityApproval">通过</t-button>
+                    </t-col>
+                    <t-col :span="6">
+                      <t-button size="large" theme="danger" @click="unPassActivityApproval">驳回</t-button>
+                    </t-col>
+                  </t-row>
+                </t-row>
+              </div>
+            </div>
+          </t-content>
+        </t-layout>
       </t-dialog>
   </t-layout>
 </template>
@@ -70,6 +144,7 @@ const activities = []
 const data = ref([]);
 const visibleModal = ref(false)
 const activity = ref({
+  activityId:'',
   activityName: "",
   clubName: "",
   activityLocation: "",
@@ -79,6 +154,8 @@ const activity = ref({
   activityEndTime: "",
   activityIntroduction: "",
   activityAttachment: "",
+  contacrPerson:'',
+  contactPhone:'',
 })
 
 function assignment() {
@@ -155,6 +232,7 @@ const getPendingActivities = () => {
 
 eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
   console.log(data)
+  activity.value.activityId = data.activityId
   activity.value.activityName = data.activityName
   activity.value.clubName = data.clubName
   activity.value.activityLocation = data.activityLocation
@@ -164,18 +242,118 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityEndTime = data.activityEndTime
   activity.value.activityIntroduction = data.activityIntroduction
   activity.value.activityAttachment = data.activityAttachment
+  activity.value.contacrPerson =  data.contactPerson
+  activity.value.contactPhone = data.contactPhone
+})
+const passActivityApproval = () => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passActivityApproval, {
+    recordId:activity.value.activityId
+  })
+}
+
+const unPassActivityApproval = () => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassActivityApproval, {
+    recordId:activity.value.activityId
+  })
+}
+
+eventEmitter.on(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalSuccess', ()=>{
+  console.log("通过成功")
+  visibleModal.value = false
 })
 
-const onConfirm = (text) => {
-  console.log("确定", text);
-}
+eventEmitter.on(APIEventEnum.unPassActivityApprovalSuccess, 'unPassActivityApprovalSuccess', ()=>{
+  console.log("驳回成功")
+  visibleModal.value = false
+})
+
+
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess')
   eventEmitter.off(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess')
+  eventEmitter.off(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalSuccess')
+  eventEmitter.off(APIEventEnum.unPassActivityApprovalSuccess, 'unPassActivityApprovalSuccess')
 })
 
 </script>
 
 
-<style></style>
+<style scoped>
+.clubEvaluationContainer {
+  width: 100%;
+  height: 450px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+/*滚动条样式*/
+.clubEvaluationContainer::-webkit-scrollbar {
+  width: 8px;
+  /* 滚动条宽度 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 滚动条轨道背景色 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 滚动条滑块颜色 */
+  border-radius: 4px;
+  /* 滚动条滑块圆角 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* 鼠标hover时滑块颜色 */
+}
+
+.titleContainer {
+  height: 60px;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.t-row {
+  width: 100%;
+  align-items: center;
+}
+
+.t-row#border {
+  border: 2px solid #000;
+}
+
+.t-row#table {
+  border-top: 2px solid #000;
+}
+
+.t-col {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.t-col#table {
+  border-left: 2px solid #000;
+}
+
+.text {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+</style>
