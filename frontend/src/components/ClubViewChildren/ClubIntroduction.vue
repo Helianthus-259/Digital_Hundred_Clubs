@@ -108,22 +108,9 @@
 import { APIEnum, APIEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { ref, reactive, onUpdated, onUnmounted } from 'vue';
+import { ref, reactive, onUpdated, onUnmounted, onMounted } from 'vue';
 
 const clubIntroduction = reactive([])
-
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: store.state.clubId })
-
-eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
-    for (const element of data) {
-        clubIntroduction.push({
-            label: element.title,
-            title: element.title,
-            content: element.content,
-        })
-    }
-})
-
 
 // 侧边栏锚点控制
 const sideBarIndex = ref(0)
@@ -188,6 +175,20 @@ const onScroll = (e) => {
         sideBarIndex.value = index
     }
 }
+
+onMounted(() => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: store.state.clubId })
+
+    eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
+        for (const element of data) {
+            clubIntroduction.push({
+                label: element.title,
+                title: element.title,
+                content: element.content,
+            })
+        }
+    })
+})
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess')

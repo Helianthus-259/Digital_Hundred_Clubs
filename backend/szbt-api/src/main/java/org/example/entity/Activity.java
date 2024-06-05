@@ -76,6 +76,11 @@ public class Activity implements Serializable {
      */
     private String imageUrl;
 
+    /**
+     *
+     */
+    private String opinion;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -102,7 +107,8 @@ public class Activity implements Serializable {
                 && (this.getApplicationFormAttachment() == null ? other.getApplicationFormAttachment() == null : this.getApplicationFormAttachment().equals(other.getApplicationFormAttachment()))
                 && (this.getActivityStatus() == null ? other.getActivityStatus() == null : this.getActivityStatus().equals(other.getActivityStatus()))
                 && (this.getActivityEffect() == null ? other.getActivityEffect() == null : this.getActivityEffect().equals(other.getActivityEffect()))
-                && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()));
+                && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
+                && (this.getOpinion() == null ? other.getOpinion() == null : this.getOpinion().equals(other.getOpinion()));
     }
 
     @Override
@@ -121,6 +127,7 @@ public class Activity implements Serializable {
         result = prime * result + ((getActivityStatus() == null) ? 0 : getActivityStatus().hashCode());
         result = prime * result + ((getActivityEffect() == null) ? 0 : getActivityEffect().hashCode());
         result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
+        result = prime * result + ((getOpinion() == null) ? 0 : getOpinion().hashCode());
         return result;
     }
 
@@ -142,6 +149,7 @@ public class Activity implements Serializable {
         sb.append(", activityStatus=").append(activityStatus);
         sb.append(", activityEffect=").append(activityEffect);
         sb.append(", imageUrl=").append(imageUrl);
+        sb.append(", opinion=").append(opinion);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

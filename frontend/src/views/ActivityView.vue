@@ -78,14 +78,13 @@
 
 .common-button {
     position: absolute;
+    top: 20px;
     right: 100px;
 }
 </style>
 
 <template>
-    <t-sticky :offset-top="40">
-        <t-button theme="primary" size="large" class="common-button">参加活动</t-button>
-    </t-sticky>
+    <t-button theme="primary" variant="outline" size="large" class="common-button" @click="openDialog">参加活动</t-button>
     <div class="activityContainer">
         <div class="activityTitle">{{ activity.activityName }}</div>
         <div class="activityContent" v-html="activity.activityIntroduction"></div>
@@ -95,24 +94,73 @@
             <p>活动地点: {{ activity.activityLocation }}</p>
         </div>
     </div>
+
+    <myDialog ref="dialogRef">
+        <template #header>
+            <div
+                style="font-size: 24px; font-weight: bold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333">
+                {{ activity.activityName }}报名表</div>
+        </template>
+        <t-form style="margin-top: 30px;" colon>
+            <t-form-item label="姓名">
+                <t-input style="width: 90%;" v-model="userInnfo.stName" placeholder="请输入姓名" />
+            </t-form-item>
+            <t-form-item label="学号">
+                <t-input style="width: 90%;" v-model="userInnfo.studentNumber" placeholder="请输入学号" />
+            </t-form-item>
+        </t-form>
+        <template #footer>
+            <t-button style="margin: 0 10px;" theme="primary" variant="outline" @click="sendRequest">发送</t-button>
+            <t-button style="margin: 0 10px;" theme="default" variant="outline" @click="closeDialog">关闭</t-button>
+        </template>
+    </myDialog>
 </template>
 
 <script setup>
 import { APIEnum, APIEventEnum } from '@/Enum';
-import { onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { useRoute } from 'vue-router';
+import myDialog from '@/components/myDialog.vue';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const route = useRoute();
 const activityId = route.params.aid;
-
-eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: activityId })
 const activity = ref({})
-eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
-    activity.value = data
+const dialogRef = ref(null)
+const userInnfo = ref({
+    stName: '',
+    studentNumber: ''
+})
+const openDialog = () => {
+    dialogRef.value.openDialog()
+}
+
+const closeDialog = () => {
+    dialogRef.value.closeDialog()
+}
+
+const sendRequest = () => {
+    if (userInnfo.value.stName === '' || userInnfo.value.studentNumber === '') {
+        return MessagePlugin.warning('请输入姓名和学号')
+    }
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postJoinActivity, { activityId, studentNumber: userInnfo.value.studentNumber })
+}
+
+
+onMounted(() => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: activityId })
+    eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
+        activity.value = data
+    })
+    eventEmitter.on(APIEventEnum.postJoinActivitySuccess, 'postJoinActivitySuccess', () => {
+        closeDialog()
+        MessagePlugin.success('报名成功')
+    })
 })
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess')
+    eventEmitter.off(APIEventEnum.postJoinActivitySuccess, 'postJoinActivitySuccess')
 })
 </script>

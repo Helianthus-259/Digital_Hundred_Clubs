@@ -57,7 +57,7 @@ mock.onGet(path.clubsInfo).reply((config) => {
             imageUrl: `https://picsum.photos/${width}/${height}?${i}`,
             clubName: `社团${i}`,
             clubDescription: `社团${i}介绍`,
-            campus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
+            mainCampus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
             clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其它类"][i % 6],
@@ -367,6 +367,8 @@ mock.onGet(path.activityInfo).reply((config) => {
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
             activityAttachment: "file",
+            contactPerson:'小航',
+            contactPhone:'12843251',
             status: 1
         }
     }]
@@ -552,6 +554,7 @@ mock.onGet(path.backBoneEvaluations).reply((config) => {
             stName: ["小红", "小强", "小王"][i % 3],
             studentNumber: [1, 2, 3][i % 3],
             contact: '114514',
+            declarationYear:[2021,2022,2023][i % 3],
             college: ["人工智能", "软件工程", "测绘"][i % 3],
             politicalStatus: ["群众", "党员"][i % 2],
             clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
@@ -898,7 +901,7 @@ mock.onGet(path.associationAwards).reply((config) => {
         })
     }
     return [200, {
-        code: 45, // 42代表获取社团获奖信息成功
+        code: 45, // 45代表获取社团获奖信息成功
         associationAwards
     }]
 })
@@ -906,7 +909,7 @@ mock.onGet(path.associationAwards).reply((config) => {
 // 获取社团会议
 mock.onGet(path.meetings).reply((config) => {
     return [200, {
-        code: 46, // 43代表获取社团获奖信息成功
+        code: 46, // 46代表获取社团会议信息成功
         meetings: [
             {
                 meetingTime: "2022-01-01",
@@ -924,5 +927,205 @@ mock.onGet(path.meetings).reply((config) => {
                 category: 0,
             },
         ]
+    }]
+})
+
+// 加入社团mock
+mock.onPost(path.joinClub).reply((config) => {
+    return [200, {
+        code: 47, // 47代表加入社团申请
+    }]
+})
+
+// 加入活动mock
+mock.onPost(path.joinActivity).reply((config) => {
+    return [200, {
+        code: 48, // 48代表加入活动申请
+    }]
+})
+
+mock.onGet(path.clubApplicationInfo).reply((config)=>{
+    const data = {
+        recordId:'1',
+        clubId:'1',
+        clubName: 'xx社团',
+        establishmentDate: '2024-06-05',
+        responsibleDepartment: '学院',
+        mainCompus: '珠海校区',
+        clubDescription: '描述',
+        clubCategory: '1',
+        administrativeGuideTeacherName: '张老师',
+        businessGuideTeacherName: '李老师',
+        contactPerson: '小明',
+        contactPhone: '1864321546',
+        clubStatus: '1',
+        attachmentUrl: 'url',
+    }
+    return[200,{
+        code: 49, // 获取建立社团申请详细信息
+        data
+    }]
+})
+
+mock.onGet(path.clubAnnual).reply((config)=>{
+    const data = {
+        clubName: 'hh',
+        clubCategory: '1',
+        mainCompus: '1',
+        clubDescription: 'hh',
+        totalMembers: '12',
+        file: 'hh',
+        administrativeGuideTeacherName: 'hh',
+        businessGuideTeacherName: 'hh',
+        establishmentDate: 't',
+        contactPerson: 't',
+        contactPhone: '1',
+        clubStatus: '1',
+        responsibleDepartment: '学院',
+        politicalStatus: '1',
+        isFinancialInformationPublic: '1',
+        publicityManagementInfo: {
+            WeChatPublicAccount: { name: 'hh', submitCount: '12', Auditors: { name1: 'hh', name2: 'hh', name3: 'hh' } },
+            WebSite: { has: '1', name: '2' },
+            Blog: { has: '1', name: '2' },
+            BiliBili: { has: '1', name: '2' },
+            TikTok: { has: '1', name: '2' },
+            WeChatVideoAccount: { has: '1', name: '2' },
+            KuaiShou: { has: '1', name: '2' },
+            Publication: { has: '1', name: '2' },
+            Other: { has: '1', name: '2' },
+        },
+    }
+    return[200,{
+        code: 50, // 获取社团年审详细信息
+        data
+    }]
+})
+
+mock.onGet(path.clubAward).reply((config)=>{
+    const data = {
+        clubName:'xx社团',
+        totalMembers:'100',
+        backboneNumber:'10',
+        communistRelatedBackBoneNumber:'5',
+        administrativeGuideTeacherName:'张老师',
+        businessGuideTeacherName:'李老师',
+        isFinancialInformationPublic:'0',
+    }
+    return[200,{
+        code: 51,
+        data
+    }]
+})
+
+mock.onGet(path.clubInfo).reply((config)=>{
+    const data={
+        clubName:'xx社团',
+        establishmentDate:'2021/06/05',
+        clubCategory:'1',
+        responsibleDepartment:'1',
+        administrativeGuideTeacherName:'李老师',
+        businessGuideTeacherName:'张老师',
+        mainCompus:'0',
+        totalMembers:'100',
+        isFinancialInformationPublic:'1',
+        imageUrl:'url',
+    }
+    return[200, {
+        code: 52,
+        data
+    }]
+})
+
+mock.onPost(path.passClubApproval).reply((config)=>{
+    return[200,{
+        code: 53,
+    }]
+})
+
+mock.onPost(path.unPassClubApproval).reply((config)=>{
+    return[200,{
+        code: 54,
+    }]
+})
+mock.onPost(path.passActivityApproval).reply((config)=>{
+    return[200,{
+        code: 55,
+    }]
+})
+
+mock.onPost(path.unPassActivityApproval).reply((config)=>{
+    return[200,{
+        code: 56,
+    }]
+})
+mock.onPost(path.passBackboneAwardsReview).reply((config)=>{
+    return[200,{
+        code: 57,
+    }]
+})
+
+mock.onPost(path.unPassBackboneAwardsReview).reply((config)=>{
+    return[200,{
+        code: 58,
+    }]
+})
+
+mock.onGet(path.thisYearClubAnnual).reply((config)=>{
+    const data = {
+        clubName: 'hh',
+        clubCategory: '1',
+        mainCompus: '1',
+        clubDescription: 'hh',
+        totalMembers: '12',
+        file: 'hh',
+        administrativeGuideTeacherName: 'hh',
+        businessGuideTeacherName: 'hh',
+        establishmentDate: 't',
+        contactPerson: 't',
+        contactPhone: '1',
+        clubStatus: '1',
+        responsibleDepartment: '学院',
+        politicalStatus: '1',
+        isFinancialInformationPublic: '1',
+        publicityManagementInfo: {
+            WeChatPublicAccount: { name: 'hh', submitCount: '12', Auditors: { name1: 'hh', name2: 'hh', name3: 'hh' } },
+            WebSite: { has: '1', name: '2' },
+            Blog: { has: '1', name: '2' },
+            BiliBili: { has: '1', name: '2' },
+            TikTok: { has: '1', name: '2' },
+            WeChatVideoAccount: { has: '1', name: '2' },
+            KuaiShou: { has: '1', name: '2' },
+            Publication: { has: '1', name: '2' },
+            Other: { has: '1', name: '2' },
+        },
+    }
+    return[200,{
+        code: 59, // 获取今年社团年审详细信息
+        data
+    }]
+})
+
+mock.onPost(path.passClubAnnualReview).reply((config)=>{
+    return[200,{
+        code: 60,
+    }]
+})
+
+mock.onPost(path.unPassClubAnnualReview).reply((config)=>{
+    return[200,{
+        code: 61,
+    }]
+})
+
+mock.onPost(path.passClubAwardReview).reply((config)=>{
+    return[200,{
+        code: 62,
+    }]
+})
+
+mock.onPost(path.unPassClubAwardReview).reply((config)=>{
+    return[200,{
+        code: 63,
     }]
 })

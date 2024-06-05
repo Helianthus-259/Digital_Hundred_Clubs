@@ -11,4 +11,5 @@ import org.example.entity.Annualaudit;
 public interface AnnualauditService extends IService<Annualaudit> {
     Object queryAllClubAnnuals();
 
+    Object queryMyClubAnnualExamData(Integer clubId);
 }

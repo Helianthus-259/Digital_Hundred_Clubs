@@ -32,6 +32,10 @@ public class EnumServiceImpl implements EnumService {
                 .map(meeting -> new EnumWrapper.EnumData(meeting.getName(), meeting.getCode()))
                 .collect(Collectors.toList());
 
+        List<EnumWrapper.EnumData> genderData = Arrays.stream(Gender.values())
+                .map(gender -> new EnumWrapper.EnumData(gender.getName(), gender.getCode()))
+                .collect(Collectors.toList());
+
         List<EnumWrapper.EnumData> statusCodeData = Arrays.stream(StatusCode.values())
                 .map(statusCode -> new EnumWrapper.EnumData(statusCode.getName(), statusCode.getCode()))
                 .collect(Collectors.toList());
@@ -42,12 +46,13 @@ public class EnumServiceImpl implements EnumService {
         enumWrapper.setMainCampuses(mainCampusData);
         enumWrapper.setClubCategories(clubCategoryData);
         enumWrapper.setMeetings(meetingData);
+        enumWrapper.setGenders(genderData);
         enumWrapper.setStatusCodes(statusCodeData);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(enumWrapper);
-            System.out.println(json);
+            //System.out.println(json);
             return Result.success(new DataVO(ResultCode.GET_ENUM_LIST,enumWrapper));
         } catch (Exception e) {
             e.printStackTrace();

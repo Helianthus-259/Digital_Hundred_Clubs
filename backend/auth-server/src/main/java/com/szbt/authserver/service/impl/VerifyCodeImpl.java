@@ -37,8 +37,8 @@ public class VerifyCodeImpl implements VerifyCodeService {
 
 
     @Override
-    public byte[] sendImageVerifyCode() throws IOException {
-        //证码字符串生成验
+    public byte[] sendImageVerifyCode(){
+        //证码字符串生成
         String text = defaultKaptcha.createText();
         System.out.println("text:" + text);
         //验证码存入session（可以将text加密储存）
@@ -46,11 +46,16 @@ public class VerifyCodeImpl implements VerifyCodeService {
         //验证码转换
         BufferedImage image = defaultKaptcha.createImage(text);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpg", byteArrayOutputStream);
-        //定义响应值，写入byte
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        ImageResponseUtils.buildImageRes(bytes);
-        return bytes;
+        try {
+            ImageIO.write(image, "jpg", byteArrayOutputStream);
+            //定义响应值，写入byte
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            ImageResponseUtils.buildImageRes(bytes);
+            return bytes;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

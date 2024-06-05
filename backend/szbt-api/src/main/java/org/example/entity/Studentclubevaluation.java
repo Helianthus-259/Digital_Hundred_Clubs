@@ -48,6 +48,16 @@ public class Studentclubevaluation implements Serializable {
     /**
      *
      */
+    private Object meetings;
+
+    /**
+     *
+     */
+    private Object associationAwards;
+
+    /**
+     *
+     */
     private Object publicityManagementEffectiveness;
 
     /**
@@ -73,12 +83,22 @@ public class Studentclubevaluation implements Serializable {
     /**
      *
      */
-    private Object meetings;
+    private Integer communistRelatedBackBoneNumber;
 
     /**
      *
      */
-    private Object associationAwards;
+    private Integer backboneNumber;
+
+    /**
+     *
+     */
+    private Integer status;
+
+    /**
+     *
+     */
+    private String reviewOpinion;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -101,13 +121,17 @@ public class Studentclubevaluation implements Serializable {
                 && (this.getHandoverMethod() == null ? other.getHandoverMethod() == null : this.getHandoverMethod().equals(other.getHandoverMethod()))
                 && (this.getHandoverParticipantsCount() == null ? other.getHandoverParticipantsCount() == null : this.getHandoverParticipantsCount().equals(other.getHandoverParticipantsCount()))
                 && (this.getAdvisorParticipation() == null ? other.getAdvisorParticipation() == null : this.getAdvisorParticipation().equals(other.getAdvisorParticipation()))
+                && (this.getMeetings() == null ? other.getMeetings() == null : this.getMeetings().equals(other.getMeetings()))
+                && (this.getAssociationAwards() == null ? other.getAssociationAwards() == null : this.getAssociationAwards().equals(other.getAssociationAwards()))
                 && (this.getPublicityManagementEffectiveness() == null ? other.getPublicityManagementEffectiveness() == null : this.getPublicityManagementEffectiveness().equals(other.getPublicityManagementEffectiveness()))
                 && (this.getHostedSchoolLevelActivities() == null ? other.getHostedSchoolLevelActivities() == null : this.getHostedSchoolLevelActivities().equals(other.getHostedSchoolLevelActivities()))
                 && (this.getClubWorkIntroduction() == null ? other.getClubWorkIntroduction() == null : this.getClubWorkIntroduction().equals(other.getClubWorkIntroduction()))
                 && (this.getImageUrl() == null ? other.getImageUrl() == null : this.getImageUrl().equals(other.getImageUrl()))
                 && (this.getClubEducationCaseAttachment() == null ? other.getClubEducationCaseAttachment() == null : this.getClubEducationCaseAttachment().equals(other.getClubEducationCaseAttachment()))
-                && (this.getMeetings() == null ? other.getMeetings() == null : this.getMeetings().equals(other.getMeetings()))
-                && (this.getAssociationAwards() == null ? other.getAssociationAwards() == null : this.getAssociationAwards().equals(other.getAssociationAwards()));
+                && (this.getCommunistRelatedBackBoneNumber() == null ? other.getCommunistRelatedBackBoneNumber() == null : this.getCommunistRelatedBackBoneNumber().equals(other.getCommunistRelatedBackBoneNumber()))
+                && (this.getBackboneNumber() == null ? other.getBackboneNumber() == null : this.getBackboneNumber().equals(other.getBackboneNumber()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getReviewOpinion() == null ? other.getReviewOpinion() == null : this.getReviewOpinion().equals(other.getReviewOpinion()));
     }
 
     @Override
@@ -120,13 +144,17 @@ public class Studentclubevaluation implements Serializable {
         result = prime * result + ((getHandoverMethod() == null) ? 0 : getHandoverMethod().hashCode());
         result = prime * result + ((getHandoverParticipantsCount() == null) ? 0 : getHandoverParticipantsCount().hashCode());
         result = prime * result + ((getAdvisorParticipation() == null) ? 0 : getAdvisorParticipation().hashCode());
+        result = prime * result + ((getMeetings() == null) ? 0 : getMeetings().hashCode());
+        result = prime * result + ((getAssociationAwards() == null) ? 0 : getAssociationAwards().hashCode());
         result = prime * result + ((getPublicityManagementEffectiveness() == null) ? 0 : getPublicityManagementEffectiveness().hashCode());
         result = prime * result + ((getHostedSchoolLevelActivities() == null) ? 0 : getHostedSchoolLevelActivities().hashCode());
         result = prime * result + ((getClubWorkIntroduction() == null) ? 0 : getClubWorkIntroduction().hashCode());
         result = prime * result + ((getImageUrl() == null) ? 0 : getImageUrl().hashCode());
         result = prime * result + ((getClubEducationCaseAttachment() == null) ? 0 : getClubEducationCaseAttachment().hashCode());
-        result = prime * result + ((getMeetings() == null) ? 0 : getMeetings().hashCode());
-        result = prime * result + ((getAssociationAwards() == null) ? 0 : getAssociationAwards().hashCode());
+        result = prime * result + ((getCommunistRelatedBackBoneNumber() == null) ? 0 : getCommunistRelatedBackBoneNumber().hashCode());
+        result = prime * result + ((getBackboneNumber() == null) ? 0 : getBackboneNumber().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getReviewOpinion() == null) ? 0 : getReviewOpinion().hashCode());
         return result;
     }
 
@@ -142,13 +170,17 @@ public class Studentclubevaluation implements Serializable {
         sb.append(", handoverMethod=").append(handoverMethod);
         sb.append(", handoverParticipantsCount=").append(handoverParticipantsCount);
         sb.append(", advisorParticipation=").append(advisorParticipation);
+        sb.append(", meetings=").append(meetings);
+        sb.append(", associationAwards=").append(associationAwards);
         sb.append(", publicityManagementEffectiveness=").append(publicityManagementEffectiveness);
         sb.append(", hostedSchoolLevelActivities=").append(hostedSchoolLevelActivities);
         sb.append(", clubWorkIntroduction=").append(clubWorkIntroduction);
         sb.append(", imageUrl=").append(imageUrl);
         sb.append(", clubEducationCaseAttachment=").append(clubEducationCaseAttachment);
-        sb.append(", meetings=").append(meetings);
-        sb.append(", associationAwards=").append(associationAwards);
+        sb.append(", communistRelatedBackBoneNumber=").append(communistRelatedBackBoneNumber);
+        sb.append(", backboneNumber=").append(backboneNumber);
+        sb.append(", status=").append(status);
+        sb.append(", reviewOpinion=").append(reviewOpinion);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

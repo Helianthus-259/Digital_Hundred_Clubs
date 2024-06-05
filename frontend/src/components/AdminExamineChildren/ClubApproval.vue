@@ -13,9 +13,9 @@
         <t-space direction="vertical">
           <t-radio-group variant="primary-filled" v-model:value="campus" @click="search">
             <t-radio-button value="all">全部校区</t-radio-button>
-            <t-radio-button value="南校区">南校区</t-radio-button>
-            <t-radio-button value="东校区">东校区</t-radio-button>
-            <t-radio-button value="北校区">北校区</t-radio-button>
+            <t-radio-button value="广州校区南校园">广州校区南校园</t-radio-button>
+            <t-radio-button value="广州校区东校园">广州校区东校园</t-radio-button>
+            <t-radio-button value="广州校区北校园">广州校区北校园</t-radio-button>
             <t-radio-button value="深圳校区">深圳校区</t-radio-button>
             <t-radio-button value="珠海校区">珠海校区</t-radio-button>
           </t-radio-group>
@@ -26,7 +26,7 @@
             <t-radio-button value="艺术类">艺术类</t-radio-button>
             <t-radio-button value="公益类">公益类</t-radio-button>
             <t-radio-button value="科技类">科技类</t-radio-button>
-            <t-radio-button value="其他类">其他类</t-radio-button>
+            <t-radio-button value="其它类">其他类</t-radio-button>
           </t-radio-group>
         </t-space>
       </t-header>
@@ -41,28 +41,133 @@
       </t-space>
     </t-content>
   </t-layout>
-  <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :on-confirm="onConfirm">
+  <t-dialog
+      v-model:visible="visibleModal"
+      width="60%"
+      top="20px"
+      destroy-on-close=""
+      :confirm-btn="null"
+      :cancel-btn="null"
+      :closeOnEscKeydown="false"
+  >
     <t-layout>
-      <t-header>
-        {{ clubInfo.clubName }}
-      </t-header>
       <t-content>
-        <t-descriptions :column="2" size="large">
-          <t-descriptions-item label="社团类别">{{ clubInfo.clubCategory }}</t-descriptions-item>
-          <t-descriptions-item label="社团描述">{{ clubInfo.clubDescription }}</t-descriptions-item>
-          <t-descriptions-item label="校区">{{ clubInfo.mainCompus }}</t-descriptions-item>
-          <t-descriptions-item label="负责部门">{{ clubInfo.responsibleDepartment }}</t-descriptions-item>
-          <t-descriptions-item label="业务指导老师">{{ clubInfo.businessGuideTeacher }}</t-descriptions-item>
-          <t-descriptions-item label="行政指导老师">{{ clubInfo.adminGuideTeacher }}</t-descriptions-item>
-          <t-descriptions-item label="联系人姓名">{{ clubInfo.contactPerson }}</t-descriptions-item>
-          <t-descriptions-item label="联系电话">{{ clubInfo.contactPhone }}</t-descriptions-item>
-          <t-descriptions-item label="附件">{{ clubInfo.file }}</t-descriptions-item>
-          <t-descriptions-item label="申请时间">{{ clubInfo.establishmentDate }}</t-descriptions-item>
-        </t-descriptions>
+        <div class="clubEvaluationContainer">
+          <div class="titleContainer">学生社团申请表</div>
+          <div class="tableContainer">
+            <t-row id="border">
+              <t-row>
+                <t-col :span="2">
+                  <div class="text">学生社团名称</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{ clubInfo.clubName }}
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text">发起人数</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  1
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text">所属校园(区)</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{clubInfo.mainCompus}}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">所属类别</div>
+                </t-col>
+                <t-col :span="10" id="table">
+                  {{clubInfo.clubCategory}}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text" id="table">业务指导单位</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{clubInfo.responsibleDepartment}}
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text">行政指导教师</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{clubInfo.adminGuideTeacher}}
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text">业务指导教师</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{clubInfo.businessGuideTeacher}}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">联系人信息</div>
+                </t-col>
+                <t-col :span="1" id="table">
+                  <div class="text">姓名</div>
+                </t-col>
+                <t-col :span="1" id="table">
+                  {{ clubInfo.contactPerson }}
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text">类别</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{ clubInfo.contactPerson }}
+                </t-col>
+                <t-col :span="2" id="table">
+                  <div class="text" id="table">手机</div>
+                </t-col>
+                <t-col :span="2" id="table">
+                  {{ clubInfo.contactPhone }}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">学生社团简介</div>
+                </t-col>
+                <t-col :span="10" id="table">
+                  {{clubInfo.clubDescription}}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">附件</div>
+                </t-col>
+                <t-col :span="10" id="table">
+                  {{clubInfo.attachmentUrl}}
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="2">
+                  <div class="text">意见</div>
+                </t-col>
+                <t-col :span="10" id="table">
+                  <t-textarea
+                      v-model="universityStudentUnionReviewOpinion"
+                      placeholder="请输入意见"
+                      name="description"
+                      :autosize="true"
+                  />
+                </t-col>
+              </t-row>
+              <t-row id="table">
+                <t-col :span="6">
+                  <t-button size="large" theme="success" @click="passClubApproval">通过</t-button>
+                </t-col>
+                <t-col :span="6">
+                  <t-button size="large" theme="danger" @click="unPassClubApproval">驳回</t-button>
+                </t-col>
+              </t-row>
+            </t-row>
+          </div>
+        </div>
       </t-content>
-      <t-footer>
-
-      </t-footer>
     </t-layout>
   </t-dialog>
 </template>
@@ -86,6 +191,8 @@ const category = ref('all');
 //对话框
 const visibleModal = ref(false);
 const clubInfo = ref({
+  recordId:'',
+  clubId:'',
   clubName: '',
   establishmentDate: '',
   responsibleDepartment: '',
@@ -97,7 +204,7 @@ const clubInfo = ref({
   contactPerson: '',
   contactPhone: '',
   clubStatus: '',
-  file: "",
+  attachmentUrl: "",
 });
 
 // 表格
@@ -108,9 +215,11 @@ const statusNameListMap = {
 };
 const clubsData = []
 const data = ref([])
+const universityStudentUnionReviewOpinion = ref("")
 function assignment() {
   pagination.value.total = clubsData.value.length
   data.value = clubsData.value
+  console.log(data)
 }
 
 if (Object.keys(store.state.clubsData).length === 0) {
@@ -118,6 +227,7 @@ if (Object.keys(store.state.clubsData).length === 0) {
 } else {
   clubsData.value = store.state.clubsData
   data.value = clubsData.value
+  console.log(data)
 }
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
   clubsData.value = data
@@ -125,10 +235,10 @@ eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) 
 })
 
 const search = () => {
-  data.value = clubsData.value.filter((item)=>{
+  data.value = clubsData.value.filter((item) => {
     return (item.status === status.value || status.value === 'all') &&
-        (item.campus === campus.value || campus.value === 'all') &&
-        (item.clubCategory === category.value || category.value === 'all');
+      (item.mainCampus === campus.value || campus.value === 'all') &&
+      (item.clubCategory === category.value || category.value === 'all');
   })
   pagination.value.total = data.value.length
 }
@@ -142,7 +252,7 @@ const showHeader = ref(true);
 
 const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
-  { colKey: 'campus', title: '校区' },
+  { colKey: 'mainCampus', title: '校区' },
   { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
   { colKey: 'createTime', title: '申请时间' },
   {
@@ -170,17 +280,19 @@ const pagination = ref({
 const detail = (value) => {
   visibleModal.value = true;
   // 获取社团信息
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: value.index })
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, { value: value.index })
 
 }
 
-eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (data) => {
   console.log(data)
+  clubInfo.value.recordId = data.recordId
+  clubInfo.value.clubId = data.clubId
   clubInfo.value.clubName = data.clubName
   clubInfo.value.clubCategory = data.clubCategory
   clubInfo.value.mainCompus = data.mainCompus
   clubInfo.value.clubDescription = data.clubDescription
-  clubInfo.value.file = data.file
+  clubInfo.value.attachmentUrl = data.attachmentUrl
   clubInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
   clubInfo.value.businessGuideTeacher = data.businessGuideTeacherName
   clubInfo.value.establishmentDate = data.establishmentDate
@@ -190,15 +302,117 @@ eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuc
   clubInfo.value.responsibleDepartment = data.responsibleDepartment
 })
 
-const onConfirm = (text) => {
-  console.log("确定", text);
+const passClubApproval = () => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubApproval, {
+    recordId:clubInfo.value.recordId,
+    universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
+  })
 }
+
+const unPassClubApproval = () => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubApproval, {
+    recordId:clubInfo.value.recordId,
+    universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
+  })
+}
+
+eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', ()=>{
+  console.log("通过成功")
+  visibleModal.value = false
+})
+
+eventEmitter.on(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess', ()=>{
+  console.log("驳回成功")
+  visibleModal.value = false
+})
 
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess')
-  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+  eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubApprovalSuccess')
+  eventEmitter.off(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess')
+  eventEmitter.off(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess')
 })
+
+
+
 </script>
 
-<style></style>
+<style scoped>
+.clubEvaluationContainer {
+  width: 100%;
+  height: 500px;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+/*滚动条样式*/
+.clubEvaluationContainer::-webkit-scrollbar {
+  width: 8px;
+  /* 滚动条宽度 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* 滚动条轨道背景色 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* 滚动条滑块颜色 */
+  border-radius: 4px;
+  /* 滚动条滑块圆角 */
+}
+
+.clubEvaluationContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* 鼠标hover时滑块颜色 */
+}
+
+.titleContainer {
+  height: 60px;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tableContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.t-row {
+  width: 100%;
+  align-items: center;
+}
+
+.t-row#border {
+  border: 2px solid #000;
+}
+
+.t-row#table {
+  border-top: 2px solid #000;
+}
+
+.t-col {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.t-col#table {
+  border-left: 2px solid #000;
+}
+
+.text {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+</style>

@@ -450,8 +450,8 @@ const submitClubAnnualAuditForm = () => {
 }
 
 onMounted(() => {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
-    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getThisYearClubAnnual, { clubId: clubId, declarationYear: new Date().getFullYear() })
+    eventEmitter.on(APIEventEnum.getThisYearClubAnnualSuccess, 'getThisYearClubAnnualSuccess', (data) => {
         clubAnnualAudit.clubName = data.clubName
         clubAnnualAudit.clubCategory = data.clubCategory
         clubAnnualAudit.responsibleDepartment = data.responsibleDepartment
@@ -485,7 +485,7 @@ const downloadFile = (url, fileName) => {
 }
 
 onUnmounted(() => {
-    eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
+    eventEmitter.off(APIEventEnum.getThisYearClubAnnualSuccess, 'getThisYearClubAnnualSuccess')
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess')
     eventEmitter.on(APIEventEnum.postClubAnnualAuditFormSuccess, 'postClubAnnualAuditFormSuccess')
 })

@@ -5,6 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Component
 @FeignClient(value = "student-server")
 public interface StudentClientService {
@@ -22,4 +24,7 @@ public interface StudentClientService {
 
     @GetMapping("/student/queryStudentInfo")
     public Student queryStudentInfo(@RequestParam("id") Integer id);
+
+    @GetMapping("/student/getStudentByNumber")
+    public List<Student> getStudentByNumber(@RequestParam("number") List<String> number);
 }

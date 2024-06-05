@@ -55,12 +55,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
                 .selectAll(Student.class)
                 .eq(Student::getStudentId,id);
-        UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
-        userInfoDTO.setAchievements(activityMemberDTOS);
-        userInfoDTO.setClubs(clubDTOS);
-        System.out.println(userInfoDTO);
-
-        return Result.success(new DataVO(ResultCode.GET_USER_INFO,userInfoDTO));
+        try{
+            UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
+            userInfoDTO.setAchievements(activityMemberDTOS);
+            userInfoDTO.setClubs(clubDTOS);
+            System.out.println(userInfoDTO);
+            return Result.success(new DataVO(ResultCode.GET_USER_INFO,userInfoDTO));
+        }catch (Exception e)
+        {
+            return Result.send(StatusCode.GET_STUDENT_INFO_ERROR,new SendMsg("获取学生信息失败"));
+        }
     }
 
     @Override
@@ -68,6 +72,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         int updateById = studentMapper.updateById(student);
         if (updateById<=0) return Result.send(StatusCode.UPDATE_STUDENT_INFO_ERROR,new SendMsg("更新学生信息失败"));
         return Result.success(new SingleCodeVO(ResultCode.UPDATE_USER_INFO));
+    }
+
+    @Override
+    public List<Student> getStudentByNumber(List<String> number) {
+        MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
+                .selectAll(Student.class)
+                .in(Student::getStudentNumber, number);
+        List<Student> studentList = studentMapper.selectJoinList(Student.class, wrapper);
+        System.out.println(studentList);
+        return studentList;
     }
 
 //    @Autowired

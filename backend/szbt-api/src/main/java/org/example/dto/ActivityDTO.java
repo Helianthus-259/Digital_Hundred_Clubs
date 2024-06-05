@@ -12,7 +12,7 @@ public class ActivityDTO {
     private String activityName;
     private Date activityPublishTime;
     private Date activityStartTime;
-    private Date activityEndtime;
+    private Date activityEndTime;
     private String activityLocation;
     private String activityIntroduction;
     private String applicationFormAttachment;

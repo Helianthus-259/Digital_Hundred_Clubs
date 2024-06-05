@@ -5,21 +5,21 @@
 <mapper namespace="com.szbt.adminserver.dao.mapper.ClubMapper">
 
     <resultMap id="BaseResultMap" type="org.example.entity.Club">
-            <id property="clubId" column="club_id" jdbcType="INTEGER"/>
-            <result property="clubName" column="club_name" jdbcType="VARCHAR"/>
-            <result property="establishmentDate" column="establishment_date" jdbcType="TIMESTAMP"/>
-            <result property="responsibleDepartmentId" column="responsible_department_id" jdbcType="INTEGER"/>
-            <result property="clubDescription" column="club_description" jdbcType="VARCHAR"/>
-            <result property="clubCategory" column="club_category" jdbcType="INTEGER"/>
-            <result property="administrativeGuideTeacherName" column="administrative_guide_teacher_name" jdbcType="VARCHAR"/>
-            <result property="businessGuideTeacherName" column="business_guide_teacher_name" jdbcType="VARCHAR"/>
-            <result property="contactPersonId" column="contact_person_id" jdbcType="INTEGER"/>
-            <result property="clubStatus" column="club_status" jdbcType="INTEGER"/>
-            <result property="mainCampus" column="main_campus" jdbcType="INTEGER"/>
-            <result property="totalMembers" column="total_members" jdbcType="INTEGER"/>
-            <result property="isFinancialInformationPublic" column="is_financial_information_public" jdbcType="INTEGER"/>
-            <result property="publicityManagementInfo" column="publicity_management_info" jdbcType="OTHER"/>
-            <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <id property="clubId" column="club_id" jdbcType="INTEGER"/>
+        <result property="clubName" column="club_name" jdbcType="VARCHAR"/>
+        <result property="establishmentDate" column="establishment_date" jdbcType="TIMESTAMP"/>
+        <result property="responsibleDepartmentId" column="responsible_department_id" jdbcType="INTEGER"/>
+        <result property="clubDescription" column="club_description" jdbcType="OTHER"/>
+        <result property="clubCategory" column="club_category" jdbcType="INTEGER"/>
+        <result property="administrativeGuideTeacherName" column="administrative_guide_teacher_name" jdbcType="VARCHAR"/>
+        <result property="businessGuideTeacherName" column="business_guide_teacher_name" jdbcType="VARCHAR"/>
+        <result property="contactPersonId" column="contact_person_id" jdbcType="INTEGER"/>
+        <result property="clubStatus" column="club_status" jdbcType="INTEGER"/>
+        <result property="mainCampus" column="main_campus" jdbcType="INTEGER"/>
+        <result property="totalMembers" column="total_members" jdbcType="INTEGER"/>
+        <result property="isFinancialInformationPublic" column="is_financial_information_public" jdbcType="INTEGER"/>
+        <result property="publicityManagementInfo" column="publicity_management_info" jdbcType="OTHER"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

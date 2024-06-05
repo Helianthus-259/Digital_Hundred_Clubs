@@ -1,7 +1,7 @@
 <style scoped>
 .clubEvaluationContainer {
   width: 100%;
-  height: 690px;
+  height: 550px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;
@@ -71,9 +71,9 @@
 
 <template>
   <t-aside>
-    <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
+    <t-list stripe="true" style="max-height: 600px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="evaluation in backBoneEvaluations" style="width: auto" :key="evaluation.recordId">
-        <t-list-item-meta :title="evaluation.stName" :description="evaluation.clubName" />
+        <t-list-item-meta :title="evaluation.stName" :description="evaluation.clubName + evaluation.declarationYear" />
         <template #action>
           <t-button shape="round" :theme="theme[choose === evaluation.recordId ? 1 : 0]" @click="detail(evaluation)">
             <template #icon>
@@ -188,13 +188,11 @@
           </t-row>
         </div>
       </div>
-    </t-content>
-    <t-footer>
-      <t-space direction="horizontal" size="50%" style="margin-left: 15%">
-        <t-button theme="danger">评优条件不符</t-button>
-        <t-button theme="success">成为优秀骨干</t-button>
+      <t-space direction="horizontal" size="50%" style="margin-left: 30%; height: 50px">
+        <t-button theme="danger" style="margin-top: 10px" @click="unPassBackboneAwardsReview">评优条件不符</t-button>
+        <t-button theme="success" style="margin-top: 10px" @click="passBackboneAwardsReview">成为优秀骨干</t-button>
       </t-space>
-    </t-footer>
+    </t-content>
   </t-layout>
 </template>
 
@@ -208,7 +206,7 @@ const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const backBoneEvaluate = ref({
-  recordId: 0,
+  recordId: null,
   stName: '',
   studentNumber: '',
   contact: '',
@@ -244,10 +242,38 @@ const backBoneEvaluations = ref([])
 eventEmitter.emit(APIEventEnum.request, APIEnum.getBackBoneEvaluations)
 eventEmitter.on(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluationsSuccess', (data)=>{
   backBoneEvaluations.value = data
+  console.log(data)
 })
+
+const passBackboneAwardsReview = () => {
+  if(backBoneEvaluate.value.recordId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passBackboneAwardsReview, {recordId: backBoneEvaluate.value.recordId})
+}
+
+const unPassBackboneAwardsReview = () => {
+  if(backBoneEvaluate.value.recordId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassBackboneAwardsReview, {recordId: backBoneEvaluate.value.recordId})
+}
+
+eventEmitter.on(APIEventEnum.passBackboneAwardsReviewSuccess, 'passBackboneAwardsReviewSuccess', ()=>{
+  console.log("通过成功")
+})
+
+eventEmitter.on(APIEventEnum.unPassBackboneAwardsReviewSuccess, 'unPassBackboneAwardsReviewSuccess', ()=>{
+  console.log("驳回成功")
+})
+
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluationsSuccess')
+  eventEmitter.off(APIEventEnum.passBackboneAwardsReviewSuccess, 'passBackboneAwardsReviewSuccess')
+  eventEmitter.off(APIEventEnum.unPassBackboneAwardsReviewSuccess, 'unPassBackboneAwardsReviewSuccess')
 })
 
 </script>

@@ -29,4 +29,13 @@ public interface ClubClientService {
 
     @GetMapping("/club/getClubList")
     public List<Club> getClubList(@RequestParam List<Integer> idList);
+
+    @GetMapping("/club/getAdminClubInfo")
+    public Club queryAdminClubInfo(@RequestParam("adminId") Integer adminId);
+
+    @PostMapping("/club/passClubApply")
+    public boolean passClubApply(@RequestParam("clubId") Integer clubId);
+
+    @PostMapping("/club/unPassClubApply")
+    public boolean unPassClubApply(@RequestParam("clubId") Integer clubId);
 }

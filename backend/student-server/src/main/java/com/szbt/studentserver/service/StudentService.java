@@ -25,5 +25,7 @@ public interface StudentService extends IService<Student> {
 
     Object studentInfoUpdate(Student student);
 
+    List<Student>  getStudentByNumber(List<String> number);
+
 //    Object checkImageVerifyCode(boolean ok);
 }

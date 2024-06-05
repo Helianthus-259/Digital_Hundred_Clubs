@@ -162,6 +162,55 @@ function successHandler(response) {
         } else if (response.data.code === 46) { // 获取社团会议
             const { meetings } = response.data
             eventEmitter.emit(APIEventEnum.getMeetingsSuccess, meetings)
+        } else if (response.data.code === 47) { // 加入社团申请成功
+            eventEmitter.emit(APIEventEnum.postJoinClubSuccess)
+        } else if (response.data.code === 48) { // 报名活动成功
+            eventEmitter.emit(APIEventEnum.postJoinActivitySuccess)
+        } else if(response.data.code === 49){   // 获取建立社团申请详细信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubApprovalSuccess, data)
+        } else if(response.data.code === 50){   // 获取社团年审详细信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubAnnualSuccess, data)
+        } else if (response.data.code === 51){  // 获取社团详细评优信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubAwardInfoSuccess, data)
+        } else if (response.data.code === 52){  // 获取社团详细信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getClubInfoSuccess, data)
+        } else if (response.data.code === 53){  // 通过建立社团请求成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubApprovalSuccess)
+        } else if (response.data.code === 54){  // 驳回建立社团请求成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubApprovalSuccess)
+        } else if (response.data.code === 55){  // 通过活动请求成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passActivityApprovalSuccess)
+        } else if (response.data.code === 56){  // 驳回活动请求成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassActivityApprovalSuccess)
+        } else if (response.data.code === 57){  // 通过骨干评优审核成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passBackboneAwardsReviewSuccess)
+        } else if (response.data.code === 58){  // 驳回骨干评优审核成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassBackboneAwardsReviewSuccess)
+        } else if (response.data.code === 59){  // 获取今年社团评优信息成功
+            const data = response.data.data
+            eventEmitter.emit(APIEventEnum.getThisYearClubAnnualSuccess, data)
+        } else if (response.data.code === 60){  // 通过社团年审成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubAnnualReviewSuccess)
+        } else if (response.data.code === 61){  // 驳回社团年审成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubAnnualReviewSuccess)
+        } else if (response.data.code === 62){  // 通过社团评优成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passClubAwardReviewSuccess)
+        } else if (response.data.code === 63){  // 驳回社团评优成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassClubAwardReviewSuccess)
         }
     }
 }

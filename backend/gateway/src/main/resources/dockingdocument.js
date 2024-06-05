@@ -275,6 +275,8 @@ const url_data = {
         }
     },
 
+
+
     // post
     // url:/api/admin/adminInfoUpdate
     adminInfoUpdate:{// 更新管理员信息
@@ -497,6 +499,38 @@ const url_data = {
             ]
         }
     },
+    // url:/api/club/associationAwards
+    associationAwards:{// 获取社团获奖信息
+        params: {// get参数
+            clubId: '', // 社团标识id
+        },
+        data:{
+            code: 45,   // 45标识获取社团获奖信息成功
+            associationAwards:[ // 所有的获奖信息
+                {
+                    awardName: '',  // 奖项名
+                    awardTime: '',  // 获奖时间
+                    issuingAuthority: '',   // 颁奖单位
+                },
+            ]
+        }
+    },
+    // url:/api/club/meetings
+    meetings:{
+        params: {   // get参数
+            clubId: '', // 社团标识id
+        },
+        data:{
+            code: 46,   // 46代表获取社团会议信息成功
+            meetings:[
+                {
+                    meetingTime: '',    // 会议时间
+                    location: '',   // 地点
+                    category: '',   // 会议类型
+                },
+            ]
+        }
+    },
 
     // post
     // url:/api/club/agreeClubApply
@@ -533,6 +567,7 @@ const url_data = {
             administrativeGuideTeacherName: '', // 行政指导老师名
             businessGuideTeacherName: '',   // 业务指导老师名
             advisorResumeAttachmentUrl: '', // 入社材料
+            // 缺少负责部门
         },
         data:{
             code: 5, // 5代表入社申请
@@ -542,7 +577,7 @@ const url_data = {
     deleteClubMember:{// 删除社团干部，即将社团干部变成普通成员
         params: {// post参数
             clubId: '', // 社团id
-            studentNumber: '',  // 学生id
+            studentNumber: '',  // 学号
         },
         data:{
             code: 22,   // 22代表删除社团干部成功
@@ -574,6 +609,7 @@ const url_data = {
     // url:/api/club/updateClubInfo
     updateClubInfo:{// 更新社团信息
         params: {
+            clubId:'',  // 社团id(前端没给)
             clubName: '',   // 社团名称
             establishmentDate: '',  // 建立时间
             clubCategory: '',   // 社团类型
@@ -680,7 +716,7 @@ const url_data = {
             advisorName: '',    // 指导老师姓名
         },
         data:{
-          code: 37  // 37代表发布新会议成功
+          code: 38  // 38代表发布新会议成功
         }
     },
     // url:/api/club/updateClubDescription
@@ -693,6 +729,18 @@ const url_data = {
             code: 40,   // 40代表更新社团简介成功
         }
     },
+    // url:/api/club/joinClub
+    joinClub:{// 加入社团
+        params: {   // post参数
+            clubId: '', // 社团标识id
+            studentId: '',  // 学生标识id
+            reason: '', // 入社原因
+        },
+        data:{
+            code: 47,   // 47代表加入社团申请
+        }
+    },
+
 
     /*——————————————活动——————————————*/
     // get
@@ -719,20 +767,23 @@ const url_data = {
     },
     // url:/api/activity/activitiesInfo
     activitiesInfo:{// 获取所有活动信息
-        data:[// 所有活动申请数据
-            {
-                activityId: '', // 活动标识id
-                clubName: '',   // 社团名
-                activityName: '',   // 活动名
-                activityIntroduction: '',   // 活动介绍
-                createTime: '', //申请时间
-                activityStartTime: '',  // 活动开始时间
-                activityEndTime: '',    // 活动结束时间
-                activityLocation: '',   // 活动地点
-                activityAttachment: '', // 活动附件
-                status: ''  // 审核状态 1通过 :0未通过 :null待审核
-            },
-        ]
+        data:{
+            code: 13,
+            activities:[// 所有活动申请数据
+                {
+                    activityId: '', // 活动标识id
+                    clubName: '',   // 社团名
+                    activityName: '',   // 活动名
+                    activityIntroduction: '',   // 活动介绍
+                    createTime: '', //申请时间
+                    activityStartTime: '',  // 活动开始时间
+                    activityEndTime: '',    // 活动结束时间
+                    activityLocation: '',   // 活动地点
+                    activityAttachment: '', // 活动附件
+                    status: ''  // 审核状态 1通过 :0未通过 :null待审核
+                },
+            ]
+        }
     },
     // url:/api/activity/latestActivities
     latestActivities:{// 获取最新活动
@@ -772,7 +823,7 @@ const url_data = {
             code: 18,   //18表示发布新活动
         }
     },
-    // url:/api/activity/activitiesInfo
+    // url:/api/activity/personalPerformance
     personalPerformance:{// 提交个人活动表现
         params: {// post参数
             clubId: '', // 社团id
@@ -795,6 +846,16 @@ const url_data = {
         },
         data:{
             code: 30    // 30代表提交活动绩效成功
+        }
+    },
+    // url:/api/activity/joinActivity
+    joinActivity:{// 参加活动
+        params: {   // post参数
+            activityId: '', // 活动id
+            studentNumber: '',  // 学生学号
+        },
+        data:{
+            code: 48,   // 48代表加入活动申请
         }
     },
     /*——————————————文件——————————————*/

@@ -317,7 +317,100 @@ const api = {
         params: {
             clubId: params.clubId,
         }
-    })
+    }),
+    'postJoinClub': (params) => axios.post(path.joinClub, { // 加入社团
+        params: {
+            clubId: params.clubId,
+            studentId: params.studentId,
+            reason: params.reason,
+        }
+    }),
+    'postJoinActivity': (params) => axios.post(path.joinActivity, { // 加入活动
+        params: {
+            activityId: params.activityId,
+            studentNumber: params.studentNumber,
+        }
+    }),
+    'getClubApproval':(params)=> axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
+        params:{
+            clubId: params.clubId,
+        }
+    }),
+    'getClubAnnual':(params)=> axios.get(path.clubAnnual, {
+        params:{
+            declarationId: params.declarationId,
+        }
+    }),
+    'getThisYearClubAnnual':(params)=> axios.get(path.thisYearClubAnnual, {
+        params:{
+            clubId: params.clubId,
+            declarationYear: params.declarationYear
+        }
+    }),
+    'getClubAwardInfo':(params)=>axios.get(path.clubAward, {
+        params:{
+            recordId: params.recordId,
+        }
+    }),
+    'getClubInfo':(params)=>axios.get(path.clubInfo, {
+        params:{
+            clubId: params.clubId,
+        }
+    }),
+    'passClubApproval':(params)=>axios.post(path.passClubApproval, {
+        params:{
+            recordId: params.recordId,
+            universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
+        }
+    }),
+    'unPassClubApproval':(params)=>axios.post(path.unPassClubApproval, {
+        params:{
+            recordId: params.recordId,
+            universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
+        }
+    }),
+    'passActivityApproval':(params)=>axios.post(path.passActivityApproval, {
+        params:{
+            activityId: params.activityId,
+            opinion: params.opinion
+        }
+    }),
+    'unPassActivityApproval':(params)=>axios.post(path.unPassActivityApproval, {
+        params:{
+            activityId: params.activityId,
+            opinion: params.opinion
+        }
+    }),
+    'passBackboneAwardsReview':(params)=>axios.post(path.passBackboneAwardsReview, {
+        params:{
+            recordId: params.recordId
+        }
+    }),
+    'unPassBackboneAwardsReview':(params)=>axios.post(path.unPassBackboneAwardsReview, {
+        params:{
+            recordId: params.recordId
+        }
+    }),
+    'passClubAnnualReview':(params)=>axios.post(path.passClubAnnualReview, {
+        params:{
+            declarationId: params.declarationId
+        }
+    }),
+    'unPassClubAnnualReview':(params)=>axios.post(path.unPassClubAnnualReview, {
+        params:{
+            declarationId: params.declarationId
+        }
+    }),
+    'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, {
+        params:{
+            declarationId: params.recordId
+        }
+    }),
+    'unPassClubAwardReview':(params)=>axios.post(path.unPassClubAwardReview, {
+        params:{
+            declarationId: params.recordId
+        }
+    }),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

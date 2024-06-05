@@ -1,7 +1,7 @@
 <style scoped>
 .AnnualAuditContainer {
   width: 100%;
-  height: 690px;
+  height: 550px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;
@@ -79,7 +79,7 @@
 
 <template>
   <t-aside>
-    <t-list stripe="true" style="max-height: 680px; width: 250px" :scroll="{ type: 'virtual' }">
+    <t-list stripe="true" style="max-height: 600px; width: 250px" :scroll="{ type: 'virtual' }">
       <t-list-item v-for="declaration in declarations" style="width: auto" :key="declaration.declarationId">
         <t-list-item-meta :title="declaration.clubName" :description="declaration.declarationYear" />
         <template #action>
@@ -135,9 +135,9 @@
               </t-col>
               <t-col id="table" :span="9">
                 <t-radio-group variant="primary-filled" :value="clubReviewInfo.mainCompus">
-                  <t-radio-button value="南校区">南校区</t-radio-button>
-                  <t-radio-button value="北校区">北校区</t-radio-button>
-                  <t-radio-button value="东校区">东校区</t-radio-button>
+                  <t-radio-button value="广州校区南校园">广州校区南校区</t-radio-button>
+                  <t-radio-button value="广州校区北校园">广州校区北校区</t-radio-button>
+                  <t-radio-button value="广州校区东校园">广州校区东校区</t-radio-button>
                   <t-radio-button value="深圳校区">深圳校区</t-radio-button>
                   <t-radio-button value="珠海校区">珠海校区</t-radio-button>
                 </t-radio-group>
@@ -299,14 +299,11 @@
           </t-row>
         </div>
       </div>
-    </t-content>
-    <t-footer>
-      <t-space direction="horizontal" size="50%" style="margin-left: 15%">
-        <t-button theme="danger">不通过年审</t-button>
-        <t-button theme="warning">材料不通过</t-button>
-        <t-button theme="success">√通过年审</t-button>
+      <t-space direction="horizontal" size="50%" style="margin-left: 30%; height: 50px">
+        <t-button theme="danger" style="margin-top: 10px" @click="unPassClubAnnualReview">材料不通过</t-button>
+        <t-button theme="success" style="margin-top: 10px" @click="passClubAnnualReview">√通过年审</t-button>
       </t-space>
-    </t-footer>
+    </t-content>
   </t-layout>
 </template>
 
@@ -321,25 +318,24 @@ const declarations = ref([])
 const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
+const campusList = ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"]
 const clubReviewInfo = ref({
-  code: 20, // 20代表获取社团评优所需信息
+  declarationId: null,
   clubName: '',
-  totalMembers: '',
-  isFinancialInformationPublic: '',
-  administrativeGuideTeacherName: '',
-  businessGuideTeacherName: '',
-  backboneNumber: '',
-  establishmentDate: '',
-  responsibleDepartment: '',
+  clubCategory: '',
   mainCompus: '',
   clubDescription: '',
-  clubCategory: '',
+  totalMembers: '',
+  file: '',
+  administrativeGuideTeacherName: '',
+  businessGuideTeacherName: '',
+  establishmentDate: '',
   contactPerson: '',
-  politicalStatus: '',
   contactPhone: '',
   clubStatus: '',
-  file: '',
-  communistRelatedBackBoneNumber: '',
+  responsibleDepartment: '',
+  politicalStatus: '',
+  isFinancialInformationPublic: '',
   publicityManagementInfo: {
     WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
     WebSite: { has: '', name: '' },
@@ -361,11 +357,13 @@ eventEmitter.on(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess', (da
 const detail = (data) => {
   console.log(data)
   choose.value = data
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { value: data })
-  eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+  clubReviewInfo.value.declarationId = data
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, { value: data })
+  eventEmitter.on(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess', (data) => {
+    console.log(data)
     clubReviewInfo.value.clubName = data.clubName
     clubReviewInfo.value.clubCategory = data.clubCategory
-    clubReviewInfo.value.mainCompus = data.mainCompus
+    clubReviewInfo.value.mainCompus = campusList[data.mainCompus]
     clubReviewInfo.value.clubDescription = data.clubDescription
     clubReviewInfo.value.file = data.file
     clubReviewInfo.value.totalMembers = data.totalMembers
@@ -383,9 +381,36 @@ const detail = (data) => {
   })
 }
 
+const passClubAnnualReview = () => {
+  if(clubReviewInfo.value.declarationId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAnnualReview, {declarationId: clubReviewInfo.value.declarationId})
+}
+
+const unPassClubAnnualReview = () => {
+  if(clubReviewInfo.value.declarationId === null){
+    console.log("数据不存在！")
+    return
+  }
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAnnualReview, {declarationId: clubReviewInfo.value.declarationId})
+}
+
+eventEmitter.on(APIEventEnum.passClubAnnualReviewSuccess, 'passClubAnnualReviewSuccess', ()=>{
+  console.log("通过成功")
+})
+
+eventEmitter.on(APIEventEnum.unPassClubAnnualReviewSuccess, 'unPassClubAnnualReviewSuccess', ()=>{
+  console.log("驳回成功")
+})
+
+
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess')
-  eventEmitter.off(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess')
+  eventEmitter.off(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess')
+  eventEmitter.off(APIEventEnum.passClubAnnualReviewSuccess, 'passClubAnnualReviewSuccess')
+  eventEmitter.off(APIEventEnum.unPassClubAnnualReviewSuccess, 'unPassClubAnnualReviewSuccess')
 })
 
 </script>

@@ -20,4 +20,26 @@ public interface ClubService extends IService<Club> {
     Club getClubInfoById(Integer id);
 
     List<Club> getClubList(List<Integer> idList);
+
+    Object queryClubIntroductionByClubId(Integer clubId);
+
+    Object updateClubDescription(Club club);
+
+    Object updateClubInfo(Club club);
+
+    Object topTenClubs();
+
+    Object queryClubApplicationInfo(Integer clubId);
+
+    Boolean addClubTotalMember(Integer clubId);
+
+    Object queryClubInfoInfo(Integer clubId);
+
+    Object queryClubAnnualInfo(Integer declarationId);
+
+    Club queryAdminClubInfo(Integer adminId);
+
+    boolean passClubApply(Integer clubId);
+
+    boolean unPassClubApply(Integer clubId);
 }
