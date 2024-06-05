@@ -2,6 +2,7 @@ package com.szbt.adminserver.controller;
 
 import com.szbt.adminserver.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.example.entity.Activity;
 import org.example.entity.Administrator;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
@@ -30,6 +31,8 @@ public class AdminController {
     private ClubClientService clubClientService;
     @Autowired
     private ClubapplicationrecordService clubapplicationrecordService;
+    @Autowired
+    private ActivityService activityService;
 
     @GetMapping("/backBoneEvaluations")
     private Object queryAllBackBoneEvaluations()
@@ -78,5 +81,15 @@ public class AdminController {
     @PostMapping("/unPassClubApproval")
     public Object unPassClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord) {
         return clubapplicationrecordService.unPassClubApproval(clubapplicationrecord);
+    }
+
+    @PostMapping("/passActivityApproval")
+    public Object passActivityApproval(@ModelAttribute Activity activity) {
+        return activityService.passActivityApproval(activity);
+    }
+
+    @PostMapping("/unPassActivityApproval")
+    public Object unPassActivityApproval(@ModelAttribute Activity activity) {
+        return activityService.unPassActivityApproval(activity);
     }
 }

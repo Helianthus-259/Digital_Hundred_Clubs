@@ -17,12 +17,14 @@
         <result property="activityStatus" column="activity_status" jdbcType="INTEGER"/>
         <result property="activityEffect" column="activity_effect" jdbcType="VARCHAR"/>
         <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="opinion" column="opinion" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         activity_id,club_id,activity_name,
         activity_publish_time,activity_start_time,activity_end_time,
         activity_location,activity_introduction,application_form_attachment,
-        activity_status,activity_effect,image_url
+        activity_status,activity_effect,image_url,
+        opinion
     </sql>
 </mapper>
