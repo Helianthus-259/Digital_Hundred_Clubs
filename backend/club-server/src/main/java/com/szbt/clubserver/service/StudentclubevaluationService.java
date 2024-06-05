@@ -15,5 +15,5 @@ public interface StudentclubevaluationService extends IService<Studentclubevalua
 
     Object clubEvaluateInfo(Integer clubId, Club clubInfo, Student studentInfo, String department);
 
-    Object queryClubEvaluationInfo(Integer clubId);
+    Object queryClubEvaluationInfo(Integer recordId);
 }

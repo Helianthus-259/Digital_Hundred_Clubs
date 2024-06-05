@@ -208,7 +208,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     }
 
     @Override
-    public Object queryClubAnnualInfo(Integer clubId) {
+    public Object queryClubAnnualInfo(Integer declarationId) {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
                 .selectAll(Club.class)
                 .select(Annualaudit::getClubConstitutionAttachment,
@@ -220,8 +220,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
                 .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
                 .leftJoin(Annualaudit.class,Annualaudit::getClubId,Club::getClubId)
-                .eq(Annualaudit::getClubId,clubId)
-                .eq(Annualaudit::getDeclarationYear,2023);
+                .eq(Annualaudit::getDeclarationId,declarationId);
         try{
             ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
             clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder

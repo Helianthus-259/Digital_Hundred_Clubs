@@ -202,10 +202,10 @@ public class ClubController {
     }
 
     @GetMapping("/getClubAnnual")
-    public Object queryClubAnnualInfo(Integer clubId){return clubService.queryClubAnnualInfo(clubId);}
+    public Object queryClubAnnualInfo(Integer declarationId){return clubService.queryClubAnnualInfo(declarationId);}
 
     @GetMapping("/getClubAward")
-    public Object queryClubEvaluationInfo(Integer clubId){return studentclubevaluationService.queryClubEvaluationInfo(clubId);}
+    public Object queryClubEvaluationInfo(Integer recordId){return studentclubevaluationService.queryClubEvaluationInfo(recordId);}
 
     @GetMapping("/clubInfo")
     public Object queryClubInfoInfo(Integer clubId){return clubService.queryClubInfoInfo(clubId);}

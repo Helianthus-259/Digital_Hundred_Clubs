@@ -44,7 +44,7 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
     }
 
     @Override
-    public Object queryClubEvaluationInfo(Integer clubId) {
+    public Object queryClubEvaluationInfo(Integer recordId) {
         MPJLambdaWrapper<Studentclubevaluation> wrapper = new MPJLambdaWrapper<Studentclubevaluation>()
                 .selectAll(Studentclubevaluation.class)
                 .select(Club::getAdministrativeGuideTeacherName,
@@ -52,7 +52,7 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
                         Club::getIsFinancialInformationPublic,
                         Club::getTotalMembers,Club::getClubName)
                 .leftJoin(Club.class,Club::getClubId,Studentclubevaluation::getClubId)
-                .eq(Studentclubevaluation::getClubId,clubId);
+                .eq(Studentclubevaluation::getRecordId,recordId);
         try{
             SingleClubEvaluationDTO singleClubEvaluationDTO = studentclubevaluationMapper.selectJoinOne(SingleClubEvaluationDTO.class, wrapper);
             return Result.success(new DataVO(ResultCode.GET_CLUB_AWARDS,singleClubEvaluationDTO));
