@@ -60,7 +60,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         IntStream.range(0, clubInfoDTOS.size())
                 .forEach(i -> {
                     String imageUrl = clubInfoDTOS.get(i).getImageUrl();
-                    clubInfoDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                    clubInfoDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                 });
         return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
     }

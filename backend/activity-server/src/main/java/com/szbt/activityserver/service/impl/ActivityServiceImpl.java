@@ -14,6 +14,7 @@ import org.example.entity.Activity;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
@@ -72,7 +73,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                 IntStream.range(0, activityList.size())
                         .forEach(i -> {
                             String imageUrl = activityList.get(i).getImageUrl();
-                            activityList.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                            activityList.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                         });
                 result.add(activityList);
             });
@@ -145,7 +146,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         IntStream.range(0, clubActivityListDTOS.size())
                 .forEach(i -> {
                     String imageUrl = clubActivityListDTOS.get(i).getImageUrl();
-                    clubActivityListDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                    clubActivityListDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                     Date currentTime = new Date();
                     Date activityStartTime = activityList.get(i).getActivityStartTime();
                     Date activityEndTime = activityList.get(i).getActivityEndTime();

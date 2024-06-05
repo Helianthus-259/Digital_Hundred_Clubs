@@ -16,6 +16,7 @@ import org.example.entity.Student;
 import org.example.enums.Position;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.MemberVO;
 import org.example.vo.SendMsg;
@@ -92,11 +93,11 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
             totalMemberDTO.setTotalMembers(totalMembers);
             //拼接文件请求
             String imageUrl1 = presidentDTO.getImageUrl();
-            presidentDTO.setImageUrl(fileServerDownloadUrl+imageUrl1);
+            presidentDTO.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl1));
             IntStream.range(0, executiveDTOS.size())
                     .forEach(i -> {
                         String imageUrl = executiveDTOS.get(i).getImageUrl();
-                        executiveDTOS.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                        executiveDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                     });
             //创建返回对象
             MemberVO memberVO = new MemberVO(presidentDTO,executiveDTOS,totalMemberDTO);
