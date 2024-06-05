@@ -259,10 +259,24 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Override
     public boolean passClubApply(Integer clubId) {
         try{
-            System.out.println(clubId);
+            //System.out.println(clubId);
             Club club = clubMapper.selectById(clubId);
             club.setClubStatus(1);
             club.setEstablishmentDate(new Date());
+            clubMapper.updateById(club);
+            return true;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean unPassClubApply(Integer clubId) {
+        try{
+            //System.out.println(clubId);
+            Club club = clubMapper.selectById(clubId);
+            club.setClubStatus(0);
             clubMapper.updateById(club);
             return true;
         }catch (Exception e) {

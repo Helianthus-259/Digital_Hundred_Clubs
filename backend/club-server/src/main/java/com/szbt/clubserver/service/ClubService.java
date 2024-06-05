@@ -40,4 +40,6 @@ public interface ClubService extends IService<Club> {
     Club queryAdminClubInfo(Integer adminId);
 
     boolean passClubApply(Integer clubId);
+
+    boolean unPassClubApply(Integer clubId);
 }

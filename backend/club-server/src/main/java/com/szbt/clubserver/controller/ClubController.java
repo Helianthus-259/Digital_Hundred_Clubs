@@ -215,4 +215,7 @@ public class ClubController {
 
     @PostMapping("/passClubApply")
     public boolean passClubApply(@RequestParam("clubId") Integer clubId){ return clubService.passClubApply(clubId);}
+
+    @PostMapping("/unPassClubApply")
+    public boolean unPassClubApply(@RequestParam("clubId") Integer clubId){ return clubService.unPassClubApply(clubId);}
 }

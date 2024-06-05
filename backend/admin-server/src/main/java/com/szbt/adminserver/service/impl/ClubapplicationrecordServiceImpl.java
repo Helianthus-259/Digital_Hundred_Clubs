@@ -48,6 +48,22 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
             return Result.send(StatusCode.PASS_CLUB_APPROVAL_ERROR,new SendMsg("通过社团申请失败"));
         }
     }
+
+    @Override
+    public Object unPassClubApproval(Clubapplicationrecord clubapplicationrecord) {
+        clubapplicationrecord.setUniversityStudentUnionReviewStatus(0);
+        try{
+            int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
+            if(updateById<=0) return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
+            Clubapplicationrecord clubapplicationrecord1 = clubapplicationrecordMapper.selectById(clubapplicationrecord.getRecordId());
+            boolean passed = clubClientService.unPassClubApply(clubapplicationrecord1.getClubId());
+            if(!passed) return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
+            return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_APPROVAL));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
+        }
+    }
 }
 
 

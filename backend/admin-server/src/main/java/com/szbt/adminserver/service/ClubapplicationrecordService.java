@@ -13,5 +13,7 @@ import java.util.List;
 * @createDate 2024-05-31 19:19:57
 */
 public interface ClubapplicationrecordService extends IService<Clubapplicationrecord> {
-    Object passClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord);
+    Object passClubApproval(Clubapplicationrecord clubapplicationrecord);
+
+    Object unPassClubApproval(Clubapplicationrecord clubapplicationrecord);
 }

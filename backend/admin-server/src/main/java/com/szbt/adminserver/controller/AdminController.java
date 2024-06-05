@@ -74,4 +74,9 @@ public class AdminController {
     public Object passClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord) {
         return clubapplicationrecordService.passClubApproval(clubapplicationrecord);
     }
+
+    @PostMapping("/unPassClubApproval")
+    public Object unPassClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord) {
+        return clubapplicationrecordService.unPassClubApproval(clubapplicationrecord);
+    }
 }

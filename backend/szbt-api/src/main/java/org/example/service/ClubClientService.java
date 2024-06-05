@@ -35,4 +35,7 @@ public interface ClubClientService {
 
     @PostMapping("/club/passClubApply")
     public boolean passClubApply(@RequestParam("clubId") Integer clubId);
+
+    @PostMapping("/club/unPassClubApply")
+    public boolean unPassClubApply(@RequestParam("clubId") Integer clubId);
 }
