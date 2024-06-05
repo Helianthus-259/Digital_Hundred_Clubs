@@ -209,4 +209,7 @@ public class ClubController {
 
     @GetMapping("/clubInfo")
     public Object queryClubInfoInfo(Integer clubId){return clubService.queryClubInfoInfo(clubId);}
+
+    @GetMapping("/getAdminClubInfo")
+    public Club queryAdminClubInfo(Integer adminId){return clubService.queryAdminClubInfo(adminId);}
 }

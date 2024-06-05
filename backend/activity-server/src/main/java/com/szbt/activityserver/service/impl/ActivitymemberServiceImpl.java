@@ -45,14 +45,19 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
                 .selectAll(Activitymember.class)
                 .eq(Activitymember::getStudentId,id);
         //List<ActivityMemberDTO> activityMemberDTOS = activitymemberMapper.selectJoinList(ActivityMemberDTO.class, wrapper);
-        List<Activitymember> activityMembers = activitymemberMapper.selectJoinList(Activitymember.class, wrapper);
-        // 使用 ModelMapper 映射
-        List<ActivityMemberDTO> activityMemberDTOS = modelMapper.map(activityMembers, new TypeToken<List<ActivityMemberDTO>>() {}.getType());
-        for (int i = 0; i < activityMemberDTOS.size(); i++) {
-            activityMemberDTOS.get(i).setIndex(activityMembers.get(i).getActivityMemberId());
+        try {
+            List<Activitymember> activityMembers = activitymemberMapper.selectJoinList(Activitymember.class, wrapper);
+            // 使用 ModelMapper 映射
+            List<ActivityMemberDTO> activityMemberDTOS = modelMapper.map(activityMembers, new TypeToken<List<ActivityMemberDTO>>() {}.getType());
+            for (int i = 0; i < activityMemberDTOS.size(); i++) {
+                activityMemberDTOS.get(i).setIndex(activityMembers.get(i).getActivityMemberId());
+            }
+            System.out.println(activityMemberDTOS);
+            return activityMemberDTOS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        System.out.println(activityMemberDTOS);
-        return activityMemberDTOS;
     }
 
     @Override
@@ -87,8 +92,8 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
             try {
                 // activitymemberMapper.insert(activitymember);
                 QueryWrapper<Activitymember> wrapper = new QueryWrapper<>();
-                wrapper.eq("studentId",studentList.get(i).getStudentId());
-                wrapper.eq("activityId",activityId);
+                wrapper.eq("student_id",studentList.get(i).getStudentId());
+                wrapper.eq("activity_id",activityId);
                 Activitymember activitymember = activitymemberMapper.selectOne(wrapper, true);
                 if (activitymember == null)
                 {

@@ -6,6 +6,8 @@ import com.szbt.adminserver.service.BackboneevaluationService;
 import com.szbt.adminserver.service.StudentclubevaluationService;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Administrator;
+import org.example.entity.Club;
+import org.example.service.ClubClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -26,6 +28,8 @@ public class AdminController {
     private AnnualauditService annualauditService;
     @Autowired
     private StudentclubevaluationService studentclubevaluationService;
+    @Autowired
+    private ClubClientService clubClientService;
 
     @GetMapping("/backBoneEvaluations")
     private Object queryAllBackBoneEvaluations()
@@ -60,4 +64,9 @@ public class AdminController {
         return annualauditService.queryMyClubAnnualExamData(clubId);
     }
 
+    @GetMapping("/adminInfo")
+    public Object getAdmin(Integer adminId){
+        Club club = clubClientService.queryAdminClubInfo(adminId);
+        return administratorService.getAdmin(adminId,club);
+    }
 }

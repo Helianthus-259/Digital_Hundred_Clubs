@@ -10,8 +10,10 @@ import org.example.entity.*;
 import com.szbt.adminserver.dao.mapper.BackboneevaluationMapper;
 import com.szbt.adminserver.service.BackboneevaluationService;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,23 +40,34 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
                 .leftJoin(Student.class, Student::getStudentId, Backboneevaluation::getStudentId)
                 .leftJoin(Clubmember.class, Clubmember::getClubId, Backboneevaluation::getClubId)
                 .eq(Clubmember::getStudentId, Backboneevaluation::getStudentId);
-        return Result.success(new DataVO(ResultCode.GET_ALL_BACKBONE_EVALUATION,
-                backboneevaluationMapper.selectJoinList(BackBoneEvaluationDTO.class,wrapper)));
+        try{
+            List<BackBoneEvaluationDTO> backBoneEvaluationDTOS = backboneevaluationMapper.selectJoinList(BackBoneEvaluationDTO.class, wrapper);
+            return Result.success(new DataVO(ResultCode.GET_ALL_BACKBONE_EVALUATION, backBoneEvaluationDTOS));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_BACKBONE_EVALUATION_ERROR,new SendMsg("获取骨干评优信息失败"));
+        }
     }
 
     @Override
+
     public Object queryMyClubBackboneExamData(Integer clubId) {
         MPJLambdaWrapper<Backboneevaluation> wrapper = new MPJLambdaWrapper<>();
         wrapper.selectAll(Backboneevaluation.class)
                 .select(Student::getStName)
                 .leftJoin(Student.class, Student::getStudentId, Backboneevaluation::getStudentId)
                 .eq(Backboneevaluation::getClubId,clubId);
-        List<SpecialClubBackboneDTO> specialClubBackboneDTOS = backboneevaluationMapper.selectJoinList(SpecialClubBackboneDTO.class, wrapper);
-        //创建返回对象
-        HashMap<String,Object> result = new HashMap<>();
-        result.put("code", ResultCode.GET_SPECIAL_CLUB_BACKBONE.getCode());
-        result.put("returnData",specialClubBackboneDTOS);
-        return Result.success(result);
+        try{
+            List<SpecialClubBackboneDTO> specialClubBackboneDTOS = backboneevaluationMapper.selectJoinList(SpecialClubBackboneDTO.class, wrapper);
+            //创建返回对象
+            HashMap<String,Object> result = new HashMap<>();
+            result.put("code", ResultCode.GET_SPECIAL_CLUB_BACKBONE.getCode());
+            result.put("returnData",specialClubBackboneDTOS);
+            return Result.success(result);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_SINGLE_CLUB_BACK_BONE_ERROR,new SendMsg("获取指定社团骨干信息失败"));
+        }
     }
 }
 

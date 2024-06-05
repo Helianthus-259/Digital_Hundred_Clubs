@@ -36,4 +36,6 @@ public interface ClubService extends IService<Club> {
     Object queryClubInfoInfo(Integer clubId);
 
     Object queryClubAnnualInfo(Integer declarationId);
+
+    Club queryAdminClubInfo(Integer adminId);
 }
