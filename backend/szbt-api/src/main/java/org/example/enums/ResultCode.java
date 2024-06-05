@@ -64,6 +64,7 @@ public enum ResultCode {
     GET_SPECIAL_CLUB_BACKBONE(42),
     GET_SPECIAL_CLUB_ANNUAL(43),
     GET_SPECIAL_CLUB_TEACHER(44),
+    PASS_CLUB_APPROVAL(53),
 
     //file-server
     UPLOAD_IMAGE(21),

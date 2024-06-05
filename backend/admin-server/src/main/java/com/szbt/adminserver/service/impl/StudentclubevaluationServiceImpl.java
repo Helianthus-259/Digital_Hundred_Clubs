@@ -65,7 +65,7 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
             return Result.success(new DataVO(ResultCode.GET_ALL_CLUB_EVALUATION,clubEvaluationDTOS));
         }catch (Exception e) {
             e.printStackTrace();
-            return Result.send(StatusCode.GET_All_Club_EVALUATION_ERROR,new SendMsg("获取社团评优信息失败"));
+            return Result.send(StatusCode.GET_All_ClUB_EVALUATION_ERROR,new SendMsg("获取社团评优信息失败"));
         }
     }
 }

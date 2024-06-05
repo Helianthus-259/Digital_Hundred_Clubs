@@ -1,12 +1,10 @@
 package com.szbt.adminserver.controller;
 
-import com.szbt.adminserver.service.AdministratorService;
-import com.szbt.adminserver.service.AnnualauditService;
-import com.szbt.adminserver.service.BackboneevaluationService;
-import com.szbt.adminserver.service.StudentclubevaluationService;
+import com.szbt.adminserver.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.example.entity.Administrator;
 import org.example.entity.Club;
+import org.example.entity.Clubapplicationrecord;
 import org.example.service.ClubClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +28,8 @@ public class AdminController {
     private StudentclubevaluationService studentclubevaluationService;
     @Autowired
     private ClubClientService clubClientService;
+    @Autowired
+    private ClubapplicationrecordService clubapplicationrecordService;
 
     @GetMapping("/backBoneEvaluations")
     private Object queryAllBackBoneEvaluations()
@@ -68,5 +68,10 @@ public class AdminController {
     public Object getAdmin(Integer adminId){
         Club club = clubClientService.queryAdminClubInfo(adminId);
         return administratorService.getAdmin(adminId,club);
+    }
+
+    @PostMapping("/passClubApproval")
+    public Object passClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord) {
+        return clubapplicationrecordService.passClubApproval(clubapplicationrecord);
     }
 }

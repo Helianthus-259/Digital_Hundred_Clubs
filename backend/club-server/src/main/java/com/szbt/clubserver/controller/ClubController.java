@@ -212,4 +212,7 @@ public class ClubController {
 
     @GetMapping("/getAdminClubInfo")
     public Club queryAdminClubInfo(Integer adminId){return clubService.queryAdminClubInfo(adminId);}
+
+    @PostMapping("/passClubApply")
+    public boolean passClubApply(@RequestParam("clubId") Integer clubId){ return clubService.passClubApply(clubId);}
 }

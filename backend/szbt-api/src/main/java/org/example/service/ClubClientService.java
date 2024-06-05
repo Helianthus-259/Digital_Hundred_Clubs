@@ -32,4 +32,7 @@ public interface ClubClientService {
 
     @GetMapping("/club/getAdminClubInfo")
     public Club queryAdminClubInfo(@RequestParam("adminId") Integer adminId);
+
+    @PostMapping("/club/passClubApply")
+    public boolean passClubApply(@RequestParam("clubId") Integer clubId);
 }
