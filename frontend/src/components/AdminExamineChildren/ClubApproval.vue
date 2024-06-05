@@ -13,9 +13,9 @@
         <t-space direction="vertical">
           <t-radio-group variant="primary-filled" v-model:value="campus" @click="search">
             <t-radio-button value="all">全部校区</t-radio-button>
-            <t-radio-button value="南校区">南校区</t-radio-button>
-            <t-radio-button value="东校区">东校区</t-radio-button>
-            <t-radio-button value="北校区">北校区</t-radio-button>
+            <t-radio-button value="广州校区南校园">广州校区南校园</t-radio-button>
+            <t-radio-button value="广州校区东校园">广州校区东校园</t-radio-button>
+            <t-radio-button value="广州校区北校园">广州校区北校园</t-radio-button>
             <t-radio-button value="深圳校区">深圳校区</t-radio-button>
             <t-radio-button value="珠海校区">珠海校区</t-radio-button>
           </t-radio-group>
@@ -26,7 +26,7 @@
             <t-radio-button value="艺术类">艺术类</t-radio-button>
             <t-radio-button value="公益类">公益类</t-radio-button>
             <t-radio-button value="科技类">科技类</t-radio-button>
-            <t-radio-button value="其他类">其他类</t-radio-button>
+            <t-radio-button value="其它类">其他类</t-radio-button>
           </t-radio-group>
         </t-space>
       </t-header>

@@ -135,9 +135,9 @@
               </t-col>
               <t-col id="table" :span="9">
                 <t-radio-group variant="primary-filled" :value="clubReviewInfo.mainCompus">
-                  <t-radio-button value="南校区">南校区</t-radio-button>
-                  <t-radio-button value="北校区">北校区</t-radio-button>
-                  <t-radio-button value="东校区">东校区</t-radio-button>
+                  <t-radio-button value="广州校区南校园">广州校区南校区</t-radio-button>
+                  <t-radio-button value="广州校区北校园">广州校区北校区</t-radio-button>
+                  <t-radio-button value="广州校区东校园">广州校区东校区</t-radio-button>
                   <t-radio-button value="深圳校区">深圳校区</t-radio-button>
                   <t-radio-button value="珠海校区">珠海校区</t-radio-button>
                 </t-radio-group>
@@ -318,6 +318,7 @@ const declarations = ref([])
 const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
+const campusList = ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"]
 const clubReviewInfo = ref({
   declarationId: null,
   clubName: '',
@@ -362,7 +363,7 @@ const detail = (data) => {
     console.log(data)
     clubReviewInfo.value.clubName = data.clubName
     clubReviewInfo.value.clubCategory = data.clubCategory
-    clubReviewInfo.value.mainCompus = data.mainCompus
+    clubReviewInfo.value.mainCompus = campusList[data.mainCompus]
     clubReviewInfo.value.clubDescription = data.clubDescription
     clubReviewInfo.value.file = data.file
     clubReviewInfo.value.totalMembers = data.totalMembers

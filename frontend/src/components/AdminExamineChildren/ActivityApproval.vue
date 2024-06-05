@@ -62,7 +62,7 @@
                     <t-col :span="3" id="table">
                       {{activity.contactPerson}}
                     </t-col>
-                    <t-col :span="3">
+                    <t-col :span="3" id="table">
                       <div class="text">联系电话</div>
                     </t-col>
                     <t-col :span="3" id="table">
@@ -71,7 +71,7 @@
                   </t-row>
                   <t-row id="table">
                     <t-col :span="3">
-                      <div class="text" id="table">活动名称</div>
+                      <div class="text">活动名称</div>
                     </t-col>
                     <t-col :span="9" id="table">
                       {{activity.activityName}}
@@ -168,7 +168,7 @@ const activity = ref({
   activityEndTime: "",
   activityIntroduction: "",
   activityAttachment: "",
-  contacrPerson:'',
+  contactPerson:'',
   contactPhone:'',
 })
 
@@ -219,7 +219,6 @@ const pagination = ref({
 });
 
 const detail = (value) => {
-  console.log(value)
   eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: value.activityId })
   visibleModal.value = true;
 }
@@ -245,7 +244,6 @@ const getPendingActivities = () => {
 }
 
 eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
-  console.log(data)
   activity.value.activityId = data.activityId
   activity.value.activityName = data.activityName
   activity.value.clubName = data.clubName
@@ -256,8 +254,9 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityEndTime = data.activityEndTime
   activity.value.activityIntroduction = data.activityIntroduction
   activity.value.activityAttachment = data.activityAttachment
-  activity.value.contacrPerson =  data.contactPerson
+  activity.value.contactPerson =  data.contactPerson
   activity.value.contactPhone = data.contactPhone
+  console.log(activity.value)
 })
 const passActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passActivityApproval, {
