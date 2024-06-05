@@ -2,14 +2,15 @@ package com.szbt.clubserver.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.StudentclubevaluationMapper;
 import com.szbt.clubserver.service.StudentclubevaluationService;
-import org.example.entity.Club;
-import org.example.entity.Student;
-import org.example.entity.Studentclubevaluation;
+import org.example.dto.SingleClubEvaluationDTO;
+import org.example.entity.*;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
+import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,25 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
     @Override
     public Object clubEvaluateInfo(Integer clubId, Club clubInfo, Student studentInfo, String department) {
         return null;
+    }
+
+    @Override
+    public Object queryClubEvaluationInfo(Integer recordId) {
+        MPJLambdaWrapper<Studentclubevaluation> wrapper = new MPJLambdaWrapper<Studentclubevaluation>()
+                .selectAll(Studentclubevaluation.class)
+                .select(Club::getAdministrativeGuideTeacherName,
+                        Club::getBusinessGuideTeacherName,
+                        Club::getIsFinancialInformationPublic,
+                        Club::getTotalMembers,Club::getClubName)
+                .leftJoin(Club.class,Club::getClubId,Studentclubevaluation::getClubId)
+                .eq(Studentclubevaluation::getRecordId,recordId);
+        try{
+            SingleClubEvaluationDTO singleClubEvaluationDTO = studentclubevaluationMapper.selectJoinOne(SingleClubEvaluationDTO.class, wrapper);
+            return Result.success(new DataVO(ResultCode.GET_CLUB_AWARDS,singleClubEvaluationDTO));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_CLUB_EVALUATION_ERROR,new SendMsg("获取详细社团评优信息失败"));
+        }
     }
 
 }

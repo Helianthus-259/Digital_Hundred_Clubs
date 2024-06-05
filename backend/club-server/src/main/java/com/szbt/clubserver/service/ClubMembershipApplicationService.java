@@ -14,7 +14,7 @@ public interface ClubMembershipApplicationService extends IService<ClubMembershi
 
     Object joinClub(ClubMembershipApplication clubMembershipApplication);
 
-    Object agreeClubApply(Club club, Integer studentId);
+    Object agreeClubApply(Club club, Integer studentId,Boolean ok);
 
     Object rejectClubApply(Integer clubId, Integer studentId, String rejectReason);
 }

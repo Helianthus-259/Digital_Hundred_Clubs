@@ -23,4 +23,5 @@ public class ClubApplicationInfoDTO {
     private String contact;
     private Integer clubStatus;
     private String attachmentUrl;
+    private String advisorResumeAttachmentUrl;
 }

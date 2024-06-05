@@ -10,6 +10,7 @@ import org.example.entity.Activity;
 import org.example.entity.Clubannouncement;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.ClubActAndNtcVO;
 import org.example.vo.DataVO;
@@ -52,7 +53,7 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
             IntStream.range(0, noticeDTOList.size())
                     .forEach(i -> {
                         String imageUrl = noticeDTOList.get(i).getImageUrl();
-                        noticeDTOList.get(i).setImageUrl(fileServerDownloadUrl+imageUrl);
+                        noticeDTOList.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                     });
             List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityList, new TypeToken<List<ActivityShowDTO>>() {}.getType());
             ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);

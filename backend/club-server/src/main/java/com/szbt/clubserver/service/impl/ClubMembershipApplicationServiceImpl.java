@@ -64,7 +64,8 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
     }
 
     @Override
-    public Object agreeClubApply(Club club, Integer studentId) {
+    public Object agreeClubApply(Club club, Integer studentId, Boolean ok) {
+        if(!ok) return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
         MPJLambdaWrapper<ClubMembershipApplication>  wrapper = new MPJLambdaWrapper<ClubMembershipApplication>()
                 .selectAll(ClubMembershipApplication.class)
                 .eq(ClubMembershipApplication::getClubId, club.getClubId())
