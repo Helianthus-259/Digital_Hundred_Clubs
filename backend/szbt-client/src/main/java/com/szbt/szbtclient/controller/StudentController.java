@@ -20,8 +20,8 @@ public class StudentController {
         return studentClientService.register(email,verifyCode,password);
     }
 
-    @GetMapping("/api/verifyCode")
-    Object login(@RequestParam("email") String email){
-        return studentClientService.sendVerifyCode(email);
-    }
+//    @GetMapping("/api/verifyCode")
+//    Object login(@RequestParam("email") String email){
+//        return studentClientService.sendVerifyCode(email);
+//    }
 }

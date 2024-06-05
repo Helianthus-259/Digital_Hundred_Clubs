@@ -15,5 +15,4 @@ public interface ClubapplicationrecordService extends IService<Clubapplicationre
     List<Clubapplicationrecord> queryClubApplicationRecordBySId(Integer id);
 
     Object newClubApply(Club club, String advisorResumeAttachmentUrl);
-
 }

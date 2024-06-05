@@ -194,4 +194,10 @@ public class ClubController {
         return studentclubevaluationService.clubEvaluateInfo(clubId, clubInfo, studentInfo,responsibleDepartment);
     }
 
+    @GetMapping("/clubApplicationInfo")
+    public Object queryClubApplicationInfo(Integer clubId)
+    {
+        return clubService.queryClubApplicationInfo(clubId);
+    }
+
 }
