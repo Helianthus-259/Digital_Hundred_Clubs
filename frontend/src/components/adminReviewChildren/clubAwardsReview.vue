@@ -167,7 +167,7 @@
                 <t-row>
                   <t-col :span="12">
                     <t-radio-group variant="primary-filled"
-                      :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
+                      :value="clubEvaluationInfo.handoverMethod">
                       <t-radio-button value='0'>全员大会</t-radio-button>
                       <t-radio-button value='1'>其他</t-radio-button>
                     </t-radio-group>
@@ -178,7 +178,7 @@
                 </t-row>
                 <t-row id="table">
                   <t-col :span="12">
-                    <t-radio-group :value="clubEvaluationInfo.guideTeacher === 0 ? '0' : '1'">
+                    <t-radio-group :value="clubEvaluationInfo.guideTeacher">
                       <t-radio-button value='1'>是</t-radio-button>
                       <t-radio-button value='0'>否</t-radio-button>
                     </t-radio-group>
@@ -196,7 +196,7 @@
                     <div class="text">是否向社团成员进行财务公开</div>
                   </t-col>
                   <t-col :span="4" id="table">
-                    {{ clubEvaluationInfo.isFinancialInformationPublic ? '是' : '否' }}
+                    {{ clubEvaluationInfo.isFinancialInformationPublic }}
                   </t-col>
                 </t-row>
               </t-col>
@@ -228,7 +228,7 @@
                       </t-col>
                       <t-col id="table" :span="4">
                         <t-radio-group variant="primary-filled"
-                          :value="clubEvaluationInfo.handoverMethod === 0 ? '0' : '1'">
+                          :value="item.staffMeetingOrbackBoneMeeting === 0 ? '0': 1">
                           <t-radio-button value='0'>全员大会</t-radio-button>
                           <t-radio-button value='1'>骨干例会</t-radio-button>
                         </t-radio-group>
@@ -397,13 +397,13 @@
               <t-col :span="3">
                 <div class="text">社团育人成效案例</div>
               </t-col>
-              <t-col :span="9" id="table">{{ clubEvaluationInfo.file }}</t-col>
+              <t-col :span="9" id="table">{{ clubEvaluationInfo.clubEducationCaseAttachment }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="text">社团代表性照片</div>
               </t-col>
-              <t-col :span="9" id="table">{{ clubEvaluationInfo.file }}</t-col>
+              <t-col :span="9" id="table">{{ clubEvaluationInfo.imageUrl }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -447,7 +447,6 @@ const clubEvaluationInfo = ref({
   mainCompus: "",
   backboneNumber: '',
   communistRelatedBackBoneNumber: '',
-  file: '',
   declarationYear: '',
   guideTeacher: '',
   meetings: [
@@ -503,6 +502,8 @@ const clubEvaluationInfo = ref({
       activityEffect: '',
     }
   ],
+  imageUrl: '',
+  clubEducationCaseAttachment:'',
   clubWorkIntroduction: ''
 })
 const detail = (data) => {
@@ -510,10 +511,10 @@ const detail = (data) => {
   choose.value = data.recordId
   clubEvaluationInfo.value.recordId = data.recordId
   clubEvaluationInfo.value.clubName = data.clubName
-  clubEvaluationInfo.value.handoverMethod = data.handoverMethod
+  clubEvaluationInfo.value.handoverMethod = data.handoverMethod === 0 ? '0' : '1'
   clubEvaluationInfo.value.handoverParticipantsCount = data.handoverParticipantsCount
   clubEvaluationInfo.value.meetings = data.meetings
-  clubEvaluationInfo.value.guideTeacher = data.guideTeacher
+  clubEvaluationInfo.value.guideTeacher = data.guideTeacher === 0 ? '0' : '1'
   clubEvaluationInfo.value.associationAwards = data.associationAwards
   clubEvaluationInfo.value.publicityManagementEffectiveness = data.publicityManagementEffectiveness
   clubEvaluationInfo.value.hostedSchoolLevelActivities = data.hostedSchoolLevelActivities
@@ -527,7 +528,9 @@ const detail = (data) => {
     clubEvaluationInfo.value.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
     clubEvaluationInfo.value.administrativeGuideTeacherName = data.administrativeGuideTeacherName
     clubEvaluationInfo.value.businessGuideTeacherName = data.businessGuideTeacherName
-    clubEvaluationInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic
+    clubEvaluationInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic ? '是' : '否'
+    clubEvaluationInfo.value.imageUrl = data.imageUrl
+    clubEvaluationInfo.value.clubEducationCaseAttachment = data.clubEducationCaseAttachment
     console.log(clubEvaluationInfo.value)
   })
 }

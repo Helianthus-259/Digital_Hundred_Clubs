@@ -1011,6 +1011,8 @@ mock.onGet(path.clubAward).reply((config)=>{
         administrativeGuideTeacherName:'张老师',
         businessGuideTeacherName:'李老师',
         isFinancialInformationPublic:'0',
+        imageUrl: 'url',
+        clubEducationCaseAttachment:'育人案例'
     }
     return[200,{
         code: 51,

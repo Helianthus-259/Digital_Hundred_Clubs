@@ -293,7 +293,12 @@
                 <div class="txt">院系党组织/职能部门意见</div>
               </t-col>
               <t-col id="table" :span="9">
-                <t-input placeholder="请输入审批意见"></t-input>
+                <t-textarea
+                    v-model="departmentOpinion"
+                    placeholder="请输入意见"
+                    name="description"
+                    :autosize="true"
+                />
               </t-col>
             </t-row>
           </t-row>
@@ -313,7 +318,7 @@ import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 
-
+const departmentOpinion = ref("")
 const declarations = ref([])
 const choose = ref(-1)
 const theme = ["primary", "success"]
@@ -386,7 +391,10 @@ const passClubAnnualReview = () => {
     console.log("数据不存在！")
     return
   }
-  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAnnualReview, {declarationId: clubReviewInfo.value.declarationId})
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAnnualReview, {
+    declarationId: clubReviewInfo.value.declarationId,
+    departmentOpinion: departmentOpinion.value
+  })
 }
 
 const unPassClubAnnualReview = () => {
@@ -394,7 +402,10 @@ const unPassClubAnnualReview = () => {
     console.log("数据不存在！")
     return
   }
-  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAnnualReview, {declarationId: clubReviewInfo.value.declarationId})
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAnnualReview, {
+    declarationId: clubReviewInfo.value.declarationId,
+    departmentOpinion:departmentOpinion.value
+  })
 }
 
 eventEmitter.on(APIEventEnum.passClubAnnualReviewSuccess, 'passClubAnnualReviewSuccess', ()=>{
