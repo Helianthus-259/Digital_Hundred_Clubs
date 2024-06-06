@@ -405,12 +405,12 @@ const api = {
     }),
     'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, {
         params:{
-            declarationId: params.recordId
+            recordId: params.recordId
         }
     }),
     'unPassClubAwardReview':(params)=>axios.post(path.unPassClubAwardReview, {
         params:{
-            declarationId: params.recordId
+            recordId: params.recordId
         }
     }),
 }
