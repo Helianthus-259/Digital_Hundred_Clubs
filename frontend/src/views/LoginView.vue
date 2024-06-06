@@ -371,6 +371,7 @@ const registerValidate = () => {
 }
 
 const handleRegister = () => {
+  console.log(registerForm)
     if (registerValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postRegister, registerForm)
     }
