@@ -39,7 +39,7 @@ public interface ClubService extends IService<Club> {
 
     Object queryClubAnnualInfo(Integer declarationId);
 
-    Club queryAdminClubInfo(Integer adminId);
+    List<Club> queryAdminClubInfo(Integer adminId);
 
     boolean passClubApply(Integer clubId);
 

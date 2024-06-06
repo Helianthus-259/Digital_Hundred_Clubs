@@ -17,5 +17,5 @@ public class AdminInfoVO {
     private String contact;
     @JsonProperty("affiliatedUnit")
     private String departmentName;
-    AdminClubDTO clubs;
+    List<AdminClubDTO> clubs;
 }
