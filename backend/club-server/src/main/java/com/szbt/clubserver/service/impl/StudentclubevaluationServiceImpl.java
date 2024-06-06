@@ -9,6 +9,7 @@ import org.example.dto.SingleClubEvaluationDTO;
 import org.example.entity.*;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
@@ -50,11 +51,15 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
                 .select(Club::getAdministrativeGuideTeacherName,
                         Club::getBusinessGuideTeacherName,
                         Club::getIsFinancialInformationPublic,
-                        Club::getTotalMembers,Club::getClubName)
+                        Club::getTotalMembers,Club::getClubName,Club::getImageUrl)
                 .leftJoin(Club.class,Club::getClubId,Studentclubevaluation::getClubId)
                 .eq(Studentclubevaluation::getRecordId,recordId);
         try{
             SingleClubEvaluationDTO singleClubEvaluationDTO = studentclubevaluationMapper.selectJoinOne(SingleClubEvaluationDTO.class, wrapper);
+            String imageUrl = singleClubEvaluationDTO.getImageUrl();
+            singleClubEvaluationDTO.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
+            String clubEducationCaseAttachment = singleClubEvaluationDTO.getClubEducationCaseAttachment();
+            singleClubEvaluationDTO.setClubEducationCaseAttachment(FileRequestUrlBuilder.buildFileRequestUrl(clubEducationCaseAttachment));
             return Result.success(new DataVO(ResultCode.GET_CLUB_EVALUATION,singleClubEvaluationDTO));
         }catch (Exception e){
             e.printStackTrace();

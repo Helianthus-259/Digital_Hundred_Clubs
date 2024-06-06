@@ -11,4 +11,6 @@ public class SingleClubEvaluationDTO {
     private String administrativeGuideTeacherName;
     private String businessGuideTeacherName;
     private Integer isFinancialInformationPublic;
+    private String imageUrl;
+    private String clubEducationCaseAttachment;
 }
