@@ -189,18 +189,24 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .select(Administrator::getDepartmentName)
                 .select(Student::getStName,Student::getContact)
                 .select(Clubapplicationrecord::getAttachmentUrl,
-                        Clubapplicationrecord::getAdvisorResumeAttachmentUrl)
+                        Clubapplicationrecord::getAdvisorResumeAttachmentUrl,
+                        Clubapplicationrecord::getRecordId)
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
                 .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
                 .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId)
                 .eq(Club::getClubId,clubId);
-        ClubApplicationInfoDTO clubApplicationInfoDTO = clubMapper.selectJoinOne(ClubApplicationInfoDTO.class, wrapper);
-        String attachmentUrl = clubApplicationInfoDTO.getAttachmentUrl();
-        clubApplicationInfoDTO.setAttachmentUrl(FileRequestUrlBuilder.buildFileRequestUrl(attachmentUrl));
-        clubApplicationInfoDTO.setAdvisorResumeAttachmentUrl(FileRequestUrlBuilder
-                .buildFileRequestUrl(clubApplicationInfoDTO.getAdvisorResumeAttachmentUrl()));
-        // 构造结果对象
-        return Result.success(new DataVO(ResultCode.GET_CLUB_APPLICATION_INFO,clubApplicationInfoDTO));
+        try{
+            ClubApplicationInfoDTO clubApplicationInfoDTO = clubMapper.selectJoinOne(ClubApplicationInfoDTO.class, wrapper);
+            String attachmentUrl = clubApplicationInfoDTO.getAttachmentUrl();
+            clubApplicationInfoDTO.setAttachmentUrl(FileRequestUrlBuilder.buildFileRequestUrl(attachmentUrl));
+            clubApplicationInfoDTO.setAdvisorResumeAttachmentUrl(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubApplicationInfoDTO.getAdvisorResumeAttachmentUrl()));
+            // 构造结果对象
+            return Result.success(new DataVO(ResultCode.GET_CLUB_APPLICATION_INFO,clubApplicationInfoDTO));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_CLUB_APPLICATION_INFO_ERROR,new SendMsg("获取详细社团申请信息失败"));
     }
 
     @Override

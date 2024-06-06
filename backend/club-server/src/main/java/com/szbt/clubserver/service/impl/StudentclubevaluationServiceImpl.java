@@ -55,7 +55,7 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
                 .eq(Studentclubevaluation::getRecordId,recordId);
         try{
             SingleClubEvaluationDTO singleClubEvaluationDTO = studentclubevaluationMapper.selectJoinOne(SingleClubEvaluationDTO.class, wrapper);
-            return Result.success(new DataVO(ResultCode.GET_CLUB_AWARDS,singleClubEvaluationDTO));
+            return Result.success(new DataVO(ResultCode.GET_CLUB_EVALUATION,singleClubEvaluationDTO));
         }catch (Exception e){
             e.printStackTrace();
             return Result.send(StatusCode.GET_CLUB_EVALUATION_ERROR,new SendMsg("获取详细社团评优信息失败"));

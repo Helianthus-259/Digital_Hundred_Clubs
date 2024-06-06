@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class ClubApplicationInfoDTO {
+    private Integer recordId;
     private String clubName;
     private Date establishmentDate;
     @JsonProperty("responsibleDepartment")

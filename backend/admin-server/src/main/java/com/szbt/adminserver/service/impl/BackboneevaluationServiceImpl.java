@@ -89,11 +89,11 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
         backboneevaluation.setStatus(0);
         try{
             int updateById = backboneevaluationMapper.updateById(backboneevaluation);
-            if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
-            return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_BACK_BONE_APPROVAL));
+            if(updateById<=0) return Result.send(StatusCode.UN_PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
+            return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_BACK_BONE_APPROVAL));
         }catch (Exception e){
             e.printStackTrace();
-            return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
+            return Result.send(StatusCode.UN_PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
         }
     }
 }
