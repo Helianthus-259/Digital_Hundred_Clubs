@@ -11,4 +11,8 @@ import org.example.entity.Studentclubevaluation;
 public interface StudentclubevaluationService extends IService<Studentclubevaluation> {
     Object queryAllClubEvaluations();
 
+    Object passClubAwardReview(Studentclubevaluation studentclubevaluation);
+
+    Object unPassClubAwardReview(Studentclubevaluation studentclubevaluation);
+
 }

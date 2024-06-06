@@ -2,11 +2,13 @@ package com.szbt.adminserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.example.dto.ActivityEffectDTO;
-import org.example.dto.ClubEvaluationDTO;
-import org.example.entity.*;
 import com.szbt.adminserver.dao.mapper.StudentclubevaluationMapper;
 import com.szbt.adminserver.service.StudentclubevaluationService;
+import org.example.dto.ActivityEffectDTO;
+import org.example.dto.ClubEvaluationDTO;
+import org.example.entity.Activity;
+import org.example.entity.Club;
+import org.example.entity.Studentclubevaluation;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.service.ActivityClientService;
@@ -14,12 +16,12 @@ import org.example.service.ClubClientService;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -66,6 +68,32 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
         }catch (Exception e) {
             e.printStackTrace();
             return Result.send(StatusCode.GET_All_ClUB_EVALUATION_ERROR,new SendMsg("获取社团评优信息失败"));
+        }
+    }
+
+    @Override
+    public Object passClubAwardReview(Studentclubevaluation studentclubevaluation) {
+        studentclubevaluation.setStatus(1);
+        try{
+            int updateById = studentclubevaluationMapper.updateById(studentclubevaluation);
+            if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_EVALUATION_APPROVAL_ERROR,new SendMsg("通过社团评优失败"));
+            return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_EVALUATION_APPROVAL));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.PASS_CLUB_EVALUATION_APPROVAL_ERROR,new SendMsg("通过社团评优失败"));
+        }
+    }
+
+    @Override
+    public Object unPassClubAwardReview(Studentclubevaluation studentclubevaluation) {
+        studentclubevaluation.setStatus(0);
+        try{
+            int updateById = studentclubevaluationMapper.updateById(studentclubevaluation);
+            if(updateById<=0) return Result.send(StatusCode.UN_PASS_CLUB_EVALUATION_APPROVAL_ERROR,new SendMsg("否决社团评优失败"));
+            return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_EVALUATION_APPROVAL));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.UN_PASS_CLUB_EVALUATION_APPROVAL_ERROR,new SendMsg("否决社团评优失败"));
         }
     }
 }

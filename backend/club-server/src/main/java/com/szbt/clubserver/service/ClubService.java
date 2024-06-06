@@ -29,6 +29,8 @@ public interface ClubService extends IService<Club> {
 
     Object topTenClubs();
 
+    Object thisYearClubAnnual(Integer clubId, String declarationYear);
+
     Object queryClubApplicationInfo(Integer clubId);
 
     Boolean addClubTotalMember(Integer clubId);

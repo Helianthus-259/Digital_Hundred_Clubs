@@ -12,4 +12,8 @@ public interface BackboneevaluationService extends IService<Backboneevaluation> 
     Object queryAllBackBoneEvaluations();
 
     Object queryMyClubBackboneExamData(Integer clubId);
+
+    Object passBackboneAwardsReview(Backboneevaluation backboneevaluation);
+
+    Object unPassBackboneAwardsReview(Backboneevaluation backboneevaluation);
 }

@@ -22,13 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static org.example.constants.FileConstants.fileServerDownloadUrl;
 
 /**
 * @author 小壳儿
@@ -153,6 +149,36 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         }catch (Exception e){
             String exceptionAsString = e.toString();
             return Result.send(StatusCode.GET_TOP_TEN_CLUB_ERROR,new SendMsg(exceptionAsString));
+        }
+    }
+
+    @Override
+    public Object thisYearClubAnnual(Integer clubId, String declarationYear) {
+        MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
+                .selectAll(Club.class)
+                .select(Annualaudit::getClubConstitutionAttachment,
+                        Annualaudit::getExternalSponsorshipAttachment,
+                        Annualaudit::getMeetingActivityListAttachment,
+                        Annualaudit::getPublicityManagementInfo)
+                .select(Administrator::getDepartmentName)
+                .select(Student::getStName,Student::getContact,Student::getPoliticalStatus)
+                .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
+                .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
+                .leftJoin(Annualaudit.class,Annualaudit::getClubId,Club::getClubId)
+                .eq(Annualaudit::getClubId, clubId)
+                .eq(Annualaudit::getDeclarationYear, declarationYear);
+        try{
+            ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
+            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
+            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
+            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
+                    .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
+            return Result.success(new DataVO(ResultCode.GET_THIS_YEAR_CLUB_ANNUL_INFO,clubAnnualDTO));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.GET_THIS_YEAR_CLUB_ANNUL_INFO_ERROR,new SendMsg("获取详细年审信息失败"));
         }
     }
 

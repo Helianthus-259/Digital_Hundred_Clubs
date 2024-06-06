@@ -139,8 +139,11 @@
                 <t-col :span="2">
                   <div class="text">附件</div>
                 </t-col>
-                <t-col :span="10" id="table">
+                <t-col :span="5" id="table">
                   {{clubInfo.attachmentUrl}}
+                </t-col>
+                <t-col :span="5" id="table">
+                  {{clubInfo.advisorResumeAttachmentUrl}}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -205,6 +208,7 @@ const clubInfo = ref({
   contactPhone: '',
   clubStatus: '',
   attachmentUrl: "",
+  advisorResumeAttachmentUrl:'',
 });
 
 // 表格
@@ -300,6 +304,7 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
   clubInfo.value.contactPhone = data.contactPhone
   clubInfo.value.clubStatus = data.clubStatus
   clubInfo.value.responsibleDepartment = data.responsibleDepartment
+  clubInfo.value.advisorResumeAttachmentUrl = data.advisorResumeAttachmentUrl
 })
 
 const passClubApproval = () => {

@@ -12,4 +12,8 @@ public interface AnnualauditService extends IService<Annualaudit> {
     Object queryAllClubAnnuals();
 
     Object queryMyClubAnnualExamData(Integer clubId);
+
+    Object passClubAnnualReview(Annualaudit annualaudit);
+
+    Object unPassClubAnnualReview(Annualaudit annualaudit);
 }

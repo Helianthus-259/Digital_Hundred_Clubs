@@ -2,18 +2,19 @@ package com.szbt.adminserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.example.dto.BackBoneEvaluationDTO;
-import org.example.dto.ClubDTO;
-import org.example.dto.ExamDataDTO;
-import org.example.dto.SpecialClubBackboneDTO;
-import org.example.entity.*;
 import com.szbt.adminserver.dao.mapper.BackboneevaluationMapper;
 import com.szbt.adminserver.service.BackboneevaluationService;
+import org.example.dto.BackBoneEvaluationDTO;
+import org.example.dto.SpecialClubBackboneDTO;
+import org.example.entity.Backboneevaluation;
+import org.example.entity.Clubmember;
+import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
+import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,32 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
         }catch (Exception e) {
             e.printStackTrace();
             return Result.send(StatusCode.GET_SINGLE_CLUB_BACK_BONE_ERROR,new SendMsg("获取指定社团骨干信息失败"));
+        }
+    }
+
+    @Override
+    public Object passBackboneAwardsReview(Backboneevaluation backboneevaluation) {
+        backboneevaluation.setStatus(1);
+        try{
+            int updateById = backboneevaluationMapper.updateById(backboneevaluation);
+            if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("通过骨干申请失败"));
+            return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_BACK_BONE_APPROVAL));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("通过骨干申请失败"));
+        }
+    }
+
+    @Override
+    public Object unPassBackboneAwardsReview(Backboneevaluation backboneevaluation) {
+        backboneevaluation.setStatus(0);
+        try{
+            int updateById = backboneevaluationMapper.updateById(backboneevaluation);
+            if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
+            return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_BACK_BONE_APPROVAL));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.PASS_CLUB_BACK_BONE_APPROVAL_ERROR,new SendMsg("否决骨干申请失败"));
         }
     }
 }

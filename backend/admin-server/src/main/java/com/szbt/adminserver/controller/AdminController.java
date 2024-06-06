@@ -2,10 +2,7 @@ package com.szbt.adminserver.controller;
 
 import com.szbt.adminserver.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.example.entity.Activity;
-import org.example.entity.Administrator;
-import org.example.entity.Club;
-import org.example.entity.Clubapplicationrecord;
+import org.example.entity.*;
 import org.example.service.ClubClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -91,5 +88,35 @@ public class AdminController {
     @PostMapping("/unPassActivityApproval")
     public Object unPassActivityApproval(@ModelAttribute Activity activity) {
         return activityService.unPassActivityApproval(activity);
+    }
+
+    @PostMapping("/passBackboneAwardsReview")
+    public Object passBackboneAwardsReview(@ModelAttribute Backboneevaluation backboneevaluation) {
+        return backboneevaluationService.passBackboneAwardsReview(backboneevaluation);
+    }
+
+    @PostMapping("/unPassBackboneAwardsReview")
+    public Object unPassBackboneAwardsReview(@ModelAttribute Backboneevaluation backboneevaluation) {
+        return backboneevaluationService.unPassBackboneAwardsReview(backboneevaluation);
+    }
+
+    @PostMapping("/passClubAnnualReview")
+    public Object passClubAnnualReview(@ModelAttribute Annualaudit annualaudit) {
+        return annualauditService.passClubAnnualReview(annualaudit);
+    }
+
+    @PostMapping("/unPassClubAnnualReview")
+    public Object unPassClubAnnualReview(@ModelAttribute Annualaudit annualaudit) {
+        return annualauditService.unPassClubAnnualReview(annualaudit);
+    }
+
+    @PostMapping("/passClubAwardReview")
+    public Object passClubAwardReview(@ModelAttribute Studentclubevaluation studentclubevaluation) {
+        return studentclubevaluationService.passClubAwardReview(studentclubevaluation);
+    }
+
+    @PostMapping("/unPassClubAwardReview")
+    public Object unPassClubAwardReview(@ModelAttribute Studentclubevaluation studentclubevaluation) {
+        return studentclubevaluationService.unPassClubAwardReview(studentclubevaluation);
     }
 }

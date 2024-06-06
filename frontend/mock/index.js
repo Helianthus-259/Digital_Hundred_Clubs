@@ -960,6 +960,7 @@ mock.onGet(path.clubApplicationInfo).reply((config)=>{
         contactPhone: '1864321546',
         clubStatus: '1',
         attachmentUrl: 'url',
+        advisorResumeAttachmentUrl:'url',
     }
     return[200,{
         code: 49, // 获取建立社团申请详细信息
@@ -974,7 +975,9 @@ mock.onGet(path.clubAnnual).reply((config)=>{
         mainCompus: '1',
         clubDescription: 'hh',
         totalMembers: '12',
-        file: 'hh',
+        meetingActivityListAttachment: '会议活动附件',
+        externalsponsorshipAttachment:'校外赞助附件',
+        clubConstitutionAttachment:'社团章程附件',
         administrativeGuideTeacherName: 'hh',
         businessGuideTeacherName: 'hh',
         establishmentDate: 't',
@@ -1080,7 +1083,9 @@ mock.onGet(path.thisYearClubAnnual).reply((config)=>{
         mainCompus: '1',
         clubDescription: 'hh',
         totalMembers: '12',
-        file: 'hh',
+        meetingActivityListAttachment: '会议活动附件',
+        externalsponsorshipAttachment:'校外赞助附件',
+        clubConstitutionAttachment:'社团章程附件',
         administrativeGuideTeacherName: 'hh',
         businessGuideTeacherName: 'hh',
         establishmentDate: 't',

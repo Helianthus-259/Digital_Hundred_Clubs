@@ -265,14 +265,13 @@
                   <t-col id="table" :span="8">
                     <div class="txt">是否接受校外赞助</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{ clubReviewInfo.file }}</t-col>
+                  <t-col id="table" :span="4">{{ clubReviewInfo.externalsponsorshipAttachment }}</t-col>
                 </t-row>
                 <t-row id="table">
                   <t-col id="table" :span="8">
                     <div class="txt">是否向社团成员进行财务公开</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{ clubReviewInfo.isFinancialInformationPublic === '0' ? '否' :
-                    '是' }}</t-col>
+                  <t-col id="table" :span="4">{{ clubReviewInfo.isFinancialInformationPublic}}</t-col>
                 </t-row>
               </t-col>
             </t-row>
@@ -280,13 +279,13 @@
               <t-col :span="3">
                 <div class="txt">学生社团章程</div>
               </t-col>
-              <t-col id="table" :span="9">{{ clubReviewInfo.file }}</t-col>
+              <t-col id="table" :span="9">{{ clubReviewInfo.clubConstitutionAttachment }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="txt">会议及活动清单</div>
               </t-col>
-              <t-col id="table" :span="9">{{ clubReviewInfo.file }}</t-col>
+              <t-col id="table" :span="9">{{ clubReviewInfo.meetingActivityListAttachment }}</t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -352,6 +351,9 @@ const clubReviewInfo = ref({
     Publication: { has: '', name: '' },
     Other: { has: '', name: '' },
   },
+  meetingActivityListAttachment: '',
+  externalsponsorshipAttachment:'',
+  clubConstitutionAttachment:'',
 })
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnuals)
@@ -381,7 +383,10 @@ const detail = (data) => {
     clubReviewInfo.value.responsibleDepartment = data.responsibleDepartment
     clubReviewInfo.value.politicalStatus = data.politicalStatus
     clubReviewInfo.value.publicityManagementInfo = data.publicityManagementInfo
-    clubReviewInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic
+    clubReviewInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic === '0' ? '否' : '是'
+    clubReviewInfo.value.meetingActivityListAttachment = data.meetingActivityListAttachment
+    clubReviewInfo.value.externalsponsorshipAttachment = data.externalsponsorshipAttachment
+    clubReviewInfo.value.clubConstitutionAttachment = data.clubConstitutionAttachment
     console.log(clubReviewInfo.value)
   })
 }

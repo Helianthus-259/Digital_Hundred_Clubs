@@ -195,6 +195,11 @@ public class ClubController {
         return studentclubevaluationService.clubEvaluateInfo(clubId, clubInfo, studentInfo,responsibleDepartment);
     }
 
+    @GetMapping("/thisYearClubAnnual")
+    public Object thisYearClubAnnual(Integer clubId, String declarationYear){
+        return clubService.thisYearClubAnnual(clubId, declarationYear);
+    }
+
     @GetMapping("/clubApplicationInfo")
     public Object queryClubApplicationInfo(Integer clubId)
     {
