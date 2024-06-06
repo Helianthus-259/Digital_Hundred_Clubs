@@ -393,12 +393,14 @@ const api = {
     }),
     'passClubAnnualReview':(params)=>axios.post(path.passClubAnnualReview, {
         params:{
-            declarationId: params.declarationId
+            declarationId: params.declarationId,
+            departmentOpinion: params.departmentOpinion
         }
     }),
     'unPassClubAnnualReview':(params)=>axios.post(path.unPassClubAnnualReview, {
         params:{
-            declarationId: params.declarationId
+            declarationId: params.declarationId,
+            departmentOpinion: params.departmentOpinion
         }
     }),
     'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, {
