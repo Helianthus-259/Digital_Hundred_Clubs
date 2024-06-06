@@ -216,7 +216,7 @@ public class ClubController {
     public Object queryClubInfoInfo(Integer clubId){return clubService.queryClubInfoInfo(clubId);}
 
     @GetMapping("/getAdminClubInfo")
-    public Club queryAdminClubInfo(Integer adminId){return clubService.queryAdminClubInfo(adminId);}
+    public List<Club> queryAdminClubInfo(Integer adminId){return clubService.queryAdminClubInfo(adminId);}
 
     @PostMapping("/passClubApply")
     public boolean passClubApply(@RequestParam("clubId") Integer clubId){ return clubService.passClubApply(clubId);}

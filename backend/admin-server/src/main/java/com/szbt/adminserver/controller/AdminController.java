@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin")
 @Slf4j
@@ -66,8 +68,8 @@ public class AdminController {
 
     @GetMapping("/adminInfo")
     public Object getAdmin(Integer adminId){
-        Club club = clubClientService.queryAdminClubInfo(adminId);
-        return administratorService.getAdmin(adminId,club);
+        List<Club> clubList = clubClientService.queryAdminClubInfo(adminId);
+        return administratorService.getAdmin(adminId,clubList);
     }
 
     @PostMapping("/passClubApproval")

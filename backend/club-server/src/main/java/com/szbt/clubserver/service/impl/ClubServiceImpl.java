@@ -274,14 +274,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     }
 
     @Override
-    public Club queryAdminClubInfo(Integer adminId) {
+    public List<Club> queryAdminClubInfo(Integer adminId) {
         QueryWrapper<Club> wrapper = new QueryWrapper<>();
         wrapper.eq("responsible_department_id", adminId);
         try{
             //Club club = clubMapper.selectOne(wrapper);
             List<Club> clubList = clubMapper.selectList(wrapper);
-            Club club = clubList.get(0);
-            return club;
+//            Club club = clubList.get(0);
+            return clubList;
         }catch (Exception e){
             e.printStackTrace();
             return null;

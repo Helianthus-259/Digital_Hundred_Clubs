@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.adminserver.service.AdministratorService;
 import org.example.dto.AdminClubDTO;
+import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Administrator;
 import com.szbt.adminserver.dao.mapper.AdministratorMapper;
 import org.example.entity.Club;
@@ -16,8 +17,11 @@ import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author 小壳儿
@@ -55,14 +59,14 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     }
 
     @Override
-    public Object getAdmin(Integer adminId, Club club) {
+    public Object getAdmin(Integer adminId, List<Club> clubList) {
         QueryWrapper<Administrator> wrapper = new QueryWrapper<>();
         wrapper.eq("admin_id",adminId);
         try{
             Administrator administrator = administratorMapper.selectOne(wrapper, true);
             AdminInfoVO adminInfoVO = modelMapper.map(administrator, AdminInfoVO.class);
-            AdminClubDTO clubDTO = modelMapper.map(club, AdminClubDTO.class);
-            adminInfoVO.setClubs(clubDTO);
+            List<AdminClubDTO> clubDTOList = modelMapper.map(clubList, new TypeToken<List<AdminClubDTO>>() {}.getType());
+            adminInfoVO.setClubs(clubDTOList);
             return Result.success(new DataVO(ResultCode.GET_ADMIN_INFO,adminInfoVO));
         }catch (Exception e){
             e.printStackTrace();
