@@ -184,6 +184,7 @@ import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } f
 import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
+import {NotifyPlugin} from "tdesign-vue-next";
 // 审核状态
 const status = ref('all');
 // 校区
@@ -322,12 +323,19 @@ const unPassClubApproval = () => {
 }
 
 eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', ()=>{
-  console.log("通过成功")
+  console.log("success")
+  NotifyPlugin.success({
+    title: '操作成功',
+    content: '通过社团建立申请成功',
+  })
   visibleModal.value = false
 })
 
 eventEmitter.on(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess', ()=>{
-  console.log("驳回成功")
+  NotifyPlugin.info({
+    title: '操作成功',
+    content: '驳回社团建立申请成功',
+  })
   visibleModal.value = false
 })
 

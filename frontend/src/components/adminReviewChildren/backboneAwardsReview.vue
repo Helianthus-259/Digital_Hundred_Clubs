@@ -201,6 +201,7 @@ import {onUnmounted, ref} from "vue";
 import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import {APIEnum, APIEventEnum} from "@/Enum/index.js";
+import {NotifyPlugin} from "tdesign-vue-next";
 
 const choose = ref(-1)
 const theme = ["primary", "success"]
@@ -247,7 +248,10 @@ eventEmitter.on(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluati
 
 const passBackboneAwardsReview = () => {
   if(backBoneEvaluate.value.recordId === null){
-    console.log("数据不存在！")
+    NotifyPlugin.warning({
+      title: '操作失败',
+      content: '请选择任一骨干评优信息！',
+    })
     return
   }
   eventEmitter.emit(APIEventEnum.request, APIEnum.passBackboneAwardsReview, {recordId: backBoneEvaluate.value.recordId})
@@ -255,18 +259,27 @@ const passBackboneAwardsReview = () => {
 
 const unPassBackboneAwardsReview = () => {
   if(backBoneEvaluate.value.recordId === null){
-    console.log("数据不存在！")
+    NotifyPlugin.warning({
+      title: '操作失败',
+      content: '请选择任一骨干评优信息！',
+    })
     return
   }
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassBackboneAwardsReview, {recordId: backBoneEvaluate.value.recordId})
 }
 
 eventEmitter.on(APIEventEnum.passBackboneAwardsReviewSuccess, 'passBackboneAwardsReviewSuccess', ()=>{
-  console.log("通过成功")
+  NotifyPlugin.success({
+    title: '操作成功',
+    content: '通过骨干申请成功',
+  })
 })
 
 eventEmitter.on(APIEventEnum.unPassBackboneAwardsReviewSuccess, 'unPassBackboneAwardsReviewSuccess', ()=>{
-  console.log("驳回成功")
+  NotifyPlugin.info({
+    title: '操作成功',
+    content: '驳回骨干申请成功',
+  })
 })
 
 

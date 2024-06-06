@@ -429,6 +429,7 @@ import { onUnmounted, ref } from "vue";
 import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
+import {NotifyPlugin} from "tdesign-vue-next";
 
 
 const evaluations = ref([])
@@ -542,7 +543,10 @@ eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSucce
 
 const passClubAwardReview = () => {
   if(clubEvaluationInfo.value.recordId === null){
-    console.log("数据不存在！")
+    NotifyPlugin.warning({
+      title: '操作失败',
+      content: '请选择任一社团评优信息！',
+    })
     return
   }
   eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
@@ -550,18 +554,27 @@ const passClubAwardReview = () => {
 
 const unPassClubAwardReview = () => {
   if(clubEvaluationInfo.value.recordId === null){
-    console.log("数据不存在！")
+    NotifyPlugin.warning({
+      title: '操作失败',
+      content: '请选择任一社团评优信息！',
+    })
     return
   }
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
 }
 
 eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuccess', ()=>{
-  console.log("通过成功")
+  NotifyPlugin.success({
+    title: '操作成功',
+    content: '通过社团评优成功',
+  })
 })
 
 eventEmitter.on(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAwardReviewSuccess', ()=>{
-  console.log("驳回成功")
+  NotifyPlugin.info({
+    title: '操作成功',
+    content: '驳回社团评优成功',
+  })
 })
 
 

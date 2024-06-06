@@ -145,6 +145,7 @@ const value = ref('item0');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
+import {NotifyPlugin} from "tdesign-vue-next";
 
 // 表格
 const statusNameListMap = {
@@ -273,12 +274,18 @@ const unPassActivityApproval = () => {
 }
 
 eventEmitter.on(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalSuccess', ()=>{
-  console.log("通过成功")
+  NotifyPlugin.success({
+    title: '操作成功',
+    content: '通过活动申请成功',
+  })
   visibleModal.value = false
 })
 
 eventEmitter.on(APIEventEnum.unPassActivityApprovalSuccess, 'unPassActivityApprovalSuccess', ()=>{
-  console.log("驳回成功")
+  NotifyPlugin.info({
+    title: '操作成功',
+    content: '驳回活动申请成功',
+  })
   visibleModal.value = false
 })
 
