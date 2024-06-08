@@ -180,7 +180,9 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubIntroduction, { clubId: store.state.clubId })
 
     eventEmitter.on(APIEventEnum.getClubIntroductionSuccess, 'getClubIntroductionSuccess', (data) => {
+      console.log(data)
         for (const element of data) {
+          console.log(element)
             clubIntroduction.push({
                 label: element.title,
                 title: element.title,

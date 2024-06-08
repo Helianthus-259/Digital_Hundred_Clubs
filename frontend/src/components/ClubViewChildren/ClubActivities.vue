@@ -208,6 +208,7 @@ const activityStatusTheme = {
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
     eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (data) => {
+      console.log(data)
         data.forEach(activity => {
             if (activity.status !== 2)
                 activityList.value.push(activity)

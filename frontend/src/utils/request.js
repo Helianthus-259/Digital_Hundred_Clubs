@@ -58,7 +58,7 @@ function successHandler(res) {
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setclubsActAndNtc, { clubId, activities, notices })
             eventEmitter.emit(APIEventEnum.getClubActAndNtcSuccess, { activities, notices })
         } else if (response.data.code === 7) { // 获取社团简介成功
-            const { clubDescription } = response.data
+            const  clubDescription  = response.data.clubDescription
             eventEmitter.emit(APIEventEnum.getClubIntroductionSuccess, clubDescription)
         } else if (response.data.code === 8) { // 获取社团成员成功
             const { members } = response.data
@@ -76,12 +76,12 @@ function successHandler(res) {
         } else if (response.data.code === 11) { // 管理员信息更新成功
             console.log('更新管理员/社团信息成功');
         } else if (response.data.code === 12) { // 获取活动信息成功
-            const { activity } = response.data
+            const  activity  = response.data.data
             eventEmitter.emit(APIEventEnum.getActivityInfoSuccess, activity)
         } else if (response.data.code === 13) { // 获取所有活动信息成功
             eventEmitter.emit(APIEventEnum.getActivitiesInfoSuccess, response.data)
         } else if (response.data.code === 14) { // 获取社团活动列表成功
-            const { activityList } = response.data
+            const  activityList  = response.data.activityList
             eventEmitter.emit(APIEventEnum.getClubActivityListSuccess, activityList)
         } else if (response.data.code === 15) { // 获取社团申请列表成功
             const { applyList } = response.data

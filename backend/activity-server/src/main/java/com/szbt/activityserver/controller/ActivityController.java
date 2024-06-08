@@ -48,9 +48,9 @@ public class ActivityController {
     }
 
     @GetMapping("/activityInfo")
-    public Object activityInfo(Integer id){
-        Club clubInfo = clubClientService.getClubInfoById(id);
-        return activityService.activityInfo(id, clubInfo);
+    public Object activityInfo(Integer activityId){
+        Club clubInfo = clubClientService.getClubInfoById(activityId);
+        return activityService.activityInfo(activityId, clubInfo);
     }
 
     @GetMapping("/queryActivityInfoByClubIdList")
