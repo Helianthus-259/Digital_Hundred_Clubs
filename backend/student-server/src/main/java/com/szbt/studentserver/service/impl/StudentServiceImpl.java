@@ -8,6 +8,8 @@ import com.szbt.studentserver.dao.mapper.StudentMapper;
 import org.example.dto.ActivityMemberDTO;
 import org.example.dto.ClubDTO;
 import org.example.enums.ResultCode;
+import org.example.service.ActivityClientService;
+import org.example.service.ClubClientService;
 import org.example.util.Result;
 import org.example.enums.StatusCode;
 import org.example.dto.UserInfoDTO;
@@ -37,6 +39,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ClubClientService clubClientService;
+
+    @Autowired
+    private ActivityClientService activityClientService;
+
     @Override
     public Object savaAvatar(String relativePath, Integer studentId) {
         if (relativePath==null) return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
@@ -50,13 +58,15 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
     }
 
     @Override
-    public Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS) {
+    public Object getStudentInfoById(Integer id) {
 
         MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
                 .selectAll(Student.class)
                 .eq(Student::getStudentId,id);
         try{
             UserInfoDTO userInfoDTO = studentMapper.selectJoinOne(UserInfoDTO.class, wrapper);
+            List<ClubDTO> clubDTOS = clubClientService.getClubInfoBySId(id);
+            List<ActivityMemberDTO> activityMemberDTOS = activityClientService.getActivityMemberBySid(id);
             userInfoDTO.setAchievements(activityMemberDTOS);
             userInfoDTO.setClubs(clubDTOS);
             System.out.println(userInfoDTO);

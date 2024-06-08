@@ -223,4 +223,17 @@ public class ClubController {
 
     @PostMapping("/unPassClubApply")
     public boolean unPassClubApply(@RequestParam("clubId") Integer clubId){ return clubService.unPassClubApply(clubId);}
+
+    @PostMapping("/ttAdd")
+    public void ttAdd(@RequestParam("t") Object t)
+    {
+        Club club = new Club();
+        club.setClubDescription(t);
+        club.setClubName("tt");
+        club.setClubCategory(0);
+        club.setMainCampus(0);
+        System.out.println(club.getClubDescription().getClass());
+        System.out.println(t);
+        clubService.getBaseMapper().insert(club);
+    }
 }

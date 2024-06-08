@@ -21,7 +21,7 @@ public interface StudentService extends IService<Student> {
 
     Object savaAvatar(String relativePath, Integer studentId);
 
-    Object getStudentInfoById(Integer id, List<ClubDTO> clubDTOS, List<ActivityMemberDTO> activityMemberDTOS);
+    Object getStudentInfoById(Integer id);
 
     Object studentInfoUpdate(Student student);
 

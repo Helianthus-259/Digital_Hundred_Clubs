@@ -2,6 +2,8 @@ package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubService;
@@ -12,6 +14,7 @@ import org.example.entity.*;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.FileRequestUrlBuilder;
+import org.example.util.MyJsonParser;
 import org.example.util.Result;
 import org.example.vo.ClubDescriptionVO;
 import org.example.vo.DataVO;
@@ -20,9 +23,13 @@ import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -47,18 +54,26 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     @Override
     public Object queryAllClubs() {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
         wrapper.selectAll(Club.class);
-        List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
-        //处理文件请求
-        IntStream.range(0, clubInfoDTOS.size())
-                .forEach(i -> {
-                    String imageUrl = clubInfoDTOS.get(i).getImageUrl();
-                    clubInfoDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
-                });
-        return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
+        try{
+            List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
+            //处理文件请求
+            IntStream.range(0, clubInfoDTOS.size())
+                    .forEach(i -> {
+                        String imageUrl = clubInfoDTOS.get(i).getImageUrl();
+                        clubInfoDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
+                    });
+            return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_ALL_CLUB_INFO_ERROR,new SendMsg("获取所有社团信息失败"));
     }
 
 
@@ -114,6 +129,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Club::getClubId,clubId);
         try {
             Object clubDescription = clubMapper.selectOne(wrapper, true).getClubDescription();
+            System.out.println(clubDescription.getClass());
+            System.out.println(clubDescription);
+            clubDescription = MyJsonParser.parserJsonText(clubDescription);
+            System.out.println(clubDescription);
             return Result.success(new ClubDescriptionVO(ResultCode.GET_CLUB_INTRODUCTION,clubDescription));
         } catch (Exception e) {
             String exceptionAsString = e.toString();
@@ -290,6 +309,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public boolean passClubApply(Integer clubId) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         try{
             //System.out.println(clubId);
             Club club = clubMapper.selectById(clubId);
@@ -298,6 +319,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             clubMapper.updateById(club);
             return true;
         }catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
             e.printStackTrace();
         }
         return false;
@@ -305,6 +327,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public boolean unPassClubApply(Integer clubId) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         try{
             //System.out.println(clubId);
             Club club = clubMapper.selectById(clubId);
@@ -312,6 +336,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             clubMapper.updateById(club);
             return true;
         }catch (Exception e) {
+            transactionManager.rollback(transactionStatus);
             e.printStackTrace();
         }
         return false;

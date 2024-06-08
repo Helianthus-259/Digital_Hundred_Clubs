@@ -16,6 +16,10 @@ import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
@@ -33,15 +37,25 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
     @Autowired
     ClubClientService clubClientService;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     @Override
     public Object passClubApproval(Clubapplicationrecord clubapplicationrecord) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         clubapplicationrecord.setUniversityStudentUnionReviewStatus(1);
         try{
             int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
             if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_APPROVAL_ERROR,new SendMsg("通过社团申请失败"));
             Clubapplicationrecord clubapplicationrecord1 = clubapplicationrecordMapper.selectById(clubapplicationrecord.getRecordId());
             boolean passed = clubClientService.passClubApply(clubapplicationrecord1.getClubId());
-            if(!passed) return Result.send(StatusCode.PASS_CLUB_APPROVAL_ERROR,new SendMsg("通过社团申请失败"));
+            if(!passed) {
+                // 如果未成功同步社团表，回滚事务并返回错误信息
+                transactionManager.rollback(transactionStatus);
+                //throw new RuntimeException("更改社团表失败");
+                return Result.send(StatusCode.PASS_CLUB_APPROVAL_ERROR,new SendMsg("通过社团申请失败"));
+            }
             return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_APPROVAL));
         }catch (Exception e) {
             e.printStackTrace();
@@ -51,13 +65,19 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
 
     @Override
     public Object unPassClubApproval(Clubapplicationrecord clubapplicationrecord) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         clubapplicationrecord.setUniversityStudentUnionReviewStatus(0);
         try{
             int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
             if(updateById<=0) return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
             Clubapplicationrecord clubapplicationrecord1 = clubapplicationrecordMapper.selectById(clubapplicationrecord.getRecordId());
             boolean passed = clubClientService.unPassClubApply(clubapplicationrecord1.getClubId());
-            if(!passed) return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
+            if(!passed) {
+                // 如果未成功同步社团表，回滚事务并返回错误信息
+                transactionManager.rollback(transactionStatus);
+                return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
+            }
             return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_APPROVAL));
         }catch (Exception e) {
             e.printStackTrace();

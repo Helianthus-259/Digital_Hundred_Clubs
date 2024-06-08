@@ -30,14 +30,6 @@ public class StudentController {
     @Autowired
     private BackboneevaluationService backboneevaluationService;
 
-    @Autowired
-    private FileClientService fileClientService;
-
-    @Autowired
-    private ClubClientService clubClientService;
-
-    @Autowired
-    private ActivityClientService activityClientService;
 
 //    @PostMapping("/uploadAvatar")
 //    public Object uploadAvatar(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "studentId") Integer studentId){
@@ -48,9 +40,7 @@ public class StudentController {
     @GetMapping("/userInfo")
     public Object getStudentInfoById(@RequestHeader(value = RequestKeyConstants.ID) Integer id){
         System.out.println(id);
-        List<ClubDTO> clubDTOS = clubClientService.getClubInfoBySId(id);
-        List<ActivityMemberDTO> activityMemberDTOS = activityClientService.getActivityMemberBySid(id);
-        return studentService.getStudentInfoById(id,clubDTOS,activityMemberDTOS);
+        return studentService.getStudentInfoById(id);
     }
 
     @PostMapping("/userInfoUpdate")
