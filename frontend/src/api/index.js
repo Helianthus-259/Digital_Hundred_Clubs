@@ -2,22 +2,29 @@ import { APIEventEnum } from '@/Enum'
 import axios from '../utils/request'
 import path from './path'
 import eventEmitter from '@/utils/eventEmitter'
+const toFormData = (params) => {
+    let formData = new FormData();
+    for(let key in params.params){
+        formData.set(key, params.params[key])
+    }
+    return formData;
+};
 
 const api = {
-    'postLogin': (params) => axios.post(path.login, { // 登录
+    'postLogin': (params) => axios.post(path.login, toFormData({ // 登录
         params: {
             email: params.email,
             pwd: params.pwd,
             imageVerifyCode: params.imageVerifyCode,
         }
-    }),
-    'postRegister': (params) => axios.post(path.register, { // 注册
-        params: {
-            email: params.email,
-            verifyCode: params.verifyCode,
-            pwd: params.pwd,
+    })),
+    'postRegister': (params) => axios.post(path.register, toFormData({ // 注册
+        params:{
+            email:params.email,
+            verifyCode:params.verifyCode,
+            pwd:params.pwd
         }
-    }),
+    })),
     'getVerifyCode': (params) => axios.get(path.verifyCode, { // 获取验证码
         params: {
             email: params.email,
@@ -37,7 +44,7 @@ const api = {
             studentId: params.studentId,
         }
     }),
-    'postUserInfo': (params) => axios.post(path.userInfoUpdate, { // 更新用户信息
+    'postUserInfo': (params) => axios.post(path.userInfoUpdate, toFormData({ // 更新用户信息
         params: {
             studentId: params.studentId,
             politicalStatus: params.politicalStatus,
@@ -45,8 +52,8 @@ const api = {
             hobby: params.hobby, // 后端还没有
             specialty: params.specialty // 后端还没有
         }
-    }),
-    'postNewClubApply': (params) => axios.post(path.newClubApply, { // 申请创建社团
+    })),
+    'postNewClubApply': (params) => axios.post(path.newClubApply, toFormData({ // 申请创建社团
         params: {
             contactPersonId: params.studentId,
             clubName: params.clubName,
@@ -57,7 +64,7 @@ const api = {
             businessGuideTeacherName: params.businessGuideTeacherName,
             advisorResumeAttachmentUrl: params.material,
         }
-    }),
+    })),
     'getClubActAndNtc': (params) => axios.get(path.clubActAndNtc, { // 获取社团活动通知
         params: {
             clubId: params.clubId,
@@ -73,12 +80,12 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'postAdminLogin': (params) => axios.post(path.postAdminLogin, { //管理员登录
+    'postAdminLogin': (params) => axios.post(path.postAdminLogin, toFormData({ //管理员登录
         params: {
             adminId: params.adminId,
             password: params.password,
         }
-    }),
+    })),
     'getActivityInfo': (params) => axios.get(path.activityInfo, { // 获取活动信息
         params: {
             activityId: params.activityId,
@@ -89,12 +96,12 @@ const api = {
             adminId: params.adminId,
         }
     }),
-    'postAdminInfo': (params) => axios.post(path.adminInfoUpdate, { // 更新管理员信息
+    'postAdminInfo': (params) => axios.post(path.adminInfoUpdate, toFormData({ // 更新管理员信息
         params: {
             adminId: params.adminId,
             clubIntroduction: params.clubIntroduction,
         }
-    }),
+    })),
     'getActivitiesInfo': (params) => axios.get(path.activitiesInfo, { // 获取活动信息
 
     }),
@@ -110,20 +117,20 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'postAgreeClubApply': (params) => axios.post(path.agreeClubApply, { // 同意社团申请
+    'postAgreeClubApply': (params) => axios.post(path.agreeClubApply, toFormData({ // 同意社团申请
         params: {
             clubId: params.clubId,
             studentId: params.studentId,
         }
-    }),
-    'postRejectClubApply': (params) => axios.post(path.rejectClubApply, { // 拒绝社团申请
+    })),
+    'postRejectClubApply': (params) => axios.post(path.rejectClubApply, toFormData({ // 拒绝社团申请
         params: {
             clubId: params.clubId,
             studentId: params.studentId,
             rejectReason: params.rejectReason,
         }
-    }),
-    'postNewActivity': (params) => axios.post(path.newActivity, { // 创建活动
+    })),
+    'postNewActivity': (params) => axios.post(path.newActivity, toFormData({ // 创建活动
         params: {
             clubId: params.clubId,
             activityName: params.activityName,
@@ -134,8 +141,8 @@ const api = {
             applicationFormAttachment: params.applicationFormAttachment,
             imageUrl: params.imageUrl,
         }
-    }),
-    'postBackBoneEvaluate': (params) => axios.post(path.backBoneEvaluate, { // 提交社团优秀骨干申请
+    })),
+    'postBackBoneEvaluate': (params) => axios.post(path.backBoneEvaluate, toFormData({ // 提交社团优秀骨干申请
         params: {
             clubId: params.clubId,
             studentId: params.studentId,
@@ -145,7 +152,7 @@ const api = {
             awards: params.awards,
             clubWorkStatus: params.clubWorkStatus,
         }
-    }),
+    })),
     'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
         params: {
             clubId: params.clubId,
@@ -167,28 +174,28 @@ const api = {
             }
         })
     },
-    'postDeleteClubMember': (params) => axios.post(path.deleteClubMember, { // 删除社团干部，即将干部变成普通成员
+    'postDeleteClubMember': (params) => axios.post(path.deleteClubMember, toFormData({ // 删除社团干部，即将干部变成普通成员
         params: {
             clubId: params.clubId,
             studentNumber: params.studentNumber,
         }
-    }),
-    'postUpdateClubMember': (params) => axios.post(path.updateClubMember, { // 更新社团干部信息
+    })),
+    'postUpdateClubMember': (params) => axios.post(path.updateClubMember, toFormData({ // 更新社团干部信息
         params: {
             clubId: params.clubId,
             oldStudent: params.oldStudent,
             newStudent: params.newStudent,
         }
-    }),
-    'postAddClubMember': (params) => axios.post(path.addClubMember, { // 添加社团干部
+    })),
+    'postAddClubMember': (params) => axios.post(path.addClubMember, toFormData({ // 添加社团干部
         params: {
             clubId: params.clubId,
             studentId: params.studentId,
             stName: params.stName,
             position: params.position,
         }
-    }),
-    'postUpdateClubInfo': (params) => axios.post(path.updateClubInfo, { // 更新社团信息
+    })),
+    'postUpdateClubInfo': (params) => axios.post(path.updateClubInfo, toFormData({ // 更新社团信息
         params: {
             clubName: params.clubName,
             establishmentDate: params.establishmentDate,
@@ -200,27 +207,27 @@ const api = {
             isFinancialInformationPublic: params.isFinancialInformationPublic,
             imageUrl: params.imageUrl,
         }
-    }),
+    })),
     'getClubAnnuals': (params) => axios.get(path.clubAnnuals, {
 
     }),
     'getClubEvaluations': (params) => axios.get(path.clubEvaluations, {
 
     }),
-    'postPersonalPerformance': (params) => axios.post(path.personalPerformance, { // 添加个人成绩
+    'postPersonalPerformance': (params) => axios.post(path.personalPerformance, toFormData({ // 添加个人成绩
         params: {
             clubId: params.clubId,
             activityId: params.activityId,
             personalEffectList: params.personalEffectList, // 这是一个对象数组，对象形式为{stName: '', studentNumber: '', personalEffect: ''}
         }
-    }),
-    'postActivityPerformance': (params) => axios.post(path.activityPerformance, { // 添加活动成绩
+    })),
+    'postActivityPerformance': (params) => axios.post(path.activityPerformance, toFormData({ // 添加活动成绩
         params: {
             clubId: params.clubId,
             activityId: params.activityId,
             activityEffect: params.activityEffect,
         },
-    }),
+    })),
     'getTopTenClubs': (params) => axios.get(path.topTenClubs, {
 
     }),
@@ -237,7 +244,7 @@ const api = {
             }
         })
     },
-    'postClubAnnualAuditForm': (params) => axios.post(path.clubAnnualAuditForm, { // 提交年审表
+    'postClubAnnualAuditForm': (params) => axios.post(path.clubAnnualAuditForm, toFormData({ // 提交年审表
         params: {
             clubId: params.clubId,
             meetingActivityListAttachment: params.meetingActivityListAttachment,
@@ -247,8 +254,8 @@ const api = {
             responsibleDepartment: params.responsibleDepartment,
             publicityManagementInfo: params.publicityManagementInfo,
         }
-    }),
-    'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, { // 提交评优表
+    })),
+    'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, toFormData({ // 提交评优表
         params: {
             clubId: params.clubId,
             handoverMethod: params.handoverMethod,
@@ -260,21 +267,21 @@ const api = {
             clubEducationCaseAttachment: params.clubEducationCaseAttachment,
             imageUrl: params.imageUrl,
         }
-    }),
+    })),
     'getClubNoticeList': (params) => axios.get(path.clubNoticeList, { // 获取社团通知列表
         params: {
             clubId: params.clubId,
         }
     }),
-    'postNewNotice': (params) => axios.post(path.newNotice, { // 添加社团通知
+    'postNewNotice': (params) => axios.post(path.newNotice, toFormData({ // 添加社团通知
         params: {
             clubId: params.clubId,
             title: params.title,
             content: params.content,
             imageUrl: params.imageUrl,
         }
-    }),
-    'postNewMeeting': (params) => axios.post(path.newMeeting, { // 添加社团会议
+    })),
+    'postNewMeeting': (params) => axios.post(path.newMeeting, toFormData({ // 添加社团会议
         params: {
             clubId: params.clubId,
             meetingTime: params.meetingTime,
@@ -282,15 +289,15 @@ const api = {
             category: params.category,
             advisorName: params.advisorName,
         }
-    }),
+    })),
     'getImageVerifyCode': () => axios.get(path.getImageVerifyCode, { // 获取图片验证码
     }),
-    'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, { // 更新社团简介
+    'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, toFormData({ // 更新社团简介
         params: {
             clubId: params.clubId,
             clubDescription: params.clubDescription,
         }
-    }),
+    })),
     'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
     }),
     'getMyClubBackboneExamData': (params) => axios.get(path.myClubBackboneExamData, { // 获取特定社团的年审记录
@@ -318,19 +325,19 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'postJoinClub': (params) => axios.post(path.joinClub, { // 加入社团
+    'postJoinClub': (params) => axios.post(path.joinClub, toFormData({ // 加入社团
         params: {
             clubId: params.clubId,
             studentId: params.studentId,
             reason: params.reason,
         }
-    }),
-    'postJoinActivity': (params) => axios.post(path.joinActivity, { // 加入活动
+    })),
+    'postJoinActivity': (params) => axios.post(path.joinActivity, toFormData({ // 加入活动
         params: {
             activityId: params.activityId,
             studentNumber: params.studentNumber,
         }
-    }),
+    })),
     'getClubApproval':(params)=> axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
         params:{
             clubId: params.clubId,
@@ -357,62 +364,62 @@ const api = {
             clubId: params.clubId,
         }
     }),
-    'passClubApproval':(params)=>axios.post(path.passClubApproval, {
+    'passClubApproval':(params)=>axios.post(path.passClubApproval, toFormData({
         params:{
             recordId: params.recordId,
             universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
         }
-    }),
-    'unPassClubApproval':(params)=>axios.post(path.unPassClubApproval, {
+    })),
+    'unPassClubApproval':(params)=>axios.post(path.unPassClubApproval, toFormData({
         params:{
             recordId: params.recordId,
             universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
         }
-    }),
-    'passActivityApproval':(params)=>axios.post(path.passActivityApproval, {
+    })),
+    'passActivityApproval':(params)=>axios.post(path.passActivityApproval, toFormData({
         params:{
             activityId: params.activityId,
             opinion: params.opinion
         }
-    }),
-    'unPassActivityApproval':(params)=>axios.post(path.unPassActivityApproval, {
+    })),
+    'unPassActivityApproval':(params)=>axios.post(path.unPassActivityApproval, toFormData({
         params:{
             activityId: params.activityId,
             opinion: params.opinion
         }
-    }),
-    'passBackboneAwardsReview':(params)=>axios.post(path.passBackboneAwardsReview, {
+    })),
+    'passBackboneAwardsReview':(params)=>axios.post(path.passBackboneAwardsReview, toFormData({
         params:{
             recordId: params.recordId
         }
-    }),
-    'unPassBackboneAwardsReview':(params)=>axios.post(path.unPassBackboneAwardsReview, {
+    })),
+    'unPassBackboneAwardsReview':(params)=>axios.post(path.unPassBackboneAwardsReview, toFormData({
         params:{
             recordId: params.recordId
         }
-    }),
-    'passClubAnnualReview':(params)=>axios.post(path.passClubAnnualReview, {
+    })),
+    'passClubAnnualReview':(params)=>axios.post(path.passClubAnnualReview, toFormData({
         params:{
             declarationId: params.declarationId,
             departmentOpinion: params.departmentOpinion
         }
-    }),
-    'unPassClubAnnualReview':(params)=>axios.post(path.unPassClubAnnualReview, {
+    })),
+    'unPassClubAnnualReview':(params)=>axios.post(path.unPassClubAnnualReview, toFormData({
         params:{
             declarationId: params.declarationId,
             departmentOpinion: params.departmentOpinion
         }
-    }),
-    'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, {
+    })),
+    'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, toFormData({
         params:{
             recordId: params.recordId
         }
-    }),
-    'unPassClubAwardReview':(params)=>axios.post(path.unPassClubAwardReview, {
+    })),
+    'unPassClubAwardReview':(params)=>axios.post(path.unPassClubAwardReview, toFormData({
         params:{
             recordId: params.recordId
         }
-    }),
+    })),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

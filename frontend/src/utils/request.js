@@ -28,7 +28,13 @@ const errorHandler = error => {
     }
 }
 
-function successHandler(response) {
+function successHandler(res) {
+    console.log(res)
+    if(res.status !== 200){
+        console.log("服务器出错!")
+        return
+    }
+    let response = res.data
     if (response.status === 200) {
         if (response.data.code === 1) { // 登录成功
             const { token, studentId } = response.data
@@ -117,10 +123,10 @@ function successHandler(response) {
         } else if (response.data.code === 30) {  // 提交活动绩效成功
             eventEmitter.emit(APIEventEnum.postActivityPerformanceSuccess)
         } else if (response.data.code === 31) { // 获取最新活动成功
-            const { activities } = response.data
+            const activities = response.data.data
             eventEmitter.emit(APIEventEnum.getLatestActivitiesSuccess, activities)
         } else if (response.data.code === 32) { // 获取十佳社团成功
-            const { clubs } = response.data
+            const clubs = response.data.data
             eventEmitter.emit(APIEventEnum.getTopTenClubsSuccess, clubs)
         } else if (response.data.code === 33) { // 上传文件成功
             const { file } = response.data
