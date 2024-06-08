@@ -57,32 +57,37 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
                 .leftJoin(Clubapplicationrecord.class, Clubapplicationrecord::getClubId, Club::getClubId)
                 .eq(Clubmember::getStudentId, id)
                 .eq(Club::getClubStatus, 1);
+        try{
+            return clubmemberMapper.selectJoinList(ClubDTO.class, wrapper);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
-        return clubmemberMapper.selectJoinList(ClubDTO.class, wrapper);
     }
 
     @Override
     public Object queryClubMemberByClubId(Integer clubId) {
+        // 查询社长信息
+        MPJLambdaWrapper<Clubmember> wrapper = new MPJLambdaWrapper<>();
+        wrapper.select(Clubmember::getPosition)
+                .select(Student::getStName,
+                        Student::getImageUrl,
+                        Student::getContact)
+                .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
+                .eq(Clubmember::getClubId, clubId)
+                .eq(Clubmember::getPosition, Position.PRESIDENT.getCode());
+        //查询骨干信息
+        MPJLambdaWrapper<Clubmember> wrapper2 = new MPJLambdaWrapper<>();
+        wrapper2.select(Clubmember::getPosition)
+                .select(Student::getStName, Student::getImageUrl)
+                .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
+                .eq(Clubmember::getClubId, clubId)
+                .and(w -> w.eq(Clubmember::getPosition, Position.VICE_PRESIDENT.getCode())
+                        .or()
+                        .eq(Clubmember::getPosition, Position.OFFICER.getCode()));
         try{
-            // 查询社长信息
-            MPJLambdaWrapper<Clubmember> wrapper = new MPJLambdaWrapper<>();
-            wrapper.select(Clubmember::getPosition)
-                    .select(Student::getStName,
-                            Student::getImageUrl,
-                            Student::getContact)
-                    .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
-                    .eq(Clubmember::getClubId, clubId)
-                    .eq(Clubmember::getPosition, Position.PRESIDENT.getCode());
             PresidentDTO presidentDTO = clubmemberMapper.selectJoinOne(PresidentDTO.class, wrapper);
-            //查询骨干信息
-            MPJLambdaWrapper<Clubmember> wrapper2 = new MPJLambdaWrapper<>();
-            wrapper2.select(Clubmember::getPosition)
-                    .select(Student::getStName, Student::getImageUrl)
-                    .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
-                    .eq(Clubmember::getClubId, clubId)
-                    .and(w -> w.eq(Clubmember::getPosition, Position.VICE_PRESIDENT.getCode())
-                            .or()
-                            .eq(Clubmember::getPosition, Position.OFFICER.getCode()));
             List<ExecutiveDTO> executiveDTOS = clubmemberMapper.selectJoinList(ExecutiveDTO.class, wrapper2);
             //查询社团总人数
             MPJLambdaWrapper<Club> wrapper3 = new MPJLambdaWrapper<Club>()

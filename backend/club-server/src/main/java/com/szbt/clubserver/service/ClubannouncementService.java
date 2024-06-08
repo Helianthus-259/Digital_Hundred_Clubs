@@ -13,7 +13,7 @@ import java.util.List;
 */
 public interface ClubannouncementService extends IService<Clubannouncement> {
 
-    Object queryClubActAndNtc(Integer clubId, List<Activity> activityList);
+    Object queryClubActAndNtc(Integer clubId);
 
     Object newNotice(Clubannouncement clubannouncement);
 

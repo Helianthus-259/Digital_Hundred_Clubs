@@ -10,6 +10,7 @@ import org.example.entity.Activity;
 import org.example.entity.Clubannouncement;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.service.ActivityClientService;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.ClubActAndNtcVO;
@@ -21,6 +22,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -42,11 +44,16 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    private ActivityClientService activityClientService;
+
     @Override
-    public Object queryClubActAndNtc(Integer clubId, List<Activity> activityList) {
+    public Object queryClubActAndNtc(Integer clubId) {
         MPJLambdaWrapper<Clubannouncement> wrapper = new MPJLambdaWrapper<Clubannouncement>();
         wrapper.selectAll(Clubannouncement.class)
                 .eq(Clubannouncement::getClubId,clubId);
+        List<Integer> idList = new ArrayList<>();
+        idList.add(clubId);
         try {
             List<NoticeDTO> noticeDTOList = clubannouncementMapper.selectJoinList(NoticeDTO.class, wrapper);
             //处理文件请求
@@ -55,7 +62,8 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                         String imageUrl = noticeDTOList.get(i).getImageUrl();
                         noticeDTOList.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                     });
-            List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityList, new TypeToken<List<ActivityShowDTO>>() {}.getType());
+            List<List<Activity>> activityInfoLists = activityClientService.queryActivityInfoByClubIdList(idList);
+            List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityInfoLists.get(0), new TypeToken<List<ActivityShowDTO>>() {}.getType());
             ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
             return Result.success(clubActAndNtcVO);
         } catch (Exception e) {

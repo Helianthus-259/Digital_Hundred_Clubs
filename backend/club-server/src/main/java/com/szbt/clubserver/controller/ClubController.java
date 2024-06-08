@@ -27,8 +27,6 @@ public class ClubController {
     @Autowired
     private ClubannouncementService clubannouncementService;
     @Autowired
-    private ActivityClientService activityClientService;
-    @Autowired
     private ClubmeetingService clubmeetingService;
     @Autowired
     private StudentclubevaluationService  studentclubevaluationService;
@@ -52,10 +50,7 @@ public class ClubController {
 
     @GetMapping("/clubActAndNtc")
     public Object queryClubActAndNtc(@RequestParam("clubId") Integer clubId){
-        List<Integer> idList = new ArrayList<>();
-        idList.add(clubId);
-        List<List<Activity>> activityInfoLists = activityClientService.queryActivityInfoByClubIdList(idList);
-        return clubannouncementService.queryClubActAndNtc(clubId,activityInfoLists.get(0));
+        return clubannouncementService.queryClubActAndNtc(clubId);
     }
 
     @GetMapping("/clubIntroduction")
