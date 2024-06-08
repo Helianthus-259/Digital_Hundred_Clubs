@@ -47,12 +47,17 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
                         Student::getPoliticalStatus)
                 .leftJoin(Student.class, Student::getStudentId, ClubMembershipApplication::getStudentId)
                 .eq(ClubMembershipApplication::getClubId, clubId);
-        List<ApplyListDTO> applyListDTOS = clubMembershipApplicationMapper.selectJoinList(ApplyListDTO.class, wrapper);
-        //创建返回对象
-        HashMap<String,Object> result = new HashMap<>();
-        result.put("code", ResultCode.GET_CLUB_APPLY_LIST.getCode());
-        result.put("applyList",applyListDTOS);
-        return Result.success(result);
+        try{
+            List<ApplyListDTO> applyListDTOS = clubMembershipApplicationMapper.selectJoinList(ApplyListDTO.class, wrapper);
+            //创建返回对象
+            HashMap<String,Object> result = new HashMap<>();
+            result.put("code", ResultCode.GET_CLUB_APPLY_LIST.getCode());
+            result.put("applyList",applyListDTOS);
+            return Result.success(result);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_CLUB_APPLY_LIST_ERROR,new SendMsg("获取社团申请列表失败"));
     }
 
     @Override

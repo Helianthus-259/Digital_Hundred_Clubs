@@ -33,15 +33,11 @@ public class ClubController {
     @Autowired
     private AnnualauditService annualauditService;
     @Autowired
-    private StudentClientService  studentClientService;
-    @Autowired
     private ClubapplicationrecordService clubapplicationrecordService;
     @Autowired
     private ClubMembershipApplicationService clubMembershipApplicationService;
     @Autowired
     private  ClubawardsService  clubawardsService;
-    @Autowired
-    private AdminClientService  adminClientService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -130,12 +126,7 @@ public class ClubController {
 
     @PostMapping("/deleteClubMember")
     public Object deleteClubMember(Integer clubId, String studentNumber){
-        List<String> number = Collections.singletonList(studentNumber);
-        System.out.println(number);
-        List<Student> studentList = studentClientService.getStudentByNumber(number);
-        Student student = studentList.get(0);
-        System.out.println(student);
-        return  clubmemberService.deleteClubMember(clubId,student.getStudentId());
+        return  clubmemberService.deleteClubMember(clubId,studentNumber);
     }
 
     @PostMapping("/newClubApply")
@@ -185,9 +176,7 @@ public class ClubController {
     @GetMapping("/clubEvaluateInfo")// 未实现
     public Object clubEvaluateInfo(Integer clubId){
         Club clubInfo =  clubService.getClubInfoById(clubId);
-        Student studentInfo = studentClientService.queryStudentInfo(clubInfo.getContactPersonId());
-        String responsibleDepartment = adminClientService.getAdminInfo(clubInfo.getResponsibleDepartmentId());
-        return studentclubevaluationService.clubEvaluateInfo(clubId, clubInfo, studentInfo,responsibleDepartment);
+        return studentclubevaluationService.clubEvaluateInfo(clubId, clubInfo);
     }
 
     @GetMapping("/thisYearClubAnnual")

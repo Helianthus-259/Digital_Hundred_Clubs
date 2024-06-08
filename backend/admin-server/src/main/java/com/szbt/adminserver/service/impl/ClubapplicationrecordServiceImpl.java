@@ -59,6 +59,7 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
             return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_APPROVAL));
         }catch (Exception e) {
             e.printStackTrace();
+            transactionManager.rollback(transactionStatus);
             return Result.send(StatusCode.PASS_CLUB_APPROVAL_ERROR,new SendMsg("通过社团申请失败"));
         }
     }
@@ -81,6 +82,7 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
             return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_APPROVAL));
         }catch (Exception e) {
             e.printStackTrace();
+            transactionManager.rollback(transactionStatus);
             return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
         }
     }

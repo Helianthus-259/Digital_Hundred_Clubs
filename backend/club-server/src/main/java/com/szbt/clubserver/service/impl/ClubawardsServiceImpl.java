@@ -41,7 +41,7 @@ public class ClubawardsServiceImpl extends ServiceImpl<ClubawardsMapper, Clubawa
             return Result.success(new DataVO(ResultCode.GET_CLUB_AWARDS, clubAwards));
         }catch (Exception e){
             String exceptionAsString = e.toString();
-            return Result.send(StatusCode.GET_CLUB_AWARDS_ERROR,new SendMsg(exceptionAsString));
+            return Result.send(StatusCode.GET_CLUB_AWARDS_ERROR,new SendMsg("获取社团获奖信息失败"));
         }
 //        MPJLambdaWrapper<Clubawards>  wrapper = new MPJLambdaWrapper<Clubawards>()
 //                .selectAll(Clubawards.class)

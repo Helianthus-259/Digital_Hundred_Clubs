@@ -14,6 +14,7 @@ import org.example.entity.Activity;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.service.ClubClientService;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
@@ -47,17 +48,25 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
 
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private ClubClientService clubClientService;
 
     @Override
-    public Object activityInfo(@RequestHeader(value = RequestKeyConstants.ID) Integer id, Club clubInfo) {
-        System.out.println(id);
+    public Object activityInfo(Integer id) {
         MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
                 .selectAll(Activity.class)
                 .eq(Activity::getActivityId,id);
-        ActivityDTO activity = activityMapper.selectJoinOne(ActivityDTO.class, wrapper);
-        activity.setClubName(clubInfo.getClubName());
-        System.out.println(activity);
-        return Result.success(new DataVO(ResultCode.GET_ACTIVITY_INFO, activity));
+        try{
+            Club clubInfo = clubClientService.getClubInfoById(id);
+            System.out.println(id);
+            ActivityDTO activity = activityMapper.selectJoinOne(ActivityDTO.class, wrapper);
+            activity.setClubName(clubInfo.getClubName());
+            System.out.println(activity);
+            return Result.success(new DataVO(ResultCode.GET_ACTIVITY_INFO, activity));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_ACTIVITY_INFO_ERROR,new SendMsg("获取活动信息失败"));
     }
 
     @Override
@@ -96,16 +105,22 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     @Override
     public Object getLatestActivities(Integer pageNumber, Integer pageSize) {
         // 创建分页对象
-        Page<Activity> page = new Page<>(pageNumber, pageSize);
+        Page<Activity> page = new Page<>(pageNumber+1, pageSize);
         page.setSearchCount(true);
         // 构建查询条件
         MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
                 .selectAll(Activity.class);
-        // 执行分页查询
-        activityMapper.selectPage(page, wrapper);
-        // 获取分页结果
-        List<Activity> activityList = page.getRecords();
-        return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activityList));
+        try{
+            // 执行分页查询
+            activityMapper.selectPage(page, wrapper);
+            // 获取分页结果
+            List<Activity> activityList = page.getRecords();
+            return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activityList));
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_LATEST_ACTIVITY_ERROR,new SendMsg("获取最新活动失败"));
     }
 
     @Override
@@ -134,36 +149,55 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
         // 构建查询条件
         QueryWrapper<Activity> wrapper = new QueryWrapper<>();
         wrapper.eq("club_id", clubId);
-        // 执行分页查询
-        activityMapper.selectPage(page, wrapper);
-        // 获取分页结果
-        List<Activity> activityList = page.getRecords();
-        long total = page.getTotal();
-        System.out.println(total);
-        //映射到DTO
-        List<ClubActivityListDTO> clubActivityListDTOS = modelMapper.map(activityList, new TypeToken<List<ClubActivityListDTO>>() {}.getType());
-        //处理图片请求,并设置开始状态
-        IntStream.range(0, clubActivityListDTOS.size())
-                .forEach(i -> {
-                    String imageUrl = clubActivityListDTOS.get(i).getImageUrl();
-                    clubActivityListDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
-                    Date currentTime = new Date();
-                    Date activityStartTime = activityList.get(i).getActivityStartTime();
-                    Date activityEndTime = activityList.get(i).getActivityEndTime();
-                    if (currentTime.before(activityStartTime)) {
-                        clubActivityListDTOS.get(i).setStatus(NO_STARTED.getCode());
-                    } else if (currentTime.after(activityEndTime)) {
-                        clubActivityListDTOS.get(i).setStatus(ENDED.getCode());
-                    } else {
-                        clubActivityListDTOS.get(i).setStatus(STARTING.getCode());
-                    }
-                });
-        // 构造结果对象
-        Map<String, Object> result = new HashMap<>();
-        result.put("code", ResultCode.GET_CLUB_ACTIVITY_LIST.getCode());
-        result.put("activityList", clubActivityListDTOS);
+        try{
+            // 执行分页查询
+            activityMapper.selectPage(page, wrapper);
+            // 获取分页结果
+            List<Activity> activityList = page.getRecords();
+            long total = page.getTotal();
+            System.out.println(total);
+            //映射到DTO
+            List<ClubActivityListDTO> clubActivityListDTOS = modelMapper.map(activityList, new TypeToken<List<ClubActivityListDTO>>() {}.getType());
+            //处理图片请求,并设置开始状态
+            IntStream.range(0, clubActivityListDTOS.size())
+                    .forEach(i -> {
+                        String imageUrl = clubActivityListDTOS.get(i).getImageUrl();
+                        clubActivityListDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
+                        Date currentTime = new Date();
+                        Date activityStartTime = activityList.get(i).getActivityStartTime();
+                        Date activityEndTime = activityList.get(i).getActivityEndTime();
+                        if (currentTime.before(activityStartTime)) {
+                            clubActivityListDTOS.get(i).setStatus(NO_STARTED.getCode());
+                        } else if (currentTime.after(activityEndTime)) {
+                            clubActivityListDTOS.get(i).setStatus(ENDED.getCode());
+                        } else {
+                            clubActivityListDTOS.get(i).setStatus(STARTING.getCode());
+                        }
+                    });
+            // 构造结果对象
+            Map<String, Object> result = new HashMap<>();
+            result.put("code", ResultCode.GET_CLUB_ACTIVITY_LIST.getCode());
+            result.put("activityList", clubActivityListDTOS);
 
-        return Result.success(result);
+            return Result.success(result);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_CLUB_ACTIVITY_LIST_ERROR,new SendMsg("获取社团活动列表失败"));
+    }
+
+    @Override
+    public Object getActivitiesInfo(List<ActivityDTO> activities, List<Integer> clubIdList) {
+        try{
+            List<Club> clubList = clubClientService.getClubList(clubIdList);
+            System.out.println(clubList);
+            IntStream.range(0, activities.size()).forEach(i->activities.get(i).setClubName(clubList.get(i).getClubName()));
+            System.out.println(activities);
+            return Result.success(new DataVO(ResultCode.GET_ALL_ACTIVITY_INFO, activities));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_ALL_ACTIVITY_INFO_ERROR,new SendMsg("获取所有活动信息失败"));
     }
 
 

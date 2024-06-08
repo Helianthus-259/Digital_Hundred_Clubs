@@ -9,6 +9,8 @@ import org.example.dto.SingleClubEvaluationDTO;
 import org.example.entity.*;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.service.AdminClientService;
+import org.example.service.StudentClientService;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
@@ -30,6 +32,10 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
 
     @Autowired
     private  StudentclubevaluationMapper studentclubevaluationMapper;
+    @Autowired
+    private StudentClientService studentClientService;
+    @Autowired
+    private AdminClientService adminClientService;
     @Override
     public Object clubEvaluationForm(Studentclubevaluation studentclubevaluation) {
         Calendar calendar = Calendar.getInstance();
@@ -40,7 +46,9 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
     }
 
     @Override
-    public Object clubEvaluateInfo(Integer clubId, Club clubInfo, Student studentInfo, String department) {
+    public Object clubEvaluateInfo(Integer clubId, Club clubInfo) {
+        Student studentInfo = studentClientService.queryStudentInfo(clubInfo.getContactPersonId());
+        String department = adminClientService.getAdminInfo(clubInfo.getResponsibleDepartmentId());
         return null;
     }
 

@@ -34,13 +34,8 @@ public class ActivityController {
     private ActivityService activityService;
 
     @Autowired
-    private ClubClientService clubClientService;
-
-    @Autowired
     private ActivitymemberService activitymemberService;
 
-    @Autowired
-    private StudentClientService studentClientService;
 
     @GetMapping("/getActivityMemberBySid")
     public List<ActivityMemberDTO> getActivityMemberBySid(Integer id) {
@@ -49,8 +44,7 @@ public class ActivityController {
 
     @GetMapping("/activityInfo")
     public Object activityInfo(Integer activityId){
-        Club clubInfo = clubClientService.getClubInfoById(activityId);
-        return activityService.activityInfo(activityId, clubInfo);
+        return activityService.activityInfo(activityId);
     }
 
     @GetMapping("/queryActivityInfoByClubIdList")
@@ -63,11 +57,7 @@ public class ActivityController {
         List<ActivityDTO> activities = activityService.activitiesInfo();
         List<Integer> clubIdList = activities.stream().map(ActivityDTO::getClubId).collect(Collectors.toList());
         System.out.println(clubIdList);
-        List<Club> clubList = clubClientService.getClubList(clubIdList);
-        System.out.println(clubList);
-        IntStream.range(0, activities.size()).forEach(i->activities.get(i).setClubName(clubList.get(i).getClubName()));
-        System.out.println(activities);
-        return Result.success(new DataVO(ResultCode.GET_ALL_ACTIVITY_INFO, activities));
+        return activityService.getActivitiesInfo(activities,clubIdList);
     }
 
     @GetMapping("/latestActivities")
@@ -89,9 +79,7 @@ public class ActivityController {
         System.out.println(activity);
         List<String> studentNumberList = activityEffectGroup.stream().map(ActivityEffectGroup::getStudentNumber).collect(Collectors.toList());
         System.out.println(studentNumberList);
-        List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
-        System.out.println(studentList);
-        return activitymemberService.personalPerformance(activity, activityEffectGroup, studentList);
+        return activitymemberService.personalPerformance(activity, activityEffectGroup, studentNumberList);
     }
 
     @PostMapping("/activityPerformance")
@@ -108,10 +96,7 @@ public class ActivityController {
     @PostMapping("/joinActivity")
     public Object joinActivity(Integer activityId, String studentNumber)
     {
-        List<String> studentNumberList = new ArrayList<>();
-        studentNumberList.add(studentNumber);
-        List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
         Activity activity = activityService.getById(activityId);
-        return activitymemberService.joinActivity(studentList.get(0),activity);
+        return activitymemberService.joinActivity(studentNumber,activity);
     }
 }

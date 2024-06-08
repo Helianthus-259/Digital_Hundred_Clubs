@@ -16,6 +16,7 @@ import org.example.entity.Student;
 import org.example.enums.Position;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.service.StudentClientService;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.MemberVO;
@@ -23,7 +24,11 @@ import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -44,6 +49,10 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
 
     @Autowired
     private ClubMapper clubMapper;
+    @Autowired
+    private StudentClientService studentClientService;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public List<ClubDTO> queryAllClubMemberBySid(Integer id) {
@@ -118,29 +127,37 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
 
     @Override
     public Object updateClubMember(Integer clubId, String oldStudent, String newStudent) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         // 查询旧数据
         MPJLambdaWrapper<Clubmember>  wrapper1 = new MPJLambdaWrapper<Clubmember>()
                 .selectAll(Clubmember.class)
                 .eq(Clubmember::getClubId, clubId)
                 .eq(Clubmember::getStudentId, oldStudent);
-        Clubmember oldClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper1);
-
         // 查询新数据
         MPJLambdaWrapper<Clubmember>  wrapper2 = new MPJLambdaWrapper<Clubmember>()
                 .selectAll(Clubmember.class)
                 .eq(Clubmember::getClubId, clubId)
                 .eq(Clubmember::getStudentId, newStudent);
-        Clubmember newClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper2);
-        // 交换职位
-        Integer oldPosition = oldClubmember.getPosition();
-        oldClubmember.setPosition(newClubmember.getPosition());
-        newClubmember.setPosition(oldPosition);
-        // 更新
-        int updateById = clubmemberMapper.updateById(newClubmember);
-        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("新干部数据更新失败"));
-        updateById = clubmemberMapper.updateById(oldClubmember);
-        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("旧干部数据更新失败"));
-        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_MEMBER));
+        try{
+            Clubmember oldClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper1);
+            Clubmember newClubmember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper2);
+            // 交换职位
+            Integer oldPosition = oldClubmember.getPosition();
+            oldClubmember.setPosition(newClubmember.getPosition());
+            newClubmember.setPosition(oldPosition);
+            // 更新
+            int updateById = clubmemberMapper.updateById(newClubmember);
+            if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("新干部数据更新失败"));
+            updateById = clubmemberMapper.updateById(oldClubmember);
+            if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("旧干部数据更新失败"));
+            return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_MEMBER));
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            transactionManager.rollback(transactionStatus);
+        }
+        return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("干部数据更新失败"));
     }
 
     @Override
@@ -157,16 +174,26 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
     }
 
     @Override
-    public Object deleteClubMember(Integer clubId, Integer studentId) {
-        MPJLambdaWrapper<Clubmember>  wrapper = new MPJLambdaWrapper<Clubmember>()
-                .selectAll(Clubmember.class)
-                .eq(Clubmember::getClubId, clubId)
-                .eq(Clubmember::getStudentId, studentId);
-        Clubmember clubmember = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
-        clubmember.setPosition(Position.MEMBER.getCode());// 设置为普通成员
-        int deleteById = clubmemberMapper.updateById(clubmember);
-        if (deleteById<=0) return Result.send(StatusCode.DELETE_CLUB_MEMBER_ERROR,new SendMsg("删除干部失败"));
-        return Result.success(new SingleCodeVO(ResultCode.DELETE_CLUB_MEMBER));
+    public Object deleteClubMember(Integer clubId, String studentNumber) {
+        try{
+            List<String> number = Collections.singletonList(studentNumber);
+            System.out.println(number);
+            List<Student> studentList = studentClientService.getStudentByNumber(number);
+            Student student = studentList.get(0);
+            System.out.println(student);
+            MPJLambdaWrapper<Clubmember>  wrapper = new MPJLambdaWrapper<Clubmember>()
+                    .selectAll(Clubmember.class)
+                    .eq(Clubmember::getClubId, clubId)
+                    .eq(Clubmember::getStudentId, student.getStudentId());
+            Clubmember clubmember = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
+            clubmember.setPosition(Position.MEMBER.getCode());// 设置为普通成员
+            int deleteById = clubmemberMapper.updateById(clubmember);
+            if (deleteById<=0) return Result.send(StatusCode.DELETE_CLUB_MEMBER_ERROR,new SendMsg("删除干部失败"));
+            return Result.success(new SingleCodeVO(ResultCode.DELETE_CLUB_MEMBER));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.DELETE_CLUB_MEMBER_ERROR,new SendMsg("删除干部失败"));
     }
 }
 

@@ -106,9 +106,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
                 .selectAll(Club.class)
                 .eq(Club::getClubId,id);
-        Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
-        System.out.println(clubInfo);
-        return clubInfo;
+        try{
+            Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
+            System.out.println(clubInfo);
+            return clubInfo;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

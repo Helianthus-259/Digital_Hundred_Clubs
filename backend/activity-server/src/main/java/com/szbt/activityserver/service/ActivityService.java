@@ -13,7 +13,7 @@ import java.util.List;
 * @createDate 2024-05-25 21:55:21
 */
 public interface ActivityService extends IService<Activity> {
-    Object activityInfo(Integer id, Club clubInfo);
+    Object activityInfo(Integer id);
 
     List<List<Activity>> queryActivityInfoByClubIdList(List<Integer> idList);
 
@@ -27,4 +27,5 @@ public interface ActivityService extends IService<Activity> {
 
     Object queryClubActivityList(Integer clubId,Integer pageNumber, Integer pageSize);
 
+    Object getActivitiesInfo(List<ActivityDTO> activities, List<Integer> clubIdList);
 }

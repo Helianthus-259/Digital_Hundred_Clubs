@@ -44,7 +44,7 @@ public class ClubmeetingServiceImpl extends ServiceImpl<ClubmeetingMapper, Clubm
             return Result.success(new DataVO(ResultCode.GET_CLUB_MEETINGS, clubMeetings));
         }catch (Exception e){
             String exceptionAsString = e.toString();
-            return Result.send(StatusCode.GET_CLUB_MEETINGS_ERROR,new SendMsg(exceptionAsString));
+            return Result.send(StatusCode.GET_CLUB_MEETINGS_ERROR,new SendMsg("获取社团会议列表失败"));
         }
     }
 }

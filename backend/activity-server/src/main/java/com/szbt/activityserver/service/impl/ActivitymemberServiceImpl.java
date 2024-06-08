@@ -12,13 +12,19 @@ import org.example.entity.Activitymember;
 import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.service.StudentClientService;
 import org.example.util.Result;
+import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -37,6 +43,12 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private StudentClientService studentClientService;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public List<ActivityMemberDTO> getActivityMemberBySid(Integer id) {
@@ -61,36 +73,43 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
     }
 
     @Override
-    public Object joinActivity(Student student,Activity activity) {
-        String activityName = activity.getActivityName();
-        int  activityId = activity.getActivityId();
-        Activitymember activitymember  = new Activitymember();
-        activitymember.setActivityId(activityId);
-        activitymember.setActivityName(activityName);
-        activitymember.setStudentId(student.getStudentId());
+    public Object joinActivity(String studentNumber,Activity activity) {
         try{
+            List<String> studentNumberList = new ArrayList<>();
+            studentNumberList.add(studentNumber);
+            List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
+            Integer studentId = studentList.get(0).getStudentId();
+            String activityName = activity.getActivityName();
+            int  activityId = activity.getActivityId();
+            Activitymember activitymember  = new Activitymember();
+            activitymember.setActivityId(activityId);
+            activitymember.setActivityName(activityName);
+            activitymember.setStudentId(studentId);
             int inserted = activitymemberMapper.insert(activitymember);
             if(inserted<=0) return Result.send(StatusCode.JOIN_ACTIVITY_ERROR,"加入活动失败");
             return Result.success(new SingleCodeVO(ResultCode.JOIN_ACTIVITY));
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return Result.send(StatusCode.JOIN_ACTIVITY_ERROR,"加入活动失败");
     }
 
     @Override
-    public Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<Student> studentList) {
+    public Object personalPerformance(Activity activity, List<ActivityEffectGroup> activityEffectGroup, List<String> studentNumberList) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
         String activityName = activity.getActivityName();
         int  activityId = activity.getActivityId();
-        IntStream.range(0, activityEffectGroup.size()).forEach(i->{
-            // Activitymember activitymember  = new Activitymember();
-            // activitymember.setActivityId(activityId);
-            // activitymember.setActivityName(activityName);
-            // activitymember.setStudentId(studentList.get(i).getStudentId());
-            // activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
-            try {
+        try{
+            IntStream.range(0, activityEffectGroup.size()).forEach(i->{
+                // Activitymember activitymember  = new Activitymember();
+                // activitymember.setActivityId(activityId);
+                // activitymember.setActivityName(activityName);
+                // activitymember.setStudentId(studentList.get(i).getStudentId());
+                // activitymember.setPersonalEffect(activityEffectGroup.get(i).getPersonalEffect());
                 // activitymemberMapper.insert(activitymember);
+                List<Student> studentList = studentClientService.getStudentByNumber(studentNumberList);
+                System.out.println(studentList);
                 QueryWrapper<Activitymember> wrapper = new QueryWrapper<>();
                 wrapper.eq("student_id",studentList.get(i).getStudentId());
                 wrapper.eq("activity_id",activityId);
@@ -110,11 +129,14 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
                     activitymember.setAwardWiningTime(new Date());
                     activitymemberMapper.updateById(activitymember);
                 }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        return Result.success(new SingleCodeVO(ResultCode.ADD_PERSONAL_PERFORMANCE));
+            });
+            return Result.success(new SingleCodeVO(ResultCode.ADD_PERSONAL_PERFORMANCE));
+        }catch (Exception e) {
+            e.printStackTrace();
+            //回滚
+            transactionManager.rollback(transactionStatus);
+        }
+        return Result.send(StatusCode.ADD_PERSONAL_PERFORMANCE_ERROR,new SendMsg("提交个人绩效失败"));
     }
 }
 
