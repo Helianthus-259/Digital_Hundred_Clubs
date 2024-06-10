@@ -82,7 +82,9 @@
                       <div class="text">活动时间</div>
                     </t-col>
                     <t-col :span="3" id="table">
-                      {{ activity.activityStartTime }} - {{activity.activityEndTime}}
+                      开始：{{ activity.activityStartTime }}
+                      <br>
+                      结束：{{ activity.activityEndTime }}
                     </t-col>
                     <t-col :span="3" id="table">
                       <div class="text">活动开展地点</div>
@@ -146,6 +148,7 @@ import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, Se
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 import {NotifyPlugin} from "tdesign-vue-next";
+import moment from "moment";
 
 // 表格
 const statusNameListMap = {
@@ -163,8 +166,8 @@ const activity = ref({
   activityName: "",
   clubName: "",
   activityLocation: "",
-  createTime: "",
-  status: '',
+  activityPublishTime: "",
+  activityStatus: '',
   activityStartTime: "",
   activityEndTime: "",
   activityIntroduction: "",
@@ -179,7 +182,12 @@ function assignment() {
 }
 eventEmitter.emit(APIEventEnum.request, APIEnum.getActivitiesInfo)
 eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess', (data) => {
-  activities.value = data.data
+  activities.value = data.data.filter(item =>{
+      item.activityPublishTime = moment(item.activityPublishTime).format('YYYY-MM-DD HH:mm:ss');
+      item.activityStartTime = moment(item.activityStartTime).format('YYYY-MM-DD HH:mm:ss');
+      item.activityEndTime = moment(item.activityEndTime).format('YYYY-MM-DD HH:mm:ss');
+      return true
+  })
   assignment()
 })
 
@@ -196,15 +204,15 @@ const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
   { colKey: 'activityName', title: '活动名称', width: '100' },
   { colKey: 'activityLocation', title: '活动地点', width: '100' },
-  { colKey: 'createTime', title: '申请时间' },
+  { colKey: 'activityPublishTime', title: '申请时间' },
   {
-    colKey: 'status',
+    colKey: 'activityStatus',
     title: '审批状态',
     cell: (h, { row }) => {
       return (
-        <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-          {statusNameListMap[row.status].icon}
-          {statusNameListMap[row.status].label}
+        <t-tag shape="round" theme={statusNameListMap[row.activityStatus].theme} variant="light-outline">
+          {statusNameListMap[row.activityStatus].icon}
+          {statusNameListMap[row.activityStatus].label}
         </t-tag>
       );
     },
@@ -230,17 +238,17 @@ const getAllActivities = () => {
 }
 
 const getPassedActivities = () => {
-  data.value = activities.value.filter(item => item.status === 1)
+  data.value = activities.value.filter(item => item.activityStatus === 1)
   pagination.value.total = data.value.length
 }
 
 const getUnPassedActivities = () => {
-  data.value = activities.value.filter(item => item.status === 0)
+  data.value = activities.value.filter(item => item.activityStatus === 0)
   pagination.value.total = data.value.length
 }
 
 const getPendingActivities = () => {
-  data.value = activities.value.filter(item => item.status === null)
+  data.value = activities.value.filter(item => item.activityStatus === null)
   pagination.value.total = data.value.length
 }
 
@@ -249,10 +257,10 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityName = data.activityName
   activity.value.clubName = data.clubName
   activity.value.activityLocation = data.activityLocation
-  activity.value.createTime = data.createTime
+  activity.value.createTime = moment(data.createTime).format('YYYY-MM-DD HH:mm:ss');
   activity.value.status = data.status
-  activity.value.activityStartTime = data.activityStartTime
-  activity.value.activityEndTime = data.activityEndTime
+  activity.value.activityStartTime = moment(data.activityStartTime).format('YYYY-MM-DD HH:mm:ss');
+  activity.value.activityEndTime = moment(data.activityEndTime).format('YYYY-MM-DD HH:mm:ss');
   activity.value.activityIntroduction = data.activityIntroduction
   activity.value.activityAttachment = data.activityAttachment
   activity.value.contactPerson =  data.contactPerson

@@ -172,6 +172,7 @@ import eventEmitter from '@/utils/eventEmitter';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import moment from "moment";
 
 
 const route = useRoute();
@@ -229,6 +230,10 @@ const submitNotice = () => {
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubNoticeList, { clubId })
     eventEmitter.on(APIEventEnum.getClubNoticeListSuccess, 'getClubNoticeListSuccess', (data) => {
+        data = data.filter(item => {
+            item.publishTime = moment(item.publishTime).format('YYYY-MM-DD HH:mm:ss')
+            return true
+        })
         noticeList.value.push(...data)
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {

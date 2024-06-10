@@ -372,7 +372,6 @@ const detail = (data) => {
     clubReviewInfo.value.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[data.clubCategory].name
     clubReviewInfo.value.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
     clubReviewInfo.value.clubDescription = data.clubDescription
-    clubReviewInfo.value.file = data.file
     clubReviewInfo.value.totalMembers = data.totalMembers
     clubReviewInfo.value.administrativeGuideTeacherName = data.administrativeGuideTeacherName
     clubReviewInfo.value.businessGuideTeacherName = data.businessGuideTeacherName

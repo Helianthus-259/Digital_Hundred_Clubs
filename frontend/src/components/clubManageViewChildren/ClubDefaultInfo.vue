@@ -323,6 +323,7 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import myDialog from '../myDialog.vue';
+import moment from "moment/moment.js";
 
 const route = useRoute();
 const clubId = route.params.cid
@@ -511,7 +512,7 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId })
     eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
         clubInfo.clubName = data.clubName
-        clubInfo.establishmentDate = data.establishmentDate
+        clubInfo.establishmentDate = moment(data.establishmentDate).format('YYYY-MM-DD HH:mm:ss');
         clubInfo.clubCategory = data.clubCategory
         clubInfo.responsibleDepartment = data.responsibleDepartment
         clubInfo.administrativeGuideTeacherName = data.administrativeGuideTeacherName

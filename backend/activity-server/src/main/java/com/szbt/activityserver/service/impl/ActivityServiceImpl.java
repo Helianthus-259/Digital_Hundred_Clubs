@@ -7,7 +7,6 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.activityserver.dao.mapper.ActivityMapper;
 import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import com.szbt.activityserver.service.ActivityService;
-import org.example.constants.RequestKeyConstants;
 import org.example.dto.ActivityDTO;
 import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Activity;
@@ -24,12 +23,10 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.*;
 import java.util.stream.IntStream;
 
-import static org.example.constants.FileConstants.fileServerDownloadUrl;
 import static org.example.enums.IsActivityStarted.*;
 
 /**
@@ -189,9 +186,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     @Override
     public Object getActivitiesInfo(List<ActivityDTO> activities, List<Integer> clubIdList) {
         try{
-            List<Club> clubList = clubClientService.getClubList(clubIdList);
-            System.out.println(clubList);
-            IntStream.range(0, activities.size()).forEach(i->activities.get(i).setClubName(clubList.get(i).getClubName()));
+            IntStream.range(0, activities.size()).forEach(i-> {
+                Club clubInfo = clubClientService.getClubInfoById(clubIdList.get(i));
+                activities.get(i).setClubName(clubInfo.getClubName());
+            });
             System.out.println(activities);
             return Result.success(new DataVO(ResultCode.GET_ALL_ACTIVITY_INFO, activities));
         }catch (Exception e) {

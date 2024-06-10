@@ -7,22 +7,13 @@ import org.example.dto.ActivityDTO;
 import org.example.dto.ActivityEffectGroup;
 import org.example.dto.ActivityMemberDTO;
 import org.example.entity.Activity;
-import org.example.entity.Club;
-import org.example.entity.Student;
-import org.example.enums.ResultCode;
-import org.example.service.ClubClientService;
-import org.example.service.StudentClientService;
-import org.example.util.Result;
-import org.example.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/activity")
@@ -56,7 +47,6 @@ public class ActivityController {
     public Object activitiesInfo(){
         List<ActivityDTO> activities = activityService.activitiesInfo();
         List<Integer> clubIdList = activities.stream().map(ActivityDTO::getClubId).collect(Collectors.toList());
-        System.out.println(clubIdList);
         return activityService.getActivitiesInfo(activities,clubIdList);
     }
 

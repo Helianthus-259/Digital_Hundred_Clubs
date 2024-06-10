@@ -288,6 +288,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                     .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
             clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
                     .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
+            System.out.println(clubAnnualDTO);
             return Result.success(new DataVO(ResultCode.GET_CLUB_ANNUL_INFO,clubAnnualDTO));
         }catch (Exception e){
             e.printStackTrace();

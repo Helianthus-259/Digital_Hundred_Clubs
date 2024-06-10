@@ -135,6 +135,7 @@ import myDialog from '../myDialog.vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
+import moment from "moment";
 
 const statusNameListMap = {
     null: { label: '待审核', theme: 'primary', icon: 'error-circle-filled' },
@@ -243,7 +244,10 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApplyList, { clubId })
 
     eventEmitter.on(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess', (data) => {
-        applyList.value = data
+        applyList.value = data.filter(item=>{
+            item.createTime = moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')
+            return true
+        })
         handleSearch()
     })
 

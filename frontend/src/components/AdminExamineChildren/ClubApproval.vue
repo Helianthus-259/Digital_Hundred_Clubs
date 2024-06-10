@@ -176,7 +176,7 @@
 </template>
 
 <script lang="jsx" setup>
-import { onUnmounted, ref } from 'vue';
+import {onMounted, onUnmounted, ref} from 'vue';
 
 
 
@@ -185,6 +185,7 @@ import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 import {NotifyPlugin} from "tdesign-vue-next";
+import moment from "moment";
 // 审核状态
 const status = ref('all');
 // 校区
@@ -218,7 +219,7 @@ const statusNameListMap = {
   0: { label: '审批失败', theme: 'danger', icon: <CloseCircleFilledIcon /> },
   1: { label: '审批通过', theme: 'success', icon: <CheckCircleFilledIcon /> },
 };
-const clubsData = []
+const clubsData = ref([])
 const data = ref([])
 const universityStudentUnionReviewOpinion = ref("")
 function assignment() {
@@ -227,14 +228,17 @@ function assignment() {
   console.log(data.value)
 }
 
-eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
-eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
-  clubsData.value = data.filter(item => {
-    item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
-    item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
-    return true
+onMounted(() => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
+  eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
+    clubsData.value = data.filter(item => {
+      item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
+      item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
+      item.establishmentDate = moment(item.establishmentDate).format('YYYY-MM-DD HH:mm:ss')
+      return true
+    })
+    assignment()
   })
-  assignment()
 })
 
 const search = () => {
@@ -298,7 +302,7 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
   clubInfo.value.attachmentUrl = data.attachmentUrl
   clubInfo.value.adminGuideTeacher = data.adminGuideTeacher
   clubInfo.value.businessGuideTeacher = data.businessGuideTeacher
-  clubInfo.value.establishmentDate = data.establishmentDate
+  clubInfo.value.establishmentDate = moment(data.establishmentDate).format('YYYY-MM-DD HH:mm:ss')
   clubInfo.value.contactPerson = data.contactPerson
   clubInfo.value.contactPhone = data.contactPhone
   clubInfo.value.clubStatus = data.clubStatus
