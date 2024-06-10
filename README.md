@@ -61,7 +61,7 @@ Here are the steps to configure the database and email for each service:
 
 ### Email Configuration
 
-1. Locate the configuration file for auth-server module(`backend/xxx-server/src/main/resources/application.yml`).
+1. Locate the configuration file for auth-server module(`backend/auth-server/src/main/resources/application.yml`).
 
 2. In the configuration file, find the `mail` section and modify the property values as shown in the example below:
 
