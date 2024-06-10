@@ -82,7 +82,7 @@ const api = {
     }),
     'postAdminLogin': (params) => axios.post(path.postAdminLogin, toFormData({ //管理员登录
         params: {
-            adminId: params.adminId,
+            account: params.adminId,
             password: params.password,
         }
     })),
@@ -135,9 +135,9 @@ const api = {
             clubId: params.clubId,
             activityName: params.activityName,
             activityIntroduction: params.activityIntroduction,
-            activityStartTime: params.activityStartTime,
-            activityEndTime: params.activityEndTime,
-            activityLocation: params.activityLocation,
+            activityStartTime: Date(params.activityStartTime),
+            activityEndTime: Date(params.activityEndTime),
+            activityLocation: Date(params.activityLocation),
             applicationFormAttachment: params.applicationFormAttachment,
             imageUrl: params.imageUrl,
         }
@@ -147,9 +147,9 @@ const api = {
             clubId: params.clubId,
             studentId: params.studentId,
             tenurePeriod: params.tenurePeriod,
-            achievements: params.achievements,
-            trainingParticipation: params.trainingParticipation,
-            awards: params.awards,
+            achievements: JSON.stringify(params.achievements),
+            trainingParticipation: JSON.stringify(params.trainingParticipation),
+            awards: JSON.stringify(params.awards),
             clubWorkStatus: params.clubWorkStatus,
         }
     })),
@@ -252,7 +252,7 @@ const api = {
             isFinancialInformationPublic: params.isFinancialInformationPublic,
             clubConstitutionAttachment: params.clubConstitutionAttachment,
             responsibleDepartment: params.responsibleDepartment,
-            publicityManagementInfo: params.publicityManagementInfo,
+            publicityManagementInfo: JSON.stringify(params.publicityManagementInfo),
         }
     })),
     'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, toFormData({ // 提交评优表
@@ -295,7 +295,7 @@ const api = {
     'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, toFormData({ // 更新社团简介
         params: {
             clubId: params.clubId,
-            clubDescription: params.clubDescription,
+            clubDescription: JSON.stringify(params.clubDescription),
         }
     })),
     'getEnumList': () => axios.get(path.getEnumList, { // 获取枚举列表
@@ -340,12 +340,12 @@ const api = {
     })),
     'getClubApproval':(params)=> axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
         params:{
-            clubId: params.clubId,
+            clubId: params,
         }
     }),
     'getClubAnnual':(params)=> axios.get(path.clubAnnual, {
         params:{
-            declarationId: params.declarationId,
+            declarationId: params,
         }
     }),
     'getThisYearClubAnnual':(params)=> axios.get(path.thisYearClubAnnual, {

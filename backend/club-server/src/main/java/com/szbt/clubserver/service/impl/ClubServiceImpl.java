@@ -2,8 +2,6 @@ package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.service.ClubService;
@@ -29,7 +27,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -63,11 +60,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         wrapper.selectAll(Club.class);
         try{
             List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
-            //处理文件请求
+            //处理文件请求 && 社团描述转json
             IntStream.range(0, clubInfoDTOS.size())
                     .forEach(i -> {
+                        Object clubDescription = clubInfoDTOS.get(i).getClubDescription();
+                        clubDescription = MyJsonParser.parserJsonText(clubDescription);
                         String imageUrl = clubInfoDTOS.get(i).getImageUrl();
                         clubInfoDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
+                        clubInfoDTOS.get(i).setClubDescription(clubDescription);
                     });
             return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
         }catch (Exception e) {
@@ -180,25 +180,20 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     public Object thisYearClubAnnual(Integer clubId, String declarationYear) {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
                 .selectAll(Club.class)
-                .select(Annualaudit::getClubConstitutionAttachment,
-                        Annualaudit::getExternalSponsorshipAttachment,
-                        Annualaudit::getMeetingActivityListAttachment,
-                        Annualaudit::getPublicityManagementInfo)
                 .select(Administrator::getDepartmentName)
                 .select(Student::getStName,Student::getContact,Student::getPoliticalStatus)
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
                 .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
-                .leftJoin(Annualaudit.class,Annualaudit::getClubId,Club::getClubId)
-                .eq(Annualaudit::getClubId, clubId)
-                .eq(Annualaudit::getDeclarationYear, declarationYear);
+                .eq(Annualaudit::getClubId, clubId);
+//                .eq(Annualaudit::getDeclarationYear, declarationYear);
         try{
             ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
-            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
-                    .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
-            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
-                    .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
-            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
-                    .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
+//            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
+//                    .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
+//            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
+//                    .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
+//            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
+//                    .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
             return Result.success(new DataVO(ResultCode.GET_THIS_YEAR_CLUB_ANNUL_INFO,clubAnnualDTO));
         }catch (Exception e){
             e.printStackTrace();
@@ -284,6 +279,9 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Annualaudit::getDeclarationId,declarationId);
         try{
             ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
+            Object publicityManagementInfo = clubAnnualDTO.getPublicityManagementInfo();
+            publicityManagementInfo = MyJsonParser.parserJsonText(publicityManagementInfo);
+            clubAnnualDTO.setPublicityManagementInfo(publicityManagementInfo);
             clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
                     .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
             clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder

@@ -34,7 +34,7 @@ function successHandler(res) {
         console.log("服务器出错!")
         return
     }
-    let response = res.data
+    let response = res.data.status ? res.data : res
     if (response.status === 200) {
         if (response.data.code === 1) { // 登录成功
             const { token, studentId } = response.data
@@ -136,7 +136,7 @@ function successHandler(res) {
         } else if (response.data.code === 35) { // 提交社团评优表成功
             eventEmitter.emit(APIEventEnum.postClubEvaluationFormSuccess)
         } else if (response.data.code === 36) { // 获取社团通知列表成功
-            const { notices } = response.data
+            const  notices  = response.data.data
             eventEmitter.emit(APIEventEnum.getClubNoticeListSuccess, notices)
         } else if (response.data.code === 37) { // 发布新通知成功
             eventEmitter.emit(APIEventEnum.postNewNoticeSuccess)
@@ -203,6 +203,7 @@ function successHandler(res) {
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassBackboneAwardsReviewSuccess)
         } else if (response.data.code === 59){  // 获取今年社团评优信息成功
+            console.log(response.data)
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getThisYearClubAnnualSuccess, data)
         } else if (response.data.code === 60){  // 通过社团年审成功

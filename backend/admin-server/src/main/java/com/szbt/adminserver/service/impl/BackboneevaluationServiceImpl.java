@@ -11,6 +11,7 @@ import org.example.entity.Clubmember;
 import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.MyJsonParser;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
 * @author 小壳儿
@@ -43,6 +45,15 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
                 .eq(Clubmember::getStudentId, Backboneevaluation::getStudentId);
         try{
             List<BackBoneEvaluationDTO> backBoneEvaluationDTOS = backboneevaluationMapper.selectJoinList(BackBoneEvaluationDTO.class, wrapper);
+            IntStream.range(0, backBoneEvaluationDTOS.size()).forEach(i->{
+                BackBoneEvaluationDTO  backBoneEvaluationDTO = backBoneEvaluationDTOS.get(i);
+                Object achievements = backBoneEvaluationDTO.getAchievements();
+                Object awards = backBoneEvaluationDTO.getAwards();
+                Object trainingParticipation = backBoneEvaluationDTO.getTrainingParticipation();
+                backBoneEvaluationDTOS.get(i).setAchievements(MyJsonParser.parserJsonText(achievements));
+                backBoneEvaluationDTOS.get(i).setAwards(MyJsonParser.parserJsonText(awards));
+                backBoneEvaluationDTOS.get(i).setTrainingParticipation(MyJsonParser.parserJsonText(trainingParticipation));
+            });
             return Result.success(new DataVO(ResultCode.GET_ALL_BACKBONE_EVALUATION, backBoneEvaluationDTOS));
         }catch (Exception e) {
             e.printStackTrace();

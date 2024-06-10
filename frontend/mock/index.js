@@ -6,8 +6,8 @@ const mock = new mockAxios(axios)
 
 // 登录mock
 mock.onPost(path.login).reply((config) => {
-    const configData = JSON.parse(config.data);
-    if (configData.params.email === 'admin@mail2.sysu.edu.cn' && configData.params.pwd === '123456') {
+    const configData = config.data;
+    if (configData.get("email") === 'admin@mail2.sysu.edu.cn' && configData.get("pwd") === '123456') {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
@@ -24,8 +24,8 @@ mock.onPost(path.login).reply((config) => {
 
 // 注册mock
 mock.onPost(path.register).reply((config) => {
-    const configData = JSON.parse(config.data);
-    if (configData.params.verifyCode === '123456') {
+    const configData = config.data;
+    if (configData.get("verifyCode") === '123456') {
         return [200, {
             code: 1, // 1代表注册/登录成功
             token: 'admin',
@@ -281,8 +281,8 @@ mock.onGet(path.clubMembers).reply((config) => {
 
 // 管理员登录mock
 mock.onPost(path.postAdminLogin).reply((config) => {
-    const configData = JSON.parse(config.data);
-    if (configData.params.adminId === 'administer' && configData.params.password === '123456') {
+    const configData = config.data;
+    if (configData.get("adminId") === 'administer' && configData.get("password") === '123456') {
         return [200, {
             code: 9, // 9代表管理员登录成功
             token: 'admin',
@@ -688,11 +688,11 @@ mock.onPost(path.activityPerformance).reply((config) => {
 
 // 获取最新活动mock
 mock.onGet(path.latestActivities).reply((config) => {
-    const activities = []
+    const data = []
     const pageSize = config.params.pageSize
     const pageNumber = config.params.pageNumber
     for (let i = 0; i < pageSize; i++) {
-        activities.push({
+        data.push({
             activityId: i,
             activityName: '活动名称' + pageNumber + i,
             imageUrl: `https://picsum.photos/400/300`,
@@ -700,15 +700,15 @@ mock.onGet(path.latestActivities).reply((config) => {
     }
     return [200, {
         code: 31, // 31代表获取最新活动成功
-        activities,
+        data,
     }]
 })
 
 // 获取十佳社团mock
 mock.onGet(path.topTenClubs).reply((config) => {
-    const clubs = []
+    const data = []
     for (let i = 0; i < 10; i++) {
-        clubs.push({
+        data.push({
             clubId: i,
             clubName: '十佳社团' + i,
             imageUrl: `https://picsum.photos/400/300?${i}`,
@@ -716,7 +716,7 @@ mock.onGet(path.topTenClubs).reply((config) => {
     }
     return [200, {
         code: 32, // 32代表获取十佳社团成功
-        clubs,
+        data,
     }]
 })
 

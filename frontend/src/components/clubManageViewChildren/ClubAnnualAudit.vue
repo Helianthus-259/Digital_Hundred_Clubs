@@ -442,10 +442,10 @@ const selectFileChangeHandler = (fileList, flag) => {
 }
 
 const submitClubAnnualAuditForm = () => {
-    if (clubAnnualAudit.clubConstitutionAttachment === '' && clubAnnualAudit.meetingActivityListAttachment === '') {
-        MessagePlugin.warning('请填写完整信息')
-        return
-    }
+    // if (clubAnnualAudit.clubConstitutionAttachment === '' && clubAnnualAudit.meetingActivityListAttachment === '') {
+    //     MessagePlugin.warning('请填写完整信息')
+    //     return
+    // }
     eventEmitter.emit(APIEventEnum.request, APIEnum.postClubAnnualAuditForm, { clubId, ...clubAnnualAudit })
 }
 

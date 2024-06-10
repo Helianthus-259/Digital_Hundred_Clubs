@@ -11,7 +11,6 @@ import org.example.enums.StatusCode;
 import org.example.util.JWTUtils;
 import org.example.util.Result;
 import org.example.vo.ALRSuccess;
-import org.example.vo.SLRSuccess;
 import org.example.vo.SendMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +30,10 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     @Autowired
     private JWTUtils jwtUtils;
     @Override
-    public Object login(String email, String password, boolean ok) {
+    public Object login(String account, String password, boolean ok) {
         if(!ok) return Result.send(StatusCode.VERIFY_MAIL_CODE_ERROR,new SendMsg("邮箱验证码错误"));
         QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("email", email);
+        queryWrapper.eq("account", account);
         Administrator administrator = administratorMapper.selectOne(queryWrapper,true);
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(administrator);
         String token;

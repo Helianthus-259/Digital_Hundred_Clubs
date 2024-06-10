@@ -14,7 +14,7 @@
                         <LazyImg :url="item.imageUrl" />
                     </div>
                     <p class="text">{{ item.clubName }}</p>
-                    <p class="text">{{ item.clubDescription.substring(0, 10) + "..." }}</p>
+                    <p class="text">{{ item.clubDescription === null ? item.clubDescription : item.clubDescription[0].content.slice(0, 10) + '...'}}</p>
                 </div>
             </template>
         </Waterfall>
@@ -41,6 +41,8 @@ if (store.state.clubsData.length > 0) {
 } else {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }
+
+console.log(clubsView.value)
 
 const handleRouter = (clubId) => {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })

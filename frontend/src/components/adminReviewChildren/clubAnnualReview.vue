@@ -134,7 +134,7 @@
                 <div class="txt">学生社团分布校园（区）</div>
               </t-col>
               <t-col id="table" :span="9">
-                <t-radio-group variant="primary-filled" :value="clubReviewInfo.mainCompus">
+                <t-radio-group variant="outline" :value="clubReviewInfo.mainCompus">
                   <t-radio-button value="广州校区南校园">广州校区南校区</t-radio-button>
                   <t-radio-button value="广州校区北校园">广州校区北校区</t-radio-button>
                   <t-radio-button value="广州校区东校园">广州校区东校区</t-radio-button>
@@ -323,7 +323,6 @@ const declarations = ref([])
 const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
-const campusList = ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"]
 const clubReviewInfo = ref({
   declarationId: null,
   clubName: '',
@@ -366,12 +365,12 @@ const detail = (data) => {
   console.log(data)
   choose.value = data
   clubReviewInfo.value.declarationId = data
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, { value: data })
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, data )
   eventEmitter.on(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess', (data) => {
     console.log(data)
     clubReviewInfo.value.clubName = data.clubName
-    clubReviewInfo.value.clubCategory = data.clubCategory
-    clubReviewInfo.value.mainCompus = campusList[data.mainCompus]
+    clubReviewInfo.value.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[data.clubCategory].name
+    clubReviewInfo.value.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
     clubReviewInfo.value.clubDescription = data.clubDescription
     clubReviewInfo.value.file = data.file
     clubReviewInfo.value.totalMembers = data.totalMembers

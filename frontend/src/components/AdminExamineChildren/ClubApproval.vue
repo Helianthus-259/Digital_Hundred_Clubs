@@ -13,9 +13,9 @@
         <t-space direction="vertical">
           <t-radio-group variant="primary-filled" v-model:value="campus" @click="search">
             <t-radio-button value="all">全部校区</t-radio-button>
-            <t-radio-button value="广州校区南校园">广州校区南校园</t-radio-button>
-            <t-radio-button value="广州校区东校园">广州校区东校园</t-radio-button>
-            <t-radio-button value="广州校区北校园">广州校区北校园</t-radio-button>
+            <t-radio-button value="广州南校园">广州南校园</t-radio-button>
+            <t-radio-button value="广州东校园">广州东校园</t-radio-button>
+            <t-radio-button value="广州北校园">广州北校园</t-radio-button>
             <t-radio-button value="深圳校区">深圳校区</t-radio-button>
             <t-radio-button value="珠海校区">珠海校区</t-radio-button>
           </t-radio-group>
@@ -35,7 +35,7 @@
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
-            <t-button theme="primary" @click="detail(row)">申请详情</t-button>
+            <t-button theme="primary" :disabled="row.clubStatus !== null" @click="detail(row)">申请详情</t-button>
           </template>
         </t-table>
       </t-space>
@@ -224,24 +224,22 @@ const universityStudentUnionReviewOpinion = ref("")
 function assignment() {
   pagination.value.total = clubsData.value.length
   data.value = clubsData.value
-  console.log(data)
+  console.log(data.value)
 }
 
-if (Object.keys(store.state.clubsData).length === 0) {
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
-} else {
-  clubsData.value = store.state.clubsData
-  data.value = clubsData.value
-  console.log(data)
-}
+eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
-  clubsData.value = data
+  clubsData.value = data.filter(item => {
+    item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
+    item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
+    return true
+  })
   assignment()
 })
 
 const search = () => {
   data.value = clubsData.value.filter((item) => {
-    return (item.status === status.value || status.value === 'all') &&
+    return (item.clubStatus === status.value || status.value === 'all') &&
       (item.mainCampus === campus.value || campus.value === 'all') &&
       (item.clubCategory === category.value || category.value === 'all');
   })
@@ -259,15 +257,15 @@ const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
   { colKey: 'mainCampus', title: '校区' },
   { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
-  { colKey: 'createTime', title: '申请时间' },
+  { colKey: 'establishmentDate', title: '申请时间' },
   {
     colKey: 'status',
     title: '审批状态',
     cell: (h, { row }) => {
       return (
-        <t-tag shape="round" theme={statusNameListMap[row.status].theme} variant="light-outline">
-          {statusNameListMap[row.status].icon}
-          {statusNameListMap[row.status].label}
+        <t-tag shape="round" theme={statusNameListMap[row.clubStatus].theme} variant="light-outline">
+          {statusNameListMap[row.clubStatus].icon}
+          {statusNameListMap[row.clubStatus].label}
         </t-tag>
       );
     },
@@ -285,7 +283,7 @@ const pagination = ref({
 const detail = (value) => {
   visibleModal.value = true;
   // 获取社团信息
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, { value: value.index })
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, value.clubId)
 
 }
 
@@ -294,12 +292,12 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
   clubInfo.value.recordId = data.recordId
   clubInfo.value.clubId = data.clubId
   clubInfo.value.clubName = data.clubName
-  clubInfo.value.clubCategory = data.clubCategory
-  clubInfo.value.mainCompus = data.mainCompus
+  clubInfo.value.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[data.clubCategory].name
+  clubInfo.value.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
   clubInfo.value.clubDescription = data.clubDescription
   clubInfo.value.attachmentUrl = data.attachmentUrl
-  clubInfo.value.adminGuideTeacher = data.administrativeGuideTeacherName
-  clubInfo.value.businessGuideTeacher = data.businessGuideTeacherName
+  clubInfo.value.adminGuideTeacher = data.adminGuideTeacher
+  clubInfo.value.businessGuideTeacher = data.businessGuideTeacher
   clubInfo.value.establishmentDate = data.establishmentDate
   clubInfo.value.contactPerson = data.contactPerson
   clubInfo.value.contactPhone = data.contactPhone

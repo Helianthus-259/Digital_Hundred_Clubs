@@ -56,6 +56,8 @@ public class AuthController {
     @PostMapping("/adminLogin")
     public Object adminLogin(String account, String password, String imageVerifyCode)
     {
+        System.out.println(account);
+        System.out.println(password);
         boolean ok = verifyCodeService.checkImageVerifyCode(imageVerifyCode);
         return administratorService.login(account,password,ok);
     }

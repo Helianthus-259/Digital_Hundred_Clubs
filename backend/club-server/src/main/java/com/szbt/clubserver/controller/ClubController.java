@@ -3,16 +3,11 @@ package com.szbt.clubserver.controller;
 import com.szbt.clubserver.service.*;
 import org.example.dto.ClubDTO;
 import org.example.entity.*;
-import org.example.service.ActivityClientService;
-import org.example.service.AdminClientService;
-import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @EnableDiscoveryClient
@@ -107,6 +102,7 @@ public class ClubController {
 
     @PostMapping("/clubAnnualAuditForm")
     public Object  clubAnnualAuditForm(@ModelAttribute Annualaudit annualaudit){
+        System.out.println(annualaudit.getPublicityManagementInfo());
         return annualauditService.clubAnnualAuditForm(annualaudit);
     }
 

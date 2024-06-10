@@ -106,11 +106,11 @@
                     </t-tag>
                 </template>
                 <template #operations="{ row }">
-                    <t-link :disabled="row.status !== 0" hover="underline" theme="primary" content="同意"
+                    <t-link :disabled="row.status !== null" hover="underline" theme="primary" content="同意"
                         @click="agreeApply(row)">
                     </t-link>
                     &nbsp;&nbsp;
-                    <t-link :disabled="row.status !== 0" hover="underline" theme="primary" content="拒绝"
+                    <t-link :disabled="row.status !== null" hover="underline" theme="primary" content="拒绝"
                         @click="rejectApply(row)">
                     </t-link>
                 </template>
@@ -137,9 +137,9 @@ import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
 
 const statusNameListMap = {
-    0: { label: '待审核', theme: 'primary', icon: 'error-circle-filled' },
+    null: { label: '待审核', theme: 'primary', icon: 'error-circle-filled' },
     1: { label: '已通过', theme: 'success', icon: 'check-circle-filled' },
-    2: { label: '未通过', theme: 'danger', icon: 'close-circle-filled' },
+    0: { label: '未通过', theme: 'danger', icon: 'close-circle-filled' },
 };
 
 
@@ -173,15 +173,17 @@ const handlePoliticalStatusChange = (value) => {
 // 查询
 const handleSearch = () => {
     applyViewList.value = applyList.value.filter(item => {
-        if (statusSelect.value === '' && collegeSelect.value === '' && politicalStatusSelect.value === '') {
-            return true
-        }
-        return (
-            item.status === statusSelect.value ||
-            item.college === collegeSelect.value ||
-            item.politicalStatus === politicalStatusSelect.value
-        )
+      return true
+        // if (statusSelect.value === '' && collegeSelect.value === '' && politicalStatusSelect.value === '') {
+        //     return true
+        // }
+        // return (
+        //     item.status === statusSelect.value ||
+        //     item.college === collegeSelect.value ||
+        //     item.politicalStatus === politicalStatusSelect.value
+        // )
     })
+  console.log(applyViewList.value)
 };
 // 重置查询选项
 const handleReset = () => {

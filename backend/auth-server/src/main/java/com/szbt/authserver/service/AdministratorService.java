@@ -9,6 +9,6 @@ import org.example.entity.Administrator;
 * @createDate 2024-05-25 22:02:01
 */
 public interface AdministratorService extends IService<Administrator> {
-    Object login(String email, String password, boolean ok);
+    Object login(String account, String password, boolean ok);
     Object register(String account, String password);
 }
