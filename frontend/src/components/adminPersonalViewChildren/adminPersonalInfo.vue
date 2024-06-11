@@ -164,7 +164,7 @@ if (isEmptyObject(store.state.userInfo)) {
 
 
 //初次加载界面时借此获取信息
-eventEmitter.on(APIEventEnum.getAdminInfoSuccess, (data) => {
+eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) => {
     user.value = data
     assignment()
 })

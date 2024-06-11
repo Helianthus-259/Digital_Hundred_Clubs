@@ -56,7 +56,20 @@ mock.onGet(path.clubsInfo).reply((config) => {
         data.push({
             imageUrl: `https://picsum.photos/${width}/${height}?${i}`,
             clubName: `社团${i}`,
-            clubDescription: `社团${i}介绍`,
+            clubDescription: [
+                {
+                    title:'社团介绍',
+                    content:`社团${i}是一个xxx的社团`
+                },
+                {
+                    title:'社团描述',
+                    content:`社团${i}有xxx创建`
+                },
+                {
+                    title:'社团获奖',
+                    content:`社团${i}拿了xx奖项`
+                }
+            ],
             mainCampus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
@@ -282,13 +295,12 @@ mock.onGet(path.clubMembers).reply((config) => {
 // 管理员登录mock
 mock.onPost(path.postAdminLogin).reply((config) => {
     const configData = config.data;
-    if (configData.get("adminId") === 'administer' && configData.get("password") === '123456') {
-        return [200, {
+    if (configData.get("account") === 'administer' && configData.get("password") === '123456') {
+        return [200,{
             code: 9, // 9代表管理员登录成功
             token: 'admin',
             uid: 1,
-        }
-        ]
+        }]
     }
     else {
         return [1000, {
@@ -357,12 +369,12 @@ mock.onPost(path.adminInfoUpdate).reply((config) => {
 mock.onGet(path.activityInfo).reply((config) => {
     return [200, {
         code: 12, // 12代表获取活动信息
-        activity: {
+        data: {
             activityId: 1,
             clubName: '社团名称',
             activityName: '活动名称',
             activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
-            createTime: '2023-04-19 12:00:00',
+            activityPublishTime: '2023-04-19 12:00:00',
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
