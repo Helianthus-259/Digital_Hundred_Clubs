@@ -54,9 +54,9 @@
                                 <t-form-item label="申请状态">
                                     <t-select v-model="statusSelect" @change="handleStatusChange" style="width: 100%;"
                                         placeholder="请选择">
-                                        <t-option :value="0" label="待审核"></t-option>
+                                        <t-option :value="null" label="待审核"></t-option>
                                         <t-option :value="1" label="已通过"></t-option>
-                                        <t-option :value="2" label="未通过"></t-option>
+                                        <t-option :value="0" label="未通过"></t-option>
                                     </t-select>
                                 </t-form-item>
                             </t-form>
@@ -152,7 +152,7 @@ const dialogRef = ref(null)
 const applyList = ref([])
 const applyViewList = ref([])
 // 选择查询
-const statusSelect = ref(0)
+const statusSelect = ref('')
 
 const handleStatusChange = (value) => {
     statusSelect.value = value
@@ -174,15 +174,14 @@ const handlePoliticalStatusChange = (value) => {
 // 查询
 const handleSearch = () => {
     applyViewList.value = applyList.value.filter(item => {
-      return true
-        // if (statusSelect.value === '' && collegeSelect.value === '' && politicalStatusSelect.value === '') {
-        //     return true
-        // }
-        // return (
-        //     item.status === statusSelect.value ||
-        //     item.college === collegeSelect.value ||
-        //     item.politicalStatus === politicalStatusSelect.value
-        // )
+        if (statusSelect.value === '' && collegeSelect.value === '' && politicalStatusSelect.value === '') {
+            return true
+        }
+        return (
+            item.status === statusSelect.value ||
+            item.college === collegeSelect.value ||
+            item.politicalStatus === politicalStatusSelect.value
+        )
     })
   console.log(applyViewList.value)
 };

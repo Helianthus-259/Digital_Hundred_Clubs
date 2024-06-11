@@ -135,9 +135,9 @@ const api = {
             clubId: params.clubId,
             activityName: params.activityName,
             activityIntroduction: params.activityIntroduction,
-            activityStartTime: Date(params.activityStartTime),
-            activityEndTime: Date(params.activityEndTime),
-            activityLocation: Date(params.activityLocation),
+            activityStartTime: new Date(params.activityStartTime),
+            activityEndTime: new Date(params.activityEndTime),
+            activityLocation: params.activityLocation,
             applicationFormAttachment: params.applicationFormAttachment,
             imageUrl: params.imageUrl,
         }
@@ -197,8 +197,9 @@ const api = {
     })),
     'postUpdateClubInfo': (params) => axios.post(path.updateClubInfo, toFormData({ // 更新社团信息
         params: {
+            clubId: params.clubId,
             clubName: params.clubName,
-            establishmentDate: params.establishmentDate,
+            establishmentDate: new Date(params.establishmentDate),
             clubCategory: params.clubCategory,
             responsibleDepartment: params.responsibleDepartment,
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
@@ -284,7 +285,7 @@ const api = {
     'postNewMeeting': (params) => axios.post(path.newMeeting, toFormData({ // 添加社团会议
         params: {
             clubId: params.clubId,
-            meetingTime: params.meetingTime,
+            meetingTime: new Date(params.meetingTime),
             location: params.location,
             category: params.category,
             advisorName: params.advisorName,
