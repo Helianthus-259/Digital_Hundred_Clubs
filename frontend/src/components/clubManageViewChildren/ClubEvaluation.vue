@@ -106,7 +106,8 @@
                         <div class="text">学生社团骨干人数</div>
                     </t-col>
                     <t-col :span="3" id="table">
-                        {{ clubEvaluation.backboneNumber }}
+                        <t-input v-model="clubEvaluation.backboneNumber" style="width: 60%;" borderless
+                            align="center" />
                     </t-col>
                 </t-row>
                 <t-row id="table">
@@ -114,7 +115,8 @@
                         <div class="text">学生骨干是中共党员、入党积极分子或提交入党申请书人数</div>
                     </t-col>
                     <t-col :span="3" id="table">
-                        {{ clubEvaluation.communistRelatedBackBoneNumber }}
+                        <t-input v-model="clubEvaluation.communistRelatedBackBoneNumber" style="width: 60%;" borderless
+                            align="center" />
                     </t-col>
                 </t-row>
                 <t-row id="table">
@@ -609,7 +611,14 @@ const clubEvaluation = reactive({
 
 const clubEvaluationValidate = () => {
     let flag = true
-    if (clubEvaluation.handoverMethod === '') {
+    if (clubEvaluation.backboneNumber === '') {
+        flag = false
+        MessagePlugin.warning('请输入骨干人数')
+    } else if (clubEvaluation.communistRelatedBackBoneNumber === '') {
+        flag = false
+        MessagePlugin.warning('请输入骨干是中共党员、入党积极分子或提交入党申请书人数')
+    }
+    else if (clubEvaluation.handoverMethod === '') {
         flag = false
         MessagePlugin.warning('请输入换届方式')
     } else if (clubEvaluation.handoverParticipantsCount === '') {
@@ -757,8 +766,6 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
         clubEvaluation.clubName = data.clubName
         clubEvaluation.totalMembers = data.totalMembers
-        clubEvaluation.backboneNumber = data.backboneNumber
-        clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
         clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
         clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
