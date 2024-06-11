@@ -153,11 +153,11 @@ const api = {
             clubWorkStatus: params.clubWorkStatus,
         }
     })),
-    'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
-        params: {
-            clubId: params.clubId,
-        }
-    }),
+    // 'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
+    //     params: {
+    //         clubId: params.clubId,
+    //     }
+    // }),
     'getBackBoneEvaluations': (params) => axios.get(path.backBoneEvaluations, {
 
     }),
@@ -259,11 +259,15 @@ const api = {
     'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, toFormData({ // 提交评优表
         params: {
             clubId: params.clubId,
+            backboneNumber: params.backboneNumber,
+            communistRelatedBackBoneNumber: params.communistRelatedBackBoneNumber,
             handoverMethod: params.handoverMethod,
             handoverParticipantsCount: params.handoverParticipantsCount,
+            associationAwards: JSON.stringify(params.associationAwards),
+            meetings: JSON.stringify(params.meetings),
             advisorParticipation: params.advisorParticipation,
-            publicityManagementEffectiveness: params.publicityManagementEffectiveness,
-            hostedSchoolLevelActivities: params.hostedSchoolLevelActivities,
+            publicityManagementEffectiveness: JSON.stringify(params.publicityManagementEffectiveness),
+            hostedSchoolLevelActivities: JSON.stringify(params.hostedSchoolLevelActivities),
             clubWorkIntroduction: params.clubWorkIntroduction,
             clubEducationCaseAttachment: params.clubEducationCaseAttachment,
             imageUrl: params.imageUrl,
@@ -357,7 +361,7 @@ const api = {
     }),
     'getClubAwardInfo':(params)=>axios.get(path.clubAward, {
         params:{
-            recordId: params.recordId,
+            recordId: params,
         }
     }),
     'getClubInfo':(params)=>axios.get(path.clubInfo, {

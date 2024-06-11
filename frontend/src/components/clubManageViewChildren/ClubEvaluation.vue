@@ -750,6 +750,7 @@ const selectChangeHandler = (fileList) => {
 }
 
 const submitClubEvaluation = () => {
+    console.log(clubEvaluation)
     if (clubEvaluationValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postClubEvaluationForm, { clubId, ...clubEvaluation })
     }
@@ -757,13 +758,13 @@ const submitClubEvaluation = () => {
 
 onMounted(() => {
     // 获取社团信息
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
 
     eventEmitter.emit(APIEventEnum.request, APIEnum.getAssociationAwards, { clubId })
 
     eventEmitter.emit(APIEventEnum.request, APIEnum.getMeetings, { clubId })
 
-    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
+    eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
         clubEvaluation.clubName = data.clubName
         clubEvaluation.totalMembers = data.totalMembers
         clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
