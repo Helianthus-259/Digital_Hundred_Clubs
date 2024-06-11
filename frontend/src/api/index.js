@@ -99,7 +99,7 @@ const api = {
     'postAdminInfo': (params) => axios.post(path.adminInfoUpdate, toFormData({ // 更新管理员信息
         params: {
             adminId: params.adminId,
-            clubIntroduction: params.clubIntroduction,
+            contact: params.contact,
         }
     })),
     'getActivitiesInfo': (params) => axios.get(path.activitiesInfo, { // 获取活动信息

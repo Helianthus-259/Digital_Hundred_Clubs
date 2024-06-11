@@ -44,7 +44,7 @@
 
       <div class="user-left-greeting">
         <div>
-          Hi，{{ affiliatedUnit }}管理员{{adminId}}
+          Hi，{{ admin.affiliateUnit }}管理员{{admin.account}}
           <span class="regular">欢迎使用数字百团！</span>
         </div>
         <img src="@/assets/数字百团logo.png" class="logo" />
@@ -63,15 +63,15 @@
         <t-descriptions bordered :column="4">
 
           <t-descriptions-item label="管理员id">
-            {{adminId}}
+            {{admin.adminId}}
           </t-descriptions-item>
           
           <t-descriptions-item label="管理员等级">
-            {{sort}}
+            {{admin.sort === 0 ? '学院管理员' :'校级管理员'}}
           </t-descriptions-item>
 
           <t-descriptions-item label="联系方式">
-            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="contact" />  
+            <t-auto-complete :disabled="readOnly" v-model="admin.contact" />
           </t-descriptions-item>
 
           <t-descriptions-item label="管理社团数">
@@ -87,13 +87,13 @@
             {{item.clubName}}
           </t-descriptions-item>
           <t-descriptions-item label="附属单位">
-            {{affiliatedUnit}}
+            {{admin.affiliateUnit}}
           </t-descriptions-item>
           <t-descriptions-item label="主部所在校区">
             {{item.location}}
           </t-descriptions-item>
           <t-descriptions-item label="社团类别">
-            {{item.clubSort}}
+            {{item.clubCategory}}
           </t-descriptions-item>
           <t-descriptions-item label="社团简介">
             {{item.clubIntroduction}}
@@ -121,66 +121,46 @@ function isEmptyObject(obj) {
 }
 
 // 展示个人信息
-const adminId = ref('默认adminId')
-const sort = ref('')
-const contact = ref('')
-const affiliatedUnit=ref('')
-
-const user = ref({})
+const admin = ref({
+    account:'',
+    adminId:'',
+    affiliateUnit:'',
+    clubs:[],
+    contact:'',
+    sort:'',
+})
 let clubInfo = []
 
 const readOnly = ref(true)
 const buttonText=ref('编辑')
-
-// 为上面定义的变量赋值
-function assignment() {
-    adminId.value = user.value.adminId
-    sort.value = transferSort(user.value.sort)
-    contact.value = user.value.contact
-    affiliatedUnit.value = user.value.affiliatedUnit
-
-    clubInfo = user.value.clubs
-}
-
-function transferSort(sortNumber) {
-  return sortNumber===0 ? '学院管理员' :'校级管理员'
-}
 
 function whileClick() {
   //此处管理可编辑状态，实现保存功能
   readOnly.value = !readOnly.value
   buttonText.value = (readOnly.value) ? '编辑' : '保存'
   if( readOnly.value ) {
-    save()
+      save()
   }
 }
 
 if (isEmptyObject(store.state.userInfo)) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
 } else {
-  user.value = store.state.userInfo;
-  assignment();
+  admin.value = store.state.userInfo;
 }
 
 
 //初次加载界面时借此获取信息
 eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) => {
-    user.value = data
-    assignment()
+    admin.value = data
 })
 
 function save() {
-    console.log("准备保存数据……")
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminInfo, {
         adminId: store.state.adminId,
-        contact: contact.value,
+        contact: admin.value.contact,
     })
-    user.value.contact = contact.value
-    user.value.email = email.value
-    user.value.clubs.businessAdvisorName=businessAdvisorName.value
-    user.value.clubs.administrativeAdvisorName=administrativeAdvisorName.value
-    user.value.clubs.location=schoolLocation.value
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setAdminInfo, user.value)
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setUserInfo, admin.value)
 }
 </script>
   

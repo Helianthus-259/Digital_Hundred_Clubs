@@ -45,7 +45,7 @@
 
       <div class="user-left-greeting">
         <div>
-          Hi，{{ user.affiliatedUnit }}管理员{{user.adminId}}
+          Hi，{{ admin.affiliatedUnit }}管理员{{ admin.account }}
           <span class="regular">欢迎使用数字百团！</span>
         </div>
         <img src="@/assets/数字百团logo.png" class="logo" />
@@ -68,7 +68,7 @@
           </t-descriptions-item>
 
           <t-descriptions-item label="附属单位">
-            {{user.affiliatedUnit}}
+            {{ admin.affiliatedUnit }}
           </t-descriptions-item>
 
           <t-descriptions-item label="社团总人数">
@@ -152,66 +152,33 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
-// // 展示个人信息
-// const affiliatedUnit = ref('')
-// const affiliatedUnitId = ref('')
-// const totalMembership = ref('')
-// const clubName = ref('')
-// const establishedTime = ref('')
-// const clubSort =ref('')
-// const businessAdvisorName = ref('')
-// const administrativeAdvisorName = ref('')
-// const location = ref('')
-// const financePublicity = ref('')
-// const clubEmail = ref('')
-// const adminId = ref('')
-
-const user = ref({})
-// const clubInfo=ref({})
+const admin = ref({})
 let clubInfo = []
 
-// 为上面定义的变量赋值
-// function assignment() {
-//     adminId.value = user.value.adminId
-//     affiliatedUnit.value = user.value.affiliatedUnit
-//     clubInfo.value = user.value.clubs
-//     affiliatedUnitId.value = clubInfo.value.affiliatedUnitId
-//     establishedTime.value=clubInfo.value.establishedTime
-//     clubSort.value=clubInfo.value.clubSort
-//     totalMembership.value = clubInfo.value.totalMembership
-//     clubName.value = clubInfo.value.clubName
-//     financePublicity.value = clubInfo.value.financePublicity
-//     location.value = clubInfo.value.location
-//     administrativeAdvisorName.value = clubInfo.value.administrativeAdvisorName
-//     businessAdvisorName.value=clubInfo.value.businessAdvisorName
-//     clubEmail.value = clubInfo.value.clubEmail
-// }
 
 if (isEmptyObject(store.state.userInfo)) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
 } else {
   console.log("userInfo已经获取信息！")
-  user.value = store.state.userInfo;
-  clubInfo=user.value.clubs;
-  // assignment();
+  admin.value = store.state.userInfo;
+  clubInfo=admin.value.clubs;
 }
 
 //初次加载界面时借此获取信息
-eventEmitter.on(APIEventEnum.getAdminInfoSuccess, (data) => {
-    user.value = data;
-    // assignment()
+eventEmitter.on(APIEventEnum.getAdminInfoSuccess,'getAdminInfoSuccess', (data) => {
+    admin.value = data;
 })
 
 function save() {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminInfo, {
         adminId: store.state.adminId,
     })
-    user.value.clubs.businessAdvisorName=businessAdvisorName.value
-    user.value.clubs.administrativeAdvisorName=administrativeAdvisorName.value
-    user.value.clubs.location=location.value
-    user.value.clubs.financePublicity=financePublicity.value
-    user.value.clubs.clubEmail=clubEmail.value
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubsData, user.value)
+    admin.value.clubs.businessAdvisorName=businessAdvisorName.value
+    admin.value.clubs.administrativeAdvisorName=administrativeAdvisorName.value
+    admin.value.clubs.location=location.value
+    admin.value.clubs.financePublicity=financePublicity.value
+    admin.value.clubs.clubEmail=clubEmail.value
+    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubsData, admin.value)
 }
 
 const readOnly = ref(true)
@@ -224,7 +191,6 @@ function whileClick() {
   if( readOnly.value ) {
     save()
   }
-
 }
 
 </script>

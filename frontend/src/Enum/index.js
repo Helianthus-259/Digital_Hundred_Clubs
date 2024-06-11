@@ -160,6 +160,7 @@ export const StoreEnum = {
     setClubId: 'setClubId',
     setAdminInfo: 'setAdminInfo',
     reset: 'reset',
+    setAdminInit:'setAdminInit',
 }
 
 // 展示的社团类型

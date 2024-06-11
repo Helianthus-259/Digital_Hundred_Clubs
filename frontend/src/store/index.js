@@ -54,6 +54,11 @@ const store = createStore({
             state.studentId = studentId
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'personal', value: studentId })
         },
+        setAdminInit(state, { token, adminId }) { // 保存token和adminId
+            state.token = token
+            sessionStorage.setItem('token', token)
+            state.adminId = adminId
+        },
         setClubsData(state, clubsData) { // 保存获取的社团信息
             state.clubsData = clubsData
         },
@@ -114,6 +119,7 @@ const store = createStore({
             }
             state.clubsActAndNtc = {}
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setInit, { token: '', studentId: -1 })
+            eventEmitter.emit(StoreEventEnum.set, StoreEnum.setAdminInit, { token: '', adminId: -1 })
         }
     },
     getters: {
