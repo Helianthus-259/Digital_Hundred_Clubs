@@ -147,18 +147,26 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
 
     @Override
     public Object updateClubDescription(Club club) {
-        int updateById = clubMapper.updateById(club);
-        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_DESCRIPTION_ERROR,new SendMsg("更新社团简介失败"));
-        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_DESCRIPTION));
+        try{
+            int updateById = clubMapper.updateById(club);
+            if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_DESCRIPTION));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.UPDATE_CLUB_DESCRIPTION_ERROR,new SendMsg("更新社团简介失败"));
     }
 
     @Override
     public Object updateClubInfo(Club club) {
         Date date = new Date();
         club.setEstablishmentDate(date);
-        int updateById = clubMapper.updateById(club);
-        if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
-        return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
+        try{
+            int updateById = clubMapper.updateById(club);
+            if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.UPDATE_CLUB_INFO_ERROR,new SendMsg("更新社团信息失败"));
     }
 
     @Override

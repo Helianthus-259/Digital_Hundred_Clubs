@@ -40,9 +40,13 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
     public Object clubEvaluationForm(Studentclubevaluation studentclubevaluation) {
         Calendar calendar = Calendar.getInstance();
         studentclubevaluation.setDeclarationYear(calendar.get(Calendar.YEAR));
-        int inserted = studentclubevaluationMapper.insert(studentclubevaluation);
-        if (inserted<=0) return Result.send(StatusCode.ADD_CLUB_EVALUATION_ERROR, new SendMsg("提交社团评优失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_EVALUATION));
+        try{
+            int inserted = studentclubevaluationMapper.insert(studentclubevaluation);
+            if (inserted>0) return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_EVALUATION));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_CLUB_EVALUATION_ERROR, new SendMsg("提交社团评优失败"));
     }
 
     @Override

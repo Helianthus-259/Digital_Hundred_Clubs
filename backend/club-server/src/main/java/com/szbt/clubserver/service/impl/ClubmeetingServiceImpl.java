@@ -29,9 +29,13 @@ public class ClubmeetingServiceImpl extends ServiceImpl<ClubmeetingMapper, Clubm
     private ClubmeetingMapper clubmeetingMapper;
     @Override
     public Object newMeeting(Clubmeeting clubmeeting) {
-        int inserted = clubmeetingMapper.insert(clubmeeting);
-        if (inserted<=0) return Result.send(StatusCode.ADD_MEETING_ERROR,new SendMsg("提交新会议失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_MEETING));
+        try{
+            int inserted = clubmeetingMapper.insert(clubmeeting);
+            if (inserted>0) return Result.success(new SingleCodeVO(ResultCode.ADD_MEETING));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_MEETING_ERROR,new SendMsg("提交新会议失败"));
     }
 
     @Override
@@ -43,7 +47,7 @@ public class ClubmeetingServiceImpl extends ServiceImpl<ClubmeetingMapper, Clubm
             List<Clubmeeting> clubMeetings = clubmeetingMapper.selectList(wrapper);
             return Result.success(new DataVO(ResultCode.GET_CLUB_MEETINGS, clubMeetings));
         }catch (Exception e){
-            String exceptionAsString = e.toString();
+            e.printStackTrace();
             return Result.send(StatusCode.GET_CLUB_MEETINGS_ERROR,new SendMsg("获取社团会议列表失败"));
         }
     }

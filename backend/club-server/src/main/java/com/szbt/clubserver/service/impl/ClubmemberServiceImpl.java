@@ -33,8 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.example.constants.FileConstants.fileServerDownloadUrl;
-
 /**
 * @author 小壳儿
 * @description 针对表【clubmember】的数据库操作Service实现
@@ -166,11 +164,15 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
                 .selectAll(Clubmember.class)
                 .eq(Clubmember::getClubId, clubmember.getClubId())
                 .eq(Clubmember::getStudentId, clubmember.getStudentId());
-        Clubmember newClubMember  = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
-        newClubMember.setPosition(clubmember.getPosition());
-        int updateById = clubmemberMapper.updateById(newClubMember);
-        if (updateById<=0) return Result.send(StatusCode.ADD_CLUB_MEMBER_ERROR,new SendMsg("新增干部失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBER));
+        try{
+            Clubmember newClubMember = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
+            newClubMember.setPosition(clubmember.getPosition());
+            int updateById = clubmemberMapper.updateById(newClubMember);
+            if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBER));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_CLUB_MEMBER_ERROR,new SendMsg("新增干部失败"));
     }
 
     @Override

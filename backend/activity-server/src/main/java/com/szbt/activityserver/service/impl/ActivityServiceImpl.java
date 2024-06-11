@@ -94,9 +94,14 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     public List<ActivityDTO> activitiesInfo() {
         MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
                 .selectAll(Activity.class);
-        List<ActivityDTO> activity = activityMapper.selectJoinList(ActivityDTO.class, wrapper);
-        System.out.println(activity);
-        return activity;
+        try{
+            List<ActivityDTO> activity = activityMapper.selectJoinList(ActivityDTO.class, wrapper);
+            System.out.println(activity);
+            return activity;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -124,16 +129,24 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     public Object addActivity(Activity activity) {
         Date date = new Date();
         activity.setActivityPublishTime(date);
-        int inserted = activityMapper.insert(activity);
-        if (inserted<=0) return Result.send(StatusCode.ADD_ACTIVITY_ERROR,new SendMsg("提交新活动失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_ACTIVITY));
+        try{
+            int inserted = activityMapper.insert(activity);
+            if (inserted > 0) return Result.success(new SingleCodeVO(ResultCode.ADD_ACTIVITY));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_ACTIVITY_ERROR,new SendMsg("提交新活动失败"));
     }
 
     @Override
     public Object activityPerformance(Activity activity) {
-        int updateById = activityMapper.updateById(activity);
-        if (updateById<=0) return Result.send(StatusCode.ADD_ACTIVITY_PERFORMANCE_ERROR,new SendMsg("更新社团活动成效"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
+        try{
+            int updateById = activityMapper.updateById(activity);
+            if (updateById > 0) return Result.success(new SingleCodeVO(ResultCode.ADD_activityPerformance));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_ACTIVITY_PERFORMANCE_ERROR,new SendMsg("更新社团活动成效失败"));
     }
 
     @Override

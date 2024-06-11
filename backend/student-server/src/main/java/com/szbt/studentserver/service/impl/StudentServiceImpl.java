@@ -51,10 +51,14 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         Student student = new Student();
         student.setStudentId(studentId);
         student.setImageUrl(relativePath);
-        int ok = studentMapper.updateById(student);
-        System.out.println(ok);
-        if (ok<=0) return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
-        return Result.success(new UploadSuccess(relativePath));
+        try{
+            int ok = studentMapper.updateById(student);
+            System.out.println(ok);
+            if (ok>0) return Result.success(new UploadSuccess(relativePath));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.UPLOAD_FILE_ERROR,new SendMsg("上传文件失败"));
     }
 
     @Override
@@ -79,9 +83,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
 
     @Override
     public Object studentInfoUpdate(Student student) {
-        int updateById = studentMapper.updateById(student);
-        if (updateById<=0) return Result.send(StatusCode.UPDATE_STUDENT_INFO_ERROR,new SendMsg("更新学生信息失败"));
-        return Result.success(new SingleCodeVO(ResultCode.UPDATE_USER_INFO));
+        try{
+            int updateById = studentMapper.updateById(student);
+            if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_USER_INFO));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.UPDATE_STUDENT_INFO_ERROR,new SendMsg("更新学生信息失败"));
     }
 
     @Override
@@ -89,9 +97,14 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
         MPJLambdaWrapper<Student> wrapper = new MPJLambdaWrapper<Student>()
                 .selectAll(Student.class)
                 .in(Student::getStudentNumber, number);
-        List<Student> studentList = studentMapper.selectJoinList(Student.class, wrapper);
-        System.out.println(studentList);
-        return studentList;
+        try{
+            List<Student> studentList = studentMapper.selectJoinList(Student.class, wrapper);
+            System.out.println(studentList);
+            return studentList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 //    @Autowired

@@ -63,9 +63,13 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
     @Override
     public Object joinClub(ClubMembershipApplication clubMembershipApplication) {
         clubMembershipApplication.setCreateTime(new Date());
-        int insertById = clubMembershipApplicationMapper.insert(clubMembershipApplication);
-        if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_MEMBERSHIP_APPLICATION_ERROR,new SendMsg("申请加入社团失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBERSHIP_APPLICATION));
+        try{
+            int insertById = clubMembershipApplicationMapper.insert(clubMembershipApplication);
+            if(insertById>0) return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_MEMBERSHIP_APPLICATION));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_CLUB_MEMBERSHIP_APPLICATION_ERROR,new SendMsg("申请加入社团失败"));
     }
 
     @Override
@@ -75,11 +79,16 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
                 .selectAll(ClubMembershipApplication.class)
                 .eq(ClubMembershipApplication::getClubId, club.getClubId())
                 .eq(ClubMembershipApplication::getStudentId, studentId);
-        ClubMembershipApplication clubMembershipApplication = clubMembershipApplicationMapper.selectOne(wrapper);
-        System.out.println(clubMembershipApplication);
-        clubMembershipApplication.setStatus(1); // 设置为通过
-        int updateById =  clubMembershipApplicationMapper.updateById(clubMembershipApplication);
-        if(updateById<=0)  return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
+        try{
+            ClubMembershipApplication clubMembershipApplication = clubMembershipApplicationMapper.selectOne(wrapper);
+            System.out.println(clubMembershipApplication);
+            clubMembershipApplication.setStatus(1); // 设置为通过
+            int updateById =  clubMembershipApplicationMapper.updateById(clubMembershipApplication);
+            if(updateById<=0)  return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
+        }
 
         // 新增社团成员表
         // 设置数据
@@ -90,9 +99,14 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
         clubmember.setPosition(Position.MEMBER.getCode());
         clubmember.setJoinDate(new Date());
         // 新增
-        int insetById = clubmemberMapper.insert(clubmember);
-        if(insetById<=0) return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
-        return  Result.success(new DataVO(ResultCode.AGREE_CLUB_APPLY, studentId));
+        try{
+            int insetById = clubmemberMapper.insert(clubmember);
+            if(insetById<=0) return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.send(StatusCode.AGREE_CLUB_APPLY_ERROR,new SendMsg("同意加入社团申请失败"));
+        }
+        return Result.success(new DataVO(ResultCode.AGREE_CLUB_APPLY, studentId));
     }
 
     @Override
@@ -101,13 +115,17 @@ public class ClubMembershipApplicationServiceImpl extends ServiceImpl<ClubMember
                 .selectAll(ClubMembershipApplication.class)
                 .eq(ClubMembershipApplication::getClubId, clubId)
                 .eq(ClubMembershipApplication::getStudentId, studentId);
-        ClubMembershipApplication clubMembershipApplication = clubMembershipApplicationMapper.selectOne(wrapper);
-        System.out.println(clubMembershipApplication);
-        clubMembershipApplication.setStatus(0); // 设置为未通过
-        clubMembershipApplication.setRejectReason(rejectReason);    // 设置拒绝理由
-        int updateById =  clubMembershipApplicationMapper.updateById(clubMembershipApplication);
-        if(updateById<=0)  return Result.send(StatusCode.REJECT_CLUB_APPLY_ERROR,new SendMsg("拒绝加入社团申请失败"));
-        return  Result.success(new DataVO(ResultCode.REJECT_CLUB_APPLY, studentId));
+        try{
+            ClubMembershipApplication clubMembershipApplication = clubMembershipApplicationMapper.selectOne(wrapper);
+            System.out.println(clubMembershipApplication);
+            clubMembershipApplication.setStatus(0); // 设置为未通过
+            clubMembershipApplication.setRejectReason(rejectReason);    // 设置拒绝理由
+            int updateById =  clubMembershipApplicationMapper.updateById(clubMembershipApplication);
+            if(updateById>0)  return Result.success(new DataVO(ResultCode.REJECT_CLUB_APPLY, studentId));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.REJECT_CLUB_APPLY_ERROR,new SendMsg("拒绝加入社团申请失败"));
     }
 }
 

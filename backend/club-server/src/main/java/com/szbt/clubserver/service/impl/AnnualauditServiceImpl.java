@@ -1,15 +1,12 @@
 package com.szbt.clubserver.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.AnnualauditMapper;
 import com.szbt.clubserver.service.AnnualauditService;
-import org.example.dto.SingleClubEvaluationDTO;
-import org.example.entity.*;
+import org.example.entity.Annualaudit;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
-import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +30,13 @@ public class AnnualauditServiceImpl extends ServiceImpl<AnnualauditMapper, Annua
     public Object clubAnnualAuditForm(Annualaudit annualaudit) {
         Calendar calendar = Calendar.getInstance();
         annualaudit.setDeclarationYear(calendar.get(Calendar.YEAR));
-        int inserted = annualauditMapper.insert(annualaudit);
-        if (inserted<=0) return Result.send(StatusCode.ADD_CLUB_ANNUAL_AUDIT_ERROR, new SendMsg("提交社团年审失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_ANNUAL_AUDIT));
+        try{
+            int inserted = annualauditMapper.insert(annualaudit);
+            if (inserted>0) return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_ANNUAL_AUDIT));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_CLUB_ANNUAL_AUDIT_ERROR, new SendMsg("提交社团年审失败"));
     }
 }
 

@@ -27,8 +27,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.example.constants.FileConstants.fileServerDownloadUrl;
-
 /**
 * @author 小壳儿
 * @description 针对表【clubannouncement】的数据库操作Service实现
@@ -76,9 +74,13 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
     public Object newNotice(Clubannouncement clubannouncement) {
         Date date = new Date();
         clubannouncement.setPublishTime(date);
-        int inserted = clubannouncementMapper.insert(clubannouncement);
-        if (inserted<=0) return Result.send(StatusCode.ADD_NOTICE_ERROR, new SendMsg("发布新通知失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_NOTICE));
+        try{
+            int inserted = clubannouncementMapper.insert(clubannouncement);
+            if (inserted>0) return Result.success(new SingleCodeVO(ResultCode.ADD_NOTICE));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_NOTICE_ERROR, new SendMsg("发布新通知失败"));
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                 .selectAll(Clubannouncement.class)
                 .eq(Clubannouncement::getClubId,clubId);
         try{
-            List<Clubannouncement>  clubannouncementList = clubannouncementMapper.selectJoinList(Clubannouncement.class,wrapper);
+            List<Clubannouncement> clubannouncementList = clubannouncementMapper.selectJoinList(Clubannouncement.class,wrapper);
             return Result.success(new DataVO(ResultCode.GET_CLUB_NOTICE_LIST,  clubannouncementList));
         }catch (Exception e){
             String exceptionAsString = e.toString();

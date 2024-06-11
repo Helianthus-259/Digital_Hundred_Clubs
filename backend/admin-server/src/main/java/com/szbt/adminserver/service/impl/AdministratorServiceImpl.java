@@ -3,11 +3,10 @@ package com.szbt.adminserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.szbt.adminserver.dao.mapper.AdministratorMapper;
 import com.szbt.adminserver.service.AdministratorService;
 import org.example.dto.AdminClubDTO;
-import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Administrator;
-import com.szbt.adminserver.dao.mapper.AdministratorMapper;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
@@ -37,9 +36,13 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     ModelMapper modelMapper;
     @Override
     public Object updateAdminInfo(Administrator administrator) {
-        int updateById = administratorMapper.updateById(administrator);
-        if(updateById<=0) return Result.send(StatusCode.UPDATE_ADMIN_INFO_ERROR,new SendMsg("更新管理员信息失败"));
-        return Result.success(new SingleCodeVO(ResultCode.UPDATE_ADMIN_INFO));
+        try{
+            int updateById = administratorMapper.updateById(administrator);
+            if(updateById > 0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_ADMIN_INFO));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.UPDATE_ADMIN_INFO_ERROR,new SendMsg("更新管理员信息失败"));
     }
 
     @Override

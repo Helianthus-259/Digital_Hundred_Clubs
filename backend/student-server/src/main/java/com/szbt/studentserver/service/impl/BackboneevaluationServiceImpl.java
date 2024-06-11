@@ -29,9 +29,13 @@ public class BackboneevaluationServiceImpl extends ServiceImpl<Backboneevaluatio
     public Object addBackBoneEvaluate(Backboneevaluation backboneevaluation) {
         int currentYear = Year.now().getValue();
         backboneevaluation.setDeclarationYear(currentYear);
-        int inserted = backboneevaluationMapper.insert(backboneevaluation);
-        if (inserted<=0) return Result.send(StatusCode.ADD_BACKBONE_EVALUATION_ERROR,new SendMsg("提交骨干评优申请失败"));
-        return Result.success(new SingleCodeVO(ResultCode.ADD_BACKBONE_EVALUATION));
+        try{
+            int inserted = backboneevaluationMapper.insert(backboneevaluation);
+            if (inserted>0) return Result.success(new SingleCodeVO(ResultCode.ADD_BACKBONE_EVALUATION));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.ADD_BACKBONE_EVALUATION_ERROR,new SendMsg("提交骨干评优申请失败"));
     }
 }
 

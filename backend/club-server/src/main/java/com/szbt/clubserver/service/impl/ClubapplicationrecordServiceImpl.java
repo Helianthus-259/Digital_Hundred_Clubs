@@ -5,10 +5,8 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.dao.mapper.ClubapplicationrecordMapper;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
-import org.example.entity.Administrator;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
-import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.Result;
@@ -39,22 +37,35 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
         MPJLambdaWrapper<Clubapplicationrecord> wrapper = new MPJLambdaWrapper<Clubapplicationrecord>()
                 .selectAll(Clubapplicationrecord.class)
                 .eq(Clubapplicationrecord::getStudentId,id);
-        List<Clubapplicationrecord> clubapplicationrecords = clubapplicationrecordMapper.selectJoinList(Clubapplicationrecord.class, wrapper);
-        return clubapplicationrecords;
+        try{
+            List<Clubapplicationrecord> clubapplicationrecords = clubapplicationrecordMapper.selectJoinList(Clubapplicationrecord.class, wrapper);
+            return clubapplicationrecords;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
     @Override
     public Object newClubApply(Club club, String advisorResumeAttachmentUrl) {
         club.setTotalMembers(1);
-        int insertById = clubMapper.insert(club);
-        if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
-        Clubapplicationrecord  clubapplicationrecord = new Clubapplicationrecord();
+        try{
+            int insertById = clubMapper.insert(club);
+            if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Clubapplicationrecord clubapplicationrecord = new Clubapplicationrecord();
         clubapplicationrecord.setClubId(club.getClubId());
         clubapplicationrecord.setAdvisorResumeAttachmentUrl(advisorResumeAttachmentUrl);
         clubapplicationrecord.setStudentId(club.getContactPersonId());// 设置为联系人id
-        insertById = clubapplicationrecordMapper.insert(clubapplicationrecord);
-        if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
+        try{
+            int insertById = clubapplicationrecordMapper.insert(clubapplicationrecord);
+            if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_APPLICATION));
     }
 }
