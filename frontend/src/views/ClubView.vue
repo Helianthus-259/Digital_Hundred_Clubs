@@ -38,7 +38,7 @@
                     :label="item.label" />
             </t-tabs>
         </div>
-        <div class="joinBox" :style="{ display: store.state.studentId>0 ?'':'none'}"><!--管理员不允许加入社团-->
+        <div class="joinBox">
             <t-button theme="primary" variant="outline" size="small" @click="openDialog">加入我们</t-button>
         </div>
     </FixedLabelBar>
@@ -144,11 +144,7 @@ const sendRequest = () => {
 
 // 返回首页
 const back2Home = () => {
-    if(store.state.studentId>0)
-        eventEmitter.emit(RouterEventEnum.push, '/')
-    else
-        eventEmitter.emit(RouterEventEnum.push, '/adminFirstPage')//若为管理员，则返回管理员首页
-    
+    eventEmitter.emit(RouterEventEnum.push, '/')
 }
 
 onMounted(() => {

@@ -1,7 +1,7 @@
 <style scoped>
 .clubContainer {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 </style>
 
@@ -41,8 +41,6 @@ if (store.state.clubsData.length > 0) {
 } else {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }
-
-console.log(clubsView.value)
 
 const handleRouter = (clubId) => {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })
