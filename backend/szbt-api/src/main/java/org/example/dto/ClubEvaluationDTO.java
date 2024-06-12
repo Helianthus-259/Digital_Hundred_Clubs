@@ -19,4 +19,5 @@ public class ClubEvaluationDTO {
     private Object hostedSchoolLevelActivities;
     private List<ActivityEffectDTO> activities;
     private String clubWorkIntroduction;
+    private Integer status;
 }

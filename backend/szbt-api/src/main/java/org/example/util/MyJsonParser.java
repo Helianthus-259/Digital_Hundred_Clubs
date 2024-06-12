@@ -8,6 +8,7 @@ import java.util.Map;
 public class MyJsonParser {
     public static Object parserJsonText(Object jsonText)
     {
+        if(jsonText==null) return null;
         ObjectMapper objectMapper = new ObjectMapper();
         try{
             if (jsonText.toString().startsWith("["))
