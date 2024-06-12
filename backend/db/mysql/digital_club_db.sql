@@ -110,7 +110,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES (2,'administer','',0,'d1c396b49c9c4a8b84986b41d1dfb1b093946f2f67b43896308848ec955f0b6e',NULL,NULL);
+INSERT INTO `administrator` VALUES (2,'administer','',0,'d1c396b49c9c4a8b84986b41d1dfb1b093946f2f67b43896308848ec955f0b6e','157489632',NULL);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,7 +224,7 @@ CREATE TABLE `club` (
 
 LOCK TABLES `club` WRITE;
 /*!40000 ALTER TABLE `club` DISABLE KEYS */;
-INSERT INTO `club` VALUES (1,'篮球社','2024-06-04 16:53:08',NULL,'[{\"title\": \"社团简介\", \"content\": \"<p>篮球社是一个打篮球的社团</p><p>这句话是个废号</p>\"}, {\"title\": \"社团描述\", \"content\": \"<p>篮球社由xxx组建</p><p>牢大</p>\"}, {\"title\": \"社团获奖\", \"content\": \"<p>一等奖</p><p>二等奖</p><p>三等奖</p><p>优秀奖</p>\"}]',1,'张老师','李老师',1,1,4,2,1,NULL,'url'),(2,'xx社','2024-06-04 16:53:08',NULL,'\"\"',2,'张老师','李老师',1,0,1,10,1,NULL,'url'),(3,'tt社','2024-06-04 16:53:08',NULL,'[{\"title\": \"社团简介\", \"content\": \"<p>篮球社是一个打篮球的社团</p><p>这句话是个废号</p>\"}, {\"title\": \"社团描述\", \"content\": \"<p>篮球社由xxx组建</p><p>牢大</p>\"}, {\"title\": \"社团获奖\", \"content\": \"<p>一等奖</p><p>二等奖</p><p>三等奖</p><p>优秀奖</p>\"}]',3,'张老师','李老师',1,NULL,0,5,1,NULL,'url'),(4,'hh社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,0,2,8,1,NULL,'url'),(5,'羽毛球社','2024-06-04 16:53:08',NULL,'\"\"',5,'张老师','李老师',1,1,3,4,1,NULL,'url'),(6,'网球社','2024-06-04 16:53:08',NULL,'\"\"',2,'张老师','李老师',1,0,1,3,1,NULL,'url'),(7,'排球社','2024-06-04 16:53:08',NULL,'\"\"',3,'张老师','李老师',1,NULL,4,8,1,NULL,'url'),(8,'街舞社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,NULL,2,115,1,NULL,'url'),(9,'美术社','2024-06-04 16:53:08',NULL,'\"\"',0,'张老师','李老师',1,NULL,0,9,1,NULL,'url'),(10,'二次元社','2024-06-04 16:53:08',NULL,'\"\"',1,'张老师','李老师',1,1,3,96,1,NULL,'url'),(11,'ll社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,0,1,4,1,NULL,'url');
+INSERT INTO `club` VALUES (1,'篮球社','2024-06-11 15:43:36',NULL,'[{\"title\": \"社团简介\", \"content\": \"<p>篮球社是一个打篮球的社团</p><p>这句话是个废号</p>\"}, {\"title\": \"社团描述\", \"content\": \"<p>篮球社由xxx组建</p><p>牢大</p>\"}, {\"title\": \"社团获奖\", \"content\": \"<p>一等奖</p><p>二等奖</p><p>三等奖</p><p>优秀奖</p>\"}]',3,'林老师','李老师',1,1,4,2,0,NULL,'/src/assets/loginBg.jpg'),(2,'xx社','2024-06-04 16:53:08',NULL,'\"\"',2,'张老师','李老师',1,0,1,10,1,NULL,'url'),(3,'tt社','2024-06-04 16:53:08',NULL,'[{\"title\": \"社团简介\", \"content\": \"<p>篮球社是一个打篮球的社团</p><p>这句话是个废号</p>\"}, {\"title\": \"社团描述\", \"content\": \"<p>篮球社由xxx组建</p><p>牢大</p>\"}, {\"title\": \"社团获奖\", \"content\": \"<p>一等奖</p><p>二等奖</p><p>三等奖</p><p>优秀奖</p>\"}]',3,'张老师','李老师',1,NULL,0,5,1,NULL,'url'),(4,'hh社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,0,2,8,1,NULL,'url'),(5,'羽毛球社','2024-06-04 16:53:08',NULL,'\"\"',5,'张老师','李老师',1,1,3,4,1,NULL,'url'),(6,'网球社','2024-06-04 16:53:08',NULL,'\"\"',2,'张老师','李老师',1,0,1,3,1,NULL,'url'),(7,'排球社','2024-06-04 16:53:08',NULL,'\"\"',3,'张老师','李老师',1,NULL,4,8,1,NULL,'url'),(8,'街舞社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,NULL,2,115,1,NULL,'url'),(9,'美术社','2024-06-04 16:53:08',NULL,'\"\"',0,'张老师','李老师',1,NULL,0,9,1,NULL,'url'),(10,'二次元社','2024-06-04 16:53:08',NULL,'\"\"',1,'张老师','李老师',1,1,3,96,1,NULL,'url'),(11,'ll社','2024-06-04 16:53:08',NULL,'\"\"',4,'张老师','李老师',1,0,1,4,1,NULL,'url');
 /*!40000 ALTER TABLE `club` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +257,7 @@ CREATE TABLE `club_membership_application` (
 
 LOCK TABLES `club_membership_application` WRITE;
 /*!40000 ALTER TABLE `club_membership_application` DISABLE KEYS */;
-INSERT INTO `club_membership_application` VALUES (1,1,1,0,'2024-06-04 17:03:36','不知道','不合适'),(2,2,1,1,'2024-06-04 17:06:38','不知道',NULL),(3,15,1,0,'2024-06-08 22:08:20','我希望加入篮球社',NULL),(4,15,2,NULL,'2024-06-10 16:12:37','没什么理由',NULL),(5,16,1,1,'2024-06-10 16:14:55','我是牢大',NULL);
+INSERT INTO `club_membership_application` VALUES (1,1,1,0,'2024-06-04 17:03:36','不知道','不合适'),(2,2,1,0,'2024-06-04 17:06:38','不知道','不适合'),(3,15,1,0,'2024-06-08 22:08:20','我希望加入篮球社',NULL),(4,15,2,NULL,'2024-06-10 16:12:37','没什么理由',NULL),(5,16,1,1,'2024-06-10 16:14:55','我是牢大',NULL);
 /*!40000 ALTER TABLE `club_membership_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +279,7 @@ CREATE TABLE `clubannouncement` (
   PRIMARY KEY (`announcement_id`) USING BTREE,
   KEY `club_id` (`club_id`) USING BTREE,
   CONSTRAINT `clubannouncement_ibfk_1` FOREIGN KEY (`club_id`) REFERENCES `club` (`club_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,7 +288,7 @@ CREATE TABLE `clubannouncement` (
 
 LOCK TABLES `clubannouncement` WRITE;
 /*!40000 ALTER TABLE `clubannouncement` DISABLE KEYS */;
-INSERT INTO `clubannouncement` VALUES (1,1,'标题','内容','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(2,1,'标题1','1','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(3,1,'2','内容22','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(4,1,'标题3','内容55','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(5,1,'标题4','内容','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(6,1,'提交材料','通知内容','','2024-06-10 11:54:14',NULL);
+INSERT INTO `clubannouncement` VALUES (1,1,'标题','内容','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(2,1,'标题1','1','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(3,1,'2','内容22','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(4,1,'标题3','内容55','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(5,1,'标题4','内容','url','2024-06-04 19:41:06','2024-06-04 19:41:07'),(6,1,'提交材料','通知内容','','2024-06-10 11:54:14',NULL),(8,1,'21届全员大会','会议类型:全员大会\r\n会议地点:学院楼A313\r\n会议时间:2024-06-29 13:00:00\r\n指导教师:张老师','','2024-06-11 16:00:06',NULL);
 /*!40000 ALTER TABLE `clubannouncement` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +372,7 @@ CREATE TABLE `clubmeeting` (
   PRIMARY KEY (`meeting_id`) USING BTREE,
   KEY `club_id` (`club_id`) USING BTREE,
   CONSTRAINT `clubmeeting_ibfk_1` FOREIGN KEY (`club_id`) REFERENCES `club` (`club_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -381,7 +381,7 @@ CREATE TABLE `clubmeeting` (
 
 LOCK TABLES `clubmeeting` WRITE;
 /*!40000 ALTER TABLE `clubmeeting` DISABLE KEYS */;
-INSERT INTO `clubmeeting` VALUES (2,1,'2021-07-07 11:11:00','school',0,'张老师'),(3,1,'2021-07-07 11:11:11','school',1,'张老师'),(4,1,'2021-07-09 11:11:11','school',0,'李老师'),(5,1,'2021-07-20 11:11:11','school',0,'李老师');
+INSERT INTO `clubmeeting` VALUES (2,1,'2021-07-07 11:11:00','school',0,'张老师'),(3,1,'2021-07-07 11:11:11','school',1,'张老师'),(4,1,'2021-07-09 11:11:11','school',0,'李老师'),(5,1,'2021-07-20 11:11:11','school',0,'李老师'),(6,1,'2024-06-11 16:00:05','学院楼A313',1,'张老师');
 /*!40000 ALTER TABLE `clubmeeting` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -536,4 +536,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-11  0:02:23
+-- Dump completed on 2024-06-11 16:33:46

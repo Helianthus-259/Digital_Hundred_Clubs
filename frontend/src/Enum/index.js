@@ -92,7 +92,7 @@ export const APIEnum = {
     postRejectClubApply: 'postRejectClubApply',
     postNewActivity: 'postNewActivity',
     postBackBoneEvaluate: 'postBackBoneEvaluate',
-    getClubEvaluateInfo: 'getClubEvaluateInfo',
+    // getClubEvaluateInfo: 'getClubEvaluateInfo',
     uploadImage: 'uploadImage',
     postDeleteClubMember: 'postDeleteClubMember',
     postAddClubMember: 'postAddClubMember',

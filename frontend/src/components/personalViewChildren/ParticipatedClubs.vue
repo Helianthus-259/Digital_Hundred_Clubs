@@ -487,7 +487,8 @@ const fail = (club) => {
 clubsFail.value = clubsJoin.value.filter(club => fail(club)) // 申请失败的社团
 
 const manage = (club) => {
-    if (club.clubStatus === 1 && club.position !== 3) {
+    console.log(club)
+    if (club.clubStatus === 1 && club.position !== "3") {
         return true
     }
     return false
@@ -495,7 +496,7 @@ const manage = (club) => {
 clubsManage.value = clubsJoin.value.filter(club => manage(club)) // 我管理的社团
 
 const notManage = (club) => {
-    if (club.clubStatus === 1 && club.position === 3) {
+    if (club.clubStatus === 1 && club.position === "3") {
         return true
     }
     return false

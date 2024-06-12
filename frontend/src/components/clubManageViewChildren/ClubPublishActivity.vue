@@ -235,6 +235,7 @@ import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
 import * as XLSX from 'xlsx'
 import { MyCustomUploadAdapterPlugin } from '@/utils/uploadAdapter'
+import moment from "moment";
 
 // 请求活动需要的数据
 const route = useRoute();

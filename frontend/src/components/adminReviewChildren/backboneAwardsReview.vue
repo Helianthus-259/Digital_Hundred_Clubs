@@ -242,8 +242,7 @@ const backBoneEvaluations = ref([])
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getBackBoneEvaluations)
 eventEmitter.on(APIEventEnum.getBackBoneEvaluationsSuccess, 'getBackBoneEvaluationsSuccess', (data)=>{
-  backBoneEvaluations.value = data
-  console.log(data)
+  backBoneEvaluations.value = data.filter(backBoneEvaluation=>{return backBoneEvaluation.status === null})
 })
 
 const passBackboneAwardsReview = () => {

@@ -275,10 +275,15 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     public Object queryClubAnnualInfo(Integer declarationId) {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<Club>()
                 .selectAll(Club.class)
+//                .select(Club::getClubName, Club::getClubStatus,
+//                        Club::getMainCampus, Club::getClubDescription,
+//                        Club::getTotalMembers, Club::getAdministrativeGuideTeacherName,
+//                        Club::getBusinessGuideTeacherName, Club::getEstablishmentDate,
+//                        Club::getClubStatus,Club::getIsFinancialInformationPublic)
                 .select(Annualaudit::getClubConstitutionAttachment,
                         Annualaudit::getExternalSponsorshipAttachment,
-                        Annualaudit::getMeetingActivityListAttachment,
-                        Annualaudit::getPublicityManagementInfo)
+                        Annualaudit::getMeetingActivityListAttachment)
+                .selectAs(Annualaudit::getPublicityManagementInfo,"auditPublicityManagementInfo")
                 .select(Administrator::getDepartmentName)
                 .select(Student::getStName,Student::getContact,Student::getPoliticalStatus)
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
@@ -287,9 +292,9 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Annualaudit::getDeclarationId,declarationId);
         try{
             ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
-            Object publicityManagementInfo = clubAnnualDTO.getPublicityManagementInfo();
+            Object publicityManagementInfo = clubAnnualDTO.getAuditPublicityManagementInfo();
             publicityManagementInfo = MyJsonParser.parserJsonText(publicityManagementInfo);
-            clubAnnualDTO.setPublicityManagementInfo(publicityManagementInfo);
+            clubAnnualDTO.setAuditPublicityManagementInfo(publicityManagementInfo);
             clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
                     .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
             clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
