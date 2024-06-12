@@ -7,4 +7,5 @@ public class AnnualAuditDTO {
     private Integer declarationId;
     private Integer declarationYear;
     private String clubName;
+    private Integer status;
 }

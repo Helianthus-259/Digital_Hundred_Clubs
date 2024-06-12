@@ -70,12 +70,12 @@ mock.onGet(path.clubsInfo).reply((config) => {
                     content: `<p>社团${i}拿了xx奖项</p>`
                 }
             ],
-            mainCampus: ["广州校区北校园", "广州校区南校园", "广州校区东校园", "珠海校区", "深圳校区"][i % 5],
+            mainCampus: [0, 1, 2, 3, 4][i % 5],
             totalMembers: Math.floor(Math.random() * 1000) + 1000,
             clubId: i,
-            clubCategory: ["学术类", "体育类", "艺术类", "公益类", "科技类", "其它类"][i % 6],
+            clubCategory: [0, 1, 2, 3, 4, 5][i % 6],
             createTime: '2024-4-30 12:00:00',
-            status: [null, 0, 1][i % 3],
+            clubStatus: [null, 0, 1][i % 3],
         })
     }
     console.log(data);
@@ -398,7 +398,7 @@ mock.onGet(path.activitiesInfo).reply((config) => {
             activityStartTime: '2023-04-20 12:00:00',
             activityEndTime: '2023-04-20 18:00:00',
             activityLocation: '活动地点',
-            status: [null, 0, 1][i % 3],
+            activityStatus: [null, 0, 1][i % 3],
         })
     }
     return [200, {
@@ -482,40 +482,40 @@ mock.onPost(path.backBoneEvaluate).reply((config) => {
     }]
 })
 
-// 社团信息mock
-mock.onGet(path.clubEvaluateInfo).reply((config) => {
-    return [200, {
-        code: 20, // 20代表获取社团评优所需信息
-        clubName: 'xx社团',
-        totalMembers: 100,
-        isFinancialInformationPublic: 1,
-        administrativeGuideTeacherName: '张老师',
-        businessGuideTeacherName: '李老师',
-        backboneNumber: 10,
-        establishmentDate: '2022-05-01',
-        responsibleDepartment: '体育部',
-        mainCompus: 3,
-        clubDescription: '篮球社是一个篮球社团',
-        clubCategory: 2,
-        contactPerson: '张三',
-        politicalStatus: '党员',
-        contactPhone: '123456789',
-        clubStatus: 1,
-        file: 'file',
-        communistRelatedBackBoneNumber: 10,
-        publicityManagementInfo: {
-            WeChatPublicAccount: { name: '哈哈哈', submitCount: '20', Auditors: { name1: '张三', name2: '李四', name3: '王五' } },
-            WebSite: { has: '1', name: '网站' },
-            Blog: { has: '1', name: '微博' },
-            BiliBili: { has: '1', name: 'b站' },
-            TikTok: { has: '1', name: '抖音' },
-            WeChatVideoAccount: { has: '1', name: '微信视频号' },
-            KuaiShou: { has: '1', name: '快手' },
-            Publication: { has: '1', name: '刊物' },
-            Other: { has: '1', name: '其他' },
-        },
-    }]
-})
+// // 社团信息mock
+// mock.onGet(path.clubEvaluateInfo).reply((config) => {
+//     return [200, {
+//         code: 20, // 20代表获取社团评优所需信息
+//         clubName: 'xx社团',
+//         totalMembers: 100,
+//         isFinancialInformationPublic: 1,
+//         administrativeGuideTeacherName: '张老师',
+//         businessGuideTeacherName: '李老师',
+//         backboneNumber: 10,
+//         establishmentDate: '2022-05-01',
+//         responsibleDepartment: '体育部',
+//         mainCompus: 3,
+//         clubDescription: '篮球社是一个篮球社团',
+//         clubCategory: 2,
+//         contactPerson: '张三',
+//         politicalStatus: '党员',
+//         contactPhone: '123456789',
+//         clubStatus: 1,
+//         file: 'file',
+//         communistRelatedBackBoneNumber: 10,
+//         publicityManagementInfo: {
+//             WeChatPublicAccount: { name: '哈哈哈', submitCount: '20', Auditors: { name1: '张三', name2: '李四', name3: '王五' } },
+//             WebSite: { has: '1', name: '网站' },
+//             Blog: { has: '1', name: '微博' },
+//             BiliBili: { has: '1', name: 'b站' },
+//             TikTok: { has: '1', name: '抖音' },
+//             WeChatVideoAccount: { has: '1', name: '微信视频号' },
+//             KuaiShou: { has: '1', name: '快手' },
+//             Publication: { has: '1', name: '刊物' },
+//             Other: { has: '1', name: '其他' },
+//         },
+//     }]
+// })
 
 // 上传图片mock
 mock.onPost(path.uploadImage).reply((config) => {
@@ -587,6 +587,7 @@ mock.onGet(path.backBoneEvaluations).reply((config) => {
                 { name: 'xx个人奖项', time: '2022', organization: '学院' },
             ],
             clubWorkStatus: '工作描述',
+            status: null
         })
     }
     return [200, {
@@ -603,6 +604,7 @@ mock.onGet(path.clubAnnuals).reply((config) => {
             declarationId: i,
             declarationYear: ["2020", "2021", "2022"][i % 3],
             clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
+            status:[null, 0, 1][i % 3],
         })
     }
     return [200, {
@@ -963,7 +965,7 @@ mock.onGet(path.clubApplicationInfo).reply((config) => {
         clubName: 'xx社团',
         establishmentDate: '2024-06-05',
         responsibleDepartment: '学院',
-        mainCompus: '珠海校区',
+        mainCampus: '珠海校区',
         clubDescription: '描述',
         clubCategory: '1',
         administrativeGuideTeacherName: '张老师',
@@ -983,9 +985,8 @@ mock.onGet(path.clubApplicationInfo).reply((config) => {
 mock.onGet(path.clubAnnual).reply((config) => {
     const data = {
         clubName: 'hh',
-        clubCategory: '1',
-        mainCompus: '1',
-        clubDescription: 'hh',
+        clubCategory: 1,
+        mainCampus: 1,
         totalMembers: '12',
         meetingActivityListAttachment: '会议活动附件',
         externalsponsorshipAttachment: '校外赞助附件',

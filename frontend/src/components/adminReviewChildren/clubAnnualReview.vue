@@ -135,9 +135,9 @@
               </t-col>
               <t-col id="table" :span="9">
                 <t-radio-group variant="outline" :value="clubReviewInfo.mainCompus">
-                  <t-radio-button value="广州校区南校园">广州校区南校区</t-radio-button>
-                  <t-radio-button value="广州校区北校园">广州校区北校区</t-radio-button>
-                  <t-radio-button value="广州校区东校园">广州校区东校区</t-radio-button>
+                  <t-radio-button value="广州南校园">广州南校区</t-radio-button>
+                  <t-radio-button value="广州北校园">广州北校区</t-radio-button>
+                  <t-radio-button value="广州东校园">广州东校区</t-radio-button>
                   <t-radio-button value="深圳校区">深圳校区</t-radio-button>
                   <t-radio-button value="珠海校区">珠海校区</t-radio-button>
                 </t-radio-group>
@@ -354,20 +354,19 @@ const clubReviewInfo = ref({
   meetingActivityListAttachment: '',
   externalsponsorshipAttachment:'',
   clubConstitutionAttachment:'',
+  status:'',
 })
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnuals)
 eventEmitter.on(APIEventEnum.getClubAnnualsSuccess, 'getClubAnnualsSuccess', (data)=>{
-  declarations.value = data
+  declarations.value = data.filter(declaration => { return declaration.status === null })
 })
 
 const detail = (data) => {
-  console.log(data)
   choose.value = data
   clubReviewInfo.value.declarationId = data
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAnnual, data )
   eventEmitter.on(APIEventEnum.getClubAnnualSuccess, 'getClubAnnualSuccess', (data) => {
-    console.log(data)
     clubReviewInfo.value.clubName = data.clubName
     clubReviewInfo.value.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[data.clubCategory].name
     clubReviewInfo.value.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
@@ -386,7 +385,6 @@ const detail = (data) => {
     clubReviewInfo.value.meetingActivityListAttachment = data.meetingActivityListAttachment
     clubReviewInfo.value.externalsponsorshipAttachment = data.externalsponsorshipAttachment
     clubReviewInfo.value.clubConstitutionAttachment = data.clubConstitutionAttachment
-    console.log(clubReviewInfo.value)
   })
 }
 
