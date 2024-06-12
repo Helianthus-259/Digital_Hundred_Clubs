@@ -162,10 +162,10 @@ function successHandler(res) {
             const teacherExamData = response.data.returnData;
             eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess, teacherExamData)
         } else if (response.data.code === 45) { // 获取社团获奖信息
-            const associationAwards  = response.data.data
+            const { associationAwards } = response.data
             eventEmitter.emit(APIEventEnum.getAssociationAwardsSuccess, associationAwards)
         } else if (response.data.code === 46) { // 获取社团会议
-            const meetings = response.data.data
+            const { meetings } = response.data
             eventEmitter.emit(APIEventEnum.getMeetingsSuccess, meetings)
         } else if (response.data.code === 47) { // 加入社团申请成功
             eventEmitter.emit(APIEventEnum.postJoinClubSuccess)

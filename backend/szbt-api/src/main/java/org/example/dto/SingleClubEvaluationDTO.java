@@ -13,5 +13,4 @@ public class SingleClubEvaluationDTO {
     private Integer isFinancialInformationPublic;
     private String imageUrl;
     private String clubEducationCaseAttachment;
-    private Integer status;
 }

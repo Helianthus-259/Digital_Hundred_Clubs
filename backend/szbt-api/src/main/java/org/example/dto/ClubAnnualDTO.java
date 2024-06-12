@@ -27,6 +27,5 @@ public class ClubAnnualDTO {
     private String departmentName;
     private String politicalStatus;
     private Integer isFinancialInformationPublic;
-    @JsonProperty("publicityManagementInfo")
-    private Object auditPublicityManagementInfo;
+    private Object publicityManagementInfo;
 }

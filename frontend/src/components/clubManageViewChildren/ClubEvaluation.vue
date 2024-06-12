@@ -106,8 +106,7 @@
                         <div class="text">学生社团骨干人数</div>
                     </t-col>
                     <t-col :span="3" id="table">
-                        <t-input v-model="clubEvaluation.backboneNumber" style="width: 60%;" borderless
-                            align="center" />
+                        {{ clubEvaluation.backboneNumber }}
                     </t-col>
                 </t-row>
                 <t-row id="table">
@@ -115,8 +114,7 @@
                         <div class="text">学生骨干是中共党员、入党积极分子或提交入党申请书人数</div>
                     </t-col>
                     <t-col :span="3" id="table">
-                        <t-input v-model="clubEvaluation.communistRelatedBackBoneNumber" style="width: 60%;" borderless
-                            align="center" />
+                        {{ clubEvaluation.communistRelatedBackBoneNumber }}
                     </t-col>
                 </t-row>
                 <t-row id="table">
@@ -611,14 +609,7 @@ const clubEvaluation = reactive({
 
 const clubEvaluationValidate = () => {
     let flag = true
-    if (clubEvaluation.backboneNumber === '') {
-        flag = false
-        MessagePlugin.warning('请输入骨干人数')
-    } else if (clubEvaluation.communistRelatedBackBoneNumber === '') {
-        flag = false
-        MessagePlugin.warning('请输入骨干是中共党员、入党积极分子或提交入党申请书人数')
-    }
-    else if (clubEvaluation.handoverMethod === '') {
+    if (clubEvaluation.handoverMethod === '') {
         flag = false
         MessagePlugin.warning('请输入换届方式')
     } else if (clubEvaluation.handoverParticipantsCount === '') {
@@ -750,7 +741,6 @@ const selectChangeHandler = (fileList) => {
 }
 
 const submitClubEvaluation = () => {
-    console.log(clubEvaluation)
     if (clubEvaluationValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postClubEvaluationForm, { clubId, ...clubEvaluation })
     }
@@ -758,15 +748,17 @@ const submitClubEvaluation = () => {
 
 onMounted(() => {
     // 获取社团信息
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluateInfo, { clubId })
 
     eventEmitter.emit(APIEventEnum.request, APIEnum.getAssociationAwards, { clubId })
 
     eventEmitter.emit(APIEventEnum.request, APIEnum.getMeetings, { clubId })
 
-    eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
+    eventEmitter.on(APIEventEnum.getClubEvaluateInfoSuccess, 'getClubEvaluateInfoSuccess', (data) => {
         clubEvaluation.clubName = data.clubName
         clubEvaluation.totalMembers = data.totalMembers
+        clubEvaluation.backboneNumber = data.backboneNumber
+        clubEvaluation.communistRelatedBackBoneNumber = data.communistRelatedBackBoneNumber
         clubEvaluation.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubEvaluation.businessGuideTeacherName = data.businessGuideTeacherName
         clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic

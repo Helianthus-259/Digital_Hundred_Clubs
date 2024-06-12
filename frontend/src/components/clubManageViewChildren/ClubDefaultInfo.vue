@@ -511,14 +511,13 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId })
     eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
-      console.log(data)
         clubInfo.clubName = data.clubName
         clubInfo.establishmentDate = moment(data.establishmentDate).format('YYYY-MM-DD HH:mm:ss');
         clubInfo.clubCategory = data.clubCategory
         clubInfo.responsibleDepartment = data.responsibleDepartment
         clubInfo.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubInfo.businessGuideTeacherName = data.businessGuideTeacherName
-        clubInfo.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
+        clubInfo.mainCompus = data.mainCompus
         clubInfo.totalMembers = data.totalMembers
         clubInfo.isFinancialInformationPublic = data.isFinancialInformationPublic + ''
         clubInfo.imageUrl = '/src/assets/loginBg.jpg'

@@ -135,9 +135,9 @@ const api = {
             clubId: params.clubId,
             activityName: params.activityName,
             activityIntroduction: params.activityIntroduction,
-            activityStartTime: new Date(params.activityStartTime),
-            activityEndTime: new Date(params.activityEndTime),
-            activityLocation: params.activityLocation,
+            activityStartTime: Date(params.activityStartTime),
+            activityEndTime: Date(params.activityEndTime),
+            activityLocation: Date(params.activityLocation),
             applicationFormAttachment: params.applicationFormAttachment,
             imageUrl: params.imageUrl,
         }
@@ -153,11 +153,11 @@ const api = {
             clubWorkStatus: params.clubWorkStatus,
         }
     })),
-    // 'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
-    //     params: {
-    //         clubId: params.clubId,
-    //     }
-    // }),
+    'getClubEvaluateInfo': (params) => axios.get(path.clubEvaluateInfo, { // 获取某个社团信息
+        params: {
+            clubId: params.clubId,
+        }
+    }),
     'getBackBoneEvaluations': (params) => axios.get(path.backBoneEvaluations, {
 
     }),
@@ -197,9 +197,8 @@ const api = {
     })),
     'postUpdateClubInfo': (params) => axios.post(path.updateClubInfo, toFormData({ // 更新社团信息
         params: {
-            clubId: params.clubId,
             clubName: params.clubName,
-            establishmentDate: new Date(params.establishmentDate),
+            establishmentDate: params.establishmentDate,
             clubCategory: params.clubCategory,
             responsibleDepartment: params.responsibleDepartment,
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
@@ -259,15 +258,11 @@ const api = {
     'postClubEvaluationForm': (params) => axios.post(path.clubEvaluationForm, toFormData({ // 提交评优表
         params: {
             clubId: params.clubId,
-            backboneNumber: params.backboneNumber,
-            communistRelatedBackBoneNumber: params.communistRelatedBackBoneNumber,
             handoverMethod: params.handoverMethod,
             handoverParticipantsCount: params.handoverParticipantsCount,
-            associationAwards: JSON.stringify(params.associationAwards),
-            meetings: JSON.stringify(params.meetings),
             advisorParticipation: params.advisorParticipation,
-            publicityManagementEffectiveness: JSON.stringify(params.publicityManagementEffectiveness),
-            hostedSchoolLevelActivities: JSON.stringify(params.hostedSchoolLevelActivities),
+            publicityManagementEffectiveness: params.publicityManagementEffectiveness,
+            hostedSchoolLevelActivities: params.hostedSchoolLevelActivities,
             clubWorkIntroduction: params.clubWorkIntroduction,
             clubEducationCaseAttachment: params.clubEducationCaseAttachment,
             imageUrl: params.imageUrl,
@@ -289,7 +284,7 @@ const api = {
     'postNewMeeting': (params) => axios.post(path.newMeeting, toFormData({ // 添加社团会议
         params: {
             clubId: params.clubId,
-            meetingTime: new Date(params.meetingTime),
+            meetingTime: params.meetingTime,
             location: params.location,
             category: params.category,
             advisorName: params.advisorName,
@@ -361,7 +356,7 @@ const api = {
     }),
     'getClubAwardInfo':(params)=>axios.get(path.clubAward, {
         params:{
-            recordId: params,
+            recordId: params.recordId,
         }
     }),
     'getClubInfo':(params)=>axios.get(path.clubInfo, {

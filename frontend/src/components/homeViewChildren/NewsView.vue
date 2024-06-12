@@ -126,7 +126,6 @@ const go2Activity = (activityId) => {
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getLatestActivities, { pNumber, pSize })
     eventEmitter.on(APIEventEnum.getLatestActivitiesSuccess, 'getLatestActivitiesSuccess', (data) => {
-        data = data.filter(activity =>{return activity.activityStatus !== null && new Date(activity.activityEndTime) > new Date(Date.now())})
         activities.value.push(...data)
         activityNumber.value = activities.value.length
         if (!pNumber) {

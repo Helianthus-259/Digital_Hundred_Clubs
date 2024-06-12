@@ -221,7 +221,7 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">
-                        {{ moment(item.time).format("YYYY-MM-DD HH:mm:ss") }}
+                        {{ item.time }}
                       </t-col>
                       <t-col id="table" :span="4">
                         {{ item.location }}
@@ -257,9 +257,9 @@
                 <div v-for="(item) in clubEvaluationInfo.associationAwards">
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
-                      <t-col :span="4">{{ item.awardName }}</t-col>
-                      <t-col id="table" :span="4">{{ moment(item.awardTime).format("YYYY-MM-DD HH:mm:ss") }}</t-col>
-                      <t-col id="table" :span="4">{{ item.issuingAuthority}}</t-col>
+                      <t-col :span="4">{{ item.name }}</t-col>
+                      <t-col id="table" :span="4">{{ item.time }}</t-col>
+                      <t-col id="table" :span="4">{{ item.organization }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -386,7 +386,7 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{ item.activityName }}</t-col>
-                      <t-col id="table" :span="4">{{ moment(item.activityEndTime).format("YYYY-MM-DD HH:mm:ss") }}</t-col>
+                      <t-col id="table" :span="4">{{ item.activityTime }}</t-col>
                       <t-col id="table" :span="4">{{ item.activityEffect }}</t-col>
                     </t-row>
                   </t-popup>
@@ -430,7 +430,6 @@ import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
 import {NotifyPlugin} from "tdesign-vue-next";
-import moment from "moment";
 
 
 const evaluations = ref([])
@@ -463,9 +462,9 @@ const clubEvaluationInfo = ref({
   ],
   associationAwards: [
     {
-      awardName: '',
-      awardTime: '',
-      issuingAuthority: ''
+      name: '',
+      time: '',
+      organization: ''
     }
   ],
   publicityManagementEffectiveness: {
@@ -500,7 +499,7 @@ const clubEvaluationInfo = ref({
   activities: [
     {
       activityName: '',
-      activityEndTime: '',
+      activityTime: '',
       activityEffect: '',
     }
   ],
@@ -523,7 +522,7 @@ const detail = (data) => {
   clubEvaluationInfo.value.activities = data.activities
   clubEvaluationInfo.value.clubWorkIntroduction = data.clubWorkIntroduction
   clubEvaluationInfo.value.declarationYear = data.declarationYear
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAwardInfo, data.recordId)
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubAwardInfo, { value: data.recordId })
   eventEmitter.on(APIEventEnum.getClubAwardInfoSuccess, 'getClubAwardInfoSuccess', (data) => {
     clubEvaluationInfo.value.totalMembers = data.totalMembers
     clubEvaluationInfo.value.backboneNumber = data.backboneNumber
@@ -539,7 +538,7 @@ const detail = (data) => {
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluations)
 eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess', (data)=>{
-  evaluations.value = data.filter(evaluation=>{return evaluation.status === null})
+  evaluations.value = data
 })
 
 const passClubAwardReview = () => {

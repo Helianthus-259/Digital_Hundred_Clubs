@@ -56,7 +56,7 @@ const base = {
     clubIntroduction: club + '/clubIntroduction', // 获取社团简介
     clubMembers: club + '/clubMembers', // 获取社团成员
     clubApplyList: club + '/clubApplyList', // 获取社团申请列表
-    // clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
+    clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
     topTenClubs: club + '/topTenClubs', // 获取十佳社团
     clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
     associationAwards: club + '/associationAwards', // 获取社团获奖信息

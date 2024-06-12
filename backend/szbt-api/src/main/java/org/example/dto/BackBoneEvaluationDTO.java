@@ -18,5 +18,4 @@ public class BackBoneEvaluationDTO {
     private Object trainingParticipation;
     private Object awards;
     private String clubWorkStatus;
-    private Integer status;
 }

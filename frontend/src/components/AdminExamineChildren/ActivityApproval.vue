@@ -25,7 +25,7 @@
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
-            <t-button theme="primary" :disabled="row.activityStatus !== null" @click="detail(row)">活动详情</t-button>
+            <t-button theme="primary" @click="detail(row)">活动详情</t-button>
           </template>
         </t-table>
       </t-content>
@@ -269,14 +269,14 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
 })
 const passActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passActivityApproval, {
-    activityId:activity.value.activityId,
+    recordId:activity.value.activityId,
     opinion: opinion.value
   })
 }
 
 const unPassActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassActivityApproval, {
-    activityId:activity.value.activityId,
+    recordId:activity.value.activityId,
     opinion: opinion.value
   })
 }

@@ -13,7 +13,6 @@ import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.service.ActivityClientService;
 import org.example.service.ClubClientService;
-import org.example.util.MyJsonParser;
 import org.example.util.Result;
 import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
@@ -61,12 +60,6 @@ public class StudentclubevaluationServiceImpl extends ServiceImpl<Studentclubeva
             List<List<Activity>> activityLists = activityClientService.queryActivityInfoByClubIdList(clubIdList);
             IntStream.range(0, clubEvaluationDTOS.size())
                     .forEach(i -> {
-                        // 设定Json数据
-                        clubEvaluationDTOS.get(i).setMeetings(MyJsonParser.parserJsonText(clubEvaluationDTOS.get(i).getMeetings()));
-                        clubEvaluationDTOS.get(i).setAssociationAwards(MyJsonParser.parserJsonText(clubEvaluationDTOS.get(i).getAssociationAwards()));
-                        clubEvaluationDTOS.get(i).setPublicityManagementEffectiveness(MyJsonParser.parserJsonText(clubEvaluationDTOS.get(i).getPublicityManagementEffectiveness()));
-                        clubEvaluationDTOS.get(i).setHostedSchoolLevelActivities(MyJsonParser.parserJsonText(clubEvaluationDTOS.get(i).getHostedSchoolLevelActivities()));
-                        // 设定社团名称
                         clubEvaluationDTOS.get(i).setClubName(clubList.get(i).getClubName());
                         List<ActivityEffectDTO> activityEffectDTO = modelMapper.map(activityLists.get(i), new TypeToken<List<ActivityEffectDTO>>() {}.getType());
                         clubEvaluationDTOS.get(i).setActivities(activityEffectDTO);

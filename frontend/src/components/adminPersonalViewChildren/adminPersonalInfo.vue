@@ -59,21 +59,23 @@
             {{buttonText}}
           </t-button>
         </template>
-        <t-descriptions bordered :column="2">
+
+        <t-descriptions bordered :column="4">
+
           <t-descriptions-item label="管理员id">
             {{admin.adminId}}
           </t-descriptions-item>
+          
           <t-descriptions-item label="管理员等级">
             {{admin.sort === 0 ? '学院管理员' :'校级管理员'}}
           </t-descriptions-item>
+
           <t-descriptions-item label="联系方式">
             <t-auto-complete :disabled="readOnly" v-model="admin.contact" />
           </t-descriptions-item>
+
           <t-descriptions-item label="管理社团数">
             {{clubInfo.length}}
-          </t-descriptions-item>
-          <t-descriptions-item label="附属单位">
-            <t-auto-complete :disabled="readOnly" v-model="admin.affiliateUnit" />
           </t-descriptions-item>
         </t-descriptions>
       </t-card>
