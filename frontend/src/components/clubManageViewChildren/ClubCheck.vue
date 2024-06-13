@@ -135,7 +135,7 @@ import myDialog from '../myDialog.vue';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
-import moment from "moment";
+import formatDate from '@/utils';
 
 const statusNameListMap = {
     null: { label: '待审核', theme: 'primary', icon: 'error-circle-filled' },
@@ -183,7 +183,7 @@ const handleSearch = () => {
             item.politicalStatus === politicalStatusSelect.value
         )
     })
-  console.log(applyViewList.value)
+    console.log(applyViewList.value)
 };
 // 重置查询选项
 const handleReset = () => {
@@ -243,8 +243,8 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApplyList, { clubId })
 
     eventEmitter.on(APIEventEnum.getClubApplyListSuccess, 'getClubApplyListSuccess', (data) => {
-        applyList.value = data.filter(item=>{
-            item.createTime = moment(item.createTime).format('YYYY-MM-DD HH:mm:ss')
+        applyList.value = data.filter(item => {
+            item.createTime = formatDate(new Date(item.createTime), 'yyyy-MM-dd hh:mm:ss')
             return true
         })
         handleSearch()

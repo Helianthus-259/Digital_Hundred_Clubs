@@ -325,7 +325,6 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import myDialog from '../myDialog.vue';
-import moment from "moment/moment.js";
 import formatDate from '@/utils';
 
 const route = useRoute();
