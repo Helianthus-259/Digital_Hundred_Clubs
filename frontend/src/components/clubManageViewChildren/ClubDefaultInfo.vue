@@ -517,7 +517,7 @@ onMounted(() => {
         console.log(data)
         clubInfo.clubName = data.clubName
         clubInfo.establishmentDate = formatDate(new Date(data.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
-        clubInfo.clubCategory = +data.clubCategory
+        clubInfo.clubCategory = +data.clubCategory // 转数字
         clubInfo.responsibleDepartment = +data.responsibleDepartment
         clubInfo.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubInfo.businessGuideTeacherName = data.businessGuideTeacherName
