@@ -123,7 +123,7 @@ import eventEmitter from '@/utils/eventEmitter';
 import { useRoute } from 'vue-router';
 import myDialog from '@/components/myDialog.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import moment from "moment";
+import formatDate from '@/utils';
 
 const route = useRoute();
 const activityId = route.params.aid;
@@ -153,9 +153,9 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getActivityInfo, { activityId: activityId })
     eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (data) => {
         activity.value = data
-        activity.value.activityPublishTime = moment(activity.value.activityPublishTime).format('YYYY-MM-DD HH:mm:ss');
-        activity.value.activityStartTime = moment(activity.value.activityStartTime).format('YYYY-MM-DD HH:mm:ss');
-        activity.value.activityEndTime = moment(activity.value.activityEndTime).format('YYYY-MM-DD HH:mm:ss');
+        activity.value.activityPublishTime = formatDate(new Date(data.activityPublishTime), 'yyyy-MM-dd hh:mm:ss');
+        activity.value.activityStartTime = formatDate(new Date(data.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
+        activity.value.activityEndTime = formatDate(new Date(data.activityEndTime), 'yyyy-MM-dd hh:mm:ss');
     })
     eventEmitter.on(APIEventEnum.postJoinActivitySuccess, 'postJoinActivitySuccess', () => {
         closeDialog()

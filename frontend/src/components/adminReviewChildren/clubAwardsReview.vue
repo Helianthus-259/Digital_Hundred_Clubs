@@ -166,8 +166,7 @@
               <t-col style="display: inline;" :span="6" id="table">
                 <t-row>
                   <t-col :span="12">
-                    <t-radio-group variant="primary-filled"
-                      :value="clubEvaluationInfo.handoverMethod">
+                    <t-radio-group variant="primary-filled" :value="clubEvaluationInfo.handoverMethod">
                       <t-radio-button value='0'>全员大会</t-radio-button>
                       <t-radio-button value='1'>其他</t-radio-button>
                     </t-radio-group>
@@ -221,14 +220,14 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">
-                        {{ moment(item.time).format("YYYY-MM-DD HH:mm:ss") }}
+                        {{ formatDate(new Date(item.time), 'yyyy-MM-dd hh:mm:ss') }}
                       </t-col>
                       <t-col id="table" :span="4">
                         {{ item.location }}
                       </t-col>
                       <t-col id="table" :span="4">
                         <t-radio-group variant="primary-filled"
-                          :value="item.staffMeetingOrbackBoneMeeting === 0 ? '0': 1">
+                          :value="item.staffMeetingOrbackBoneMeeting === 0 ? '0' : 1">
                           <t-radio-button value='0'>全员大会</t-radio-button>
                           <t-radio-button value='1'>骨干例会</t-radio-button>
                         </t-radio-group>
@@ -258,8 +257,9 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{ item.awardName }}</t-col>
-                      <t-col id="table" :span="4">{{ moment(item.awardTime).format("YYYY-MM-DD HH:mm:ss") }}</t-col>
-                      <t-col id="table" :span="4">{{ item.issuingAuthority}}</t-col>
+                      <t-col id="table" :span="4">{{ formatDate(new Date(item.awardTime), 'yyyy-MM-dd hh:mm:ss')
+                        }}</t-col>
+                      <t-col id="table" :span="4">{{ item.issuingAuthority }}</t-col>
                     </t-row>
                   </t-popup>
                 </div>
@@ -386,7 +386,8 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{ item.activityName }}</t-col>
-                      <t-col id="table" :span="4">{{ moment(item.activityEndTime).format("YYYY-MM-DD HH:mm:ss") }}</t-col>
+                      <t-col id="table" :span="4">{{ formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd hh:mm:ss')
+                        }}</t-col>
                       <t-col id="table" :span="4">{{ item.activityEffect }}</t-col>
                     </t-row>
                   </t-popup>
@@ -429,8 +430,8 @@ import { onUnmounted, ref } from "vue";
 import { ArrowDownIcon, ArrowRightIcon } from "tdesign-icons-vue-next";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
-import {NotifyPlugin} from "tdesign-vue-next";
-import moment from "moment";
+import { NotifyPlugin } from "tdesign-vue-next";
+import formatDate from "@/utils";
 
 
 const evaluations = ref([])
@@ -438,7 +439,7 @@ const choose = ref(-1)
 const theme = ["primary", "success"]
 const icon = [ArrowDownIcon.stem, ArrowRightIcon.stem]
 const clubEvaluationInfo = ref({
-  recordId:null,
+  recordId: null,
   clubName: '',
   handoverMethod: '',
   handoverParticipantsCount: '',
@@ -505,7 +506,7 @@ const clubEvaluationInfo = ref({
     }
   ],
   imageUrl: '',
-  clubEducationCaseAttachment:'',
+  clubEducationCaseAttachment: '',
   clubWorkIntroduction: ''
 })
 const detail = (data) => {
@@ -538,40 +539,40 @@ const detail = (data) => {
 }
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluations)
-eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess', (data)=>{
-  evaluations.value = data.filter(evaluation=>{return evaluation.status === null})
+eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess', (data) => {
+  evaluations.value = data.filter(evaluation => { return evaluation.status === null })
 })
 
 const passClubAwardReview = () => {
-  if(clubEvaluationInfo.value.recordId === null){
+  if (clubEvaluationInfo.value.recordId === null) {
     NotifyPlugin.warning({
       title: '操作失败',
       content: '请选择任一社团评优信息！',
     })
     return
   }
-  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
+  eventEmitter.emit(APIEventEnum.request, APIEnum.passClubAwardReview, { recordId: clubEvaluationInfo.value.recordId })
 }
 
 const unPassClubAwardReview = () => {
-  if(clubEvaluationInfo.value.recordId === null){
+  if (clubEvaluationInfo.value.recordId === null) {
     NotifyPlugin.warning({
       title: '操作失败',
       content: '请选择任一社团评优信息！',
     })
     return
   }
-  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAwardReview, {recordId: clubEvaluationInfo.value.recordId})
+  eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAwardReview, { recordId: clubEvaluationInfo.value.recordId })
 }
 
-eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuccess', ()=>{
+eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuccess', () => {
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过社团评优成功',
   })
 })
 
-eventEmitter.on(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAwardReviewSuccess', ()=>{
+eventEmitter.on(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAwardReviewSuccess', () => {
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团评优成功',

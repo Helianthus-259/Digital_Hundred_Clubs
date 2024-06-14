@@ -172,7 +172,8 @@
                 <t-col :span="3">
                     <div class="labelBox">成立时间：</div>
                     <div class="valueBox">
-                        <t-input borderless v-model="clubInfo.establishmentDate" :readonly="!isEditting" />
+                        {{ clubInfo.establishmentDate }}
+                        <!-- <t-input borderless v-model="clubInfo.establishmentDate" :readonly="!isEditting" /> -->
                     </div>
                 </t-col>
                 <t-col :span="3">
@@ -187,12 +188,13 @@
                 <t-col :span="3">
                     <div class="labelBox">业务指导单位：</div>
                     <div class="valueBox">
-                        <t-select v-model="clubInfo.responsibleDepartment" borderless :readonly="!isEditting" showArrow>
+                        {{ clubInfo.responsibleDepartment }}
+                        <!-- <t-select v-model="clubInfo.responsibleDepartment" borderless :readonly="!isEditting" showArrow>
                             <t-option label="体育部" value="体育部" />
                             <t-option label="艺术部" value="艺术部" />
                             <t-option label="学术部" value="学术部" />
                             <t-option label="公益部" value="公益部" />
-                        </t-select>
+                        </t-select> -->
                     </div>
                 </t-col>
                 <t-col :span="3">
@@ -323,7 +325,7 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import myDialog from '../myDialog.vue';
-import moment from "moment/moment.js";
+import formatDate from '@/utils';
 
 const route = useRoute();
 const clubId = route.params.cid
@@ -511,14 +513,14 @@ onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubInfo, { clubId })
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubMembers, { clubId })
     eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
-      console.log(data)
+        console.log(data)
         clubInfo.clubName = data.clubName
-        clubInfo.establishmentDate = moment(data.establishmentDate).format('YYYY-MM-DD HH:mm:ss');
-        clubInfo.clubCategory = data.clubCategory
-        clubInfo.responsibleDepartment = data.responsibleDepartment
+        clubInfo.establishmentDate = formatDate(new Date(data.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
+        clubInfo.clubCategory = +data.clubCategory // 转数字
+        clubInfo.responsibleDepartment = +data.responsibleDepartment
         clubInfo.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubInfo.businessGuideTeacherName = data.businessGuideTeacherName
-        clubInfo.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCampus].name
+        clubInfo.mainCompus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[data.mainCompus].name
         clubInfo.totalMembers = data.totalMembers
         clubInfo.isFinancialInformationPublic = data.isFinancialInformationPublic + ''
         clubInfo.imageUrl = '/src/assets/loginBg.jpg'

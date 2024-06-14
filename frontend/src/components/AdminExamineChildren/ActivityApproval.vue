@@ -32,110 +32,98 @@
     </t-layout>
   </t-layout>
   <t-layout>
-      <t-dialog
-          v-model:visible="visibleModal"
-          width="60%"
-          top="20px"
-          destroy-on-close=""
-          :confirm-btn="null"
-          :cancel-btn="null"
-          :closeOnEscKeydown="false"
-      >
-        <t-layout>
-          <t-content>
-            <div class="clubEvaluationContainer">
-              <div class="titleContainer">学生社团活动申请表</div>
-              <div class="tableContainer">
-                <t-row id="border">
-                  <t-row>
-                    <t-col :span="3">
-                      <div class="text">学生社团名称</div>
-                    </t-col>
-                    <t-col :span="9" id="table">
-                      {{ activity.clubName }}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text">活动负责人</div>
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      {{activity.contactPerson}}
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      <div class="text">联系电话</div>
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      {{activity.contactPhone}}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text">活动名称</div>
-                    </t-col>
-                    <t-col :span="9" id="table">
-                      {{activity.activityName}}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text">活动时间</div>
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      开始：{{ activity.activityStartTime }}
-                      <br>
-                      结束：{{ activity.activityEndTime }}
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      <div class="text">活动开展地点</div>
-                    </t-col>
-                    <t-col :span="3" id="table">
-                      {{ activity.activityLocation }}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text">活动简介</div>
-                    </t-col>
-                    <t-col :span="9" id="table">
-                      {{activity.activityIntroduction}}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text">活动附件</div>
-                    </t-col>
-                    <t-col :span="9" id="table">
-                      {{activity.activityAttachment}}
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="3">
-                      <div class="text" id="table">意见</div>
-                    </t-col>
-                    <t-col :span="9" id="table">
-                      <t-textarea
-                          v-model="opinion"
-                          placeholder="请输入意见"
-                          name="description"
-                          :autosize="true"
-                      />
-                    </t-col>
-                  </t-row>
-                  <t-row id="table">
-                    <t-col :span="6">
-                      <t-button size="large" theme="success" @click="passActivityApproval">通过</t-button>
-                    </t-col>
-                    <t-col :span="6">
-                      <t-button size="large" theme="danger" @click="unPassActivityApproval">驳回</t-button>
-                    </t-col>
-                  </t-row>
+    <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :confirm-btn="null"
+      :cancel-btn="null" :closeOnEscKeydown="false">
+      <t-layout>
+        <t-content>
+          <div class="clubEvaluationContainer">
+            <div class="titleContainer">学生社团活动申请表</div>
+            <div class="tableContainer">
+              <t-row id="border">
+                <t-row>
+                  <t-col :span="3">
+                    <div class="text">学生社团名称</div>
+                  </t-col>
+                  <t-col :span="9" id="table">
+                    {{ activity.clubName }}
+                  </t-col>
                 </t-row>
-              </div>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text">活动负责人</div>
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    {{ activity.contactPerson }}
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    <div class="text">联系电话</div>
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    {{ activity.contactPhone }}
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text">活动名称</div>
+                  </t-col>
+                  <t-col :span="9" id="table">
+                    {{ activity.activityName }}
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text">活动时间</div>
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    开始：{{ activity.activityStartTime }}
+                    <br>
+                    结束：{{ activity.activityEndTime }}
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    <div class="text">活动开展地点</div>
+                  </t-col>
+                  <t-col :span="3" id="table">
+                    {{ activity.activityLocation }}
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text">活动简介</div>
+                  </t-col>
+                  <t-col :span="9" id="table">
+                    {{ activity.activityIntroduction }}
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text">活动附件</div>
+                  </t-col>
+                  <t-col :span="9" id="table">
+                    {{ activity.activityAttachment }}
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="3">
+                    <div class="text" id="table">意见</div>
+                  </t-col>
+                  <t-col :span="9" id="table">
+                    <t-textarea v-model="opinion" placeholder="请输入意见" name="description" :autosize="true" />
+                  </t-col>
+                </t-row>
+                <t-row id="table">
+                  <t-col :span="6">
+                    <t-button size="large" theme="success" @click="passActivityApproval">通过</t-button>
+                  </t-col>
+                  <t-col :span="6">
+                    <t-button size="large" theme="danger" @click="unPassActivityApproval">驳回</t-button>
+                  </t-col>
+                </t-row>
+              </t-row>
             </div>
-          </t-content>
-        </t-layout>
-      </t-dialog>
+          </div>
+        </t-content>
+      </t-layout>
+    </t-dialog>
   </t-layout>
 </template>
 
@@ -147,8 +135,8 @@ const value = ref('item0');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
-import {NotifyPlugin} from "tdesign-vue-next";
-import moment from "moment";
+import { NotifyPlugin } from "tdesign-vue-next";
+import formatDate from '@/utils';
 
 // 表格
 const statusNameListMap = {
@@ -162,7 +150,7 @@ const activities = []
 const data = ref([]);
 const visibleModal = ref(false)
 const activity = ref({
-  activityId:'',
+  activityId: '',
   activityName: "",
   clubName: "",
   activityLocation: "",
@@ -172,8 +160,8 @@ const activity = ref({
   activityEndTime: "",
   activityIntroduction: "",
   activityAttachment: "",
-  contactPerson:'',
-  contactPhone:'',
+  contactPerson: '',
+  contactPhone: '',
 })
 
 function assignment() {
@@ -182,11 +170,11 @@ function assignment() {
 }
 eventEmitter.emit(APIEventEnum.request, APIEnum.getActivitiesInfo)
 eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess', (data) => {
-  activities.value = data.data.filter(item =>{
-      item.activityPublishTime = moment(item.activityPublishTime).format('YYYY-MM-DD HH:mm:ss');
-      item.activityStartTime = moment(item.activityStartTime).format('YYYY-MM-DD HH:mm:ss');
-      item.activityEndTime = moment(item.activityEndTime).format('YYYY-MM-DD HH:mm:ss');
-      return true
+  activities.value = data.data.filter(item => {
+    item.activityPublishTime = formatDate(new Date(item.activityPublishTime), 'yyyy-MM-dd hh:mm:ss');
+    item.activityStartTime = formatDate(new Date(item.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
+    item.activityEndTime = formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd hh:mm:ss');
+    return true
   })
   assignment()
 })
@@ -257,31 +245,31 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityName = data.activityName
   activity.value.clubName = data.clubName
   activity.value.activityLocation = data.activityLocation
-  activity.value.createTime = moment(data.createTime).format('YYYY-MM-DD HH:mm:ss');
+  activity.value.createTime = formatDate(new Date(data.createTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.status = data.status
-  activity.value.activityStartTime = moment(data.activityStartTime).format('YYYY-MM-DD HH:mm:ss');
-  activity.value.activityEndTime = moment(data.activityEndTime).format('YYYY-MM-DD HH:mm:ss');
+  activity.value.activityStartTime = formatDate(new Date(data.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
+  activity.value.activityEndTime = formatDate(new Date(data.activityEndTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.activityIntroduction = data.activityIntroduction
   activity.value.activityAttachment = data.activityAttachment
-  activity.value.contactPerson =  data.contactPerson
+  activity.value.contactPerson = data.contactPerson
   activity.value.contactPhone = data.contactPhone
   console.log(activity.value)
 })
 const passActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passActivityApproval, {
-    activityId:activity.value.activityId,
+    activityId: activity.value.activityId,
     opinion: opinion.value
   })
 }
 
 const unPassActivityApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassActivityApproval, {
-    activityId:activity.value.activityId,
+    activityId: activity.value.activityId,
     opinion: opinion.value
   })
 }
 
-eventEmitter.on(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalSuccess', ()=>{
+eventEmitter.on(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalSuccess', () => {
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过活动申请成功',
@@ -289,7 +277,7 @@ eventEmitter.on(APIEventEnum.passActivityApprovalSuccess, 'passActivityApprovalS
   visibleModal.value = false
 })
 
-eventEmitter.on(APIEventEnum.unPassActivityApprovalSuccess, 'unPassActivityApprovalSuccess', ()=>{
+eventEmitter.on(APIEventEnum.unPassActivityApprovalSuccess, 'unPassActivityApprovalSuccess', () => {
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回活动申请成功',

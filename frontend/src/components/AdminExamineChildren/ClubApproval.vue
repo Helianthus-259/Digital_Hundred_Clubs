@@ -41,15 +41,8 @@
       </t-space>
     </t-content>
   </t-layout>
-  <t-dialog
-      v-model:visible="visibleModal"
-      width="60%"
-      top="20px"
-      destroy-on-close=""
-      :confirm-btn="null"
-      :cancel-btn="null"
-      :closeOnEscKeydown="false"
-  >
+  <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :confirm-btn="null"
+    :cancel-btn="null" :closeOnEscKeydown="false">
     <t-layout>
       <t-content>
         <div class="clubEvaluationContainer">
@@ -73,7 +66,7 @@
                   <div class="text">所属校园(区)</div>
                 </t-col>
                 <t-col :span="2" id="table">
-                  {{clubInfo.mainCompus}}
+                  {{ clubInfo.mainCompus }}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -81,7 +74,7 @@
                   <div class="text">所属类别</div>
                 </t-col>
                 <t-col :span="10" id="table">
-                  {{clubInfo.clubCategory}}
+                  {{ clubInfo.clubCategory }}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -89,19 +82,19 @@
                   <div class="text" id="table">业务指导单位</div>
                 </t-col>
                 <t-col :span="2" id="table">
-                  {{clubInfo.responsibleDepartment}}
+                  {{ clubInfo.responsibleDepartment }}
                 </t-col>
                 <t-col :span="2" id="table">
                   <div class="text">行政指导教师</div>
                 </t-col>
                 <t-col :span="2" id="table">
-                  {{clubInfo.adminGuideTeacher}}
+                  {{ clubInfo.adminGuideTeacher }}
                 </t-col>
                 <t-col :span="2" id="table">
                   <div class="text">业务指导教师</div>
                 </t-col>
                 <t-col :span="2" id="table">
-                  {{clubInfo.businessGuideTeacher}}
+                  {{ clubInfo.businessGuideTeacher }}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -132,7 +125,7 @@
                   <div class="text">学生社团简介</div>
                 </t-col>
                 <t-col :span="10" id="table">
-                  {{clubInfo.clubDescription}}
+                  {{ clubInfo.clubDescription }}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -140,10 +133,10 @@
                   <div class="text">附件</div>
                 </t-col>
                 <t-col :span="5" id="table">
-                  {{clubInfo.attachmentUrl}}
+                  {{ clubInfo.attachmentUrl }}
                 </t-col>
                 <t-col :span="5" id="table">
-                  {{clubInfo.advisorResumeAttachmentUrl}}
+                  {{ clubInfo.advisorResumeAttachmentUrl }}
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -151,12 +144,8 @@
                   <div class="text">意见</div>
                 </t-col>
                 <t-col :span="10" id="table">
-                  <t-textarea
-                      v-model="universityStudentUnionReviewOpinion"
-                      placeholder="请输入意见"
-                      name="description"
-                      :autosize="true"
-                  />
+                  <t-textarea v-model="universityStudentUnionReviewOpinion" placeholder="请输入意见" name="description"
+                    :autosize="true" />
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -176,7 +165,7 @@
 </template>
 
 <script lang="jsx" setup>
-import {onMounted, onUnmounted, ref} from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 
 
@@ -184,8 +173,8 @@ import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon } f
 import store from "@/store/index.js";
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
-import {NotifyPlugin} from "tdesign-vue-next";
-import moment from "moment";
+import { NotifyPlugin } from "tdesign-vue-next";
+import formatDate from '@/utils';
 // 审核状态
 const status = ref('all');
 // 校区
@@ -196,8 +185,8 @@ const category = ref('all');
 //对话框
 const visibleModal = ref(false);
 const clubInfo = ref({
-  recordId:'',
-  clubId:'',
+  recordId: '',
+  clubId: '',
   clubName: '',
   establishmentDate: '',
   responsibleDepartment: '',
@@ -210,7 +199,7 @@ const clubInfo = ref({
   contactPhone: '',
   clubStatus: '',
   attachmentUrl: "",
-  advisorResumeAttachmentUrl:'',
+  advisorResumeAttachmentUrl: '',
 });
 
 // 表格
@@ -234,7 +223,7 @@ onMounted(() => {
     clubsData.value = data.filter(item => {
       item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
       item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
-      item.establishmentDate = moment(item.establishmentDate).format('YYYY-MM-DD HH:mm:ss')
+      item.establishmentDate = formatDate(new Date(item.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
       return true
     })
     assignment()
@@ -302,7 +291,7 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
   clubInfo.value.attachmentUrl = data.attachmentUrl
   clubInfo.value.adminGuideTeacher = data.adminGuideTeacher
   clubInfo.value.businessGuideTeacher = data.businessGuideTeacher
-  clubInfo.value.establishmentDate = moment(data.establishmentDate).format('YYYY-MM-DD HH:mm:ss')
+  clubInfo.value.establishmentDate = formatDate(new Date(data.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
   clubInfo.value.contactPerson = data.contactPerson
   clubInfo.value.contactPhone = data.contactPhone
   clubInfo.value.clubStatus = data.clubStatus
@@ -312,19 +301,19 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
 
 const passClubApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.passClubApproval, {
-    recordId:clubInfo.value.recordId,
+    recordId: clubInfo.value.recordId,
     universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
   })
 }
 
 const unPassClubApproval = () => {
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubApproval, {
-    recordId:clubInfo.value.recordId,
+    recordId: clubInfo.value.recordId,
     universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
   })
 }
 
-eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', ()=>{
+eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', () => {
   console.log("success")
   NotifyPlugin.success({
     title: '操作成功',
@@ -333,7 +322,7 @@ eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess',
   visibleModal.value = false
 })
 
-eventEmitter.on(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess', ()=>{
+eventEmitter.on(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess', () => {
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团建立申请成功',
