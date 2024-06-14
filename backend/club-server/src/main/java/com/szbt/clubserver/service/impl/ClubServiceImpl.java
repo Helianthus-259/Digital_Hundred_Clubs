@@ -89,7 +89,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                         Clubapplicationrecord::getUniversityStudentUnionReviewOpinion)
                 .leftJoin(Clubapplicationrecord.class, Clubapplicationrecord::getClubId, Club::getClubId)
                 .eq(Club::getContactPersonId, id)
-                .eq(Club::getClubStatus, 0);
+                .and(wq-> wq.eq(Club::getClubStatus, 0)
+                        .or().isNull(Club::getClubStatus));
         try{
             List<ClubDTO> clubDTOS = clubMapper.selectJoinList(ClubDTO.class, wrapper);
             clubDTOS.addAll(clubDTOS1);
@@ -224,6 +225,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Club::getClubId,clubId);
         try{
             ClubApplicationInfoDTO clubApplicationInfoDTO = clubMapper.selectJoinOne(ClubApplicationInfoDTO.class, wrapper);
+            clubApplicationInfoDTO.setClubDescription(MyJsonParser.parserJsonText(clubApplicationInfoDTO.getClubDescription()));
             String attachmentUrl = clubApplicationInfoDTO.getAttachmentUrl();
             clubApplicationInfoDTO.setAttachmentUrl(FileRequestUrlBuilder.buildFileRequestUrl(attachmentUrl));
             clubApplicationInfoDTO.setAdvisorResumeAttachmentUrl(FileRequestUrlBuilder

@@ -245,7 +245,7 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityName = data.activityName
   activity.value.clubName = data.clubName
   activity.value.activityLocation = data.activityLocation
-  activity.value.createTime = formatDate(new Date(data.createTime), 'yyyy-MM-dd hh:mm:ss');
+  activity.value.activityPublishTime = formatDate(new Date(data.activityPublishTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.status = data.status
   activity.value.activityStartTime = formatDate(new Date(data.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.activityEndTime = formatDate(new Date(data.activityEndTime), 'yyyy-MM-dd hh:mm:ss');

@@ -1,27 +1,20 @@
 package com.szbt.adminserver.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.adminserver.dao.mapper.ClubapplicationrecordMapper;
 import com.szbt.adminserver.service.ClubapplicationrecordService;
-import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.service.ClubClientService;
 import org.example.util.Result;
-import org.example.vo.DataVO;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-
-import java.util.List;
 
 /**
 * @author 小壳儿

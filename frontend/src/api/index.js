@@ -57,7 +57,7 @@ const api = {
         params: {
             contactPersonId: params.studentId,
             clubName: params.clubName,
-            clubDescription: params.clubDescription,
+            clubDescription: JSON.stringify(params.clubDescription),
             clubCategory: params.clubCategory,
             mainCampus: params.mainCampus,
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
@@ -164,14 +164,15 @@ const api = {
     'uploadImage': ({ file, flag = '' }) => {
         const formData = new FormData();
         formData.append('image', file);
-        return axios.post(path.uploadImage, {}, {
+        return axios.post(path.uploadImage, toFormData({
+            params: {
+                image: file,
+                flag: flag
+            }
+        }), {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            params: {
-                formData,
-                flag
-            }
         })
     },
     'postDeleteClubMember': (params) => axios.post(path.deleteClubMember, toFormData({ // 删除社团干部，即将干部变成普通成员
@@ -235,14 +236,15 @@ const api = {
     'uploadFile': ({ file, flag = '' }) => {
         const formData = new FormData();
         formData.append('file', file);
-        return axios.post(path.uploadFile, {}, {
+        return axios.post(path.uploadFile, toFormData({
+            params: {
+                file: file,
+                flag: flag
+            }
+        }), {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            params: {
-                formData,
-                flag
-            }
         })
     },
     'postClubAnnualAuditForm': (params) => axios.post(path.clubAnnualAuditForm, toFormData({ // 提交年审表

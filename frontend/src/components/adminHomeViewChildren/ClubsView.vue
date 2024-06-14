@@ -50,7 +50,7 @@ const handleRouter = (clubId) => {
 
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
     clubs.value = data
-    clubsView.value = clubs.value
+    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null})
 })
 
 eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {

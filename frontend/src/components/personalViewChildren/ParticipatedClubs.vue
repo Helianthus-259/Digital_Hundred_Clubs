@@ -471,7 +471,8 @@ const clubsNotManage = ref([])
 const positions = JSON.parse(localStorage.getItem('enumList')).positions
 
 const applying = (club) => {
-    if (club.clubStatus === 0 && club.collegeReviewStatus !== 0 && club.universityStudentUnionReviewStatus !== 0) {
+    console.log(club)
+    if (club.clubStatus === null && club.collegeReviewStatus !== 0 && club.universityStudentUnionReviewStatus !== 0) {
         return true
     }
     return false

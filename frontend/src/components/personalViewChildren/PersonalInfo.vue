@@ -270,21 +270,21 @@ const getLeaderInfo = () => {
 
 // 社团类型
 const clubTypeOptions = [
-    { label: '学术类', value: '学术类' },
-    { label: '体育类', value: '体育类' },
-    { label: '艺术类', value: '艺术类' },
-    { label: '公益类', value: '公益类' },
-    { label: '科技类', value: '科技类' },
-    { label: '其他类', value: '其他类' }
+    { label: '学术类', value: '0' },
+    { label: '体育类', value: '1' },
+    { label: '艺术类', value: '2' },
+    { label: '公益类', value: '3' },
+    { label: '科技类', value: '4' },
+    { label: '其他类', value: '5' }
 ]
 
 // 校区
 const campusOptions = [
-    { label: '广州南校', value: '广州南校' },
-    { label: '广州东校', value: '广州东校' },
-    { label: '广州北校', value: '广州北校' },
-    { label: '珠海校区', value: '珠海校区' },
-    { label: '深圳校区', value: '深圳校区' },
+    { label: '广州南校', value: '1' },
+    { label: '广州东校', value: '2' },
+    { label: '广州北校', value: '0' },
+    { label: '珠海校区', value: '3' },
+    { label: '深圳校区', value: '4' },
 ]
 
 // 上传文件限制
@@ -312,6 +312,7 @@ const newClubFromValidate = () => {
 }
 
 const submitNewClub = () => {
+    console.log(newClubFrom)
     if (newClubFromValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postNewClubApply, newClubFrom)
     }

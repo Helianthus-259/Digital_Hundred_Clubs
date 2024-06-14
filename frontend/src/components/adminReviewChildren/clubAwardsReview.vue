@@ -220,16 +220,16 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">
-                        {{ formatDate(new Date(item.time), 'yyyy-MM-dd hh:mm:ss') }}
+                        {{ item.meetingTime ? formatDate(new Date(item.meetingTime), 'yyyy-MM-dd hh:mm:ss') : '' }}
                       </t-col>
                       <t-col id="table" :span="4">
                         {{ item.location }}
                       </t-col>
                       <t-col id="table" :span="4">
                         <t-radio-group variant="primary-filled"
-                          :value="item.staffMeetingOrbackBoneMeeting === 0 ? '0' : 1">
-                          <t-radio-button value='0'>全员大会</t-radio-button>
-                          <t-radio-button value='1'>骨干例会</t-radio-button>
+                          :value="item.category">
+                          <t-radio-button :value=0>全员大会</t-radio-button>
+                          <t-radio-button :value=1>骨干例会</t-radio-button>
                         </t-radio-group>
                       </t-col>
                     </t-row>
@@ -257,8 +257,7 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{ item.awardName }}</t-col>
-                      <t-col id="table" :span="4">{{ formatDate(new Date(item.awardTime), 'yyyy-MM-dd hh:mm:ss')
-                        }}</t-col>
+                      <t-col id="table" :span="4">{{ item.awardTime ? formatDate(new Date(item.awardTime), 'yyyy-MM-dd hh:mm:ss') : '' }}</t-col>
                       <t-col id="table" :span="4">{{ item.issuingAuthority }}</t-col>
                     </t-row>
                   </t-popup>
@@ -386,8 +385,7 @@
                   <t-popup placement="left-bottom">
                     <t-row style="border-left: 2px solid #000;" id="table">
                       <t-col :span="4">{{ item.activityName }}</t-col>
-                      <t-col id="table" :span="4">{{ formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd hh:mm:ss')
-                        }}</t-col>
+                      <t-col id="table" :span="4">{{ item.activityEndTime ? formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd hh:mm:ss') : '' }}</t-col>
                       <t-col id="table" :span="4">{{ item.activityEffect }}</t-col>
                     </t-row>
                   </t-popup>
@@ -398,13 +396,17 @@
               <t-col :span="3">
                 <div class="text">社团育人成效案例</div>
               </t-col>
-              <t-col :span="9" id="table">{{ clubEvaluationInfo.clubEducationCaseAttachment }}</t-col>
+              <t-col :span="9" id="table">
+                <t-link theme="primary">{{ clubEvaluationInfo.clubEducationCaseAttachment }}</t-link>
+              </t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="text">社团代表性照片</div>
               </t-col>
-              <t-col :span="9" id="table">{{ clubEvaluationInfo.imageUrl }}</t-col>
+              <t-col :span="9" id="table">
+                <t-link theme="primary">{{ clubEvaluationInfo.imageUrl }}</t-link>
+              </t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -534,7 +536,6 @@ const detail = (data) => {
     clubEvaluationInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic ? '是' : '否'
     clubEvaluationInfo.value.imageUrl = data.imageUrl
     clubEvaluationInfo.value.clubEducationCaseAttachment = data.clubEducationCaseAttachment
-    console.log(clubEvaluationInfo.value)
   })
 }
 

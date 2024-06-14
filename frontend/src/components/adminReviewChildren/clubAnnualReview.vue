@@ -265,7 +265,9 @@
                   <t-col id="table" :span="8">
                     <div class="txt">是否接受校外赞助</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{ clubReviewInfo.externalsponsorshipAttachment }}</t-col>
+                  <t-col id="table" :span="4">
+                    <t-link theme="primary">{{ clubReviewInfo.externalsponsorshipAttachment }}</t-link>
+                  </t-col>
                 </t-row>
                 <t-row id="table">
                   <t-col id="table" :span="8">
@@ -279,13 +281,17 @@
               <t-col :span="3">
                 <div class="txt">学生社团章程</div>
               </t-col>
-              <t-col id="table" :span="9">{{ clubReviewInfo.clubConstitutionAttachment }}</t-col>
+              <t-col id="table" :span="9">
+                <t-link theme="primary">{{ clubReviewInfo.clubConstitutionAttachment }}</t-link>
+              </t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
                 <div class="txt">会议及活动清单</div>
               </t-col>
-              <t-col id="table" :span="9">{{ clubReviewInfo.meetingActivityListAttachment }}</t-col>
+              <t-col id="table" :span="9">
+                <t-link theme="primary">{{ clubReviewInfo.meetingActivityListAttachment }}</t-link>
+              </t-col>
             </t-row>
             <t-row id="table">
               <t-col :span="3">
@@ -383,8 +389,9 @@ const detail = (data) => {
     clubReviewInfo.value.publicityManagementInfo = data.publicityManagementInfo
     clubReviewInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic === '0' ? '否' : '是'
     clubReviewInfo.value.meetingActivityListAttachment = data.meetingActivityListAttachment
-    clubReviewInfo.value.externalsponsorshipAttachment = data.externalsponsorshipAttachment
+    clubReviewInfo.value.externalsponsorshipAttachment = data.externalsponsorshipAttachment ? data.externalsponsorshipAttachment : '否'
     clubReviewInfo.value.clubConstitutionAttachment = data.clubConstitutionAttachment
+    console.log(clubReviewInfo.value)
   })
 }
 

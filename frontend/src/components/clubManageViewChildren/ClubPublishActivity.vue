@@ -484,6 +484,7 @@ onMounted(() => {
         pNumber++
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
+        console.log(data)
         newActivityForm.imageUrl = data.url
         MessagePlugin.success('图片上传成功')
 
@@ -499,6 +500,7 @@ onMounted(() => {
         closeDialog()
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        console.log(data)
         newActivityForm.applicationFormAttachment = data.url
         MessagePlugin.success('附件上传成功')
     })

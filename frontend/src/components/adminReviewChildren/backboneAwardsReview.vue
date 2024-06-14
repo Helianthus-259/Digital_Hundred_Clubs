@@ -236,6 +236,7 @@ const detail = (data) => {
   console.log(data)
   choose.value = data.recordId
   backBoneEvaluate.value = data
+  backBoneEvaluate.value.position = JSON.parse(localStorage.getItem('enumList')).positions[data.position].name
 }
 
 const backBoneEvaluations = ref([])

@@ -133,10 +133,10 @@
                   <div class="text">附件</div>
                 </t-col>
                 <t-col :span="5" id="table">
-                  {{ clubInfo.attachmentUrl }}
+                  <t-link theme="primary" @click="getFile(clubInfo.attachmentUrl)">{{ clubInfo.attachmentUrl }}</t-link>
                 </t-col>
                 <t-col :span="5" id="table">
-                  {{ clubInfo.advisorResumeAttachmentUrl }}
+                  <t-link theme="primary" @click="getFile(clubInfo.advisorResumeAttachmentUrl)">{{ clubInfo.advisorResumeAttachmentUrl }}</t-link>
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -311,6 +311,12 @@ const unPassClubApproval = () => {
     recordId: clubInfo.value.recordId,
     universityStudentUnionReviewOpinion: universityStudentUnionReviewOpinion.value
   })
+}
+
+const getFile = (file) =>{
+    fetch(file).then(response => {
+      console.log(response)
+    })
 }
 
 eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', () => {

@@ -43,7 +43,6 @@ if (store.state.clubsData.length > 0) {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }
 
-console.log(clubsView.value)
 
 const handleRouter = (clubId) => {
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })
@@ -53,7 +52,7 @@ const handleRouter = (clubId) => {
 
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
     clubs.value = data
-    clubsView.value = clubs.value
+    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null})
 })
 
 eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {

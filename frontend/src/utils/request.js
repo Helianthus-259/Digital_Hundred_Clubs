@@ -128,7 +128,7 @@ function successHandler(res) {
             const clubs = response.data.data
             eventEmitter.emit(APIEventEnum.getTopTenClubsSuccess, clubs)
         } else if (response.data.code === 33) { // 上传文件成功
-            const { file } = response.data
+            const file = response.data
             eventEmitter.emit(APIEventEnum.uploadFileSuccess, file)
         } else if (response.data.code === 34) { // 提交社团年审表成功
             eventEmitter.emit(APIEventEnum.postClubAnnualAuditFormSuccess)

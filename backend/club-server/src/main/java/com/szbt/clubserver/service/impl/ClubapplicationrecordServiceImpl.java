@@ -15,6 +15,7 @@ import org.example.vo.SingleCodeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,11 +51,13 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
     @Override
     public Object newClubApply(Club club, String advisorResumeAttachmentUrl) {
         club.setTotalMembers(1);
+        club.setEstablishmentDate(new Date());
         try{
             int insertById = clubMapper.insert(club);
             if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
         }catch (Exception e){
             e.printStackTrace();
+            return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
         }
         Clubapplicationrecord clubapplicationrecord = new Clubapplicationrecord();
         clubapplicationrecord.setClubId(club.getClubId());
@@ -65,6 +68,7 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
             if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
         }catch (Exception e){
             e.printStackTrace();
+            return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
         }
         return Result.success(new SingleCodeVO(ResultCode.ADD_CLUB_APPLICATION));
     }
