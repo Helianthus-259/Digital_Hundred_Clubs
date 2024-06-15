@@ -1,18 +1,18 @@
 <template>
   <t-layout>
     <t-aside>
-      <t-menu theme="light" v-model="value" height="700px" width="200px">
-        <t-menu-item value="item0" @click="getAllActivities">全部活动</t-menu-item>
-        <t-menu-item value="item1" @click="getPendingActivities">待审批</t-menu-item>
-        <t-menu-item value="item2" @click="getPassedActivities">已通过</t-menu-item>
-        <t-menu-item value="item3" @click="getUnPassedActivities">已驳回</t-menu-item>
+      <t-menu theme="light" v-model="status" height="700px" width="200px">
+        <t-menu-item value="all" @click="onSearch">全部活动</t-menu-item>
+        <t-menu-item :value="null" @click="onSearch">待审批</t-menu-item>
+        <t-menu-item :value="1" @click="onSearch">已通过</t-menu-item>
+        <t-menu-item :value="0" @click="onSearch">已驳回</t-menu-item>
       </t-menu>
     </t-aside>
     <t-layout>
       <t-header>
         <t-space direction="horizontal">
-          <t-input style="width: 500px" placeholder="请输入搜索内容" />
-          <t-button theme="primary">
+          <t-input style="width: 500px" v-model="search" placeholder="根据社团名/活动名搜索..." />
+          <t-button theme="primary" @click="onSearch">
             <template #icon>
               <SearchIcon />
             </template>
@@ -131,7 +131,7 @@
 import { onUnmounted, ref } from 'vue';
 
 
-const value = ref('item0');
+const status = ref('all');
 import { ErrorCircleFilledIcon, CheckCircleFilledIcon, CloseCircleFilledIcon, SearchIcon } from 'tdesign-icons-vue-next';
 import eventEmitter from "@/utils/eventEmitter.js";
 import { APIEnum, APIEventEnum } from "@/Enum/index.js";
@@ -187,6 +187,7 @@ const hover = ref(false);
 const tableLayout = ref(false);
 const size = ref('medium');
 const showHeader = ref(true);
+const search = ref('');
 
 const columns = ref([
   { colKey: 'clubName', title: '社团名称', width: '100' },
@@ -220,23 +221,13 @@ const detail = (value) => {
   visibleModal.value = true;
 }
 
-const getAllActivities = () => {
-  data.value = activities.value
-  pagination.value.total = data.value.length
-}
-
-const getPassedActivities = () => {
-  data.value = activities.value.filter(item => item.activityStatus === 1)
-  pagination.value.total = data.value.length
-}
-
-const getUnPassedActivities = () => {
-  data.value = activities.value.filter(item => item.activityStatus === 0)
-  pagination.value.total = data.value.length
-}
-
-const getPendingActivities = () => {
-  data.value = activities.value.filter(item => item.activityStatus === null)
+const onSearch = () => {
+  data.value = activities.value.filter((item) => {
+    return (item.activityStatus === status.value || status.value === 'all') &&
+        ((item.activityName.indexOf(search.value) > -1) ||
+            (item.clubName.indexOf(search.value) > -1) ||
+            search.value === '');
+  })
   pagination.value.total = data.value.length
 }
 

@@ -34,7 +34,7 @@
                     <template #label>
                         <div class="label-content">
                             <icon-font name="examine" size="large" />
-                            <span>社团审批</span>
+                            <span>社团/活动</span>
                         </div>
                     </template>
                 </t-tab-panel>

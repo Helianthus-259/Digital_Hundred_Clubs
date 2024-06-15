@@ -391,8 +391,8 @@ mock.onGet(path.activitiesInfo).reply((config) => {
     for (let i = 0; i < 15; i++) {
         data.push({
             activityId: i,
-            clubName: `社团${i}`,
-            activityName: '活动名称',
+            clubName: ['音乐社','围棋社','棒球社','足球社','篮球社'][i % 5],
+            activityName: ['比赛','讲座','活动','出游','集体活动'][i % 5],
             activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
             createTime: '2023-04-19 12:00:00',
             activityStartTime: '2023-04-20 12:00:00',
