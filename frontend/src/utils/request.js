@@ -218,6 +218,10 @@ function successHandler(res) {
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassClubAwardReviewSuccess)
         }
+        // 错误处理
+    } else if(response.status === 2001){    // 用户名或密码错误
+        const msg = response.data.msg
+        eventEmitter.emit(APIEventEnum.incorrectInput, msg)
     }
 }
 
