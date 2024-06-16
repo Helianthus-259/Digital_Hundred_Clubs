@@ -6,5 +6,5 @@ public class FileConstants {
 
     public static final String filePathPrefix = "document/";
 
-    public static final String fileServerDownloadUrl = "127.0.0.1/api/file/downloadFile/";
+    public static final String fileServerDownloadUrl = "http://127.0.0.1/api/file/downloadFile/";
 }

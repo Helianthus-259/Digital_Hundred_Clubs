@@ -153,6 +153,10 @@ public class FileController {
             Filename = encodedFilename;
             System.out.println("Filename:" + Filename);
             headers.add("Content-Disposition", "attachment;filename=" + Filename);
+            //headers.add("Content-Disposition", "inline;filename=" + Filename);
+            // 根据文件扩展名设置Content-Type
+            String fileExtension = getExtension(Filename);
+            headers.setContentType(determineContentType(fileExtension));
             entity = new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,6 +170,40 @@ public class FileController {
             }
         }
         return entity;
+    }
+
+    private MediaType determineContentType(String fileExtension) {
+        if (fileExtension != null) {
+            switch (fileExtension.toLowerCase()) {
+                case "jpg":
+                case "jpeg":
+                    return MediaType.IMAGE_JPEG;
+                case "png":
+                    return MediaType.IMAGE_PNG;
+                case "gif":
+                    return MediaType.IMAGE_GIF;
+                case "pdf":
+                    return MediaType.APPLICATION_PDF;
+                case "docx":
+                    return MediaType.APPLICATION_OCTET_STREAM; // 或者使用application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                case "xlsx":
+                    return MediaType.APPLICATION_OCTET_STREAM; // 或者使用application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                // 添加其他文件类型及其对应的MediaType
+                default:
+                    // 如果无法确定类型，默认使用application/octet-stream
+                    return MediaType.APPLICATION_OCTET_STREAM;
+            }
+        }
+        // 如果文件名没有扩展名，默认使用application/octet-stream
+        return MediaType.APPLICATION_OCTET_STREAM;
+    }
+
+    private String getExtension(String filename) {
+        int dotIndex = filename.lastIndexOf(".");
+        if (dotIndex > 0 && dotIndex < filename.length() - 1) {
+            return filename.substring(dotIndex + 1).toLowerCase();
+        }
+        return null;
     }
 
     /**
