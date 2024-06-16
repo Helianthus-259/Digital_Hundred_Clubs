@@ -184,10 +184,6 @@ public class FileController {
                     return MediaType.IMAGE_GIF;
                 case "pdf":
                     return MediaType.APPLICATION_PDF;
-                case "docx":
-                    return MediaType.APPLICATION_OCTET_STREAM; // 或者使用application/vnd.openxmlformats-officedocument.wordprocessingml.document
-                case "xlsx":
-                    return MediaType.APPLICATION_OCTET_STREAM; // 或者使用application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
                 // 添加其他文件类型及其对应的MediaType
                 default:
                     // 如果无法确定类型，默认使用application/octet-stream
