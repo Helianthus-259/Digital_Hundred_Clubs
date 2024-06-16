@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 @Component
 public class TokenFilter implements GlobalFilter, Ordered {
@@ -28,6 +29,8 @@ public class TokenFilter implements GlobalFilter, Ordered {
 
     private final List<String> bypassPaths;
 
+    private final Pattern bypassPathPattern;
+
     private final String bypassPathPrefix;
 
     @Autowired
@@ -35,6 +38,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
         this.jwtUtils = jwtUtils;
         // 初始化绕过路径列表
         this.bypassPaths = Arrays.asList("/api/auth/student/login", "/api/auth/student/register");
+        this.bypassPathPattern = Pattern.compile("^/api/file/downloadFile/.*");
         // 初始化绕过路径
         this.bypassPathPrefix = "/api/auth";
     }
@@ -49,6 +53,11 @@ public class TokenFilter implements GlobalFilter, Ordered {
 //        if (bypassPaths.contains(path)) {
 //            return chain.filter(exchange);
 //        }
+
+        // 使用正则表达式匹配当前请求路径是否需要绕过Token认证
+        if (bypassPathPattern.matcher(path).matches()) {
+            return chain.filter(exchange);
+        }
 
         // 检查当前请求路径是否绕过
         if (path.startsWith(bypassPathPrefix)) {
