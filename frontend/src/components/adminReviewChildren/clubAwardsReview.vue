@@ -397,7 +397,7 @@
                 <div class="text">社团育人成效案例</div>
               </t-col>
               <t-col :span="9" id="table">
-                <t-link theme="primary">{{ clubEvaluationInfo.clubEducationCaseAttachment }}</t-link>
+                <t-link v-show="clubEvaluationInfo.recordId" theme="primary" @click="getAttach(clubEvaluationInfo.clubEducationCaseAttachment)">点击查看社团育人成效案例</t-link>
               </t-col>
             </t-row>
             <t-row id="table">
@@ -405,7 +405,7 @@
                 <div class="text">社团代表性照片</div>
               </t-col>
               <t-col :span="9" id="table">
-                <t-link theme="primary">{{ clubEvaluationInfo.imageUrl }}</t-link>
+                <img :src="clubEvaluationInfo.imageUrl"/>
               </t-col>
             </t-row>
             <t-row id="table">
@@ -533,6 +533,10 @@ const detail = (data) => {
     clubEvaluationInfo.value.imageUrl = data.imageUrl
     clubEvaluationInfo.value.clubEducationCaseAttachment = data.clubEducationCaseAttachment
   })
+}
+
+const getAttach = (file) =>{
+    window.open(file)
 }
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluations)

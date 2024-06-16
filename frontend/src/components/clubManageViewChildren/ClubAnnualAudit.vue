@@ -442,10 +442,10 @@ const selectFileChangeHandler = (fileList, flag) => {
 }
 
 const submitClubAnnualAuditForm = () => {
-    // if (clubAnnualAudit.clubConstitutionAttachment === '' && clubAnnualAudit.meetingActivityListAttachment === '') {
-    //     MessagePlugin.warning('请填写完整信息')
-    //     return
-    // }
+    if (clubAnnualAudit.clubConstitutionAttachment === '' && clubAnnualAudit.meetingActivityListAttachment === '') {
+        MessagePlugin.warning('请填写完整信息')
+        return
+    }
     eventEmitter.emit(APIEventEnum.request, APIEnum.postClubAnnualAuditForm, { clubId, ...clubAnnualAudit })
 }
 
@@ -463,6 +463,7 @@ onMounted(() => {
         clubAnnualAudit.isFinancialInformationPublic = data.isFinancialInformationPublic
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        data = data.file
         if (data.flag === 'externalSponsorshipAttachment') {
             clubAnnualAudit.externalSponsorshipAttachment = data.url
         } else if (data.flag === 'clubConstitutionAttachment') {

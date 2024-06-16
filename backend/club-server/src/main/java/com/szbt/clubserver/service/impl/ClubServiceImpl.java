@@ -194,15 +194,11 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .leftJoin(Administrator.class,Administrator::getAdminId,Club::getResponsibleDepartmentId)
                 .leftJoin(Student.class,Student::getStudentId,Club::getContactPersonId)
                 .eq(Annualaudit::getClubId, clubId);
-//                .eq(Annualaudit::getDeclarationYear, declarationYear);
         try{
             ClubAnnualDTO clubAnnualDTO = clubMapper.selectJoinOne(ClubAnnualDTO.class, wrapper);
-//            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder
-//                    .buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
-//            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder
-//                    .buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
-//            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder
-//                    .buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
+            clubAnnualDTO.setClubConstitutionAttachment(FileRequestUrlBuilder.buildFileRequestUrl(clubAnnualDTO.getClubConstitutionAttachment()));
+            clubAnnualDTO.setExternalSponsorshipAttachment(FileRequestUrlBuilder.buildFileRequestUrl(clubAnnualDTO.getExternalSponsorshipAttachment()));
+            clubAnnualDTO.setMeetingActivityListAttachment(FileRequestUrlBuilder.buildFileRequestUrl(clubAnnualDTO.getMeetingActivityListAttachment()));
             return Result.success(new DataVO(ResultCode.GET_THIS_YEAR_CLUB_ANNUL_INFO,clubAnnualDTO));
         }catch (Exception e){
             e.printStackTrace();

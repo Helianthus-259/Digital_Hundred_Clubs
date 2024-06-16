@@ -62,6 +62,9 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                     });
             List<List<Activity>> activityInfoLists = activityClientService.queryActivityInfoByClubIdList(idList);
             List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityInfoLists.get(0), new TypeToken<List<ActivityShowDTO>>() {}.getType());
+            for(ActivityShowDTO act : activityShowDTOList){
+                act.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(act.getImageUrl()));
+            }
             ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
             return Result.success(clubActAndNtcVO);
         } catch (Exception e) {

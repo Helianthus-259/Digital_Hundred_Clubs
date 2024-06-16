@@ -772,6 +772,7 @@ onMounted(() => {
         clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
+        data = data.file
         clubEvaluation.clubEducationCaseAttachment = data.url
         MessagePlugin.success('文件上传成功')
     })

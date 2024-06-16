@@ -58,7 +58,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
             System.out.println(id);
             ActivityDTO activity = activityMapper.selectJoinOne(ActivityDTO.class, wrapper);
             activity.setClubName(clubInfo.getClubName());
-            System.out.println(activity);
+            activity.setApplicationFormAttachment(FileRequestUrlBuilder.buildFileRequestUrl(activity.getApplicationFormAttachment()));
+            activity.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(activity.getImageUrl()));
             return Result.success(new DataVO(ResultCode.GET_ACTIVITY_INFO, activity));
         }catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +97,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
                 .selectAll(Activity.class);
         try{
             List<ActivityDTO> activity = activityMapper.selectJoinList(ActivityDTO.class, wrapper);
-            System.out.println(activity);
+            for(ActivityDTO act : activity){
+                act.setApplicationFormAttachment(FileRequestUrlBuilder.buildFileRequestUrl(act.getApplicationFormAttachment()));
+                act.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(act.getImageUrl()));
+            }
             return activity;
         }catch (Exception e){
             e.printStackTrace();
@@ -117,6 +121,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
             activityMapper.selectPage(page, wrapper);
             // 获取分页结果
             List<Activity> activityList = page.getRecords();
+            for(Activity act : activityList){
+                act.setApplicationFormAttachment(FileRequestUrlBuilder.buildFileRequestUrl(act.getApplicationFormAttachment()));
+                act.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(act.getImageUrl()));
+            }
             return Result.success(new DataVO(ResultCode.GET_LATEST_ACTIVITY, activityList));
 
         }catch (Exception e) {

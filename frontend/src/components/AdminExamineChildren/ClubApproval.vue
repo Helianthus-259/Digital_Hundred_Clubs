@@ -312,9 +312,8 @@ const unPassClubApproval = () => {
 }
 
 const getFile = (file) =>{
-    fetch(file).then(response => {
-      console.log(response)
-    })
+    console.log(file)
+    window.open(file)
 }
 
 eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', () => {

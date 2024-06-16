@@ -266,14 +266,14 @@
                     <div class="txt">是否接受校外赞助</div>
                   </t-col>
                   <t-col id="table" :span="4">
-                    <t-link theme="primary">{{ clubReviewInfo.externalsponsorshipAttachment }}</t-link>
+                    <t-link theme="primary" v-show="clubReviewInfo.declarationId" @click="getAttachment(clubReviewInfo.externalSponsorshipAttachment)">{{ clubReviewInfo.externalSponsorshipAttachment === "http://127.0.0.1/api/file/downloadFile/" ? '否' : '附件详情'}}</t-link>
                   </t-col>
                 </t-row>
                 <t-row id="table">
                   <t-col id="table" :span="8">
                     <div class="txt">是否向社团成员进行财务公开</div>
                   </t-col>
-                  <t-col id="table" :span="4">{{ clubReviewInfo.isFinancialInformationPublic}}</t-col>
+                  <t-col id="table" :span="4">{{ clubReviewInfo.isFinancialInformationPublic }}</t-col>
                 </t-row>
               </t-col>
             </t-row>
@@ -282,7 +282,7 @@
                 <div class="txt">学生社团章程</div>
               </t-col>
               <t-col id="table" :span="9">
-                <t-link theme="primary">{{ clubReviewInfo.clubConstitutionAttachment }}</t-link>
+                <t-link theme="primary" v-show="clubReviewInfo.declarationId" @click="getAttachment(clubReviewInfo.clubConstitutionAttachment)">点击查看学生社团章程详情</t-link>
               </t-col>
             </t-row>
             <t-row id="table">
@@ -290,7 +290,7 @@
                 <div class="txt">会议及活动清单</div>
               </t-col>
               <t-col id="table" :span="9">
-                <t-link theme="primary">{{ clubReviewInfo.meetingActivityListAttachment }}</t-link>
+                <t-link theme="primary" v-show="clubReviewInfo.declarationId" @click="getAttachment(clubReviewInfo.meetingActivityListAttachment)">点击查看会议及活动清单详情</t-link>
               </t-col>
             </t-row>
             <t-row id="table">
@@ -358,7 +358,7 @@ const clubReviewInfo = ref({
     Other: { has: '', name: '' },
   },
   meetingActivityListAttachment: '',
-  externalsponsorshipAttachment:'',
+  externalSponsorshipAttachment:'',
   clubConstitutionAttachment:'',
   status:'',
 })
@@ -389,10 +389,15 @@ const detail = (data) => {
     clubReviewInfo.value.publicityManagementInfo = data.publicityManagementInfo
     clubReviewInfo.value.isFinancialInformationPublic = data.isFinancialInformationPublic === '0' ? '否' : '是'
     clubReviewInfo.value.meetingActivityListAttachment = data.meetingActivityListAttachment
-    clubReviewInfo.value.externalsponsorshipAttachment = data.externalsponsorshipAttachment ? data.externalsponsorshipAttachment : '否'
+    clubReviewInfo.value.externalSponsorshipAttachment = data.externalSponsorshipAttachment
     clubReviewInfo.value.clubConstitutionAttachment = data.clubConstitutionAttachment
     console.log(clubReviewInfo.value)
   })
+}
+
+const getAttachment = (attachment) =>{
+    // 打开附件后下载,建议改成预览
+    window.open(attachment)
 }
 
 const passClubAnnualReview = () => {
