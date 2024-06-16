@@ -523,7 +523,8 @@ onMounted(() => {
         clubInfo.mainCompus = mainCampuses[data.mainCampus].name
         clubInfo.totalMembers = data.totalMembers
         clubInfo.isFinancialInformationPublic = data.isFinancialInformationPublic + ''
-        clubInfo.imageUrl = '/src/assets/loginBg.jpg'
+        // clubInfo.imageUrl = '/src/assets/loginBg.jpg'\
+        clubInfo.imageUrl = data.imageUrl
     })
     eventEmitter.on(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess', (data) => {
         clubMember[0].stName = data.president.stName;

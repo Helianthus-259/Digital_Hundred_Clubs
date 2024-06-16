@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
+import com.szbt.clubserver.dao.mapper.ClubmemberMapper;
 import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
@@ -40,6 +41,9 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     implements ClubService {
     @Autowired
     private ClubMapper clubMapper;
+
+    @Autowired
+    private ClubmemberMapper clubmemberMapper;
 
     @Autowired
     private ClubapplicationrecordService clubapplicationrecordService;
@@ -331,6 +335,18 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             Club club = clubMapper.selectById(clubId);
             club.setClubStatus(1);
             club.setEstablishmentDate(new Date());
+            Clubmember clubmember = new Clubmember();
+            clubmember.setClubId(club.getClubId());
+            clubmember.setClubName(club.getClubName());
+            clubmember.setStudentId(club.getContactPersonId());
+            clubmember.setJoinDate(new Date());
+            clubmember.setPosition(0);
+            System.out.println(clubmember);
+            int insert = clubmemberMapper.insert(clubmember);
+            if(insert <= 0){
+                transactionManager.rollback(transactionStatus);
+                return false;
+            }
             clubMapper.updateById(club);
             transactionManager.commit(transactionStatus);
             return true;

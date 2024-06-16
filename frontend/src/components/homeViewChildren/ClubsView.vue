@@ -38,7 +38,7 @@ const clubsView = ref([])
 // 在created生命周期中调用接口
 if (store.state.clubsData.length > 0) {
     clubs.value = store.state.clubsData
-    clubsView.value = clubs.value
+    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null})
 } else {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }

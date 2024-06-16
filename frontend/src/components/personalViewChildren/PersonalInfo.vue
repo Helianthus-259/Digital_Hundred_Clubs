@@ -386,7 +386,7 @@ onMounted(() => {
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
         MessagePlugin.success('文件上传成功')
-        newClubFrom.material = data.url
+        newClubFrom.material = data.file.url
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         MessagePlugin.success('图片上传成功')
