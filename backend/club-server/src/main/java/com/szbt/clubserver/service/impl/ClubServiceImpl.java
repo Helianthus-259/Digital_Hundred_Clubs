@@ -336,6 +336,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             club.setClubStatus(1);
             club.setEstablishmentDate(new Date());
             clubMapper.updateById(club);
+            transactionManager.commit(transactionStatus);
             return true;
         }catch (Exception e) {
             transactionManager.rollback(transactionStatus);
@@ -353,6 +354,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             Club club = clubMapper.selectById(clubId);
             club.setClubStatus(0);
             clubMapper.updateById(club);
+            transactionManager.commit(transactionStatus);
             return true;
         }catch (Exception e) {
             transactionManager.rollback(transactionStatus);

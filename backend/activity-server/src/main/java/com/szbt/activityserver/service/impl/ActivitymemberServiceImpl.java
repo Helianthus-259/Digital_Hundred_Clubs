@@ -130,6 +130,7 @@ public class ActivitymemberServiceImpl extends ServiceImpl<ActivitymemberMapper,
                     activitymemberMapper.updateById(activitymember);
                 }
             });
+            transactionManager.commit(transactionStatus);
             return Result.success(new SingleCodeVO(ResultCode.ADD_PERSONAL_PERFORMANCE));
         }catch (Exception e) {
             e.printStackTrace();

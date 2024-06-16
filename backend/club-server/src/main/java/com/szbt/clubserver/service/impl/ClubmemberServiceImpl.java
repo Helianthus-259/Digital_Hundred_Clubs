@@ -148,7 +148,11 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
             int updateById = clubmemberMapper.updateById(newClubmember);
             if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("新干部数据更新失败"));
             updateById = clubmemberMapper.updateById(oldClubmember);
-            if (updateById<=0) return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("旧干部数据更新失败"));
+            if (updateById<=0){
+                transactionManager.rollback(transactionStatus);
+                return Result.send(StatusCode.UPDATE_CLUB_MEMBER_ERROR,new SendMsg("旧干部数据更新失败"));
+            }
+            transactionManager.commit(transactionStatus);
             return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_MEMBER));
 
         }catch (Exception e) {
