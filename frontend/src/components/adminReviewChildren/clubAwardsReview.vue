@@ -449,19 +449,15 @@ const clubEvaluationInfo = ref({
   totalMembers: '',
   administrativeGuideTeacherName: '',
   businessGuideTeacherName: '',
-  mainCompus: "",
   backboneNumber: '',
   communistRelatedBackBoneNumber: '',
   declarationYear: '',
   guideTeacher: '',
   meetings: [
     {
-      activityId: '',
-      clubId: '',
-      time: '',
+      meetingTime: '',
       location: '',
-      staffMeetingOrbackBoneMeeting: '',//0全员大会,1骨干例会
-      guideTeacher: '',
+      category: '',//0全员大会,1骨干例会
     }
   ],
   associationAwards: [
@@ -541,6 +537,7 @@ const detail = (data) => {
 
 eventEmitter.emit(APIEventEnum.request, APIEnum.getClubEvaluations)
 eventEmitter.on(APIEventEnum.getClubEvaluationsSuccess, 'getClubEvaluationsSuccess', (data) => {
+  console.log(data)
   evaluations.value = data.filter(evaluation => { return evaluation.status === null })
 })
 

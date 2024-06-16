@@ -68,6 +68,7 @@ function successHandler(res) {
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setAdminInit, { token, adminId })
             eventEmitter.emit(RouterEventEnum.push, "/adminFirstPage")//登录成功后应直接去往管理员首页
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminFirstPageTabs', value: 'admin' })
+            eventEmitter.emit(APIEventEnum.postAdminLoginSuccess)
         } else if (response.data.code === 10) { // 获取管理员信息成功
             const { data } = response.data
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setUserInfo, data)//这里的设计是，管理员信息也同样放在userinfo中，可以考虑改进

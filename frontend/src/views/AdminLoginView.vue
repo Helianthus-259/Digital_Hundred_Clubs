@@ -78,10 +78,11 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import fixedLabelBar from '../components/FixedLabelBar.vue';
-import { reactive, ref, computed } from 'vue';
+import {reactive, ref, computed, onUnmounted} from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum } from '../Enum'
 import store from '@/store';
+import {MessagePlugin} from "tdesign-vue-next";
 
 // 为了方便测试，每次都初始化一个正确的管理员账号
 const adminLoginForm = reactive({
@@ -106,9 +107,16 @@ const adminLoginValidate = () => {
 const adminHandleLogin = () => {
     if (adminLoginValidate()) {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
-        eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
     }
 }
 
+eventEmitter.on(APIEventEnum.postAdminLoginSuccess,'postAdminLoginSuccess',()=>{
+    MessagePlugin.success('登录成功')
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
+})
+
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.postAdminLoginSuccess, 'postAdminLoginSuccess')
+})
 
 </script>

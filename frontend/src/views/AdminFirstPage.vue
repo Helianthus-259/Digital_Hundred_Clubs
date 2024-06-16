@@ -57,8 +57,8 @@
             </t-tabs>
         </div>
         <div class="loginBox">
-            <t-button v-if="!isLogin" theme="primary" shape="square" variant="outline" @click="goLogin">登录</t-button>
-            <t-button v-else theme="primary" shape="square" variant="outline" disabled>已登录</t-button>
+            <t-button v-if="!isLogin" theme="primary" shape="square" variant="outline" style="width: 50px" @click="goLogin">登录</t-button>
+            <t-button v-else theme="primary" shape="square" variant="outline" style="width: 50%" @click="logOut">退出登录</t-button>
         </div>
     </fixedLabelBar>
 
@@ -93,9 +93,22 @@ const tabsChange = (value) => {
     routerNames.value = value;
     eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminTabs', value: value })
 };
-//管理员界面一定是登录后才能进入的，所以store.state.token一定非空
+
 const isLogin = computed(() => {
-    return !!store.state.token;
+    if (store.state.token) {
+      return true
+    } else {
+      return false
+    }
 })
+
+const goLogin = () => {
+  eventEmitter.emit(RouterEventEnum.push, '/adminLogin')
+};
+
+const logOut = () => {
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.reset)
+  eventEmitter.emit(RouterEventEnum.push, '/adminFirstPage')
+};
 
 </script>

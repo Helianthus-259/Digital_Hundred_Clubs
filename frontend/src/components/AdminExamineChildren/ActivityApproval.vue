@@ -91,7 +91,21 @@
                     <div class="text">活动简介</div>
                   </t-col>
                   <t-col :span="9" id="table">
-                    {{ activity.activityIntroduction }}
+                    <div>
+                      <t-button @click="()=>{drawer = !drawer}">打开活动简介详情</t-button>
+                      <t-drawer
+                          :closeBtn="false"
+                          destroyOnClose
+                          :footer="false"
+                          :header="false"
+                          showOverlay
+                          sizeDraggable
+                          placement="bottom"
+                          v-model:visible="drawer"
+                      >
+                        <p v-html="activity.activityIntroduction"></p>
+                      </t-drawer>
+                    </div>
                   </t-col>
                 </t-row>
                 <t-row id="table">
@@ -180,7 +194,7 @@ eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess
 })
 
 
-
+const drawer = ref(false);
 const stripe = ref(true);
 const bordered = ref(true);
 const hover = ref(false);
@@ -291,7 +305,7 @@ onUnmounted(() => {
 <style scoped>
 .clubEvaluationContainer {
   width: 100%;
-  height: 600px;
+  height: 500px;
   background: #ffffff;
   border-radius: 10px;
   overflow-y: auto;

@@ -76,7 +76,7 @@
           </t-descriptions-item>
 
           <t-descriptions-item label="成立日期">
-            {{item.establishedTime}}
+            {{formatDate(new Date(item.establishedTime), 'yyyy-MM-dd hh:mm:ss')}}
           </t-descriptions-item>
 
           <t-descriptions-item label="社团类别">
@@ -145,6 +145,7 @@ import { APIEnum, APIEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { reactive, ref } from 'vue';
+import formatDate from '@/utils'
 
 const clubString = ref('社团信息')
 // 判断空对象的函数

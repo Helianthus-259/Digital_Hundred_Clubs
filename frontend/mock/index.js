@@ -624,21 +624,25 @@ mock.onGet(path.clubEvaluations).reply((config) => {
             handoverMethod: [0, 1][i % 2],//0全员大会,1骨干例会
             handoverParticipantsCount: 100,
             guideTeacher: [0, 1][i % 2],
+            status:[null, 0, 1][i % 3],
+            totalMembers: 20,
+            administrativeGuideTeacherName: '张老师',
+            businessGuideTeacherName: '李老师',
+            backboneNumber: '',
+            communistRelatedBackBoneNumber: '',
+            isFinancialInformationPublic: [0, 1][i % 2],
             meetings: [
                 {
-                    activityId: 0,
-                    clubId: 0,
-                    time: "2022-1-1",
+                    meetingTime: "2022-1-1",
                     location: "会议地点",
-                    staffMeetingOrbackBoneMeeting: 0,//0全员大会,1骨干例会
-                    guideTeacher: 1,
+                    category: [0, 1][i % 2],//0全员大会,1骨干例会
                 }
             ],
             associationAwards: [
                 {
-                    name: "xx奖",
-                    time: "2022-02-02",
-                    organization: "中山大学"
+                    awardName: "xx奖",
+                    awardTime: "2022-02-02",
+                    issuingAuthority: "中山大学"
                 }
             ],
             publicityManagementEffectiveness: {
@@ -673,11 +677,13 @@ mock.onGet(path.clubEvaluations).reply((config) => {
             activities: [
                 {
                     activityName: "活动名称",
-                    activityTime: "活动时间",
+                    activityEndTime: "2022-01-05 12:12:12",
                     activityEffect: "活动成效",
                 }
             ],
-            clubWorkIntroduction: "工作简介"
+            clubWorkIntroduction: "工作简介",
+            imageUrl: '',
+            clubEducationCaseAttachment: '',
         })
     }
     return [200, {
@@ -710,6 +716,8 @@ mock.onGet(path.latestActivities).reply((config) => {
             activityId: i,
             activityName: '活动名称' + pageNumber + i,
             imageUrl: `https://picsum.photos/400/300`,
+            activityStatus: 1,
+            activityEndTime:"2025-12-01 15:15:15"
         })
     }
     return [200, {

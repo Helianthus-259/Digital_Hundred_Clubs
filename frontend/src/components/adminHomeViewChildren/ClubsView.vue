@@ -13,8 +13,9 @@
                     <div style="cursor: pointer;">
                         <LazyImg :url="item.imageUrl" />
                     </div>
-                    <p class="text">{{ item.clubName }}</p>
-                    <p class="text">{{ item.clubDescription === null ? item.clubDescription : item.clubDescription[0].content.slice(0, 10) + '...' }}</p>
+                  <p class="text">{{ item.clubName }}</p>
+                  <p class="text" v-html="item.clubDescription === null ? item.clubDescription :
+                        item.clubDescription[0].content.slice(0, 10) + '...'"></p>
                 </div>
             </template>
         </Waterfall>

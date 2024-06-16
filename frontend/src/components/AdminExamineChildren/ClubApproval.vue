@@ -124,9 +124,7 @@
                 <t-col :span="2">
                   <div class="text">学生社团简介</div>
                 </t-col>
-                <t-col :span="10" id="table">
-                  {{ clubInfo.clubDescription }}
-                </t-col>
+                <t-col v-html="clubInfo.clubDescription ? clubInfo.clubDescription[0].content : ''" :span="10" id="table"></t-col>
               </t-row>
               <t-row id="table">
                 <t-col :span="2">
