@@ -12,5 +12,6 @@ public class ActivityShowDTO {
     private Date activityStartTime;
     private Date activityEndTime;
     private String activityLocation;
+    private String activityEffect;
     private String imageUrl;
 }

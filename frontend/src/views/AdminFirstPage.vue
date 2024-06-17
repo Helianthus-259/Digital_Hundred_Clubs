@@ -72,6 +72,7 @@ import fixedLabelBar from '../components/FixedLabelBar.vue';
 import eventEmitter from '../utils/eventEmitter';
 import { RouterEventEnum, StoreEnum, StoreEventEnum } from '../Enum';
 import store from '@/store';
+import {MessagePlugin} from "tdesign-vue-next";
 
 const routerNames = ref(store.state.routeTabs.adminTabs)
 
@@ -81,9 +82,19 @@ const tabsChange = (value) => {
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminFirstPageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'examine'){
+        if(store.state.userInfo.sort === 0){
+            MessagePlugin.warning("您没有权限访问,请联系管理员!")
+            value = 'admin'
+            return;
+        }
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.examineTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else if(value === 'review'){
+        if(store.state.userInfo.sort === 0){
+          MessagePlugin.warning("您没有权限访问,请联系管理员!")
+          value = 'admin'
+          return;
+        }
         const selfRoute = store.state.parentRoute.admin + store.state.routeTabs.adminManageTabs
         eventEmitter.emit(RouterEventEnum.push, selfRoute)
     } else {

@@ -141,7 +141,7 @@
                       <t-form-item name="studentNumber">
                         <t-input placeholder="请输入学号" v-model="registerForm.studentNumber">
                           <template #prefix-icon>
-                            <user-icon />
+                            <VerifyIcon />
                           </template>
                         </t-input>
                       </t-form-item>
@@ -149,7 +149,8 @@
                         <t-select v-model="registerForm.gender" style="width: 200px"
                                   :options="genderList" clearable placeholder="-请选择-">
                           <template #prefixIcon>
-                            <building-icon />
+                            <GenderFemaleIcon />
+                            <GenderMaleIcon />
                           </template>
                         </t-select>
                       </t-form-item>
@@ -157,7 +158,7 @@
                         <t-select v-model="registerForm.politicalStatus" style="width: 200px"
                                   :options="politicalStatusList" clearable placeholder="-请选择-">
                           <template #prefixIcon>
-                            <building-icon />
+                            <UserBusinessIcon />
                           </template>
                         </t-select>
                       </t-form-item>
@@ -230,7 +231,15 @@ import { reactive, ref, computed, onUnmounted, onMounted } from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum, RouterEventEnum } from '../Enum'
 import { MessagePlugin } from 'tdesign-vue-next';
-import { MailIcon, LockOnIcon, UserIcon, UsergroupIcon, VerifiedIcon, BuildingIcon } from 'tdesign-icons-vue-next';
+import {
+  MailIcon,
+  LockOnIcon,
+  UserIcon,
+  UsergroupIcon,
+  VerifiedIcon,
+  BuildingIcon,
+  PortraitIcon, GenderFemaleIcon, GenderMaleIcon, VerifyIcon, UserBusinessIcon
+} from 'tdesign-icons-vue-next';
 import store from '@/store';
 // 登录和注册
 
