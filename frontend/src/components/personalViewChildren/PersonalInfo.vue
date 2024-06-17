@@ -198,7 +198,10 @@
                     <mySelect v-model="newClubFrom.mainCampus" :options="campusOptions"></mySelect>
                 </t-form-item>
                 <t-form-item label="社团所属院系">
-                    <t-input v-model="newClubFrom.college" placeholder="请输入社团所属院系" />
+                    <t-select v-model="newClubFrom.adminId" placeholder="请选择社团所属院系">
+                        <t-option v-for="(item, index) in departmentList" :key="index" :value="item.adminId"
+                            :label="item.departmentName" />
+                    </t-select>
                 </t-form-item>
                 <t-form-item label="行政指导老师">
                     <t-input v-model="newClubFrom.administrativeGuideTeacherName" placeholder="请输入行政指导老师名字" />
@@ -245,7 +248,7 @@ const closeDialog = () => {
     newClubFrom.leader = ''
     newClubFrom.leaderPhone = ''
     newClubFrom.mainCampus = ''
-    newClubFrom.college = ''
+    newClubFrom.adminId = ''
     newClubFrom.administrativeGuideTeacherName = ''
     newClubFrom.businessGuideTeacherName = ''
     newClubFrom.advisorResumeAttachmentUrl = ''
@@ -253,6 +256,8 @@ const closeDialog = () => {
 };
 
 // 新建社团
+const departmentList = ref(store.state.departmentList)
+
 const newClubFrom = reactive({
     studentId: store.state.studentId,
     clubName: '',
@@ -261,7 +266,7 @@ const newClubFrom = reactive({
     leader: '',
     leaderPhone: '',
     mainCampus: '',
-    college: '',
+    adminId: '',
     administrativeGuideTeacherName: '',
     businessGuideTeacherName: '',
     advisorResumeAttachmentUrl: '',
@@ -309,7 +314,7 @@ const selectImageChangeHandler = (fileList) => {
 
 // 检验newClubFrom中的数据是否都已填写
 const newClubFromValidate = () => {
-    if (newClubFrom.clubName === '' || newClubFrom.clubDescription[0].content === '' || newClubFrom.clubCategory === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.mainCampus === '' || newClubFrom.college === '' || newClubFrom.administrativeGuideTeacherName === '' || newClubFrom.businessGuideTeacherName === '' || newClubFrom.advisorResumeAttachmentUrl === '') {
+    if (newClubFrom.clubName === '' || newClubFrom.clubDescription[0].content === '' || newClubFrom.clubCategory === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.mainCampus === '' || newClubFrom.adminId === '' || newClubFrom.administrativeGuideTeacherName === '' || newClubFrom.businessGuideTeacherName === '' || newClubFrom.advisorResumeAttachmentUrl === '') {
         MessagePlugin.warning('请将信息填写完整');
         return false;
     }

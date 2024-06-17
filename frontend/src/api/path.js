@@ -34,13 +34,14 @@ const base = {
     myClubAnnualExamData: admin + '/myClubAnnualExamData',//获取特定社团的年审详细信息
     myClubBackboneExamData: admin + '/myClubBackboneExamData',//获取特定社团的骨干评优信息
     myClubTeacherExamData: admin + '/myClubTeacherExamData',//获取特定社团的骨干评优信息
+    departmentList: admin + '/departmentList', // 获取所有学院
 
     // post
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
     passClubApproval: admin + '/passClubApproval',  // 通过社团建立申请
-    unPassClubApproval: admin+ '/unPassClubApproval',   // 驳回社团建立申请
+    unPassClubApproval: admin + '/unPassClubApproval',   // 驳回社团建立申请
     passActivityApproval: admin + '/passActivityApproval',  // 通过社团建立申请
-    unPassActivityApproval: admin+ '/unPassActivityApproval',   // 驳回社团建立申请
+    unPassActivityApproval: admin + '/unPassActivityApproval',   // 驳回社团建立申请
     passBackboneAwardsReview: admin + '/passBackboneAwardsReview',  // 通过骨干评优申请
     unPassBackboneAwardsReview: admin + '/unPassBackboneAwardsReview',  // 驳回骨干评优申请
     passClubAnnualReview: admin + '/passClubAnnualReview',  // 通过社团年审
@@ -56,7 +57,7 @@ const base = {
     clubIntroduction: club + '/clubIntroduction', // 获取社团简介
     clubMembers: club + '/clubMembers', // 获取社团成员
     clubApplyList: club + '/clubApplyList', // 获取社团申请列表
-    // clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
+    clubEvaluateInfo: club + '/clubEvaluateInfo',// 获取社团评优所需信息
     topTenClubs: club + '/topTenClubs', // 获取十佳社团
     clubNoticeList: club + '/clubNoticeList', // 获取社团通知列表
     associationAwards: club + '/associationAwards', // 获取社团获奖信息

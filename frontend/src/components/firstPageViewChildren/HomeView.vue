@@ -203,6 +203,7 @@ const enumList = ref([])
 
 onMounted(() => {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getTopTenClubs)
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getDepartmentList)
     if (localStorage.getItem('enumList')) {
         enumList.value = JSON.parse(localStorage.getItem('enumList')).clubCategories
     } else {
@@ -214,6 +215,9 @@ onMounted(() => {
     })
     eventEmitter.on(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess', (data) => {
         topTenClubs.value.push(...data)
+    })
+    eventEmitter.on(APIEventEnum.getDepartmentListSuccess, 'getDepartmentListSuccess', (data) => {
+        console.log(data)
     })
 })
 

@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import TDesign from 'tdesign-vue-next';
 import App from './App.vue'
 import router from './router'
-// import '../mock'
+import '../mock'
 import store from './store'
 import './api';
 import CKEditor from '@ckeditor/ckeditor5-vue';

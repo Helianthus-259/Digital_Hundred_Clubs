@@ -9,6 +9,7 @@ const store = createStore({
         adminId: -1,
         clubsData: [],
         userInfo: {},
+        departmentList: [],
 
         // 当前访问的ClubId
         clubId: -1,
@@ -83,6 +84,9 @@ const store = createStore({
         setclubsActAndNtc(state, data) {
             state.clubsActAndNtc[data.clubId] = data
         },
+        setDepartmentList(state, data) {
+            state.departmentList = data
+        },
         reset(state) { // 重置状态
             state.token = ''
             state.studentId = -1
@@ -105,7 +109,7 @@ const store = createStore({
                 'clubAwardsReview': 'clubAwardsReview',
                 'backboneAwardsReview': 'backboneAwardsReview',
             }
-            state.parentRoute =  {
+            state.parentRoute = {
                 'firstPage': '/',
                 'home': '/home/',
                 'admin': '/adminFirstPage/',

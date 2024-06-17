@@ -4,7 +4,7 @@ import path from './path'
 import eventEmitter from '@/utils/eventEmitter'
 const toFormData = (params) => {
     let formData = new FormData();
-    for(let key in params.params){
+    for (let key in params.params) {
         formData.set(key, params.params[key])
     }
     return formData;
@@ -19,15 +19,15 @@ const api = {
         }
     })),
     'postRegister': (params) => axios.post(path.register, toFormData({ // 注册
-        params:{
+        params: {
             stName: params.stName,
             studentNumber: params.studentNumber,
             gender: params.gender,
             grade: params.grade,
             politicalStatus: params.politicalStatus,
-            email:params.email,
-            verifyCode:params.verifyCode,
-            pwd:params.pwd
+            email: params.email,
+            verifyCode: params.verifyCode,
+            pwd: params.pwd
         }
     })),
     'getVerifyCode': (params) => axios.get(path.verifyCode, { // 获取验证码
@@ -69,7 +69,8 @@ const api = {
             mainCampus: params.mainCampus,
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
             businessGuideTeacherName: params.businessGuideTeacherName,
-            advisorResumeAttachmentUrl: params.material,
+            advisorResumeAttachmentUrl: params.advisorResumeAttachmentUrl,
+            adminId: params.adminId,
         }
     })),
     'getClubActAndNtc': (params) => axios.get(path.clubActAndNtc, { // 获取社团活动通知
@@ -352,88 +353,89 @@ const api = {
             studentNumber: params.studentNumber,
         }
     })),
-    'getClubApproval':(params)=> axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
-        params:{
+    'getClubApproval': (params) => axios.get(path.clubApplicationInfo, {// 获取建立社团申请详情
+        params: {
             clubId: params,
         }
     }),
-    'getClubAnnual':(params)=> axios.get(path.clubAnnual, {
-        params:{
+    'getClubAnnual': (params) => axios.get(path.clubAnnual, {
+        params: {
             declarationId: params,
         }
     }),
-    'getThisYearClubAnnual':(params)=> axios.get(path.thisYearClubAnnual, {
-        params:{
+    'getThisYearClubAnnual': (params) => axios.get(path.thisYearClubAnnual, {
+        params: {
             clubId: params.clubId,
             declarationYear: params.declarationYear
         }
     }),
-    'getClubAwardInfo':(params)=>axios.get(path.clubAward, {
-        params:{
+    'getClubAwardInfo': (params) => axios.get(path.clubAward, {
+        params: {
             recordId: params,
         }
     }),
-    'getClubInfo':(params)=>axios.get(path.clubInfo, {
-        params:{
+    'getClubInfo': (params) => axios.get(path.clubInfo, {
+        params: {
             clubId: params.clubId,
         }
     }),
-    'passClubApproval':(params)=>axios.post(path.passClubApproval, toFormData({
-        params:{
+    'passClubApproval': (params) => axios.post(path.passClubApproval, toFormData({
+        params: {
             recordId: params.recordId,
             universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
         }
     })),
-    'unPassClubApproval':(params)=>axios.post(path.unPassClubApproval, toFormData({
-        params:{
+    'unPassClubApproval': (params) => axios.post(path.unPassClubApproval, toFormData({
+        params: {
             recordId: params.recordId,
             universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
         }
     })),
-    'passActivityApproval':(params)=>axios.post(path.passActivityApproval, toFormData({
-        params:{
+    'passActivityApproval': (params) => axios.post(path.passActivityApproval, toFormData({
+        params: {
             activityId: params.activityId,
             opinion: params.opinion
         }
     })),
-    'unPassActivityApproval':(params)=>axios.post(path.unPassActivityApproval, toFormData({
-        params:{
+    'unPassActivityApproval': (params) => axios.post(path.unPassActivityApproval, toFormData({
+        params: {
             activityId: params.activityId,
             opinion: params.opinion
         }
     })),
-    'passBackboneAwardsReview':(params)=>axios.post(path.passBackboneAwardsReview, toFormData({
-        params:{
+    'passBackboneAwardsReview': (params) => axios.post(path.passBackboneAwardsReview, toFormData({
+        params: {
             recordId: params.recordId
         }
     })),
-    'unPassBackboneAwardsReview':(params)=>axios.post(path.unPassBackboneAwardsReview, toFormData({
-        params:{
+    'unPassBackboneAwardsReview': (params) => axios.post(path.unPassBackboneAwardsReview, toFormData({
+        params: {
             recordId: params.recordId
         }
     })),
-    'passClubAnnualReview':(params)=>axios.post(path.passClubAnnualReview, toFormData({
-        params:{
+    'passClubAnnualReview': (params) => axios.post(path.passClubAnnualReview, toFormData({
+        params: {
             declarationId: params.declarationId,
             departmentOpinion: params.departmentOpinion
         }
     })),
-    'unPassClubAnnualReview':(params)=>axios.post(path.unPassClubAnnualReview, toFormData({
-        params:{
+    'unPassClubAnnualReview': (params) => axios.post(path.unPassClubAnnualReview, toFormData({
+        params: {
             declarationId: params.declarationId,
             departmentOpinion: params.departmentOpinion
         }
     })),
-    'passClubAwardReview':(params)=>axios.post(path.passClubAwardReview, toFormData({
-        params:{
+    'passClubAwardReview': (params) => axios.post(path.passClubAwardReview, toFormData({
+        params: {
             recordId: params.recordId
         }
     })),
-    'unPassClubAwardReview':(params)=>axios.post(path.unPassClubAwardReview, toFormData({
-        params:{
+    'unPassClubAwardReview': (params) => axios.post(path.unPassClubAwardReview, toFormData({
+        params: {
             recordId: params.recordId
         }
     })),
+    'getDepartmentList': () => axios.get(path.departmentList),
 }
 
 eventEmitter.on(APIEventEnum.request, 'request', async (method, params) => {

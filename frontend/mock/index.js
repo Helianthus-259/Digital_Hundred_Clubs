@@ -1158,3 +1158,17 @@ mock.onPost(path.unPassClubAwardReview).reply((config) => {
         code: 63,
     }]
 })
+
+
+mock.onGet(path.departmentList).reply((config) => {
+    return [200, {
+        code: 64,
+        departmentList: [{
+            adminId: '1',
+            departmentName: '计算机学院'
+        }, {
+            adminId: '2',
+            departmentName: '软件学院'
+        }]
+    }]
+})
