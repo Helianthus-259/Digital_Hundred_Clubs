@@ -92,7 +92,7 @@ const adminLoginForm = reactive({
 
 // 检测账号格式是否为管理员账号
 const adminIdValidate = (data) => {
-    return /administer$/.test(data);
+    return data;
 }
 
 //密码检查
