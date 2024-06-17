@@ -76,6 +76,7 @@ mock.onGet(path.clubsInfo).reply((config) => {
             clubCategory: [0, 1, 2, 3, 4, 5][i % 6],
             createTime: '2024-4-30 12:00:00',
             clubStatus: [null, 0, 1][i % 3],
+            responsibleDepartmentId: '12345678'
         })
     }
     console.log(data);
@@ -1155,5 +1156,17 @@ mock.onPost(path.passClubAwardReview).reply((config) => {
 mock.onPost(path.unPassClubAwardReview).reply((config) => {
     return [200, {
         code: 63,
+    }]
+})
+
+mock.onPost(path.passCollegeClubApproval).reply((config) => {
+    return [200, {
+        code: 64,
+    }]
+})
+
+mock.onPost(path.unPassCollegeClubApproval).reply((config) => {
+    return [200, {
+        code: 65,
     }]
 })

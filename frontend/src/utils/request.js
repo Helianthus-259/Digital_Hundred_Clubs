@@ -218,6 +218,12 @@ function successHandler(res) {
         } else if (response.data.code === 63){  // 驳回社团评优成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassClubAwardReviewSuccess)
+        } else if (response.data.code === 64){  // 学院同意社团建立成功
+            console.log("success")
+            eventEmitter.emit(APIEventEnum.passCollegeClubApprovalSuccess)
+        } else if(response.data.code === 65){   // 学院驳回社团建立成功
+            console.log("failed")
+            eventEmitter.emit(APIEventEnum.unPassCollegeClubApprovalSuccess)
         }
         // 错误处理
     } else if(response.status === 2001){    // 用户名或密码错误
