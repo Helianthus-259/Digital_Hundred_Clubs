@@ -129,75 +129,94 @@
                 </div>
                 <!-- 注册盒子 -->
                 <div class="registerBox" v-else>
+                  <t-space direction="horizontal">
                     <t-form :data="registerForm" layout="inline" :label-width="50">
-                        <t-form-item name="stName">
-                            <t-input placeholder="请输入名字" v-model="registerForm.stName">
-                                <template #prefix-icon>
-                                    <user-icon />
-                                </template>
-                            </t-input>
-                        </t-form-item>
-                        <t-form-item name="politicalStatus">
-                            <t-select v-model="registerForm.politicalStatus" style="width: 200px"
-                                :options="politicalStatusList" clearable placeholder="-请选择-">
-                                <template #prefixIcon>
-                                    <building-icon />
-                                </template>
-                            </t-select>
-                        </t-form-item>
-                        <t-form-item name="grade">
-                            <t-input placeholder="请输入年级" v-model="registerForm.grade">
-                                <template #prefix-icon>
-                                    <usergroup-icon />
-                                </template>
-                            </t-input>
-                        </t-form-item>
-                        <t-form-item name="email">
-                            <t-input placeholder="请输入邮箱" v-model="registerForm.email" :status="registerEmailStatus"
-                                :tips="registerEmailTips">
-                                <template #prefix-icon>
-                                    <mail-icon />
-                                </template>
-                            </t-input>
-                        </t-form-item>
-                        <t-form-item name="verifyCode" style="position: relative;">
-                            <t-input-group style="width: 200px">
-                                <div style="width: 60%;">
-                                    <t-input placeholder="请输入验证码" v-model="registerForm.verifyCode">
-                                        <template #prefix-icon>
-                                            <verified-icon />
-                                        </template>
-                                    </t-input>
-                                </div>
-                                <div style="width: 40%;">
-                                    <t-button :disabled="getVerifyCode" @click="handleGetVerifyCode">
-                                        <span v-if="!getVerifyCode">获取验证码</span>
-                                        <span v-else>
-                                            {{ getVerifyCodeTime }}s后重发
-                                        </span>
-                                    </t-button>
-                                </div>
-                            </t-input-group>
-                        </t-form-item>
-                        <t-form-item name="password">
-                            <t-input placeholder="请输入密码" type="password" v-model="registerForm.pwd">
-                                <template #prefix-icon>
-                                    <lock-on-icon />
-                                </template>
-                            </t-input>
-                        </t-form-item>
-                        <t-form-item name="confirmPassword">
-                            <t-input placeholder="请再次输入密码" type="password" v-model="registerForm.confirmPwd"
-                                :status="confirmPasswordStatus" :tips="confirmPasswordTips">
-                                <template #prefix-icon>
-                                    <lock-on-icon />
-                                </template>
-                            </t-input>
-                        </t-form-item>
-                        <t-form-item>
-                            <t-button style="width: 100%;" theme="primary" type="submit"
-                                @click="handleRegister">注册并登录</t-button></t-form-item>
+                      <t-form-item name="stName">
+                        <t-input placeholder="请输入名字" v-model="registerForm.stName">
+                          <template #prefix-icon>
+                            <user-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
+                      <t-form-item name="studentNumber">
+                        <t-input placeholder="请输入学号" v-model="registerForm.studentNumber">
+                          <template #prefix-icon>
+                            <user-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
+                      <t-form-item name="gender">
+                        <t-select v-model="registerForm.gender" style="width: 200px"
+                                  :options="genderList" clearable placeholder="-请选择-">
+                          <template #prefixIcon>
+                            <building-icon />
+                          </template>
+                        </t-select>
+                      </t-form-item>
+                      <t-form-item name="politicalStatus">
+                        <t-select v-model="registerForm.politicalStatus" style="width: 200px"
+                                  :options="politicalStatusList" clearable placeholder="-请选择-">
+                          <template #prefixIcon>
+                            <building-icon />
+                          </template>
+                        </t-select>
+                      </t-form-item>
+                      <t-form-item name="grade">
+                        <t-input placeholder="请输入年级" v-model="registerForm.grade">
+                          <template #prefix-icon>
+                            <usergroup-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
                     </t-form>
+                    <t-form :data="registerForm" layout="inline" :label-width="50">
+                      <t-form-item name="email">
+                        <t-input placeholder="请输入邮箱" v-model="registerForm.email" :status="registerEmailStatus"
+                                 :tips="registerEmailTips">
+                          <template #prefix-icon>
+                            <mail-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
+                      <t-form-item name="verifyCode" style="position: relative;">
+                        <t-input-group style="width: 200px">
+                          <div style="width: 60%;">
+                            <t-input placeholder="请输入验证码" v-model="registerForm.verifyCode">
+                              <template #prefix-icon>
+                                <verified-icon />
+                              </template>
+                            </t-input>
+                          </div>
+                          <div style="width: 40%;">
+                            <t-button :disabled="getVerifyCode" @click="handleGetVerifyCode">
+                              <span v-if="!getVerifyCode">获取验证码</span>
+                              <span v-else>
+                                              {{ getVerifyCodeTime }}s后重发
+                                          </span>
+                            </t-button>
+                          </div>
+                        </t-input-group>
+                      </t-form-item>
+                      <t-form-item name="password">
+                        <t-input placeholder="请输入密码" type="password" v-model="registerForm.pwd">
+                          <template #prefix-icon>
+                            <lock-on-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
+                      <t-form-item name="confirmPassword">
+                        <t-input placeholder="请再次输入密码" type="password" v-model="registerForm.confirmPwd"
+                                 :status="confirmPasswordStatus" :tips="confirmPasswordTips">
+                          <template #prefix-icon>
+                            <lock-on-icon />
+                          </template>
+                        </t-input>
+                      </t-form-item>
+                      <t-form-item>
+                        <t-button style="width: 100%;" theme="primary" type="submit"
+                                  @click="handleRegister">注册并登录</t-button></t-form-item>
+                    </t-form>
+                  </t-space>
                 </div>
             </div>
         </div>
@@ -295,20 +314,29 @@ const handleLogin = () => {
 
 // 注册
 const registerForm = reactive({
-    email: '',
-    verifyCode: '',
-    pwd: '',
-    confirmPwd: '',
     stName: '',
+    studentNumber: '',
+    gender: '',
     college: '',
     grade: '',
-    politicalStatus: ''
+    contact: '',
+    pwd: '',
+    politicalStatus: '',
+    dateOfBirth:'',
+    email: '',
+    verifyCode: '',
+    confirmPwd: '',
 })
 
 const politicalStatusList = ref([
     { label: '共青团员', value: '共青团员' },
     { label: '中共党员', value: '中共党员' },
     { label: '群众', value: '群众' },
+])
+
+const genderList = ref([
+    {label: '女', value: 0},
+    {label: '男', value: 1}
 ])
 
 const registerEmailStatus = computed(() => {
@@ -365,9 +393,14 @@ const handleGetVerifyCode = () => {
 
 // 注册逻辑
 const registerValidate = () => {
+    console.log(registerForm)
     return emailValidate(registerForm.email) && passwordValidate(registerForm.pwd)
         && registerForm.pwd === registerForm.confirmPwd
         && registerForm.verifyCode
+        && registerForm.grade
+        && registerForm.stName
+        && registerForm.gender
+        && registerForm.studentNumber
 }
 
 const handleRegister = () => {
@@ -375,6 +408,7 @@ const handleRegister = () => {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postRegister, registerForm)
     }
     else {
+        MessagePlugin.warning("请将信息填写完整")
         return
     }
 }

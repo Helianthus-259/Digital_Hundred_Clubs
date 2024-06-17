@@ -20,6 +20,11 @@ const api = {
     })),
     'postRegister': (params) => axios.post(path.register, toFormData({ // 注册
         params:{
+            stName: params.stName,
+            studentNumber: params.studentNumber,
+            gender: params.gender,
+            grade: params.grade,
+            politicalStatus: params.politicalStatus,
             email:params.email,
             verifyCode:params.verifyCode,
             pwd:params.pwd
@@ -49,8 +54,10 @@ const api = {
             studentId: params.studentId,
             politicalStatus: params.politicalStatus,
             contact: params.contact,
-            hobby: params.hobby, // 后端还没有
-            specialty: params.specialty // 后端还没有
+            hobby: params.hobby,
+            specialty: params.specialty,
+            college: params.college,
+            dateOfBirth: new Date(params.dateOfBirth)
         }
     })),
     'postNewClubApply': (params) => axios.post(path.newClubApply, toFormData({ // 申请创建社团
@@ -191,7 +198,7 @@ const api = {
     'postAddClubMember': (params) => axios.post(path.addClubMember, toFormData({ // 添加社团干部
         params: {
             clubId: params.clubId,
-            studentId: params.studentId,
+            studentNumber: params.studentNumber,
             stName: params.stName,
             position: params.position,
         }

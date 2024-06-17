@@ -227,12 +227,15 @@
                             </template>
                         </t-card>
                         <t-card v-else v-for="(item, index) in notices">
-                            <template #header>
-                                {{ item.title }}
-                            </template>
-                            <template #content>
-                                {{ item.content }}
-                            </template>
+                          <template #cover>
+                            <img :src="item.imageUrl">
+                          </template>
+                          <template #header>
+                            {{ item.title }}
+                          </template>
+                          <template #content>
+                            {{ item.content }}
+                          </template>
                         </t-card>
                     </div>
                     <div class="tabBarBox">
@@ -471,7 +474,6 @@ const clubsNotManage = ref([])
 const positions = JSON.parse(localStorage.getItem('enumList')).positions
 
 const applying = (club) => {
-    console.log(club)
     if (club.clubStatus === null && club.collegeReviewStatus !== 0 && club.universityStudentUnionReviewStatus !== 0) {
         return true
     }
@@ -488,7 +490,6 @@ const fail = (club) => {
 clubsFail.value = clubsJoin.value.filter(club => fail(club)) // 申请失败的社团
 
 const manage = (club) => {
-    console.log(club)
     if (club.clubStatus === 1 && club.position !== "3") {
         return true
     }

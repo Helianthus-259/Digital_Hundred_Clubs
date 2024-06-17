@@ -6,14 +6,12 @@ import com.szbt.authserver.service.StudentService;
 import com.szbt.authserver.service.VerifyCodeService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.entity.Student;
 import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -47,10 +45,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public Object register(String email, String verifyCode, String pwd){
-        System.out.println(email);
-        boolean ok = verifyCodeService.checkMailVerifyCode(verifyCode,email);
-        return studentService.register(email,pwd,ok);
+    public Object register(@ModelAttribute Student student, String verifyCode){
+        System.out.println(student);
+        boolean ok = verifyCodeService.checkMailVerifyCode(verifyCode,student.getEmail());
+        return studentService.register(student, ok);
     }
 
     @PostMapping("/adminLogin")

@@ -113,7 +113,7 @@
                     <div class="text">活动附件</div>
                   </t-col>
                   <t-col :span="9" id="table">
-                    {{ activity.activityAttachment }}
+                    <t-link theme="primary" @click="getAttach(activity.applicationFormAttachment)">点击查看活动附件</t-link>
                   </t-col>
                 </t-row>
                 <t-row id="table">
@@ -173,7 +173,7 @@ const activity = ref({
   activityStartTime: "",
   activityEndTime: "",
   activityIntroduction: "",
-  activityAttachment: "",
+  applicationFormAttachment: "",
   contactPerson: '',
   contactPhone: '',
 })
@@ -235,6 +235,10 @@ const detail = (value) => {
   visibleModal.value = true;
 }
 
+const getAttach = (file) =>{
+    window.open(file)
+}
+
 const onSearch = () => {
   data.value = activities.value.filter((item) => {
     return (item.activityStatus === status.value || status.value === 'all') &&
@@ -255,7 +259,7 @@ eventEmitter.on(APIEventEnum.getActivityInfoSuccess, 'getActivityInfoSuccess', (
   activity.value.activityStartTime = formatDate(new Date(data.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.activityEndTime = formatDate(new Date(data.activityEndTime), 'yyyy-MM-dd hh:mm:ss');
   activity.value.activityIntroduction = data.activityIntroduction
-  activity.value.activityAttachment = data.activityAttachment
+  activity.value.applicationFormAttachment = data.applicationFormAttachment
   activity.value.contactPerson = data.contactPerson
   activity.value.contactPhone = data.contactPhone
   console.log(activity.value)

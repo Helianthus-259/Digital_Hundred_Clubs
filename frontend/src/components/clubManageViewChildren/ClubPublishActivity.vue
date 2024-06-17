@@ -500,7 +500,7 @@ onMounted(() => {
         closeDialog()
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
-        console.log(data)
+        data = data.file
         newActivityForm.applicationFormAttachment = data.url
         MessagePlugin.success('附件上传成功')
     })

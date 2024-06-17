@@ -163,11 +163,13 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
     }
 
     @Override
-    public Object addClubMember(Clubmember clubmember) {
+    public Object addClubMember(Clubmember clubmember, String studentNumber) {
+        List<Student> student = studentClientService.getStudentByNumber(Collections.singletonList(studentNumber));
+        if(student.isEmpty()) return Result.send(StatusCode.ADD_CLUB_MEMBER_ERROR,new SendMsg("该学号不属于该社团成员!"));
         MPJLambdaWrapper<Clubmember>  wrapper = new MPJLambdaWrapper<Clubmember>()
                 .selectAll(Clubmember.class)
                 .eq(Clubmember::getClubId, clubmember.getClubId())
-                .eq(Clubmember::getStudentId, clubmember.getStudentId());
+                .eq(Clubmember::getStudentId, student.get(0).getStudentId());
         try{
             Clubmember newClubMember = clubmemberMapper.selectJoinOne(Clubmember.class, wrapper);
             newClubMember.setPosition(clubmember.getPosition());

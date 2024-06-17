@@ -49,13 +49,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student>
     }
 
     @Override
-    public Object register(String email, String password, boolean ok) {
+    public Object register(Student student, boolean ok) {
+        String email = student.getEmail();
+        String password = student.getPwd();
         if(!ok) return Result.send(StatusCode.VERIFY_MAIL_CODE_ERROR,new SendMsg("邮箱验证码错误"));
         QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("email", email);
         if(studentMapper.exists(queryWrapper)) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("邮箱重复"));
-        Student student = new Student();
-        student.setEmail(email);
         student.setPwd(SecurityUtil.encrypt(password));
         System.out.println(password);
         if(studentMapper.insert(student)==0) return Result.send(StatusCode.MYSQL_ERROR,new SendMsg("数据插入失败"));

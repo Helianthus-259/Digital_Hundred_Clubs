@@ -62,9 +62,6 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                     });
             List<List<Activity>> activityInfoLists = activityClientService.queryActivityInfoByClubIdList(idList);
             List<ActivityShowDTO> activityShowDTOList = modelMapper.map(activityInfoLists.get(0), new TypeToken<List<ActivityShowDTO>>() {}.getType());
-            for(ActivityShowDTO act : activityShowDTOList){
-                act.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(act.getImageUrl()));
-            }
             ClubActAndNtcVO clubActAndNtcVO = new ClubActAndNtcVO(ResultCode.GET_SINGLE_CLUB_ACTIVITY_NOTICE,clubId,activityShowDTOList,noticeDTOList);
             return Result.success(clubActAndNtcVO);
         } catch (Exception e) {
@@ -93,6 +90,9 @@ public class ClubannouncementServiceImpl extends ServiceImpl<ClubannouncementMap
                 .eq(Clubannouncement::getClubId,clubId);
         try{
             List<Clubannouncement> clubannouncementList = clubannouncementMapper.selectJoinList(Clubannouncement.class,wrapper);
+            for(Clubannouncement  clubannouncement : clubannouncementList){
+                clubannouncement.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(clubannouncement.getImageUrl()));
+            }
             return Result.success(new DataVO(ResultCode.GET_CLUB_NOTICE_LIST,  clubannouncementList));
         }catch (Exception e){
             String exceptionAsString = e.toString();

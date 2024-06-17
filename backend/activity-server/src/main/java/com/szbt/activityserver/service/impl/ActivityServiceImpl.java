@@ -8,12 +8,15 @@ import com.szbt.activityserver.dao.mapper.ActivityMapper;
 import com.szbt.activityserver.dao.mapper.ActivitymemberMapper;
 import com.szbt.activityserver.service.ActivityService;
 import org.example.dto.ActivityDTO;
+import org.example.dto.ActivityDetailDTO;
 import org.example.dto.ClubActivityListDTO;
 import org.example.entity.Activity;
 import org.example.entity.Club;
+import org.example.entity.Student;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.service.ClubClientService;
+import org.example.service.StudentClientService;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
@@ -48,15 +51,20 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity>
     @Autowired
     private ClubClientService clubClientService;
 
+    @Autowired
+    private StudentClientService  studentClientService;
+
     @Override
     public Object activityInfo(Integer id) {
         MPJLambdaWrapper<Activity> wrapper = new MPJLambdaWrapper<Activity>()
                 .selectAll(Activity.class)
                 .eq(Activity::getActivityId,id);
         try{
-            Club clubInfo = clubClientService.getClubInfoById(id);
-            System.out.println(id);
-            ActivityDTO activity = activityMapper.selectJoinOne(ActivityDTO.class, wrapper);
+            ActivityDetailDTO activity = activityMapper.selectJoinOne(ActivityDetailDTO.class, wrapper);
+            Club clubInfo = clubClientService.getClubInfoById(activity.getClubId());
+            Student student = studentClientService.queryStudentInfo(clubInfo.getContactPersonId());
+            activity.setContactPerson(student.getStName());
+            activity.setContactPhone(student.getContact());
             activity.setClubName(clubInfo.getClubName());
             activity.setApplicationFormAttachment(FileRequestUrlBuilder.buildFileRequestUrl(activity.getApplicationFormAttachment()));
             activity.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(activity.getImageUrl()));

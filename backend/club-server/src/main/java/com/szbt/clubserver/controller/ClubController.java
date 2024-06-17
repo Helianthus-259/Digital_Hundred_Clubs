@@ -112,8 +112,8 @@ public class ClubController {
     }
 
     @PostMapping("/addClubMember")
-    public Object addClubMember(@ModelAttribute Clubmember clubmember){
-        return clubmemberService.addClubMember(clubmember);
+    public Object addClubMember(@ModelAttribute Clubmember clubmember, String studentNumber){
+        return clubmemberService.addClubMember(clubmember, studentNumber);
     }
     @PostMapping("/updateClubMember")
     public Object updateClubMember(Integer clubId, String oldStudent, String newStudent){

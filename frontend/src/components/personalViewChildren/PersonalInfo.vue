@@ -81,28 +81,32 @@
                             <div class="valueBox">{{ user.stName }}</div>
                         </t-col>
                         <t-col>
-                            <div class="labelBox">性别：</div>
-                            <div class="valueBox">{{ user.gender }}</div>
+                          <div class="labelBox">学号：</div>
+                          <div class="valueBox">{{ user.studentNumber }}</div>
                         </t-col>
                         <t-col>
-                            <div class="labelBox">生日：</div>
-                            <div class="valueBox">{{ user.dateOfBirth }}</div>
+                            <div class="labelBox">性别：</div>
+                            <div class="valueBox">{{ user.gender === '1' ? '男' : '女' }}</div>
                         </t-col>
                         <t-col>
                             <div class="labelBox">年级：</div>
                             <div class="valueBox">{{ user.grade }}</div>
                         </t-col>
                         <t-col>
+                          <div class="labelBox">电子邮件：</div>
+                          <div class="valueBox">{{ user.email }}</div>
+                        </t-col>
+                        <t-col>
+                          <div class="labelBox">生日：</div>
+                          <div class="valueBox">
+                            <t-date-picker v-model="user.dateOfBirth" allow-input :disabled="readOnly"/>
+                          </div>
+                        </t-col>
+                        <t-col>
                             <div class="labelBox">学院：</div>
-                            <div class="valueBox">{{ user.college }}</div>
-                        </t-col>
-                        <t-col>
-                            <div class="labelBox">电子邮件：</div>
-                            <div class="valueBox">{{ user.email }}</div>
-                        </t-col>
-                        <t-col>
-                            <div class="labelBox">学号：</div>
-                            <div class="valueBox">{{ user.studentNumber }}</div>
+                            <div class="valueBox">
+                              <t-input v-model="user.college" borderless :readonly="readOnly" align="center"></t-input>
+                            </div>
                         </t-col>
                         <t-col>
                             <div class="labelBox">政治面貌：</div>
@@ -338,23 +342,33 @@ if (isEmptyObject(store.state.userInfo)) {
 const readOnly = ref(true)
 
 const oldUserInfo = {
+    dateOfBirth:'',
+    college:'',
     politicalStatus: '',
     contact: '',
     hobby: '',
     specialty: '',
+
 }
 const editPersonalInfo = () => {
     oldUserInfo.contact = user.value.contact
     oldUserInfo.hobby = user.value.hobby
     oldUserInfo.specialty = user.value.specialty
     oldUserInfo.politicalStatus = user.value.politicalStatus
+    oldUserInfo.college = user.value.college
+    oldUserInfo.dateOfBirth = user.value.dateOfBirth
     readOnly.value = !readOnly.value
     MessagePlugin.success('已进入编辑模式')
 }
 
 // 保存修改后的信息
 function save() {
-    if (user.value.contact === oldUserInfo.contact && user.value.hobby === oldUserInfo.hobby && user.value.specialty === oldUserInfo.specialty && user.value.politicalStatus === oldUserInfo.politicalStatus) {
+    if (user.value.contact === oldUserInfo.contact
+        && user.value.hobby === oldUserInfo.hobby
+        && user.value.specialty === oldUserInfo.specialty
+        && user.value.politicalStatus === oldUserInfo.politicalStatus
+        && user.value.college === oldUserInfo.college
+        && user.value.dateOfBirth === oldUserInfo.dateOfBirth) {
         readOnly.value = !readOnly.value
         getLeaderInfo()
         MessagePlugin.success('保存成功')
@@ -364,7 +378,9 @@ function save() {
             politicalStatus: user.value.politicalStatus,
             contact: user.value.contact,
             hobby: user.value.hobby,
-            specialty: user.value.specialty
+            specialty: user.value.specialty,
+            college: user.value.college,
+            dateOfBirth: user.value.dateOfBirth
         })
     }
 }

@@ -3,8 +3,6 @@ package com.szbt.authserver.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.example.entity.Student;
 
-import java.io.IOException;
-
 /**
 * @author 小壳儿
 * @description 针对表【student】的数据库操作Service
@@ -12,7 +10,7 @@ import java.io.IOException;
 */
 public interface StudentService extends IService<Student> {
     Object login(String email, String password, boolean ok);
-    Object register(String email, String password, boolean ok);
+    Object register(Student student, boolean ok);
 
 //    Object checkImageVerifyCode(boolean ok);
 

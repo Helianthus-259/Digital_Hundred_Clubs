@@ -87,6 +87,7 @@
     <t-button theme="primary" variant="outline" size="large" class="common-button" @click="openDialog">参加活动</t-button>
     <div class="activityContainer">
         <div class="activityTitle">{{ activity.activityName }}</div>
+        <div><img :src="activity.imageUrl"></div>
         <div class="activityContent" v-html="activity.activityIntroduction"></div>
         <div class="activityFooter">
             <p>活动开始时间: {{ activity.activityStartTime }}</p>

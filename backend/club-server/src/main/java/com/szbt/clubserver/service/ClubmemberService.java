@@ -18,7 +18,7 @@ public interface ClubmemberService extends IService<Clubmember> {
 
     Object updateClubMember(Integer clubId, String oldStudent, String newStudent);
 
-    Object addClubMember(Clubmember clubmember);
+    Object addClubMember(Clubmember clubmember, String studentNumber);
 
     Object deleteClubMember(Integer clubId, String studentNumber);
 }
