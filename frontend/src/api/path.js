@@ -40,6 +40,8 @@ const base = {
     adminInfoUpdate: admin + '/adminInfoUpdate',//更新管理员信息
     passClubApproval: admin + '/passClubApproval',  // 通过社团建立申请
     unPassClubApproval: admin + '/unPassClubApproval',   // 驳回社团建立申请
+    passCollegeClubApproval: admin + '/passCollegeClubApproval',    // 学院同意建立社团
+    unPassCollegeClubApproval: admin + '/unPassCollegeClubApproval',    // 学院不同意建立社团
     passActivityApproval: admin + '/passActivityApproval',  // 通过社团建立申请
     unPassActivityApproval: admin + '/unPassActivityApproval',   // 驳回社团建立申请
     passBackboneAwardsReview: admin + '/passBackboneAwardsReview',  // 通过骨干评优申请

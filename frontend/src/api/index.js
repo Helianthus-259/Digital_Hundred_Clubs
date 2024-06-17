@@ -391,6 +391,18 @@ const api = {
             universityStudentUnionReviewOpinion: params.universityStudentUnionReviewOpinion
         }
     })),
+    'passCollegeClubApproval': (params) => axios.post(path.passCollegeClubApproval, toFormData({
+        params: {
+            recordId: params.recordId,
+            collegeReviewOpinion: params.collegeReviewOpinion
+        }
+    })),
+    'unPassCollegeClubApproval': (params) => axios.post(path.unPassCollegeClubApproval, toFormData({
+        params: {
+            recordId: params.recordId,
+            collegeReviewOpinion: params.collegeReviewOpinion
+        }
+    })),
     'passActivityApproval': (params) => axios.post(path.passActivityApproval, toFormData({
         params: {
             activityId: params.activityId,
