@@ -464,7 +464,8 @@
                                         <t-input v-model="item.activityName" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-input v-model="item.activityEndTime" style="width: 60%;" borderless />
+                                        <t-date-picker borderless enableTimePicker v-model="item.activityEndTime"
+                                            style="width: 60%;" />
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-input v-model="item.activityEffect" style="width: 60%;" borderless />
@@ -764,6 +765,8 @@ onMounted(() => {
 
     eventEmitter.emit(APIEventEnum.request, APIEnum.getMeetings, { clubId })
 
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActAndNtc, { clubId })
+
     eventEmitter.on(APIEventEnum.getClubInfoSuccess, 'getClubInfoSuccess', (data) => {
         clubEvaluation.clubName = data.clubName
         clubEvaluation.totalMembers = data.totalMembers
@@ -793,6 +796,17 @@ onMounted(() => {
         if (data.length > 0) {
             clubEvaluation.meetings.pop()
             clubEvaluation.meetings.push(...data)
+        }
+    })
+
+    eventEmitter.on(APIEventEnum.getClubActAndNtcSuccess, 'getClubActAndNtcSuccess', (data) => {
+        console.log(data);
+        if (data.activities.length > 0) {
+            clubEvaluation.activities.pop()
+            data.activities
+                .forEach(activity => {
+                    clubEvaluation.activities.push({ activityName: activity.activityName, activityEndTime: activity.activityEndTime, activityEffect: activity.activityEffect })
+                })
         }
     })
 })

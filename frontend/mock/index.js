@@ -215,6 +215,7 @@ mock.onGet(path.clubActAndNtc).reply((config) => {
             activityEndTime: '2024-05-03 00:00:00',
             activityLocation: '活动' + i + '地点',
             imageUrl: `https://picsum.photos/400/300?${i}`,
+            activityEffect: '活动' + i + '效果',
         })
         notices.push({
             announcementId: i,
@@ -391,8 +392,8 @@ mock.onGet(path.activitiesInfo).reply((config) => {
     for (let i = 0; i < 15; i++) {
         data.push({
             activityId: i,
-            clubName: ['音乐社','围棋社','棒球社','足球社','篮球社'][i % 5],
-            activityName: ['比赛','讲座','活动','出游','集体活动'][i % 5],
+            clubName: ['音乐社', '围棋社', '棒球社', '足球社', '篮球社'][i % 5],
+            activityName: ['比赛', '讲座', '活动', '出游', '集体活动'][i % 5],
             activityIntroduction: '<p>精彩活动即将开始！</p><img src="https://picsum.photos/300/300" alt="活动配图1"><p>亲爱的朋友们，我们非常高兴地宣布即将举办一场令人兴奋的活动！这将是一个不容错过的机会，我们诚邀您的参与。</p><ul><li>精彩演讲：我们邀请了行业内的顶尖专家，将为您带来激动人心的演讲和见解。</li><li>互动工作坊：参与我们的工作坊，与其他行业同仁交流经验，共同解决挑战。</li><li>展览展示：活动期间将有多个展览区域，展示最新的技术和产品。</li></ul><p>谢谢您的关注和支持，我们期待在活动中与您见面！</p>',
             createTime: '2023-04-19 12:00:00',
             activityStartTime: '2023-04-20 12:00:00',
@@ -482,40 +483,40 @@ mock.onPost(path.backBoneEvaluate).reply((config) => {
     }]
 })
 
-// // 社团信息mock
-// mock.onGet(path.clubEvaluateInfo).reply((config) => {
-//     return [200, {
-//         code: 20, // 20代表获取社团评优所需信息
-//         clubName: 'xx社团',
-//         totalMembers: 100,
-//         isFinancialInformationPublic: 1,
-//         administrativeGuideTeacherName: '张老师',
-//         businessGuideTeacherName: '李老师',
-//         backboneNumber: 10,
-//         establishmentDate: '2022-05-01',
-//         responsibleDepartment: '体育部',
-//         mainCompus: 3,
-//         clubDescription: '篮球社是一个篮球社团',
-//         clubCategory: 2,
-//         contactPerson: '张三',
-//         politicalStatus: '党员',
-//         contactPhone: '123456789',
-//         clubStatus: 1,
-//         file: 'file',
-//         communistRelatedBackBoneNumber: 10,
-//         publicityManagementInfo: {
-//             WeChatPublicAccount: { name: '哈哈哈', submitCount: '20', Auditors: { name1: '张三', name2: '李四', name3: '王五' } },
-//             WebSite: { has: '1', name: '网站' },
-//             Blog: { has: '1', name: '微博' },
-//             BiliBili: { has: '1', name: 'b站' },
-//             TikTok: { has: '1', name: '抖音' },
-//             WeChatVideoAccount: { has: '1', name: '微信视频号' },
-//             KuaiShou: { has: '1', name: '快手' },
-//             Publication: { has: '1', name: '刊物' },
-//             Other: { has: '1', name: '其他' },
-//         },
-//     }]
-// })
+// 社团信息mock
+mock.onGet(path.clubEvaluateInfo).reply((config) => {
+    return [200, {
+        code: 20, // 20代表获取社团评优所需信息
+        clubName: 'xx社团',
+        totalMembers: 100,
+        isFinancialInformationPublic: 1,
+        administrativeGuideTeacherName: '张老师',
+        businessGuideTeacherName: '李老师',
+        backboneNumber: 10,
+        establishmentDate: '2022-05-01',
+        responsibleDepartment: '体育部',
+        mainCompus: 3,
+        clubDescription: '篮球社是一个篮球社团',
+        clubCategory: 2,
+        contactPerson: '张三',
+        politicalStatus: '党员',
+        contactPhone: '123456789',
+        clubStatus: 1,
+        file: 'file',
+        communistRelatedBackBoneNumber: 10,
+        publicityManagementInfo: {
+            WeChatPublicAccount: { name: '哈哈哈', submitCount: '20', Auditors: { name1: '张三', name2: '李四', name3: '王五' } },
+            WebSite: { has: '1', name: '网站' },
+            Blog: { has: '1', name: '微博' },
+            BiliBili: { has: '1', name: 'b站' },
+            TikTok: { has: '1', name: '抖音' },
+            WeChatVideoAccount: { has: '1', name: '微信视频号' },
+            KuaiShou: { has: '1', name: '快手' },
+            Publication: { has: '1', name: '刊物' },
+            Other: { has: '1', name: '其他' },
+        },
+    }]
+})
 
 // 上传图片mock
 mock.onPost(path.uploadImage).reply((config) => {
@@ -604,7 +605,7 @@ mock.onGet(path.clubAnnuals).reply((config) => {
             declarationId: i,
             declarationYear: ["2020", "2021", "2022"][i % 3],
             clubName: ["篮球社", "围棋社", "街舞社"][i % 3],
-            status:[null, 0, 1][i % 3],
+            status: [null, 0, 1][i % 3],
         })
     }
     return [200, {
@@ -624,7 +625,7 @@ mock.onGet(path.clubEvaluations).reply((config) => {
             handoverMethod: [0, 1][i % 2],//0全员大会,1骨干例会
             handoverParticipantsCount: 100,
             guideTeacher: [0, 1][i % 2],
-            status:[null, 0, 1][i % 3],
+            status: [null, 0, 1][i % 3],
             totalMembers: 20,
             administrativeGuideTeacherName: '张老师',
             businessGuideTeacherName: '李老师',
@@ -717,7 +718,7 @@ mock.onGet(path.latestActivities).reply((config) => {
             activityName: '活动名称' + pageNumber + i,
             imageUrl: `https://picsum.photos/400/300`,
             activityStatus: 1,
-            activityEndTime:"2025-12-01 15:15:15"
+            activityEndTime: "2025-12-01 15:15:15"
         })
     }
     return [200, {

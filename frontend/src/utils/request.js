@@ -30,7 +30,7 @@ const errorHandler = error => {
 
 function successHandler(res) {
     console.log(res)
-    if(res.status !== 200){
+    if (res.status !== 200) {
         console.log("服务器出错!")
         return
     }
@@ -58,7 +58,7 @@ function successHandler(res) {
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setclubsActAndNtc, { clubId, activities, notices })
             eventEmitter.emit(APIEventEnum.getClubActAndNtcSuccess, { activities, notices })
         } else if (response.data.code === 7) { // 获取社团简介成功
-            const  clubDescription  = response.data.clubDescription
+            const clubDescription = response.data.clubDescription
             eventEmitter.emit(APIEventEnum.getClubIntroductionSuccess, clubDescription)
         } else if (response.data.code === 8) { // 获取社团成员成功
             const { members } = response.data
@@ -76,12 +76,12 @@ function successHandler(res) {
         } else if (response.data.code === 11) { // 管理员信息更新成功
             console.log('更新管理员/社团信息成功');
         } else if (response.data.code === 12) { // 获取活动信息成功
-            const activity  = response.data.data
+            const activity = response.data.data
             eventEmitter.emit(APIEventEnum.getActivityInfoSuccess, activity)
         } else if (response.data.code === 13) { // 获取所有活动信息成功
             eventEmitter.emit(APIEventEnum.getActivitiesInfoSuccess, response.data)
         } else if (response.data.code === 14) { // 获取社团活动列表成功
-            const  activityList  = response.data.activityList
+            const activityList = response.data.activityList
             eventEmitter.emit(APIEventEnum.getClubActivityListSuccess, activityList)
         } else if (response.data.code === 15) { // 获取社团申请列表成功
             const { applyList } = response.data
@@ -136,7 +136,7 @@ function successHandler(res) {
         } else if (response.data.code === 35) { // 提交社团评优表成功
             eventEmitter.emit(APIEventEnum.postClubEvaluationFormSuccess)
         } else if (response.data.code === 36) { // 获取社团通知列表成功
-            const  notices  = response.data.data
+            const notices = response.data.data
             eventEmitter.emit(APIEventEnum.getClubNoticeListSuccess, notices)
         } else if (response.data.code === 37) { // 发布新通知成功
             eventEmitter.emit(APIEventEnum.postNewNoticeSuccess)
@@ -163,7 +163,7 @@ function successHandler(res) {
             const teacherExamData = response.data.returnData;
             eventEmitter.emit(APIEventEnum.getMyClubTeacherExamDataSuccess, teacherExamData)
         } else if (response.data.code === 45) { // 获取社团获奖信息
-            const associationAwards  = response.data.data
+            const associationAwards = response.data.data
             eventEmitter.emit(APIEventEnum.getAssociationAwardsSuccess, associationAwards)
         } else if (response.data.code === 46) { // 获取社团会议
             const meetings = response.data.data
@@ -172,55 +172,55 @@ function successHandler(res) {
             eventEmitter.emit(APIEventEnum.postJoinClubSuccess)
         } else if (response.data.code === 48) { // 报名活动成功
             eventEmitter.emit(APIEventEnum.postJoinActivitySuccess)
-        } else if(response.data.code === 49){   // 获取建立社团申请详细信息成功
+        } else if (response.data.code === 49) {   // 获取建立社团申请详细信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubApprovalSuccess, data)
-        } else if(response.data.code === 50){   // 获取社团年审详细信息成功
+        } else if (response.data.code === 50) {   // 获取社团年审详细信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubAnnualSuccess, data)
-        } else if (response.data.code === 51){  // 获取社团详细评优信息成功
+        } else if (response.data.code === 51) {  // 获取社团详细评优信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubAwardInfoSuccess, data)
-        } else if (response.data.code === 52){  // 获取社团详细信息成功
+        } else if (response.data.code === 52) {  // 获取社团详细信息成功
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getClubInfoSuccess, data)
-        } else if (response.data.code === 53){  // 通过建立社团请求成功
+        } else if (response.data.code === 53) {  // 通过建立社团请求成功
             console.log("success")
             eventEmitter.emit(APIEventEnum.passClubApprovalSuccess)
-        } else if (response.data.code === 54){  // 驳回建立社团请求成功
+        } else if (response.data.code === 54) {  // 驳回建立社团请求成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassClubApprovalSuccess)
-        } else if (response.data.code === 55){  // 通过活动请求成功
+        } else if (response.data.code === 55) {  // 通过活动请求成功
             console.log("success")
             eventEmitter.emit(APIEventEnum.passActivityApprovalSuccess)
-        } else if (response.data.code === 56){  // 驳回活动请求成功
+        } else if (response.data.code === 56) {  // 驳回活动请求成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassActivityApprovalSuccess)
-        } else if (response.data.code === 57){  // 通过骨干评优审核成功
+        } else if (response.data.code === 57) {  // 通过骨干评优审核成功
             console.log("success")
             eventEmitter.emit(APIEventEnum.passBackboneAwardsReviewSuccess)
-        } else if (response.data.code === 58){  // 驳回骨干评优审核成功
+        } else if (response.data.code === 58) {  // 驳回骨干评优审核成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassBackboneAwardsReviewSuccess)
-        } else if (response.data.code === 59){  // 获取今年社团评优信息成功
+        } else if (response.data.code === 59) {  // 获取今年社团评优信息成功
             console.log(response.data)
             const data = response.data.data
             eventEmitter.emit(APIEventEnum.getThisYearClubAnnualSuccess, data)
-        } else if (response.data.code === 60){  // 通过社团年审成功
+        } else if (response.data.code === 60) {  // 通过社团年审成功
             console.log("success")
             eventEmitter.emit(APIEventEnum.passClubAnnualReviewSuccess)
-        } else if (response.data.code === 61){  // 驳回社团年审成功
+        } else if (response.data.code === 61) {  // 驳回社团年审成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassClubAnnualReviewSuccess)
-        } else if (response.data.code === 62){  // 通过社团评优成功
+        } else if (response.data.code === 62) {  // 通过社团评优成功
             console.log("success")
             eventEmitter.emit(APIEventEnum.passClubAwardReviewSuccess)
-        } else if (response.data.code === 63){  // 驳回社团评优成功
+        } else if (response.data.code === 63) {  // 驳回社团评优成功
             console.log("failed")
             eventEmitter.emit(APIEventEnum.unPassClubAwardReviewSuccess)
         }
         // 错误处理
-    } else if(response.status === 2001){    // 用户名或密码错误
+    } else if (response.status === 2001) {    // 用户名或密码错误
         const msg = response.data.msg
         eventEmitter.emit(APIEventEnum.incorrectInput, msg)
     }

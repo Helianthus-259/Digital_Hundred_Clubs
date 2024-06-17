@@ -81,8 +81,8 @@
                             <div class="valueBox">{{ user.stName }}</div>
                         </t-col>
                         <t-col>
-                          <div class="labelBox">学号：</div>
-                          <div class="valueBox">{{ user.studentNumber }}</div>
+                            <div class="labelBox">学号：</div>
+                            <div class="valueBox">{{ user.studentNumber }}</div>
                         </t-col>
                         <t-col>
                             <div class="labelBox">性别：</div>
@@ -93,19 +93,20 @@
                             <div class="valueBox">{{ user.grade }}</div>
                         </t-col>
                         <t-col>
-                          <div class="labelBox">电子邮件：</div>
-                          <div class="valueBox">{{ user.email }}</div>
+                            <div class="labelBox">电子邮件：</div>
+                            <div class="valueBox">{{ user.email }}</div>
                         </t-col>
                         <t-col>
-                          <div class="labelBox">生日：</div>
-                          <div class="valueBox">
-                            <t-date-picker v-model="user.dateOfBirth" allow-input :disabled="readOnly"/>
-                          </div>
+                            <div class="labelBox">生日：</div>
+                            <div class="valueBox">
+                                <t-date-picker v-model="user.dateOfBirth" allow-input :disabled="readOnly" />
+                            </div>
                         </t-col>
                         <t-col>
                             <div class="labelBox">学院：</div>
                             <div class="valueBox">
-                              <t-input v-model="user.college" borderless :readonly="readOnly" align="center"></t-input>
+                                <t-input v-model="user.college" borderless :readonly="readOnly"
+                                    align="center"></t-input>
                             </div>
                         </t-col>
                         <t-col>
@@ -205,7 +206,7 @@
                 <t-form-item label="业务指导老师">
                     <t-input v-model="newClubFrom.businessGuideTeacherName" placeholder="请输入业务指导老师名字" />
                 </t-form-item>
-                <t-form-item label="申请材料">
+                <t-form-item label="指导教师简历">
                     <t-upload :size-limit="{ size: 3000000, unit: 'B' }"
                         accept=".doc,.docx,.docm,.dot,.dotx,.dotm,.xls,.xlsx,.xlsm,.xlt,.xltx,.xltm,.xlsb,.xlam,.pdf"
                         :auto-upload="false" :onSelectChange="selectChangeHandler" @validate="onValidate">
@@ -247,7 +248,7 @@ const closeDialog = () => {
     newClubFrom.college = ''
     newClubFrom.administrativeGuideTeacherName = ''
     newClubFrom.businessGuideTeacherName = ''
-    newClubFrom.material = ''
+    newClubFrom.advisorResumeAttachmentUrl = ''
     dialogRef.value.closeDialog();
 };
 
@@ -263,7 +264,7 @@ const newClubFrom = reactive({
     college: '',
     administrativeGuideTeacherName: '',
     businessGuideTeacherName: '',
-    material: '',
+    advisorResumeAttachmentUrl: '',
 })
 
 // 获取leader的名字和电话
@@ -308,7 +309,7 @@ const selectImageChangeHandler = (fileList) => {
 
 // 检验newClubFrom中的数据是否都已填写
 const newClubFromValidate = () => {
-    if (newClubFrom.clubName === '' || newClubFrom.clubDescription[0].content === '' || newClubFrom.clubCategory === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.mainCampus === '' || newClubFrom.college === '' || newClubFrom.administrativeGuideTeacherName === '' || newClubFrom.businessGuideTeacherName === '' || newClubFrom.material === '') {
+    if (newClubFrom.clubName === '' || newClubFrom.clubDescription[0].content === '' || newClubFrom.clubCategory === '' || newClubFrom.leader === '' || newClubFrom.leaderPhone === '' || newClubFrom.mainCampus === '' || newClubFrom.college === '' || newClubFrom.administrativeGuideTeacherName === '' || newClubFrom.businessGuideTeacherName === '' || newClubFrom.advisorResumeAttachmentUrl === '') {
         MessagePlugin.warning('请将信息填写完整');
         return false;
     }
@@ -342,8 +343,8 @@ if (isEmptyObject(store.state.userInfo)) {
 const readOnly = ref(true)
 
 const oldUserInfo = {
-    dateOfBirth:'',
-    college:'',
+    dateOfBirth: '',
+    college: '',
     politicalStatus: '',
     contact: '',
     hobby: '',
@@ -402,7 +403,7 @@ onMounted(() => {
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
         MessagePlugin.success('文件上传成功')
-        newClubFrom.material = data.file.url
+        newClubFrom.advisorResumeAttachmentUrl = data.file.url
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         MessagePlugin.success('图片上传成功')
