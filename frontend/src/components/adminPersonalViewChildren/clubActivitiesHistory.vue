@@ -147,16 +147,16 @@ const pagination = {
 const options1 = [
   { value: '活动结束', label: '活动结束', theme: 'success' },
   { value: '活动进行中', label: '活动进行中', theme: 'primary' },
-  { value: '活动取消', label: '活动取消', theme: 'danger' },
+  //{ value: '活动取消', label: '活动取消', theme: 'danger' },
   { value: '活动未开始', label: '活动未开始', theme: 'warning' },
 ];
-const value1 = ref(['活动结束', '活动进行中', '活动取消', '活动未开始']);
+const value1 = ref(['活动结束', '活动进行中', '活动未开始']);
 const checkAll = computed(() => options1.length === value1.value.length);//全选
 const indeterminate = computed(() => !!(options1.length > value1.value.length && value1.value.length));//半选indeterminate
 
 //全选按钮对应showedData处理
 const handleSelectAll = (checked) => {
-  value1.value = checked ? ['活动结束','活动进行中','活动取消','活动未开始'] : [];
+  value1.value = checked ? ['活动结束','活动进行中','活动未开始'] : [];
   showedData=[]
   for(let i=0;i<data.value.length;i++){
     for(let j=0;j<value1.value.length;j++) {
