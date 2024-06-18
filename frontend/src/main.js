@@ -6,6 +6,7 @@ import '../mock'
 import store from './store'
 import './api';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VueLazyload from 'vue-lazyload'
 
 // 引入组件库的少量全局样式变量
 import 'tdesign-vue-next/es/style/index.css';
@@ -15,6 +16,8 @@ const app = createApp(App)
 app.use(TDesign)
 
 app.use(router)
+
+app.use(VueLazyload)
 
 app.use(store)
 

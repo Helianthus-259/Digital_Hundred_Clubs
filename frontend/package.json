@@ -22,6 +22,7 @@
     "tdesign-icons-vue-next": "^0.2.2",
     "tdesign-vue-next": "^1.9.5",
     "vue": "^3.4.21",
+    "vue-lazyload": "^3.0.0",
     "vue-router": "^4.3.0",
     "vue-waterfall-plugin-next": "^2.4.3",
     "vuedraggable": "^4.1.0",

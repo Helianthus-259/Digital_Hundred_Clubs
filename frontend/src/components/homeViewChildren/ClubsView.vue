@@ -3,6 +3,23 @@
     width: 100%;
     height: 100%;
 }
+
+.lazy-img {
+    width: 100%;
+    height: 500px;
+    background-color: #f0f0f0;
+    animation: skeleton-loading 1s infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #f0f0f0;
+    }
+
+    100% {
+        background-color: #e0e0e0;
+    }
+}
 </style>
 
 <template>
@@ -11,7 +28,7 @@
             <template #item="{ item, index }">
                 <div class="card" @click="handleRouter(item.clubId)">
                     <div style="cursor: pointer;">
-                      <LazyImg :url="item.imageUrl" />
+                        <img v-lazy="item.imageUrl" class="lazy-img" />
                     </div>
                     <p class="text">{{ item.clubName }}</p>
                     <p class="text" v-html="item.clubDescription === null ? item.clubDescription :
@@ -23,7 +40,7 @@
 </template>
 
 <script setup>
-import { LazyImg, Waterfall } from 'vue-waterfall-plugin-next'
+import { Waterfall } from 'vue-waterfall-plugin-next'
 import 'vue-waterfall-plugin-next/dist/style.css'
 import { onUnmounted, ref } from 'vue'
 import eventEmitter from '@/utils/eventEmitter';
@@ -38,7 +55,7 @@ const clubsView = ref([])
 // 在created生命周期中调用接口
 if (store.state.clubsData.length > 0) {
     clubs.value = store.state.clubsData
-    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null})
+    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null })
 } else {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo, {})
 }
@@ -52,7 +69,7 @@ const handleRouter = (clubId) => {
 
 eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
     clubs.value = data
-    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null})
+    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null })
 })
 
 eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {
