@@ -16,4 +16,6 @@ public interface AdministratorService extends IService<Administrator> {
     Object getAdminInfo(Integer adminId);
 
     Object getAdmin(Integer adminId, List<Club> clubList);
+
+    Object getDepartmentList();
 }

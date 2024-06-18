@@ -121,4 +121,22 @@ public class AdminController {
     public Object unPassClubAwardReview(@ModelAttribute Studentclubevaluation studentclubevaluation) {
         return studentclubevaluationService.unPassClubAwardReview(studentclubevaluation);
     }
+
+    @PostMapping("/passCollegeClubApproval")
+    private Object passCollegeClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord)
+    {
+        return clubapplicationrecordService.passCollegeClubApproval(clubapplicationrecord);
+    }
+
+    @PostMapping("/unPassCollegeClubApproval")
+    private Object unPassCollegeClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord)
+    {
+        return clubapplicationrecordService.unPassCollegeClubApproval(clubapplicationrecord);
+    }
+
+    @GetMapping("/departmentList")
+    private Object getDepartmentList()
+    {
+        return administratorService.getDepartmentList();
+    }
 }

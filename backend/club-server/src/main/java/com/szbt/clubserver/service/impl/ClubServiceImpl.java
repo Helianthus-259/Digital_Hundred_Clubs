@@ -61,7 +61,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Override
     public Object queryAllClubs() {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
-        wrapper.selectAll(Club.class);
+        wrapper.selectAll(Club.class)
+                .select(Clubapplicationrecord::getCollegeReviewStatus,
+                        Clubapplicationrecord::getUniversityStudentUnionReviewStatus)
+                .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId);
         try{
             List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
             //处理文件请求 && 社团描述转json

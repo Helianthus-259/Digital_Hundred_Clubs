@@ -1,5 +1,6 @@
 package com.szbt.adminserver.dao.mapper;
 
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.example.entity.Administrator;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -11,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity generator.domain.Administrator
 */
 @Mapper
-public interface AdministratorMapper extends BaseMapper<Administrator> {
+public interface AdministratorMapper extends MPJBaseMapper<Administrator> {
 
 }
 

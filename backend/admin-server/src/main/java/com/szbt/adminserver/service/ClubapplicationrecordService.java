@@ -16,4 +16,8 @@ public interface ClubapplicationrecordService extends IService<Clubapplicationre
     Object passClubApproval(Clubapplicationrecord clubapplicationrecord);
 
     Object unPassClubApproval(Clubapplicationrecord clubapplicationrecord);
+
+    Object passCollegeClubApproval(Clubapplicationrecord clubapplicationrecord);
+
+    Object unPassCollegeClubApproval(@ModelAttribute Clubapplicationrecord clubapplicationrecord);
 }

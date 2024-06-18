@@ -81,6 +81,43 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
             return Result.send(StatusCode.UN_PASS_CLUB_APPROVAL_ERROR,new SendMsg("否决社团申请失败"));
         }
     }
+
+    @Override
+    public Object passCollegeClubApproval(Clubapplicationrecord clubapplicationrecord) {
+        clubapplicationrecord.setCollegeReviewStatus(1);
+        try{
+            int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
+            if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院通过社团申请失败"));
+            return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_COLLEGE_APPROVAL));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return Result.send(StatusCode.PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院通过社团申请失败"));
+        }
+    }
+
+    @Override
+    public Object unPassCollegeClubApproval(Clubapplicationrecord clubapplicationrecord) {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
+        clubapplicationrecord.setCollegeReviewStatus(0);
+        try{
+            int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
+            if(updateById<=0) return Result.send(StatusCode.UN_PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院否决社团申请失败"));
+            Clubapplicationrecord clubapplicationrecord1 = clubapplicationrecordMapper.selectById(clubapplicationrecord.getRecordId());
+            boolean passed = clubClientService.unPassClubApply(clubapplicationrecord1.getClubId());
+            if(!passed) {
+                // 如果未成功同步社团表，回滚事务并返回错误信息
+                transactionManager.rollback(transactionStatus);
+                return Result.send(StatusCode.UN_PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院否决社团申请失败"));
+            }
+            transactionManager.commit(transactionStatus);
+            return Result.success(new SingleCodeVO(ResultCode.UN_PASS_CLUB_COLLEGE_APPROVAL));
+        }catch (Exception e) {
+            e.printStackTrace();
+            transactionManager.rollback(transactionStatus);
+            return Result.send(StatusCode.UN_PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院否决社团申请失败"));
+        }
+    }
 }
 
 
