@@ -94,6 +94,15 @@ const api = {
             password: params.password,
         }
     })),
+    'postAdminRegister': (params) => axios.post(path.postAdminRegister, toFormData({ //管理员登录
+        params: {
+            account: params.account,
+            pwd: params.pwd,
+            authority: params.authority,
+            contact: params.contact,
+            departmentName: params.departmentName
+        }
+    })),
     'getActivityInfo': (params) => axios.get(path.activityInfo, { // 获取活动信息
         params: {
             activityId: params.activityId,
@@ -108,6 +117,7 @@ const api = {
         params: {
             adminId: params.adminId,
             contact: params.contact,
+            departmentName: params.departmentName
         }
     })),
     'getActivitiesInfo': (params) => axios.get(path.activitiesInfo, { // 获取活动信息

@@ -45,17 +45,17 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     }
 
     @Override
-    public Object register(String account, String password) {
+    public Object register(Administrator administrator) {
+        String account = administrator.getAccount();
+        String password = administrator.getPwd();
         QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account);
         if(administratorMapper.exists(queryWrapper)) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
-        Administrator administrator = new Administrator();
-        administrator.setAccount(account);
         administrator.setPwd(SecurityUtil.encrypt(password));
         if(administratorMapper.insert(administrator)==0) return Result.send(StatusCode.REGISTER_LOGIN_ERROR,new SendMsg("注册失败"));
         JWTUtils.JwtUser jwtUser = new JWTUtils.JwtUser(administrator);
         String token = jwtUtils.createJwt(jwtUser);
-        return Result.success(new ALRSuccess(ResultCode.REGISTER_LOGIN,token,administrator.getAdminId()));
+        return Result.success(new ALRSuccess(ResultCode.ADMIN_REGISTER,token,administrator.getAdminId()));
     }
 }
 

@@ -10,6 +10,7 @@ const base = {
     login: auth + '/login', // 登录
     register: auth + '/register', // 注册
     postAdminLogin: auth + '/adminLogin', //管理员登录
+    postAdminRegister: auth + '/adminRegister',  // 管理员注册
     verifyCode: auth + '/verifyCode', // 获取验证码
     getImageVerifyCode: auth + '/getImageVerifyCode', // 获取图片验证码
     getEnumList: auth + '/getEnumList', // 获取枚举列表

@@ -10,5 +10,5 @@ import org.example.entity.Administrator;
 */
 public interface AdministratorService extends IService<Administrator> {
     Object login(String account, String password, boolean ok);
-    Object register(String account, String password);
+    Object register(Administrator administrator);
 }

@@ -5,6 +5,7 @@ export const APIEventEnum = {
     // 请求成功事件
     loginSuccess: 'loginSuccess',
     postAdminLoginSuccess: 'postAdminLoginSuccess',
+    postAdminRegisterSuccess: 'postAdminRegisterSuccess',
     getClubsInfoSuccess: 'getClubsInfoSuccess',
     getUserInfoSuccess: 'getUserInfoSuccess',
     getClubActAndNtcSuccess: 'getClubActAndNtcSuccess',
@@ -86,6 +87,7 @@ export const APIEnum = {
     getClubIntroduction: 'getClubIntroduction',
     getClubMembers: 'getClubMembers',
     postAdminLogin: 'postAdminLogin',
+    postAdminRegister: 'postAdminRegister',
     getAdminInfo: 'getAdminInfo',
     postAdminInfo: 'postAdminInfo',
     getActivityInfo: 'getActivityInfo',

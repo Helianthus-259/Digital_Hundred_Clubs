@@ -228,6 +228,8 @@ function successHandler(res) {
             const { departmentList } = response.data
             eventEmitter.emit(APIEventEnum.getDepartmentListSuccess, departmentList)
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setDepartmentList, departmentList)
+        } else if (response.data.code === 67){  // 注册管理员成功
+            eventEmitter.emit(APIEventEnum.postAdminRegisterSuccess)
         }
         // 错误处理
     } else if (response.status === 2001) {    // 用户名或密码错误
