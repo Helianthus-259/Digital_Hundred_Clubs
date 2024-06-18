@@ -35,7 +35,7 @@
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
-            <t-button theme="primary" :disabled="row.clubStatus !== null" @click="detail(row)">申请详情</t-button>
+            <t-button theme="primary" :disabled="row.universityStudentUnionReviewStatus !== null" @click="detail(row)">申请详情</t-button>
           </template>
         </t-table>
       </t-space>
@@ -219,7 +219,7 @@ onMounted(() => {
       item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
       item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
       item.establishmentDate = formatDate(new Date(item.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
-      return item.collegeReviewStatus === 1 && item.universityStudentUnionReviewStatus === null
+      return item.collegeReviewStatus === 1 && item.collegeReviewStatus === 1
     })
     assignment()
   })
@@ -227,7 +227,7 @@ onMounted(() => {
 
 const search = () => {
   data.value = clubsData.value.filter((item) => {
-    return (item.clubStatus === status.value || status.value === 'all') &&
+    return (item.universityStudentUnionReviewStatus === status.value || status.value === 'all') &&
       (item.mainCampus === campus.value || campus.value === 'all') &&
       (item.clubCategory === category.value || category.value === 'all');
   })
@@ -247,13 +247,13 @@ const columns = ref([
   { colKey: 'clubCategory', title: '社团种类', ellipsis: true },
   { colKey: 'establishmentDate', title: '申请时间' },
   {
-    colKey: 'status',
+    colKey: 'universityStudentUnionReviewStatus',
     title: '审批状态',
     cell: (h, { row }) => {
       return (
-        <t-tag shape="round" theme={statusNameListMap[row.clubStatus].theme} variant="light-outline">
-          {statusNameListMap[row.clubStatus].icon}
-          {statusNameListMap[row.clubStatus].label}
+        <t-tag shape="round" theme={statusNameListMap[row.universityStudentUnionReviewStatus].theme} variant="light-outline">
+          {statusNameListMap[row.universityStudentUnionReviewStatus].icon}
+          {statusNameListMap[row.universityStudentUnionReviewStatus].label}
         </t-tag>
       );
     },

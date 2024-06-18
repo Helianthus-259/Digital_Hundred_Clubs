@@ -8,4 +8,5 @@ public class PresidentDTO {
     private Integer position;
     private String contact;
     private String imageUrl;
+    private String studentNumber;
 }

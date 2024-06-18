@@ -137,11 +137,11 @@ function getAllManagedClubs(){
 getAllManagedClubs()
 
 const pSize = 20;
-const pagination = {
+const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 10,
-  total: pSize*clubsInfoMap.size,
-};
+  total: 0,
+})
 
 /////////////////////////以下部分为左边多选框设计代码//////////////////////////////////
 const options1 = [
@@ -211,10 +211,10 @@ function getClubActivityData (clubName,clubId) {
 clubsInfoMap.forEach(getClubActivityData);
 
 const columns = ref([
-  { colKey: 'clubName', title: '社团名称' ,},  
   { colKey: 'activityId', title: '活动id' ,},
+  { colKey: 'clubName', title: '社团名称' ,},
   { colKey: 'activityName', title: '活动名称',},
-  { colKey: 'activityPlace', title: '活动场地',width:'200'},
+  { colKey: 'activityLocation', title: '活动场地',width:'200'},
   {
     colKey: 'status',
     title: '活动审批状态',

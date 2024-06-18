@@ -80,11 +80,11 @@
           </t-descriptions-item>
 
           <t-descriptions-item label="社团类别">
-            {{item.clubSort}}
+            {{clubCategories[item.clubSort].name}}
           </t-descriptions-item>
 
           <t-descriptions-item label="主部所在校区">
-            <t-select showArrow v-model="item.location" :readonly="readOnly">
+            <t-select showArrow v-model="mainCampuses[item.location].name" :readonly="readOnly">
               <t-option key="广州南校" label="广州南校" value="广州南校" />
               <t-option key="广州北校" label="广州北校" value="广州北校" />
               <t-option key="广州东校" label="广州东校" value="广州东校" />
@@ -107,35 +107,8 @@
               <t-option key="不公开" label="不公开" value="不公开" />
             </t-select>
           </t-descriptions-item>
-
-          <!-- <t-descriptions-item label="社团邮箱">
-            <t-auto-complete borderless :readonly="readOnly" v-model="item.clubEmail" />  
-          </t-descriptions-item> -->
         </t-descriptions>
-
       </t-card>
-      
-      <!-- <t-card class="content-container" :bordered="false" style="margin-bottom:10px; margin-top: 10px;margin-left:10px;margin-right:10px;">
-        <t-tabs value="second">
-
-
-          <t-tab-panel value="second" label="社团动态">
-
-            <t-card :bordered="false" class="card-padding-no" title="社团活动数据" describe="（次）">
-              <template #actions>
-                <t-date-range-picker
-                  class="card-date-picker-container"
-                  theme="primary"
-                  mode="date"
-                />
-              </template>
-              
-            </t-card>
-
-
-        </t-tabs>
-      </t-card> -->
-
     </t-col>
   </t-row>
 </template>
@@ -148,6 +121,8 @@ import { reactive, ref } from 'vue';
 import formatDate from '@/utils'
 
 const clubString = ref('社团信息')
+const mainCampuses = JSON.parse(localStorage.getItem('enumList')).mainCampuses
+const clubCategories = JSON.parse(localStorage.getItem('enumList')).clubCategories
 // 判断空对象的函数
 function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;

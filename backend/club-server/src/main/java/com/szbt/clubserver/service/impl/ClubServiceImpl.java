@@ -319,9 +319,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         QueryWrapper<Club> wrapper = new QueryWrapper<>();
         wrapper.eq("responsible_department_id", adminId);
         try{
-            //Club club = clubMapper.selectOne(wrapper);
             List<Club> clubList = clubMapper.selectList(wrapper);
-//            Club club = clubList.get(0);
+            for(Club club : clubList){
+                club.setClubDescription(MyJsonParser.parserJsonText(club.getClubDescription()));
+            }
             return clubList;
         }catch (Exception e){
             e.printStackTrace();
