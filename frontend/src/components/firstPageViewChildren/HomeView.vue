@@ -115,7 +115,7 @@
             <div class="">
                 <div class="checkBoxes" v-if="checkedShow">
                     <t-checkbox v-for="item in enumList" :key="item.code" :label="item.name" default-checked
-                        icon="rectangle" @change="(checked) => checkChange(checked, item.name)" />
+                        icon="rectangle" @change="(checked) => checkChange(checked, item.code)" />
                 </div>
             </div>
         </div>

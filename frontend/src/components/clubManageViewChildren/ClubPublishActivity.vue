@@ -103,8 +103,10 @@
                     <t-card>
                         <template #header>
                             {{ item.activityName }}
-                            <t-tag shape="round" variant="light-outline" :theme="activityStatusTheme[item.status]"
+                            <t-tag v-if="item.activityStatus || item.status === 2" shape="round" variant="light-outline" :theme="activityStatusTheme[item.status]"
                                 :content="activityStatusContent[item.status]"></t-tag>
+                            <t-tag v-else shape="round" variant="light-outline" theme="danger"
+                                 content="未通过审核"></t-tag>
                         </template>
                         <template #cover>
                             <img :src="item.imageUrl">

@@ -73,12 +73,12 @@ eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) 
 })
 
 eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {
-    const add = clubs.value.filter(item => item.clubCategory === type)
+    const add = clubs.value.filter(item => item.clubCategory === +type)
     clubsView.value.push(...add)
 })
 
 eventEmitter.on(TypeEventEnum.removeType, 'removeType', (type) => {
-    const remove = clubs.value.filter(item => item.clubCategory === type)
+    const remove = clubs.value.filter(item => item.clubCategory === +type)
     clubsView.value = clubsView.value.filter(item => !remove.includes(item))
 })
 

@@ -114,18 +114,8 @@
       <t-divider />
       <div class="">
         <div class="checkBoxes" v-if="checkedShow">
-          <t-checkbox label="学术类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '学术类')" />
-          <t-checkbox label="体育类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '体育类')" />
-          <t-checkbox label="艺术类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '艺术类')" />
-          <t-checkbox label="公益类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '公益类')" />
-          <t-checkbox label="科技类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '科技类')" />
-          <t-checkbox label="其他类" default-checked icon="rectangle"
-                      @change="(checked) => checkChange(checked, '其他类')" />
+          <t-checkbox v-for="item in enumList" :key="item.code" :label="item.name" default-checked
+                      icon="rectangle" @change="(checked) => checkChange(checked, item.code)" />
         </div>
       </div>
     </div>
@@ -133,17 +123,16 @@
       <!-- 年度最佳社团轮播图 -->
       <div class="swiperContainer">
         <t-swiper class="swiper" type="card" :navigation="{ placement: 'outside', showSlideBtn: 'always' }">
-          <t-swiper-item v-for="(item, index) in swiperList" :key="index">
+          <t-swiper-item v-for="(item, index) in topTenClubs" :key="index">
             <div style="display: flex; justify-content: center;  background: #ffffff; height: 100%; ">
-              <img :src="item" />
+              <img style="cursor: pointer;" @click="go2ClubDetail(item.clubId)" :src="item.imageUrl" />
             </div>
           </t-swiper-item>
         </t-swiper>
       </div>
       <div class="contentContainer">
-        <div class="fillBox"></div>
         <div class="showBox">
-          <router-view></router-view>
+          <RouterView />
         </div>
       </div>
     </div>
@@ -151,18 +140,13 @@
 </template>
 
 <script setup>
-import { ref} from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import eventEmitter from '../../utils/eventEmitter';
-import { RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
+import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
 import store from '@/store';
 
 // 轮播图
-const imageCdn = 'https://tdesign.gtimg.com/mobile/demos';
-const swiperList = [
-  `${imageCdn}/swiper1.png`,
-  `${imageCdn}/swiper2.png`,
-  `${imageCdn}/swiper1.png`,
-];
+const topTenClubs = ref([])
 
 const handleChange = (index, context) => {
 };
@@ -170,28 +154,27 @@ const handleChange = (index, context) => {
 // 选项卡
 
 // 控制contentContainer以及复选框中的页面展示
-const parentRoute = store.state.parentRoute.admin
-const routerNames = ref(store.state.routeTabs.adminClubTabs);
-const checkedShow = ref(routerNames.value === 'adminClub')
+const parentRoute = store.state.parentRoute.home
+const routerNames = ref(store.state.routeTabs.homeTabs);
+const checkedShow = ref(routerNames.value === 'clubs')
 const routerlist = [
   {
     label: '社团情况',
-    value: 'adminClub',
+    value: 'clubs',
   },
   {
     label: '最新动态',
-    value: 'adminNews',
+    value: 'news',
   },
 ]
 
 const onChange = (value) => {
-  const selfRoute = parentRoute + 'admin/' + value;
+  const selfRoute = parentRoute + value;
   routerNames.value = value
   eventEmitter.emit(RouterEventEnum.push, selfRoute)
   checkedShow.value = !checkedShow.value
-  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminClubTabs', value: value })
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'homeTabs', value: value })
 }
-
 
 // 搜索信息
 const onSearch = (value) => {
@@ -207,4 +190,39 @@ const checkChange = (checked, type) => {
     eventEmitter.emit(TypeEventEnum.removeType, type);
   }
 }
+
+// 点击轮播图图片跳转到社团详情页
+const go2ClubDetail = (clubId) => {
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setParentRoute, { owner: 'club', value: clubId })
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubId, clubId)
+  eventEmitter.emit(RouterEventEnum.push, `/club/${clubId}/`)
+}
+
+// 社团类型类别枚举
+const enumList = ref([])
+
+onMounted(() => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getTopTenClubs)
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getDepartmentList)
+  if (localStorage.getItem('enumList')) {
+    enumList.value = JSON.parse(localStorage.getItem('enumList')).clubCategories
+  } else {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getEnumList)
+  }
+
+  eventEmitter.on(APIEventEnum.getEnumListSuccess, 'getEnumListSuccess', (data) => {
+    enumList.value = data.clubCategories
+  })
+  eventEmitter.on(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess', (data) => {
+    topTenClubs.value.push(...data)
+  })
+  eventEmitter.on(APIEventEnum.getDepartmentListSuccess, 'getDepartmentListSuccess', (data) => {
+    console.log(data)
+  })
+})
+
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.getTopTenClubsSuccess, 'getTopTenClubsSuccess')
+  eventEmitter.off(APIEventEnum.getEnumListSuccess, 'getEnumListSuccess')
+})
 </script>
