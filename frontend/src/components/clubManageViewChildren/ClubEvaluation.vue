@@ -223,7 +223,8 @@
                                 </template>
                                 <t-row style="border-left: 2px solid #000;" id="table">
                                     <t-col :span="4">
-                                        <t-input v-model="item.meetingTime" style="width: 60%;" borderless />
+                                        <t-date-picker borderless enableTimePicker v-model="item.meetingTime"
+                                                     style="width: 60%;" />
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-input v-model="item.location" style="width: 60%;" borderless />
@@ -270,7 +271,8 @@
                                         <t-input v-model="item.awardName" style="width: 60%;" borderless />
                                     </t-col>
                                     <t-col id="table" :span="4">
-                                        <t-input v-model="item.awardTime" style="width: 60%;" borderless />
+                                        <t-date-picker borderless enableTimePicker v-model="item.awardTime"
+                                                     style="width: 60%;" />
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-input v-model="item.issuingAuthority" style="width: 60%;" borderless />

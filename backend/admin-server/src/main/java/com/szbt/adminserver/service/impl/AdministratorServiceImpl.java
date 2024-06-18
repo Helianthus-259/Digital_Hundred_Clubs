@@ -6,6 +6,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.adminserver.dao.mapper.AdministratorMapper;
 import com.szbt.adminserver.service.AdministratorService;
 import org.example.dto.AdminClubDTO;
+import org.example.dto.DepartmentDTO;
 import org.example.entity.Administrator;
 import org.example.entity.Club;
 import org.example.enums.ResultCode;
@@ -20,7 +21,9 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author 小壳儿
@@ -75,6 +78,23 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
             e.printStackTrace();
         }
         return Result.send(StatusCode.GET_ADMIN_INFO_ERROR,new SendMsg("获取管理员信息失败"));
+    }
+
+    @Override
+    public Object getDepartmentList() {
+        MPJLambdaWrapper<Administrator>  wrapper = new MPJLambdaWrapper<Administrator>()
+                .selectAll(Administrator.class);
+        try{
+            List<DepartmentDTO> departmentDTOS = administratorMapper.selectJoinList(DepartmentDTO.class, wrapper);
+            // 构造结果对象
+            Map<String, Object> result = new HashMap<>();
+            result.put("code", ResultCode.GET_DEPARTMENT_LIST.getCode());
+            result.put("departmentList", departmentDTOS);
+            return Result.success(result);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Result.send(StatusCode.GET_DEPARTMENT_LIST_ERROR,new SendMsg("获取管理员列表失败"));
     }
 }
 

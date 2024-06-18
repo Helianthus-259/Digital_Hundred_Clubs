@@ -76,7 +76,9 @@ mock.onGet(path.clubsInfo).reply((config) => {
             clubCategory: [0, 1, 2, 3, 4, 5][i % 6],
             createTime: '2024-4-30 12:00:00',
             clubStatus: [null, 0, 1][i % 3],
-            responsibleDepartmentId: '12345678'
+            responsibleDepartmentId: '12345678',
+            collegeReviewStatus:[0, 1, null][i % 3],
+            universityStudentUnionReviewStatus:[0, 1, null][i % 3]
         })
     }
     console.log(data);
@@ -318,7 +320,7 @@ mock.onGet(path.adminInfo).reply((config) => {
         data: {
             adminId: '12345678',
             account: 'administer',
-            sort: 0, //0代表学院管理员,1代表校级管理员
+            sort: 1, //0代表学院管理员,1代表校级管理员
             password: '123456',
             contact: '37037037037',
             affiliatedUnit: '软件工程',
@@ -327,10 +329,10 @@ mock.onGet(path.adminInfo).reply((config) => {
                     clubId: 1,
                     clubName: '篮球社',
                     establishedTime: '2024/05/03',
-                    affiliatedUnitId: '7432',
+                    affiliatedUnit: '部门',
                     clubIntroduction: '打篮球的社团。',
-                    clubSort: '0（枚举类，对应体育类）',//0，1，2，3，4
-                    clubStatus: '这是社团1状态的枚举',
+                    clubSort: '0',//0，1，2，3，4
+                    clubStatus: 1,
                     administrativeAdvisorName: '刑震',
                     businessAdvisorName: '叶悟',
                     contactsId: '21314151',
@@ -342,10 +344,10 @@ mock.onGet(path.adminInfo).reply((config) => {
                     clubId: 2,
                     clubName: '社团2',
                     establishedTime: '2023/06/05',
-                    affiliatedUnitId: '这是社团2附属部门id',
+                    affiliatedUnit: '部门',
                     clubIntroduction: '这是社团2简介',
-                    clubSort: '这是社团2类别的枚举',//0，1，2，3，4
-                    clubStatus: '这是社团2状态的枚举',
+                    clubSort: '1',//0，1，2，3，4
+                    clubStatus: null,
                     administrativeAdvisorName: '这是行政指导老师姓名',
                     businessAdvisorName: '这是业务指导老师姓名',
                     contactsId: '这是社团2联系人Id',
@@ -1181,5 +1183,11 @@ mock.onGet(path.departmentList).reply((config) => {
             adminId: '2',
             departmentName: '软件学院'
         }]
+    }]
+})
+
+mock.onPost(path.postAdminRegister).reply((config) => {
+    return [200, {
+        code: 67,
     }]
 })

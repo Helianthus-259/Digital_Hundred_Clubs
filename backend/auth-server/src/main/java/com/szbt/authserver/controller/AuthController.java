@@ -6,6 +6,7 @@ import com.szbt.authserver.service.StudentService;
 import com.szbt.authserver.service.VerifyCodeService;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.entity.Administrator;
 import org.example.entity.Student;
 import org.example.service.StudentClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class AuthController {
 
     //用来临时添加管理员测试
     @PostMapping("/adminRegister")
-    public Object adminRegister(String account,String password){
-        return administratorService.register(account,password);
+    public Object adminRegister(@ModelAttribute Administrator administrator){
+        return administratorService.register(administrator);
     }
 
     @GetMapping("/verifyCode")

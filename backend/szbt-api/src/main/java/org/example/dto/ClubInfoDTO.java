@@ -16,4 +16,6 @@ public class ClubInfoDTO {
     private Integer clubStatus;
     private Integer responsibleDepartmentId;
     private Date establishmentDate;
+    private Integer collegeReviewStatus;
+    private Integer universityStudentUnionReviewStatus;
 }
