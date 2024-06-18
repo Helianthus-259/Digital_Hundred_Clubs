@@ -182,6 +182,7 @@ const api = {
     'uploadImage': ({ file, flag = '' }) => {
         const formData = new FormData();
         formData.append('image', file);
+        console.log(file)
         return axios.post(path.uploadImage, toFormData({
             params: {
                 image: file,

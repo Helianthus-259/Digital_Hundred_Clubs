@@ -1,4 +1,5 @@
-import api from "@/api";
+import api from '@/api'
+import {MessagePlugin} from "tdesign-vue-next";
 
 class MyUploadAdapter {
     constructor(loader) {
@@ -13,6 +14,11 @@ class MyUploadAdapter {
                 // 调用您的axios封装的uploadImage函数
                 this._uploadImage(file)
                     .then(response => {
+                        if(response.status !== 200){
+                            MessagePlugin.warning("服务器出错!")
+                            return
+                        }
+                        response = response.data.status ? response.data : response
                         if (response.status === 200) {
                             // 假设服务器返回了图片URL
                             const imageUrl = response.data.image.url;
@@ -41,7 +47,8 @@ class MyUploadAdapter {
     _uploadImage(file) {
         // 这里直接调用您的axios封装函数，确保它返回一个Promise
         // 示例参数仅为示意，根据实际情况调整
-        return api.uploadImage(file, 'editor')
+        console.log(file)
+        return api.uploadImage({file:file, flag: 'editor'})
     }
 }
 
