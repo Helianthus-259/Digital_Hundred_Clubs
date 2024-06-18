@@ -130,11 +130,8 @@
                 <t-col :span="2">
                   <div class="text">附件</div>
                 </t-col>
-                <t-col :span="5" id="table">
-                  <t-link theme="primary" @click="getFile(clubInfo.attachmentUrl)">{{ clubInfo.attachmentUrl }}</t-link>
-                </t-col>
-                <t-col :span="5" id="table">
-                  <t-link theme="primary" @click="getFile(clubInfo.advisorResumeAttachmentUrl)">{{ clubInfo.advisorResumeAttachmentUrl }}</t-link>
+                <t-col :span="10" id="table">
+                  <t-link theme="primary" @click="getFile(clubInfo.advisorResumeAttachmentUrl)">点击查看建立社团附件</t-link>
                 </t-col>
               </t-row>
               <t-row id="table">
@@ -222,7 +219,7 @@ onMounted(() => {
       item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
       item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
       item.establishmentDate = formatDate(new Date(item.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
-      return true
+      return item.collegeReviewStatus === 1 && item.universityStudentUnionReviewStatus === null
     })
     assignment()
   })

@@ -76,7 +76,9 @@ mock.onGet(path.clubsInfo).reply((config) => {
             clubCategory: [0, 1, 2, 3, 4, 5][i % 6],
             createTime: '2024-4-30 12:00:00',
             clubStatus: [null, 0, 1][i % 3],
-            responsibleDepartmentId: '12345678'
+            responsibleDepartmentId: '12345678',
+            collegeReviewStatus:[0, 1, null][i % 3],
+            universityStudentUnionReviewStatus:[0, 1, null][i % 3]
         })
     }
     console.log(data);
