@@ -70,7 +70,7 @@ const api = {
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
             businessGuideTeacherName: params.businessGuideTeacherName,
             advisorResumeAttachmentUrl: params.advisorResumeAttachmentUrl,
-            adminId: params.adminId,
+            responsibleDepartmentId: params.adminId,
         }
     })),
     'getClubActAndNtc': (params) => axios.get(path.clubActAndNtc, { // 获取社团活动通知

@@ -80,14 +80,15 @@ public class ClubmemberServiceImpl extends ServiceImpl<ClubmemberMapper, Clubmem
         wrapper.select(Clubmember::getPosition)
                 .select(Student::getStName,
                         Student::getImageUrl,
-                        Student::getContact)
+                        Student::getContact,
+                        Student::getStudentNumber)
                 .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
                 .eq(Clubmember::getClubId, clubId)
                 .eq(Clubmember::getPosition, Position.PRESIDENT.getCode());
         //查询骨干信息
         MPJLambdaWrapper<Clubmember> wrapper2 = new MPJLambdaWrapper<>();
         wrapper2.select(Clubmember::getPosition)
-                .select(Student::getStName, Student::getImageUrl)
+                .select(Student::getStName, Student::getImageUrl, Student::getStudentNumber)
                 .leftJoin(Student.class, Student::getStudentId, Clubmember::getStudentId)
                 .eq(Clubmember::getClubId, clubId)
                 .and(w -> w.eq(Clubmember::getPosition, Position.VICE_PRESIDENT.getCode())

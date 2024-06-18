@@ -188,13 +188,7 @@
                 <t-col :span="3">
                     <div class="labelBox">业务指导单位：</div>
                     <div class="valueBox">
-                        {{ clubInfo.responsibleDepartment }}
-                        <!-- <t-select v-model="clubInfo.responsibleDepartment" borderless :readonly="!isEditting" showArrow>
-                            <t-option label="体育部" value="体育部" />
-                            <t-option label="艺术部" value="艺术部" />
-                            <t-option label="学术部" value="学术部" />
-                            <t-option label="公益部" value="公益部" />
-                        </t-select> -->
+                        {{ clubInfo.responsibleDepartment}}
                     </div>
                 </t-col>
                 <t-col :span="3">
@@ -517,7 +511,7 @@ onMounted(() => {
         clubInfo.clubName = data.clubName
         clubInfo.establishmentDate = formatDate(new Date(data.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
         clubInfo.clubCategory = +data.clubCategory // 转数字
-        clubInfo.responsibleDepartment = +data.responsibleDepartment
+        clubInfo.responsibleDepartment = data.responsibleDepartment
         clubInfo.administrativeGuideTeacherName = data.administrativeGuideTeacherName
         clubInfo.businessGuideTeacherName = data.businessGuideTeacherName
         clubInfo.mainCompus = mainCampuses[data.mainCampus].name

@@ -153,16 +153,16 @@
             {{item.clubName}}
           </t-descriptions-item>
           <t-descriptions-item label="附属单位">
-            {{admin.affiliateUnit}}
+            {{admin.affiliatedUnit}}
           </t-descriptions-item>
           <t-descriptions-item label="主部所在校区">
-            {{item.location}}
+            {{ mainCampuses[item.location].name }}
           </t-descriptions-item>
           <t-descriptions-item label="社团类别">
-            {{item.clubCategory}}
+            {{ clubCategories[item.clubSort].name}}
           </t-descriptions-item>
           <t-descriptions-item label="社团简介">
-            {{item.clubIntroduction}}
+            <p v-html="item.clubIntroduction[0].content"></p>
           </t-descriptions-item>
         </t-descriptions>
 
@@ -192,6 +192,8 @@ import {MessagePlugin} from "tdesign-vue-next";
 
 const adminInfoString = ref('个人信息')
 const clubString = ref('简要信息')
+const mainCampuses = JSON.parse(localStorage.getItem('enumList')).mainCampuses
+const clubCategories = JSON.parse(localStorage.getItem('enumList')).clubCategories
 // 判断空对象的函数
 function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
