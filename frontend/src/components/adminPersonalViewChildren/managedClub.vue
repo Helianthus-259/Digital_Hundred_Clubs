@@ -55,7 +55,7 @@
       <!-- 社团信息卡 -->
       <t-card class="user-info-list" v-for="item in clubInfo" :title="clubString" bordered>
         <template #actions>
-          <t-button theme="primary" shape="square" variant="base" @click="whileClick(item)">
+          <t-button theme="primary" shape="square" variant="base" :disabled="choose !== -1 && choose !== item.clubId" @click="whileClick(item)">
             {{ item.clubId === choose ? '保存': '编辑' }}
           </t-button>
         </template>
@@ -84,25 +84,25 @@
           </t-descriptions-item>
 
           <t-descriptions-item label="主部所在校区">
-            <t-select showArrow v-model="mainCampuses[item.location].name" :readonly="readOnly">
-              <t-option key="广州南校" label="广州南校" value="广州南校" />
-              <t-option key="广州北校" label="广州北校" value="广州北校" />
-              <t-option key="广州东校" label="广州东校" value="广州东校" />
-              <t-option key="深圳校区" label="深圳校区" value="深圳校区" />
-              <t-option key="珠海校区" label="珠海校区" value="珠海校区" />
+            <t-select showArrow v-model="item.location" :readonly="item.clubId!==choose">
+              <t-option key="广州南校" label="广州南校" :value="0" />
+              <t-option key="广州北校" label="广州北校" :value="1" />
+              <t-option key="广州东校" label="广州东校" :value="2" />
+              <t-option key="深圳校区" label="深圳校区" :value="3" />
+              <t-option key="珠海校区" label="珠海校区" :value="4" />
             </t-select>
           </t-descriptions-item>
 
           <t-descriptions-item label="业务指导老师姓名">
-            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="item.businessAdvisorName" />  
+            <t-auto-complete :borderless="item.clubId!==choose" :readonly="item.clubId!==choose" v-model="item.businessAdvisorName" />
           </t-descriptions-item>
 
           <t-descriptions-item label="行政指导老师姓名">
-            <t-auto-complete :borderless="readOnly" :readonly="readOnly" v-model="item.administrativeAdvisorName" />  
+            <t-auto-complete :borderless="item.clubId!==choose" :readonly="item.clubId!==choose" v-model="item.administrativeAdvisorName" />
           </t-descriptions-item>
 
           <t-descriptions-item label="成员财务是否公开">
-            <t-select showArrow v-model="item.financePublicity" :readonly="readOnly">
+            <t-select showArrow v-model="item.financePublicity" :readonly="item.clubId!==choose">
               <t-option key="公开" label="公开" :value="1" />
               <t-option key="不公开" label="不公开" :value="0" />
             </t-select>
@@ -155,6 +155,7 @@ onMounted(()=>{
 const readOnly = ref(true)
 const buttonText=ref('编辑')
 const oldClubInfo = {
+  clubId:null,
   clubName: '',
   establishmentDate: '',
   clubCategory: '',
@@ -174,16 +175,17 @@ function whileClick(club) {
   buttonText.value = (readOnly.value) ? '编辑' : '保存'
   if( readOnly.value && (
       club.location !== oldClubInfo.mainCampus
-      || club.administrativeGuideTeacherName !== oldClubInfo.administrativeGuideTeacherName
-      || club.businessGuideTeacherName !== oldClubInfo.businessGuideTeacherName
+      || club.administrativeAdvisorName !== oldClubInfo.administrativeGuideTeacherName
+      || club.businessAdvisorName !== oldClubInfo.businessGuideTeacherName
       || club.financePublicity !== oldClubInfo.isFinancialInformationPublic
   )) {
     save(club)
     choose.value = -1
   }else if(!readOnly.value){
+      oldClubInfo.clubId = club.clubId
       oldClubInfo.mainCampus = club.location
-      oldClubInfo.administrativeGuideTeacherName = club.administrativeGuideTeacherName
-      oldClubInfo.businessGuideTeacherName = club.businessGuideTeacherName
+      oldClubInfo.administrativeGuideTeacherName = club.administrativeAdvisorName
+      oldClubInfo.businessGuideTeacherName = club.businessAdvisorName
       oldClubInfo.isFinancialInformationPublic = club.financePublicity
       choose.value = club.clubId
   } else{
@@ -198,8 +200,8 @@ function save(club) {
     establishmentDate: new Date(club.establishedTime),
     clubCategory: club.clubSort,
     responsibleDepartment: club.affiliatedUnitId,
-    administrativeGuideTeacherName: club.administrativeGuideTeacherName,
-    businessGuideTeacherName: club.businessGuideTeacherName,
+    administrativeGuideTeacherName: club.administrativeAdvisorName,
+    businessGuideTeacherName: club.businessAdvisorName,
     mainCompus: club.location,
     isFinancialInformationPublic: club.financePublicity,
     imageUrl: null,
