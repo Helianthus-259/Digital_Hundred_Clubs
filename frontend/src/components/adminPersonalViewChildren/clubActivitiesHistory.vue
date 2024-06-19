@@ -171,26 +171,17 @@ const indeterminate = computed(() => !!(options1.length > value1.value.length &&
 //全选按钮对应showedData处理
 const handleSelectAll = (checked) => {
   value1.value = checked ? ['活动结束','活动进行中','活动未开始'] : [];
-  for(let i=0;i<data.value.length;i++){
-    for(let j=0;j<value1.value.length;j++) {
-      if(options1[data.value[i].status].label===value1.value[j]) {
-        showedData.push(data.value[i])
-        break;
-      }
-    }
-  }
+  showedData.value = checked ? data.value : [];
   pagination.total=showedData.value.length;
 };
 
 //单独按钮对应showedData处理
 const onChange1 = (val) => {
-  for(let i=0;i<data.value.length;i++)
-    for(let j=0;j<value1.value.length;j++) 
-      if(options1[data.value[i].status].label===value1.value[j])
-      {
-        showedData.push(data.value[i])
-        break;
-      }
+    showedData.value = data.value.filter(item => {
+        for(let i=0;i<value1.value.length;i++){
+            if(options1[item.status].value === value1.value[i]) return true
+        }
+    })
 };
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
 
