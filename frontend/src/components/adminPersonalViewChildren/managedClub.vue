@@ -56,7 +56,7 @@
       <t-card class="user-info-list" v-for="item in clubInfo" :title="clubString" bordered>
         <template #actions>
           <t-button theme="primary" shape="square" variant="base" @click="whileClick(item)">
-            {{ buttonText }}
+            {{ item.clubId === choose ? '保存': '编辑' }}
           </t-button>
         </template>
 
@@ -161,29 +161,34 @@ const oldClubInfo = {
   responsibleDepartment: '',
   administrativeGuideTeacherName: '',
   businessGuideTeacherName: '',
-  mainCompus: '',
+  mainCampus: '',
   totalMembers: '',
   isFinancialInformationPublic: '',
   imageUrl: '',
 }
 
-
+const choose = ref(-1)
 function whileClick(club) {
   //此处管理可编辑状态，实现保存功能
   readOnly.value = !readOnly.value
   buttonText.value = (readOnly.value) ? '编辑' : '保存'
   if( readOnly.value && (
-      club.location !== oldClubInfo.mainCompus
+      club.location !== oldClubInfo.mainCampus
       || club.administrativeGuideTeacherName !== oldClubInfo.administrativeGuideTeacherName
       || club.businessGuideTeacherName !== oldClubInfo.businessGuideTeacherName
       || club.financePublicity !== oldClubInfo.isFinancialInformationPublic
   )) {
     save(club)
-  }else{
-      oldClubInfo.mainCompus = club.location
+    choose.value = -1
+  }else if(!readOnly.value){
+      oldClubInfo.mainCampus = club.location
       oldClubInfo.administrativeGuideTeacherName = club.administrativeGuideTeacherName
       oldClubInfo.businessGuideTeacherName = club.businessGuideTeacherName
       oldClubInfo.isFinancialInformationPublic = club.financePublicity
+      choose.value = club.clubId
+  } else{
+      MessagePlugin.success('更新社团信息成功')
+      choose.value = -1
   }
 }
 function save(club) {

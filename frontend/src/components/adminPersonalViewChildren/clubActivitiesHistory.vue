@@ -102,13 +102,6 @@
             :bordered="true" :hover="true" table-layout="fixed" size='medium' :pagination="pagination"
             :show-header="true" cell-empty-content="暂无数据" resizable lazy-load @row-click="handleRowClick">
           </t-table>
-
-          <!-- <t-pagination
-                      style="background-color:#d8eeff; margin-left:25px;"
-                      v-model="current"
-                      v-model:pageSize="pageSize"
-                      :total="total"
-                    /> -->
         </t-space>
       </div>
     </div>
@@ -116,27 +109,49 @@
 </template>
 
 <script setup lang="jsx">
-import { ref, computed } from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import 'jspdf-autotable';
 import '@/utils/simhei-normal'
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
+import formatDate from "@/utils/index.js";
 
 //先确定要获取的数据量
+const clubsIdList = ref([]);
 
-const clubsInfoMap=new Map();
-
-function getAllManagedClubs(){
+onMounted(() => {
   const user = ref(store.state.userInfo);
   const clubsInfo = ref(user.value.clubs);
   clubsInfo.value.forEach(element => {
-    clubsInfoMap.set(element.clubId,element.clubName);
-  });
-}
-getAllManagedClubs()
+      clubsIdList.value.push(element.clubId)
+  })
+  console.log(clubsIdList.value)
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getActivitiesInfo)
+  eventEmitter.on(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess', (data) => {
+    showedData.value = data.data.filter(item => {
+      item.activityPublishTime = formatDate(new Date(item.activityPublishTime), 'yyyy-MM-dd hh:mm:ss');
+      item.activityStartTime = formatDate(new Date(item.activityStartTime), 'yyyy-MM-dd hh:mm:ss');
+      item.activityEndTime = formatDate(new Date(item.activityEndTime), 'yyyy-MM-dd hh:mm:ss');
+      if(item.activityStartTime  > formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')){
+        item.status = 0
+      }else if(item.activityEndTime  < formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')){
+        item.status = 1
+      }else{
+        item.status = 2
+      }
+      return item.clubId in clubsIdList.value;
+    })
+    console.log(showedData.value)
+    assignment()
+  })
+})
 
-const pSize = 20;
+function assignment() {
+  data.value = showedData.value
+  pagination.value.total = showedData.value.length
+}
+
 const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 10,
@@ -147,7 +162,6 @@ const pagination = ref({
 const options1 = [
   { value: '活动结束', label: '活动结束', theme: 'success' },
   { value: '活动进行中', label: '活动进行中', theme: 'primary' },
-  //{ value: '活动取消', label: '活动取消', theme: 'danger' },
   { value: '活动未开始', label: '活动未开始', theme: 'warning' },
 ];
 const value1 = ref(['活动结束', '活动进行中', '活动未开始']);
@@ -157,7 +171,6 @@ const indeterminate = computed(() => !!(options1.length > value1.value.length &&
 //全选按钮对应showedData处理
 const handleSelectAll = (checked) => {
   value1.value = checked ? ['活动结束','活动进行中','活动未开始'] : [];
-  showedData=[]
   for(let i=0;i<data.value.length;i++){
     for(let j=0;j<value1.value.length;j++) {
       if(options1[data.value[i].status].label===value1.value[j]) {
@@ -166,12 +179,11 @@ const handleSelectAll = (checked) => {
       }
     }
   }
-  pagination.total=showedData.length;
+  pagination.total=showedData.value.length;
 };
 
 //单独按钮对应showedData处理
 const onChange1 = (val) => {
-  showedData=[]
   for(let i=0;i<data.value.length;i++)
     for(let j=0;j<value1.value.length;j++) 
       if(options1[data.value[i].status].label===value1.value[j])
@@ -179,36 +191,14 @@ const onChange1 = (val) => {
         showedData.push(data.value[i])
         break;
       }
-  pagination.total=showedData.length;
 };
 /////////////////////////以下部分为表格设计代码//////////////////////////////////
 
 const data = ref([]);
-let pNumber = 0;
-let showedData=[];
+const showedData = ref([]);
 
 //获取学院管理员本人所管理的所有社团：
-let queue=[];
-function getClubActivityData (clubName,clubId) {
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getClubActivityList, { clubId, pNumber, pSize })
-  queue.push(clubName)//放进队列
-  eventEmitter.on(APIEventEnum.getClubActivityListSuccess, 'getClubActivityListSuccess', (returnData) => {
-    const tempClubName=queue[0];
-    if(queue.length>1)
-      queue=queue.slice(1);
 
-    returnData.forEach(element =>{ 
-      element.clubName=tempClubName; 
-    })
-    
-    if(data.value.length===0)
-      data.value = returnData;
-    else
-      data.value.push(...returnData);
-  })
-}
-
-clubsInfoMap.forEach(getClubActivityData);
 
 const columns = ref([
   { colKey: 'activityId', title: '活动id' ,},
@@ -233,5 +223,5 @@ const columns = ref([
 const handleRowClick = (e) => {
   console.log(e);
 };
-showedData=data;
+
 </script>

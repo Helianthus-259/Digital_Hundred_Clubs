@@ -489,9 +489,12 @@ onMounted(() => {
     })
     eventEmitter.on(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess', (data) => {
         console.log(data)
-        newActivityForm.imageUrl = data.url
-        MessagePlugin.success('图片上传成功')
-
+        if(data.flag === 'editor'){
+          MessagePlugin.success('富文本图片上传成功')
+        }else{
+          newActivityForm.imageUrl = data.url
+          MessagePlugin.success('图片上传成功')
+        }
     })
     eventEmitter.on(APIEventEnum.postPersonalPerformanceSuccess, 'postPersonalPerformanceSuccess', () => {
         MessagePlugin.success('上传成功')
