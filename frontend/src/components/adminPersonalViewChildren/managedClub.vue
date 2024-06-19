@@ -55,7 +55,7 @@
       <!-- 社团信息卡 -->
       <t-card class="user-info-list" v-for="item in clubInfo" :title="clubString" bordered>
         <template #actions>
-          <t-button theme="primary" shape="square" variant="base" @click="whileClick">
+          <t-button theme="primary" shape="square" variant="base" @click="whileClick(item)">
             {{ buttonText }}
           </t-button>
         </template>
@@ -103,8 +103,8 @@
 
           <t-descriptions-item label="成员财务是否公开">
             <t-select showArrow v-model="item.financePublicity" :readonly="readOnly">
-              <t-option key="公开" label="公开" value="公开" />
-              <t-option key="不公开" label="不公开" value="不公开" />
+              <t-option key="公开" label="公开" :value="1" />
+              <t-option key="不公开" label="不公开" :value="0" />
             </t-select>
           </t-descriptions-item>
         </t-descriptions>
@@ -117,8 +117,9 @@
 import { APIEnum, APIEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import { reactive, ref } from 'vue';
+import {onMounted, onUnmounted, reactive, ref} from 'vue';
 import formatDate from '@/utils'
+import {MessagePlugin} from "tdesign-vue-next";
 
 const clubString = ref('社团信息')
 const mainCampuses = JSON.parse(localStorage.getItem('enumList')).mainCampuses
@@ -128,46 +129,88 @@ function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
 }
 
-const admin = ref({})
+const admin = ref({
+    adminId:'',
+    affiliatedUnit:'',
+    clubs:[],
+    account:'',
+    contact:'',
+})
 let clubInfo = []
 
-
-if (isEmptyObject(store.state.userInfo)) {
-  eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
-} else {
-  console.log("userInfo已经获取信息！")
-  admin.value = store.state.userInfo;
-  clubInfo=admin.value.clubs;
-}
-
-//初次加载界面时借此获取信息
-eventEmitter.on(APIEventEnum.getAdminInfoSuccess,'getAdminInfoSuccess', (data) => {
+onMounted(()=>{
+  if (isEmptyObject(store.state.userInfo)) {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
+  } else {
+    console.log("userInfo已经获取信息！")
+    admin.value = store.state.userInfo;
+    clubInfo=admin.value.clubs;
+  }
+  //初次加载界面时借此获取信息
+  eventEmitter.on(APIEventEnum.getAdminInfoSuccess,'getAdminInfoSuccess', (data) => {
     admin.value = data;
+  })
 })
-
-function save() {
-    eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminInfo, {
-        adminId: store.state.adminId,
-    })
-    admin.value.clubs.businessAdvisorName=businessAdvisorName.value
-    admin.value.clubs.administrativeAdvisorName=administrativeAdvisorName.value
-    admin.value.clubs.location=location.value
-    admin.value.clubs.financePublicity=financePublicity.value
-    admin.value.clubs.clubEmail=clubEmail.value
-    eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubsData, admin.value)
-}
 
 const readOnly = ref(true)
 const buttonText=ref('编辑')
+const oldClubInfo = {
+  clubName: '',
+  establishmentDate: '',
+  clubCategory: '',
+  responsibleDepartment: '',
+  administrativeGuideTeacherName: '',
+  businessGuideTeacherName: '',
+  mainCompus: '',
+  totalMembers: '',
+  isFinancialInformationPublic: '',
+  imageUrl: '',
+}
 
-function whileClick() {
+
+function whileClick(club) {
   //此处管理可编辑状态，实现保存功能
   readOnly.value = !readOnly.value
   buttonText.value = (readOnly.value) ? '编辑' : '保存'
-  if( readOnly.value ) {
-    save()
+  if( readOnly.value && (
+      club.location !== oldClubInfo.mainCompus
+      || club.administrativeGuideTeacherName !== oldClubInfo.administrativeGuideTeacherName
+      || club.businessGuideTeacherName !== oldClubInfo.businessGuideTeacherName
+      || club.financePublicity !== oldClubInfo.isFinancialInformationPublic
+  )) {
+    save(club)
+  }else{
+      oldClubInfo.mainCompus = club.location
+      oldClubInfo.administrativeGuideTeacherName = club.administrativeGuideTeacherName
+      oldClubInfo.businessGuideTeacherName = club.businessGuideTeacherName
+      oldClubInfo.isFinancialInformationPublic = club.financePublicity
   }
 }
+function save(club) {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.postUpdateClubInfo, {
+    clubId: club.clubId,
+    clubName: club.clubName,
+    establishmentDate: new Date(club.establishedTime),
+    clubCategory: club.clubSort,
+    responsibleDepartment: club.affiliatedUnitId,
+    administrativeGuideTeacherName: club.administrativeGuideTeacherName,
+    businessGuideTeacherName: club.businessGuideTeacherName,
+    mainCompus: club.location,
+    isFinancialInformationPublic: club.financePublicity,
+    imageUrl: null,
+  })
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setClubsData, admin.value)
+}
+
+eventEmitter.on(APIEventEnum.postUpdateClubInfoSuccess, 'postUpdateClubInfoSuccess', ()=>{
+    MessagePlugin.success('更新社团信息成功')
+})
+
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.getAdminInfoSuccess,'getAdminInfoSuccess')
+  eventEmitter.off(APIEventEnum.postUpdateClubInfoSuccess,'postUpdateClubInfoSuccess')
+})
+
 
 </script>
   

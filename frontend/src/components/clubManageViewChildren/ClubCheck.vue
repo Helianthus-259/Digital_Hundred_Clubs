@@ -64,10 +64,7 @@
                         <t-col :flex="1">
                             <t-form>
                                 <t-form-item label="学院">
-                                    <t-select v-model="collegeSelect" @change="handleCollegeChange" style="width: 100%;"
-                                        placeholder="请选择">
-                                        <t-option value="计算机学院" label="计算机学院"></t-option>
-                                    </t-select>
+                                  <t-input v-model="collegeSelect" placeholder="根据学院名搜索..." />
                                 </t-form-item>
                             </t-form>
                         </t-col>
@@ -136,6 +133,7 @@ import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum } from '@/Enum';
 import { MessagePlugin } from 'tdesign-vue-next';
 import formatDate from '@/utils';
+import {SearchIcon} from "tdesign-icons-vue-next";
 
 const statusNameListMap = {
     null: { label: '待审核', theme: 'primary', icon: 'error-circle-filled' },
@@ -178,9 +176,9 @@ const handleSearch = () => {
             return true
         }
         return (
-            item.status === statusSelect.value ||
-            item.college === collegeSelect.value ||
-            item.politicalStatus === politicalStatusSelect.value
+            (item.status === statusSelect.value || statusSelect.value === '')
+            && ((item.college && item.college.indexOf(collegeSelect.value) > -1) || collegeSelect.value === '')
+            && (item.politicalStatus === politicalStatusSelect.value || politicalStatusSelect.value === '')
         )
     })
     console.log(applyViewList.value)

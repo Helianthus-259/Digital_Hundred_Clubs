@@ -575,5 +575,6 @@ onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubMembersSuccess, 'getClubMembersSuccess')
     eventEmitter.off(APIEventEnum.uploadImageSuccess, 'uploadImageSuccess')
     eventEmitter.off(APIEventEnum.postDeleteClubMemberSuccess, 'postDeleteClubMemberSuccess')
+    eventEmitter.off(APIEventEnum.postUpdateClubInfoSuccess,'postUpdateClubInfoSuccess')
 })
 </script>
