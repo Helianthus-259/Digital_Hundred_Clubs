@@ -154,26 +154,27 @@ const handleChange = (index, context) => {
 // 选项卡
 
 // 控制contentContainer以及复选框中的页面展示
-const parentRoute = store.state.parentRoute.home
-const routerNames = ref(store.state.routeTabs.homeTabs);
+const parentRoute = store.state.parentRoute.admin
+const adminFirstPageTabs=store.state.routeTabs.adminFirstPageTabs+'/'
+const routerNames = ref(store.state.routeTabs.adminTabs);
 const checkedShow = ref(routerNames.value === 'clubs')
 const routerlist = [
   {
     label: '社团情况',
-    value: 'clubs',
+    value: 'adminClub',
   },
   {
     label: '最新动态',
-    value: 'news',
+    value: 'adminNews',
   },
 ]
 
 const onChange = (value) => {
-  const selfRoute = parentRoute + value;
+  const selfRoute = parentRoute + adminFirstPageTabs + value;
   routerNames.value = value
   eventEmitter.emit(RouterEventEnum.push, selfRoute)
   checkedShow.value = !checkedShow.value
-  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'homeTabs', value: value })
+  eventEmitter.emit(StoreEventEnum.set, StoreEnum.setRouteTabs, { owner: 'adminTabs', value: value })
 }
 
 // 搜索信息
