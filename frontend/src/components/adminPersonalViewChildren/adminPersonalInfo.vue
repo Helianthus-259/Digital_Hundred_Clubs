@@ -147,7 +147,7 @@
         </t-space>
       </t-card>
       <!-- 社团信息卡 -->
-      <t-card class="user-info-list" v-for="item in store.state.userInfo.clubs" :title="(''+ item.clubName + clubString)" bordered >
+      <t-card class="user-info-list" v-for="item in clubs" :title="(''+ item.clubName + clubString)" bordered >
         <t-descriptions bordered :column="3">
           <t-descriptions-item label="社团名称">
             {{item.clubName}}
@@ -190,6 +190,18 @@ import {
 } from "tdesign-icons-vue-next";
 import {MessagePlugin} from "tdesign-vue-next";
 
+const clubs = ref([
+    {
+      clubName:'',
+      location:'',
+      clubSort:'',
+      clubIntroduction:{
+        title:'',
+        content:'',
+      },
+      clubStatus:'',
+    }
+])
 const adminInfoString = ref('个人信息')
 const clubString = ref('简要信息')
 const mainCampuses = JSON.parse(localStorage.getItem('enumList')).mainCampuses
@@ -288,6 +300,9 @@ if (isEmptyObject(store.state.userInfo)) {
   eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
 } else {
   admin.value = store.state.userInfo;
+  clubs.value = admin.value.clubs.filter(item =>{
+      return item.clubStatus === 1
+  })
 }
 
 

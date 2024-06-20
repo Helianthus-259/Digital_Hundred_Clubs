@@ -52,7 +52,7 @@ const routerlist = [
     { label: '管理员信息', value: 'adminPersonalInfo' },
     { label: '管理的社团', value: 'managedClub' },
     { label: '活动历史', value: 'clubActivitiesHistory' },
-    { label: '审批记录', value: 'examHistory' },
+    { label: '新建社团申请', value: 'examHistory' },
 ]
 
 const onChange = (value) => {

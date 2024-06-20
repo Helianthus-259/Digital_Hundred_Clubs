@@ -136,7 +136,20 @@ const admin = ref({
     account:'',
     contact:'',
 })
-let clubInfo = []
+const clubInfo = ref([
+  {
+    clubId:'',
+    clubName:'',
+    totalMembership:'',
+    establishedTime:'',
+    clubSort:0,
+    location:'',
+    businessAdvisorName:'',
+    administrativeAdvisorName:'',
+    financePublicity:'',
+    clubStatus:'',
+  }
+])
 
 onMounted(()=>{
   if (isEmptyObject(store.state.userInfo)) {
@@ -144,11 +157,13 @@ onMounted(()=>{
   } else {
     console.log("userInfo已经获取信息！")
     admin.value = store.state.userInfo;
-    clubInfo=admin.value.clubs;
+    clubInfo.value = admin.value.clubs.filter(item=>{
+      return item.clubStatus === 1;
+    });
   }
   //初次加载界面时借此获取信息
   eventEmitter.on(APIEventEnum.getAdminInfoSuccess,'getAdminInfoSuccess', (data) => {
-    admin.value = data;
+      admin.value = data;
   })
 })
 
