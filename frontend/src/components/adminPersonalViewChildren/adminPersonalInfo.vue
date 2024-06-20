@@ -177,7 +177,7 @@
 import { APIEnum, APIEventEnum, StoreEnum, StoreEventEnum } from '@/Enum';
 import store from '@/store';
 import eventEmitter from '@/utils/eventEmitter';
-import {computed, onUnmounted, reactive, ref} from 'vue';
+import { computed,onMounted, onUnmounted, reactive, ref } from 'vue';
 import {
   AddIcon,
   GenderFemaleIcon,
@@ -305,22 +305,22 @@ if (isEmptyObject(store.state.userInfo)) {
   })
 }
 
-
+onMounted(()=>{
 //初次加载界面时借此获取信息
-eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) => {
-    admin.value = data
+    eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) => {
+        admin.value = data
+    })
+    eventEmitter.on(APIEventEnum.postAdminRegisterSuccess,'postAdminRegisterSuccess',()=>{
+        MessagePlugin.success("新增管理员成功")
+        registerForm.account = ''
+        registerForm.contact = ''
+        registerForm.departmentName = ''
+        registerForm.authority = null
+        registerForm.contact = ''
+        registerForm.pwd = ''
+        registerForm.confirmPwd = ''
+    })
 })
-eventEmitter.on(APIEventEnum.postAdminRegisterSuccess,'postAdminRegisterSuccess',()=>{
-    MessagePlugin.success("新增管理员成功")
-    registerForm.account = ''
-    registerForm.contact = ''
-    registerForm.departmentName = ''
-    registerForm.authority = null
-    registerForm.contact = ''
-    registerForm.pwd = ''
-    registerForm.confirmPwd = ''
-})
-
 function save() {
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminInfo, {
         adminId: store.state.adminId,

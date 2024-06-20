@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="jsx">
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted,onUnmounted} from 'vue';
 import 'jspdf-autotable';
 import '@/utils/simhei-normal'
 import store from '@/store';
@@ -146,7 +146,9 @@ onMounted(() => {
     assignment()
   })
 })
-
+onUnmounted(() => {
+  eventEmitter.off(APIEventEnum.getActivitiesInfoSuccess, 'getActivitiesInfoSuccess')
+})
 function assignment() {
   data.value = showedData.value
   pagination.value.total = showedData.value.length
