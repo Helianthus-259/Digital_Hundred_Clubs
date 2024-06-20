@@ -312,6 +312,13 @@ eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) =
 })
 eventEmitter.on(APIEventEnum.postAdminRegisterSuccess,'postAdminRegisterSuccess',()=>{
     MessagePlugin.success("新增管理员成功")
+    registerForm.account = ''
+    registerForm.contact = ''
+    registerForm.departmentName = ''
+    registerForm.authority = null
+    registerForm.contact = ''
+    registerForm.pwd = ''
+    registerForm.confirmPwd = ''
 })
 
 function save() {
@@ -326,6 +333,7 @@ function save() {
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess')
   eventEmitter.off(APIEventEnum.postAdminRegisterSuccess, 'postAdminRegisterSuccess')
+  eventEmitter.off(APIEventEnum.postAdminRegisterSuccess,'postAdminRegisterSuccess')
 })
 </script>
   

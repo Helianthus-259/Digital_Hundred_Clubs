@@ -325,7 +325,7 @@ const handleLogin = () => {
 const registerForm = reactive({
     stName: '',
     studentNumber: '',
-    gender: '',
+    gender: null,
     college: '',
     grade: '',
     contact: '',
@@ -408,7 +408,7 @@ const registerValidate = () => {
         && registerForm.verifyCode
         && registerForm.grade
         && registerForm.stName
-        && registerForm.gender
+        && registerForm.gender !== null
         && registerForm.studentNumber
 }
 
