@@ -185,6 +185,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         try{
             List<Club> clubList = clubMapper.selectJoinList(Club.class, wrapper).stream().limit(10).collect(Collectors.toList());
             System.out.println(clubList);
+            for(Club club : clubList){
+                club.setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(club.getImageUrl()));
+                club.setClubDescription(MyJsonParser.parserJsonText(club.getClubDescription()));
+            }
             return  Result.success(new DataVO(ResultCode.GET_TOP_TEN_CLUB,clubList));
         }catch (Exception e){
             String exceptionAsString = e.toString();
