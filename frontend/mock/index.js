@@ -77,8 +77,8 @@ mock.onGet(path.clubsInfo).reply((config) => {
             createTime: '2024-4-30 12:00:00',
             clubStatus: [null, 0, 1][i % 3],
             responsibleDepartmentId: '12345678',
-            collegeReviewStatus:[0, 1, null][i % 3],
-            universityStudentUnionReviewStatus:[0, 1, null][i % 3]
+            collegeReviewStatus: [0, 1, null][i % 3],
+            universityStudentUnionReviewStatus: [0, 1, null][i % 3]
         })
     }
     console.log(data);
@@ -719,7 +719,7 @@ mock.onGet(path.latestActivities).reply((config) => {
         data.push({
             activityId: i,
             activityName: '活动名称' + pageNumber + i,
-            imageUrl: `https://picsum.photos/400/300`,
+            imageUrl: `https://picsum.photos/400/900`,
             activityStatus: 1,
             activityEndTime: "2025-12-01 15:15:15"
         })

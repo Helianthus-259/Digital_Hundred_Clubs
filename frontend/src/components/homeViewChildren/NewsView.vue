@@ -55,8 +55,8 @@
     <div class="newsContainer">
         <div class="newestBox">
             <div style="height: 350px; width: 100%; display: flex; justify-content: center; align-items: center;">
-                <img @click="go2Activity(lastestActivity.activityId)" style="width: 90%; cursor: pointer;"
-                    :src="lastestActivity.imageUrl">
+                <img @click="go2Activity(lastestActivity.activityId)"
+                    style="width: 90%; height: 90%; ; cursor: pointer;" :src="lastestActivity.imageUrl">
             </div>
             <div style="height: 50px; width: 100%; display: flex; justify-content: center; align-items: center;">
                 {{ lastestActivity.activityName }}
