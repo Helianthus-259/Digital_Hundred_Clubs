@@ -10,9 +10,11 @@ import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.example.enums.StatusCode;
+import org.example.util.RedisKeyBuilder;
 import org.example.util.Result;
 import org.example.vo.SendMsg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -21,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -32,7 +35,10 @@ public class VerifyCodeImpl implements VerifyCodeService {
     @Resource(name = "captchaBean")
     private DefaultKaptcha defaultKaptcha;
 
-    // 先用map存储已发送的验证码，后面可以改用redis
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    // 先用map存储已发送的验证码，已弃用转用redis
     private final Map<String, String> emailCodeMap = new ConcurrentHashMap<>(16);
 
 
@@ -85,8 +91,13 @@ public class VerifyCodeImpl implements VerifyCodeService {
 //        if (emailUtil.sendMail(email,"数字百团验证服务",verifyCode))
 //        {
 //            // 保存验证码
-//            emailCodeMap.put(email, verifyCode);
-//            System.out.println(emailCodeMap.get(email));
+//            //emailCodeMap.put(email, verifyCode);
+//            //System.out.println(emailCodeMap.get(email));
+//            //将验证码存入redis，有效期为5分钟
+//            String emailKey = RedisKeyBuilder.generateEmailKey(email);
+//            redisTemplate.opsForValue().set(emailKey, verifyCode, 300000, TimeUnit.MILLISECONDS);
+//            String storedToken = (String) redisTemplate.opsForValue().get(emailKey);
+//            System.out.println(storedToken);
 //            return Result.success(new SendMsg("发送成功"));
 //        }
 //        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
@@ -96,6 +107,11 @@ public class VerifyCodeImpl implements VerifyCodeService {
     public boolean checkMailVerifyCode(String verifyCode, String email) {
         return true;
         //return verifyCode.equals(emailCodeMap.get(email));
+//        String emailKey = RedisKeyBuilder.generateEmailKey(email);
+//        String storedToken = (String) redisTemplate.opsForValue().get(emailKey);
+//        System.out.println(storedToken);
+//        if(verifyCode.equals(storedToken)) return true;
+//        else return false;
     }
 
 }

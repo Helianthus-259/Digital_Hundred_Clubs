@@ -51,9 +51,6 @@ public class EmailUtil {
         return s.toString();
     }
 
-
-
-
     public static String startHtml = "<html >\n" +
             "<meta charset=\"utf-8\">\n" +
             "<body><div id=\"contentDiv\" onmouseover=\"getTop().stopPropagation(event);\" onclick=\"getTop().preSwapLink(event, 'html', 'ZC0004_vDfNJayMtMUuKGIAzzsWvc8');\" style=\"position:relative;font-size:14px;height:auto;padding:15px 15px 10px 15px;z-index:1;zoom:1;line-height:1.7;\" class=\"body\">\n" +
@@ -74,8 +71,8 @@ public class EmailUtil {
             "            <td class=\"p-intro\">\n" +
             "              <h1 style=\"font-size: 26px; font-weight: bold;\">验证您的邮箱地址</h1>\n" +
             "              <p style=\"line-height:1.75em;\">感谢您使用  数字百团. </p>\n" +
-            "              <p style=\"line-height:1.75em;\">若非别人操作请忽视此信息</p>\n" +
-            "              <p style=\"line-height:1.75em;\">以下是您的邮箱验证码，请将它输入到  数字百团 的邮箱验证码输入框中:</p>\n" +
+            "              <p style=\"line-height:1.75em;\">若为别人操作请忽视此信息</p>\n" +
+            "              <p style=\"line-height:1.75em;\">以下是您的邮箱验证码，请在五分钟内将它输入到  数字百团 的邮箱验证码输入框中:</p>\n" +
             "\n" +
             "            </td>\n" +
             "          </tr>\n" +
