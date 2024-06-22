@@ -86,9 +86,9 @@
       </t-card>
       <!-- 校团委添加学院管理员选项卡 -->
       <t-card v-if="admin.sort === 1" class="user-info-list" title="新增管理员" bordered>
-        <t-space direction="vertical" size="large" style="display: flex; text-align: center">
+        <t-space direction="vertical" size="large" style="display: flex; text-align: left">
           <t-space direction="horizontal">
-            <t-form :data="registerForm" layout="inline" :label-width="50">
+            <t-form style="padding-left: 50px; padding-right: 150px;width:550px;" :data="registerForm" layout="inline" :label-width="50">
               <t-form-item name="departmentName">
                 <t-input placeholder="请输入部门名" v-model="registerForm.departmentName">
                   <template #prefix-icon>
@@ -100,8 +100,7 @@
                 <t-select v-model="registerForm.authority" style="width: 200px"
                           :options="authorityList" clearable placeholder="-请选择-">
                   <template #prefixIcon>
-                    <GenderFemaleIcon />
-                    <GenderMaleIcon />
+                    <VerifyIcon />
                   </template>
                 </t-select>
               </t-form-item>
@@ -113,7 +112,7 @@
                 </t-input>
               </t-form-item>
             </t-form>
-            <t-form :data="registerForm" layout="inline" :label-width="50">
+            <t-form style="width:350px" :data="registerForm" layout="inline" :label-width="50">
               <t-form-item name="account">
                 <t-input placeholder="请输入账户名" v-model="registerForm.account">
                   <template #prefix-icon>
@@ -138,7 +137,7 @@
               </t-form-item>
             </t-form>
           </t-space>
-          <t-space>
+          <t-space style="margin-left: 40%;">
             <t-button theme="primary" @click="handleRegister">
               <template #icon><add-icon /></template>
               新增管理员
