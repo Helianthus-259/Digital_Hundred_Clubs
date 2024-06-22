@@ -42,6 +42,17 @@ spring:
           socketFactory:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      timeout: 1800000
+      lettuce:
+        pool:
+          # 最大阻塞等待时间(负数表示没限制)
+          max-active: 20
+          max-wait: -1
 
 #eureka地址
 eureka:

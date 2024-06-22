@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.dao.mapper.ClubmemberMapper;
+import com.szbt.clubserver.service.ClubServerRedisService;
 import com.szbt.clubserver.service.ClubService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import com.szbt.clubserver.service.ClubmemberService;
@@ -14,6 +15,7 @@ import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
 import org.example.util.FileRequestUrlBuilder;
 import org.example.util.MyJsonParser;
+import org.example.util.RedisKeyBuilder;
 import org.example.util.Result;
 import org.example.vo.ClubDescriptionVO;
 import org.example.vo.DataVO;
@@ -21,6 +23,7 @@ import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -58,6 +61,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+    @Autowired
+    private ClubServerRedisService clubServerRedisService;
     @Override
     public Object queryAllClubs() {
         MPJLambdaWrapper<Club> wrapper = new MPJLambdaWrapper<>();
@@ -66,6 +71,13 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                         Clubapplicationrecord::getUniversityStudentUnionReviewStatus)
                 .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId);
         try{
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            List<ClubInfoDTO> clubInfoDTOSFromRedis = (List<ClubInfoDTO>) clubServerRedisService.getFromRedis(clubInfosListKey);
+            if (clubInfoDTOSFromRedis != null)
+            {
+                //System.out.println("从缓存拿");
+                return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOSFromRedis));
+            }
             List<ClubInfoDTO> clubInfoDTOS = clubMapper.selectJoinList(ClubInfoDTO.class, wrapper);
             //处理文件请求 && 社团描述转json
             IntStream.range(0, clubInfoDTOS.size())
@@ -76,6 +88,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                         clubInfoDTOS.get(i).setImageUrl(FileRequestUrlBuilder.buildFileRequestUrl(imageUrl));
                         clubInfoDTOS.get(i).setClubDescription(clubDescription);
                     });
+            // 存入redis,旁路缓存策略
+            boolean added = clubServerRedisService.addIntoRedis(clubInfosListKey, clubInfoDTOS);
             return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
         }catch (Exception e) {
             e.printStackTrace();
@@ -115,7 +129,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .selectAll(Club.class)
                 .eq(Club::getClubId,id);
         try{
+            String clubKey = RedisKeyBuilder.generateClubKey(id);
+            Club clubInfoFromRedis = (Club) clubServerRedisService.getFromRedis(clubKey);
+            if (clubInfoFromRedis != null){
+                return clubInfoFromRedis;
+            }
             Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
+            // 存入redis,旁路缓存策略
+            boolean added = clubServerRedisService.addIntoRedis(clubKey, clubInfo);
             System.out.println(clubInfo);
             return clubInfo;
         }catch (Exception e) {
@@ -157,6 +178,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
     public Object updateClubDescription(Club club) {
         try{
             int updateById = clubMapper.updateById(club);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            String clubKey = RedisKeyBuilder.generateClubKey(club.getClubId());
+            clubServerRedisService.deleteFromRedis(clubInfosListKey);
+            clubServerRedisService.deleteFromRedis(clubKey);
             if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_DESCRIPTION));
         }catch (Exception e){
             e.printStackTrace();
@@ -170,6 +195,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         club.setEstablishmentDate(date);
         try{
             int updateById = clubMapper.updateById(club);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            String clubKey = RedisKeyBuilder.generateClubKey(club.getClubId());
+            clubServerRedisService.deleteFromRedis(clubInfosListKey);
+            clubServerRedisService.deleteFromRedis(clubKey);
             if (updateById>0) return Result.success(new SingleCodeVO(ResultCode.UPDATE_CLUB_INFO));
         }catch (Exception e){
             e.printStackTrace();
@@ -255,6 +284,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
         clubInfo.setTotalMembers(totalMembers+1);
         try{
             clubMapper.updateById(clubInfo);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            String clubKey = RedisKeyBuilder.generateClubKey(clubId);
+            clubServerRedisService.deleteFromRedis(clubInfosListKey);
+            clubServerRedisService.deleteFromRedis(clubKey);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -357,6 +390,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             }
             clubMapper.updateById(club);
             transactionManager.commit(transactionStatus);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            String clubKey = RedisKeyBuilder.generateClubKey(club.getClubId());
+            clubServerRedisService.deleteFromRedis(clubInfosListKey);
+            clubServerRedisService.deleteFromRedis(clubKey);
             return true;
         }catch (Exception e) {
             transactionManager.rollback(transactionStatus);
@@ -375,6 +412,10 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             club.setClubStatus(0);
             clubMapper.updateById(club);
             transactionManager.commit(transactionStatus);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            String clubKey = RedisKeyBuilder.generateClubKey(club.getClubId());
+            clubServerRedisService.deleteFromRedis(clubInfosListKey);
+            clubServerRedisService.deleteFromRedis(clubKey);
             return true;
         }catch (Exception e) {
             transactionManager.rollback(transactionStatus);

@@ -33,6 +33,8 @@ public class ClubController {
     private ClubMembershipApplicationService clubMembershipApplicationService;
     @Autowired
     private  ClubawardsService  clubawardsService;
+    @Autowired
+    private ClubServerRedisService clubServerRedisService;
     @GetMapping("/clubsInfo")
     public Object queryAllClubs(String email, String password)
     {
@@ -215,5 +217,11 @@ public class ClubController {
         System.out.println(club.getClubDescription().getClass());
         System.out.println(t);
         clubService.getBaseMapper().insert(club);
+    }
+
+    @DeleteMapping("/deleteClubRedisData")
+    public boolean deleteClubRedisData(String key)
+    {
+        return clubServerRedisService.deleteFromRedis(key);
     }
 }

@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.szbt.clubserver.dao.mapper.ClubMapper;
 import com.szbt.clubserver.dao.mapper.ClubapplicationrecordMapper;
+import com.szbt.clubserver.service.ClubServerRedisService;
 import com.szbt.clubserver.service.ClubapplicationrecordService;
 import org.example.entity.Club;
 import org.example.entity.Clubapplicationrecord;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.RedisKeyBuilder;
 import org.example.util.Result;
 import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
@@ -31,6 +33,9 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
 
     @Autowired
     ClubMapper  clubMapper;
+
+    @Autowired
+    ClubServerRedisService clubServerRedisService;
 
 
     @Override
@@ -65,6 +70,8 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
         clubapplicationrecord.setStudentId(club.getContactPersonId());// 设置为联系人id
         try{
             int insertById = clubapplicationrecordMapper.insert(clubapplicationrecord);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            boolean deleted = clubServerRedisService.deleteFromRedis(clubInfosListKey);
             if(insertById<=0) return Result.send(StatusCode.ADD_CLUB_APPLICATION_ERROR,new SendMsg("申请建立社团失败"));
         }catch (Exception e){
             e.printStackTrace();
