@@ -40,6 +40,6 @@ public interface ClubClientService {
     @PostMapping("/club/unPassClubApply")
     public boolean unPassClubApply(@RequestParam("clubId") Integer clubId);
 
-    @DeleteMapping("/deleteClubRedisData")
+    @DeleteMapping("/club/deleteClubRedisData")
     public boolean deleteClubRedisData(@RequestParam("key") String key);
 }
