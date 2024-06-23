@@ -1,9 +1,14 @@
 package com.szbt.clubserver.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.szbt.clubserver.service.ClubServerRedisService;
+import org.example.entity.Club;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ClubServerRedisServiceImpl implements ClubServerRedisService {
@@ -13,7 +18,7 @@ public class ClubServerRedisServiceImpl implements ClubServerRedisService {
     @Override
     public boolean addIntoRedis(String key, Object value) {
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value,1, TimeUnit.HOURS);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,5 +40,21 @@ public class ClubServerRedisServiceImpl implements ClubServerRedisService {
     @Override
     public Object getFromRedis(String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+
+    @Override
+    public Object getFromRedisMapClass(String key, Class thisClass){
+        String jsonTextFromRedis = (String)redisTemplate.opsForValue().get(key);
+        ObjectMapper mapper = new ObjectMapper();
+        if (jsonTextFromRedis != null){
+            try {
+                Object objectFromRedis = mapper.readValue((String)jsonTextFromRedis, thisClass);
+                return objectFromRedis;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 }

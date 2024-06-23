@@ -29,10 +29,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
 * @author 小壳儿
@@ -129,14 +132,19 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .selectAll(Club.class)
                 .eq(Club::getClubId,id);
         try{
+            ObjectMapper mapper = new ObjectMapper();
             String clubKey = RedisKeyBuilder.generateClubKey(id);
-            Club clubInfoFromRedis = (Club) clubServerRedisService.getFromRedis(clubKey);
-            if (clubInfoFromRedis != null){
+            Object fromRedisMapObject = clubServerRedisService.getFromRedisMapClass(clubKey, Club.class);
+            System.out.println(fromRedisMapObject);
+            if (fromRedisMapObject != null){
+                Club clubInfoFromRedis = (Club) fromRedisMapObject;
                 return clubInfoFromRedis;
             }
             Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
             // 存入redis,旁路缓存策略
-            boolean added = clubServerRedisService.addIntoRedis(clubKey, clubInfo);
+            // java对象转换为json字符
+            String clubInfoJsonText =  mapper.writeValueAsString(clubInfo);
+            boolean added = clubServerRedisService.addIntoRedis(clubKey, clubInfoJsonText);
             System.out.println(clubInfo);
             return clubInfo;
         }catch (Exception e) {
