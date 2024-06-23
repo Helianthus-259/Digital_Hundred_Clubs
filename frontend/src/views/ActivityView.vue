@@ -104,10 +104,10 @@
         </template>
         <t-form style="margin-top: 30px;" colon>
             <t-form-item label="姓名">
-                <t-input style="width: 90%;" v-model="userInnfo.stName" placeholder="请输入姓名" />
+                <t-input style="width: 90%;" v-model="userInfo.stName" placeholder="请输入姓名" />
             </t-form-item>
             <t-form-item label="学号">
-                <t-input style="width: 90%;" v-model="userInnfo.studentNumber" placeholder="请输入学号" />
+                <t-input style="width: 90%;" v-model="userInfo.studentNumber" placeholder="请输入学号" />
             </t-form-item>
         </t-form>
         <template #footer>
@@ -125,16 +125,19 @@ import { useRoute } from 'vue-router';
 import myDialog from '@/components/myDialog.vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import formatDate from '@/utils';
+import store from "@/store/index.js";
 
 const route = useRoute();
 const activityId = route.params.aid;
 const activity = ref({})
 const dialogRef = ref(null)
-const userInnfo = ref({
+const userInfo = ref({
     stName: '',
     studentNumber: ''
 })
 const openDialog = () => {
+    userInfo.value.stName = store.state.userInfo.stName
+    userInfo.value.studentNumber = store.state.userInfo.studentNumber
     dialogRef.value.openDialog()
 }
 
@@ -143,10 +146,10 @@ const closeDialog = () => {
 }
 
 const sendRequest = () => {
-    if (userInnfo.value.stName === '' || userInnfo.value.studentNumber === '') {
+    if (userInfo.value.stName === '' || userInfo.value.studentNumber === '') {
         return MessagePlugin.warning('请输入姓名和学号')
     }
-    eventEmitter.emit(APIEventEnum.request, APIEnum.postJoinActivity, { activityId, studentNumber: userInnfo.value.studentNumber })
+    eventEmitter.emit(APIEventEnum.request, APIEnum.postJoinActivity, { activityId, studentNumber: userInfo.value.studentNumber })
 }
 
 
