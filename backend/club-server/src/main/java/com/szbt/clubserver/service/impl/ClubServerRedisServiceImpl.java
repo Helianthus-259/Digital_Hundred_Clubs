@@ -57,4 +57,19 @@ public class ClubServerRedisServiceImpl implements ClubServerRedisService {
         }
         return null;
     }
+
+    @Override
+    public boolean addIntoRedisMapClass(String key, Object o) {
+        if(o==null) return false;
+        ObjectMapper mapper = new ObjectMapper();
+        // java对象转换为json字符
+        try {
+            String clubInfoJsonText =  mapper.writeValueAsString(o);
+            redisTemplate.opsForValue().set(key, clubInfoJsonText,1, TimeUnit.HOURS);
+            return true;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

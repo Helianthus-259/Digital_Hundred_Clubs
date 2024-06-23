@@ -132,7 +132,6 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .selectAll(Club.class)
                 .eq(Club::getClubId,id);
         try{
-            ObjectMapper mapper = new ObjectMapper();
             String clubKey = RedisKeyBuilder.generateClubKey(id);
             Object fromRedisMapObject = clubServerRedisService.getFromRedisMapClass(clubKey, Club.class);
             System.out.println(fromRedisMapObject);
@@ -142,9 +141,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
             }
             Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
             // 存入redis,旁路缓存策略
-            // java对象转换为json字符
-            String clubInfoJsonText =  mapper.writeValueAsString(clubInfo);
-            boolean added = clubServerRedisService.addIntoRedis(clubKey, clubInfoJsonText);
+            boolean added = clubServerRedisService.addIntoRedisMapClass(clubKey, clubInfo);
             System.out.println(clubInfo);
             return clubInfo;
         }catch (Exception e) {

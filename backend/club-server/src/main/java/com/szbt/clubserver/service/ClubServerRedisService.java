@@ -6,4 +6,5 @@ public interface ClubServerRedisService {
     Object getFromRedis(String key);
 
     Object getFromRedisMapClass(String key, Class thisClass);
+    boolean addIntoRedisMapClass(String key, Object o);
 }
