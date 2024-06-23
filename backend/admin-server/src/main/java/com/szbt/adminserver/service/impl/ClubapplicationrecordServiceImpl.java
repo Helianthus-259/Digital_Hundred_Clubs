@@ -89,9 +89,8 @@ public class ClubapplicationrecordServiceImpl extends ServiceImpl<Clubapplicatio
         try{
             int updateById = clubapplicationrecordMapper.updateById(clubapplicationrecord);
             if(updateById<=0) return Result.send(StatusCode.PASS_CLUB_COLLEGE_APPROVAL_ERROR,new SendMsg("学院通过社团申请失败"));
-            Clubapplicationrecord clubapplicationrecord1 = clubapplicationrecordMapper.selectById(clubapplicationrecord.getRecordId());
-            String clubKey = RedisKeyBuilder.generateClubKey(clubapplicationrecord1.getClubId());
-            clubClientService.deleteClubRedisData(clubKey);
+            String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
+            clubClientService.deleteClubRedisData(clubInfosListKey);
             return Result.success(new SingleCodeVO(ResultCode.PASS_CLUB_COLLEGE_APPROVAL));
         }catch (Exception e) {
             e.printStackTrace();
