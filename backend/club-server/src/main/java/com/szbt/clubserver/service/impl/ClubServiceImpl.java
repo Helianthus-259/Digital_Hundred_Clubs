@@ -29,10 +29,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
 * @author 小壳儿
@@ -72,7 +75,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .leftJoin(Clubapplicationrecord.class,Clubapplicationrecord::getClubId,Club::getClubId);
         try{
             String clubInfosListKey = RedisKeyBuilder.generateClubInfosListKey();
-            List<ClubInfoDTO> clubInfoDTOSFromRedis = (List<ClubInfoDTO>) clubServerRedisService.getFromRedis(clubInfosListKey);
+            List<ClubInfoDTO> clubInfoDTOSFromRedis = clubServerRedisService.getListFromRedis(clubInfosListKey, ClubInfoDTO.class);
+            //List<ClubInfoDTO> clubInfoDTOSFromRedis = (List<ClubInfoDTO>) clubServerRedisService.getFromRedis(clubInfosListKey);
             if (clubInfoDTOSFromRedis != null)
             {
                 //System.out.println("从缓存拿");
@@ -89,7 +93,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                         clubInfoDTOS.get(i).setClubDescription(clubDescription);
                     });
             // 存入redis,旁路缓存策略
-            boolean added = clubServerRedisService.addIntoRedis(clubInfosListKey, clubInfoDTOS);
+            boolean added = clubServerRedisService.addListToRedis(clubInfosListKey, clubInfoDTOS);
             return Result.success(new DataVO(ResultCode.GET_CLUB_INFO,clubInfoDTOS));
         }catch (Exception e) {
             e.printStackTrace();
@@ -130,13 +134,14 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Club::getClubId,id);
         try{
             String clubKey = RedisKeyBuilder.generateClubKey(id);
-            Club clubInfoFromRedis = (Club) clubServerRedisService.getFromRedis(clubKey);
+            Club clubInfoFromRedis = clubServerRedisService.getFromRedisMapClass(clubKey, Club.class);
+            System.out.println(clubInfoFromRedis);
             if (clubInfoFromRedis != null){
                 return clubInfoFromRedis;
             }
             Club clubInfo = clubMapper.selectJoinOne(Club.class, wrapper);
             // 存入redis,旁路缓存策略
-            boolean added = clubServerRedisService.addIntoRedis(clubKey, clubInfo);
+            boolean added = clubServerRedisService.addIntoRedisMapClass(clubKey, clubInfo);
             System.out.println(clubInfo);
             return clubInfo;
         }catch (Exception e) {

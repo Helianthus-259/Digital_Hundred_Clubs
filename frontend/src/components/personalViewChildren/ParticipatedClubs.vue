@@ -315,7 +315,7 @@
                 <t-col id="table" :span="2">排名</t-col>
                 <t-col id="table" :span="2">
                     <t-input style="width: 60%;" borderless v-model="backBoneEvaluate.achievements.rank"
-                        placeholder=""></t-input>
+                        placeholder="名次/总人数"></t-input>
                 </t-col>
                 <t-col id="table" :span="2">名次百分比</t-col>
                 <t-col id="table" :span="2">
@@ -343,8 +343,7 @@
                             </template>
                             <t-row id="table">
                                 <t-col :span="4">
-                                    <t-input style="width: 90%;" v-model="item.time" borderless
-                                        placeholder=""></t-input>
+                                    <t-date-picker style="width: 90%;" v-model="item.time" allow-input="" borderless=""  />
                                 </t-col>
                                 <t-col id="table" :span="4">
                                     <t-input style="width: 90%;" v-model="item.location" borderless
@@ -383,8 +382,7 @@
                                         placeholder=""></t-input>
                                 </t-col>
                                 <t-col id="table" :span="4">
-                                    <t-input style="width: 90%;" v-model="item.time" borderless
-                                        placeholder=""></t-input>
+                                  <t-date-picker style="width: 90%;" v-model="item.time" allow-input="" borderless=""  />
                                 </t-col>
                                 <t-col id="table" :span="4">
                                     <t-input style="width: 90%;" v-model="item.organization" borderless
@@ -419,8 +417,7 @@
                                         placeholder=""></t-input>
                                 </t-col>
                                 <t-col id="table" :span="4">
-                                    <t-input style="width: 90%;" v-model="item.time" borderless
-                                        placeholder=""></t-input>
+                                  <t-date-picker style="width: 90%;" v-model="item.time" allow-input="" borderless=""  />
                                 </t-col>
                                 <t-col id="table" :span="4">
                                     <t-input style="width: 90%;" v-model="item.organization" borderless

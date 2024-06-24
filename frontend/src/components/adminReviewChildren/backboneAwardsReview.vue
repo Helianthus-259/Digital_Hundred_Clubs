@@ -149,7 +149,7 @@
                   <t-col id="table" :span="4">时间</t-col>
                   <t-col id="table" :span="4">颁发单位</t-col>
                 </t-row>
-                <div v-for="(item) in backBoneEvaluate.associationAwards">
+                <div v-for="(item) in backBoneEvaluate.awards">
                   <t-popup placement="left-bottom">
                     <t-row id="table">
                       <t-col :span="4">{{ item.name }}</t-col>
