@@ -256,7 +256,7 @@ const closeDialog = () => {
 };
 
 // 新建社团
-const departmentList = ref(store.state.departmentList)
+let departmentList = ref(store.state.departmentList)
 //在本list中会存储“校团委”的选择。这不应该由校团委审核，而是由学院管理员审核。
 departmentList = departmentList.filter(function (item) {
         return item != "校团委";
