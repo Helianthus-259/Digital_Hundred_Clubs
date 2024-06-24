@@ -219,7 +219,7 @@ onMounted(() => {
       item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
       item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
       item.establishmentDate = formatDate(new Date(item.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
-      return item.collegeReviewStatus === 1 && item.collegeReviewStatus === 1
+      return item.collegeReviewStatus === 1 
     })
     assignment()
   })
