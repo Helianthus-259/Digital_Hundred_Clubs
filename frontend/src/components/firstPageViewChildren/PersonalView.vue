@@ -2,7 +2,7 @@
 /* 标签栏样式 */
 .tabsBox {
     margin-top: 50px;
-    width: 20%;
+    width: auto;
     margin-left: 10%;
 }
 

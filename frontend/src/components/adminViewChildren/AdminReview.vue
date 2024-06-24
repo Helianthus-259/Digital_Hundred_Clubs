@@ -5,7 +5,7 @@
         <t-header>
           <t-head-menu theme="light" :default-value=tabName style="margin-right: 40px" @change="changeHandler">
             <template #logo>
-              <img height="28" src="https://tdesign.gtimg.com/site/baseLogo-light.png" alt="logo" />
+              <img height="28" src="@/assets/数字百团logo.png" alt="logo" />
             </template>
             <t-menu-item value="clubAnnualReview"> 社团年审 </t-menu-item>
             <t-menu-item value="clubAwardsReview"> 社团评优 </t-menu-item>
