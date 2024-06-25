@@ -16,6 +16,8 @@ public class UriConfiguration {
 
     private String activityServer = "lb://activity-server";
 
+    private String springAdmin = "lb://spring-admin";
+
     public String getAuthServer() {
         return authServer;
     }
@@ -62,5 +64,13 @@ public class UriConfiguration {
 
     public void setActivityServer(String activityServer) {
         this.activityServer = activityServer;
+    }
+
+    public String getSpringAdmin() {
+        return springAdmin;
+    }
+
+    public void setSpringAdmin(String springAdmin) {
+        this.springAdmin = springAdmin;
     }
 }

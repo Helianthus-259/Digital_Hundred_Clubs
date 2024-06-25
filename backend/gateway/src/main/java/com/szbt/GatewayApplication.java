@@ -31,37 +31,42 @@ public class GatewayApplication {
 
     @Bean
     public RouteLocator myRoutes(RouteLocatorBuilder builder, UriConfiguration uriConfiguration) {
-        String authServerUri = uriConfiguration.getAuthServer();
-        String studentServerUri = uriConfiguration.getStudentServer();
-        String fileServerUri = uriConfiguration.getFileServer();
-        String clubServerUri = uriConfiguration.getClubServer();
-        String adminServerUri = uriConfiguration.getAdminServer();
-        String activityServerUri = uriConfiguration.getActivityServer();
+        String authServerUrl = uriConfiguration.getAuthServer();
+        String studentServerUrl = uriConfiguration.getStudentServer();
+        String fileServerUrl = uriConfiguration.getFileServer();
+        String clubServerUrl = uriConfiguration.getClubServer();
+        String adminServerUrl = uriConfiguration.getAdminServer();
+        String activityServerUrl = uriConfiguration.getActivityServer();
+        String springAdminUrl = uriConfiguration.getSpringAdmin();
 
         return builder.routes()
                 .route("auth-route", r -> r.path("/api/auth/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(authServerUri))
+                        .uri(authServerUrl))
 
                 .route("student-route", r -> r.path("/api/student/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(studentServerUri))
+                        .uri(studentServerUrl))
 
                 .route("file-route", r -> r.path("/api/file/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(fileServerUri))
+                        .uri(fileServerUrl))
 
                 .route("club-route", r -> r.path("/api/club/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(clubServerUri))
+                        .uri(clubServerUrl))
 
                 .route("admin-route", r -> r.path("/api/admin/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(adminServerUri))
+                        .uri(adminServerUrl))
 
                 .route("activity-route", r -> r.path("/api/activity/**")
                         .filters(f -> f.rewritePath("/api/(?<segment>.*)", "/${segment}"))
-                        .uri(activityServerUri))
+                        .uri(activityServerUrl))
+
+//                .route("spring-admin", r -> r.path("/api/monitor/**")
+//                        .filters(f -> f.rewritePath("/api/monitor/.*", ""))
+//                        .uri(springAdminUrl))
                 .build();
     }
 
@@ -72,6 +77,9 @@ public class GatewayApplication {
 
         List<ServiceInstance> studentInstances = discoveryClient.getInstances("STUDENT-SERVER");
         System.out.println("student-server instances: " + studentInstances);
+
+        List<ServiceInstance> springAdminInstances = discoveryClient.getInstances("SPRING-ADMIN");
+        System.out.println("spring-admin instances: " + springAdminInstances);
     }
 
 }

@@ -1,0 +1,44 @@
+#服务名称
+spring:
+  application:
+    name: spring-admin
+  boot:
+    admin:
+      ui:
+        title: ${spring.application.name}
+        #public-url: http://localhost:8088/admin
+
+
+#服务端口
+server:
+  port: 8088
+
+#eureka地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:11011/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  health:
+    redis:
+      enabled: false  #防止因为redis而导致健康检查不过，导致在admin中显示应用状态为down
+    mail:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"   #这里因为是测试可以用*，暴露所有，但生产环境需要特别设置
+  endpoint:
+    health:
+      show-details: always
+    logfile:
+      external-file:
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/activity-server/output.log
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/admin-server/output.log
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/auth-server/output.log
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/club-server/output.log
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/file-server/output.log
+          - E:/Code/Java_Projects/2024_6_25/Digital_Hundred_Clubs/backend/logs/student-server/output.log

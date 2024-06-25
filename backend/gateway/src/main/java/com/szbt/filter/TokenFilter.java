@@ -37,7 +37,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public TokenFilter(JWTUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
         // 初始化绕过路径列表
-        this.bypassPaths = Arrays.asList("/api/auth/student/login", "/api/auth/student/register");
+        this.bypassPaths = Arrays.asList("/api/monitor");
         this.bypassPathPattern = Pattern.compile("^/api/file/downloadFile/.*");
         // 初始化绕过路径
         this.bypassPathPrefix = "/api/auth";
@@ -49,10 +49,10 @@ public class TokenFilter implements GlobalFilter, Ordered {
         String path = request.getPath().value();
         System.out.println("path:"+path);
 
-//        // 检查当前请求路径是否在绕过列表中
-//        if (bypassPaths.contains(path)) {
-//            return chain.filter(exchange);
-//        }
+        // 检查当前请求路径是否在绕过列表中
+        if (bypassPaths.contains(path)) {
+            return chain.filter(exchange);
+        }
 
         // 使用正则表达式匹配当前请求路径是否需要绕过Token认证
         if (bypassPathPattern.matcher(path).matches()) {
