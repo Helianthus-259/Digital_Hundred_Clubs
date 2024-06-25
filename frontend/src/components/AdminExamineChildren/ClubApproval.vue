@@ -31,7 +31,7 @@
         </t-space>
       </t-header>
       <t-space>
-        <t-table row-key="index" :data="data" :columns="columns" :hide-sort-tips="false" :stripe="stripe"
+        <t-table row-key="index" :data="data" :columns="columns" :hide-sort-tips="false" :stripe="stripe" :sort="sort" @sort-change="sortChange"
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
@@ -42,7 +42,7 @@
     </t-content>
   </t-layout>
   <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :confirm-btn="null"
-    :cancel-btn="null" :closeOnEscKeydown="false">
+    :cancel-btn="null" :closeOnEscKeydown="false" :onClose="closeDialog">
     <t-layout>
       <t-content>
         <div class="clubEvaluationContainer">
@@ -270,16 +270,39 @@ const columns = ref([
         </t-tag>
       );
     },
+    sorter: true,
   },
   { colKey: 'operation', title: '申请详情' }
 ]);
+const sort = ref({
+  sortBy: 'universityStudentUnionReviewStatus',
+  descending: false,
+});
+const request = (sort) => {
+  // 模拟异步请求，进行数据排序
+  const timer = setTimeout(() => {
+    if (sort) {
+      data.value = data.value
+        .concat()
+        .sort((a, b) => (sort.descending ? b[sort.sortBy] - a[sort.sortBy] : a[sort.sortBy] - b[sort.sortBy]));
+    } else {
+      data.value = data.value.concat();
+    }
+    clearTimeout(timer);
+  }, 100);
+};
 
+const sortChange = (val) => {
+  sort.value = val;
+  request(val);
+};
 
 const pagination = ref({
   defaultCurrent: 1,
   defaultPageSize: 5,
   total: data.value.length,
 });
+
 let rowValue=null;
 const closeDialog = () =>{
   rowValue=null;

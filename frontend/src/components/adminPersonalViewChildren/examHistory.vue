@@ -255,10 +255,33 @@ const columns = ref([
           </t-tag>
       );
     },
+    sorter: true,
   },
   { colKey: 'operation', title: '申请详情' }
 ]);
 
+const sort = ref({
+  sortBy: 'collegeReviewStatus',
+  descending: false,
+});
+
+const request = (sort) => {
+  // 模拟异步请求，进行数据排序
+  const timer = setTimeout(() => {
+    if (sort) {
+      data.value = data.value
+        .concat()
+        .sort((a, b) => (sort.descending ? b[sort.sortBy] - a[sort.sortBy] : a[sort.sortBy] - b[sort.sortBy]));
+    } else {
+      data.value = data.value.concat();
+    }
+    clearTimeout(timer);
+  }, 100);
+};
+const sortChange = (val) => {
+  sort.value = val;
+  request(val);
+};
 
 const pagination = ref({
   defaultCurrent: 1,
