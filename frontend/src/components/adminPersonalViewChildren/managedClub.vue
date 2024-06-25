@@ -53,7 +53,7 @@
 
 
       <!-- 社团信息卡 -->
-      <t-card class="user-info-list" v-for="item in clubInfo" :title="clubString" bordered>
+      <t-card class="user-info-list" v-for="item in clubInfo" :title="item.clubName + clubString" bordered>
         <template #actions>
           <t-button theme="primary" shape="square" variant="base" :disabled="choose !== -1 && choose !== item.clubId" @click="whileClick(item)">
             {{ item.clubId === choose ? '保存': '编辑' }}
@@ -155,7 +155,6 @@ onMounted(()=>{
   if (isEmptyObject(store.state.userInfo)) {
     eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
   } else {
-    console.log("userInfo已经获取信息！")
     admin.value = store.state.userInfo;
     clubInfo.value = admin.value.clubs.filter(item=>{
       return item.clubStatus === 1;

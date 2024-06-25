@@ -822,7 +822,6 @@ mock.onPost(path.updateClubDescription).reply((config) => {
 
 // 获取枚举列表mock
 mock.onGet(path.getEnumList).reply((config) => {
-    console.log(1111111111);
     return [200, {
         code: 41, // 41代表获取枚举列表成功
         data: {

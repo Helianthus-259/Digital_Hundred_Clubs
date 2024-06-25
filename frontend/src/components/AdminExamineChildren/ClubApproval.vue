@@ -205,21 +205,34 @@ const statusNameListMap = {
 };
 const clubsData = ref([])
 const data = ref([])
+const adminSort = ref();
 const universityStudentUnionReviewOpinion = ref("")
 function assignment() {
   pagination.value.total = clubsData.value.length
   data.value = clubsData.value
   console.log(data.value)
 }
-
+function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+}
 onMounted(() => {
+  if (isEmptyObject(store.state.userInfo)) {
+    eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
+  } else {
+    adminSort.value = store.state.userInfo.sort;
+  }
+
+  eventEmitter.on(APIEventEnum.getAdminInfoSuccess, 'getAdminInfoSuccess',(data) => {
+    adminSort.value = store.state.userInfo.sort;
+  })
+
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubsInfo)
   eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
     clubsData.value = data.filter(item => {
       item.mainCampus = JSON.parse(localStorage.getItem('enumList')).mainCampuses[item.mainCampus].name
       item.clubCategory = JSON.parse(localStorage.getItem('enumList')).clubCategories[item.clubCategory].name
       item.establishmentDate = formatDate(new Date(item.establishmentDate), 'yyyy-MM-dd hh:mm:ss')
-      return item.collegeReviewStatus === 1 
+      return item.collegeReviewStatus === 1 && adminSort.value !== 0;
     })
     assignment()
   })

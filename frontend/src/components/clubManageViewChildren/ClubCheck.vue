@@ -195,6 +195,8 @@ const handleReset = () => {
 
 // 同意申请
 const agreeApply = (row) => {
+    //在这里即时更新审核状态：更新为已通过
+    row.status=1
     eventEmitter.emit(APIEventEnum.request, APIEnum.postAgreeClubApply, { clubId, studentId: row.studentId })
 };
 
@@ -202,6 +204,8 @@ const agreeApply = (row) => {
 const rejectReason = ref('')
 let rejectRow = {}
 const rejectApply = (row) => {
+    //在这里即时更新审核状态：更新为已通过
+    row.status=0
     rejectRow = row
     dialogRef.value.openDialog();
 };

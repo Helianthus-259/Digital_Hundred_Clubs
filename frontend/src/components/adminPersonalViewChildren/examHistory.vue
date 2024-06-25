@@ -35,14 +35,14 @@
                  :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
                  :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
-            <t-button theme="primary" :disabled="row.collegeReviewStatus !== null" @click="detail(row)">申请详情</t-button>
+            <t-button theme="primary" @click="detail(row)">申请详情</t-button>
           </template>
         </t-table>
       </t-space>
     </t-content>
   </t-layout>
   <t-dialog v-model:visible="visibleModal" width="60%" top="20px" destroy-on-close="" :confirm-btn="null"
-            :cancel-btn="null" :closeOnEscKeydown="false">
+            :cancel-btn="null" :closeOnEscKeydown="false" :onClose="closeDialog">
     <t-layout>
       <t-content>
         <div class="clubEvaluationContainer">
@@ -145,10 +145,10 @@
               </t-row>
               <t-row id="table">
                 <t-col :span="6">
-                  <t-button size="large" theme="success" @click="passClubApproval">通过</t-button>
+                  <t-button size="large" :disabled="rowValue!==null && rowValue.collegeReviewStatus !== null" theme="success" @click="passClubApproval">通过</t-button>
                 </t-col>
                 <t-col :span="6">
-                  <t-button size="large" theme="danger" @click="unPassClubApproval">驳回</t-button>
+                  <t-button size="large" :disabled="rowValue!==null && rowValue.collegeReviewStatus !== null" theme="danger" @click="unPassClubApproval">驳回</t-button>
                 </t-col>
               </t-row>
             </t-row>
@@ -265,9 +265,13 @@ const pagination = ref({
   defaultPageSize: 5,
   total: data.value.length,
 });
-
+let rowValue=null;
+const closeDialog = () =>{
+  rowValue=null;
+}
 const detail = (value) => {
   visibleModal.value = true;
+  rowValue=value;
   // 获取社团信息
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, value.clubId)
 
@@ -293,6 +297,7 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
 })
 
 const passClubApproval = () => {
+  rowValue.collegeReviewStatus = 1
   eventEmitter.emit(APIEventEnum.request, APIEnum.passCollegeClubApproval, {
     recordId: clubInfo.value.recordId,
     collegeReviewOpinion: collegeReviewOpinion.value
@@ -300,6 +305,7 @@ const passClubApproval = () => {
 }
 
 const unPassClubApproval = () => {
+  rowValue.collegeReviewStatus = 0
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassCollegeClubApproval, {
     recordId: clubInfo.value.recordId,
     collegeReviewOpinion: collegeReviewOpinion.value
