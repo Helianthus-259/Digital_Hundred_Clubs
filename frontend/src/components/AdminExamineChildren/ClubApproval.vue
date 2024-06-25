@@ -35,7 +35,7 @@
           :bordered="bordered" :hover="hover" :table-layout="tableLayout ? 'auto' : 'fixed'" :size="size"
           :pagination="pagination" :show-header="showHeader" cell-empty-content="-" resizable="" lazy-load="">
           <template #operation="{ row }">
-            <t-button theme="primary" :disabled="row.universityStudentUnionReviewStatus !== null" @click="detail(row)">申请详情</t-button>
+            <t-button theme="primary" @click="detail(row)">申请详情</t-button>
           </template>
         </t-table>
       </t-space>
@@ -145,10 +145,10 @@
               </t-row>
               <t-row id="table">
                 <t-col :span="6">
-                  <t-button size="large" theme="success" @click="passClubApproval">通过</t-button>
+                  <t-button size="large" :disabled="rowValue!==null && rowValue.universityStudentUnionReviewStatus !== null" theme="success" @click="passClubApproval">通过</t-button>
                 </t-col>
                 <t-col :span="6">
-                  <t-button size="large" theme="danger" @click="unPassClubApproval">驳回</t-button>
+                  <t-button size="large" :disabled="rowValue!==null && rowValue.universityStudentUnionReviewStatus !== null" theme="danger" @click="unPassClubApproval">驳回</t-button>
                 </t-col>
               </t-row>
             </t-row>
@@ -280,9 +280,13 @@ const pagination = ref({
   defaultPageSize: 5,
   total: data.value.length,
 });
-
+let rowValue=null;
+const closeDialog = () =>{
+  rowValue=null;
+}
 const detail = (value) => {
   visibleModal.value = true;
+  rowValue=value
   // 获取社团信息
   eventEmitter.emit(APIEventEnum.request, APIEnum.getClubApproval, value.clubId)
 
@@ -327,7 +331,7 @@ const getFile = (file) =>{
 }
 
 eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess', () => {
-  console.log("success")
+  rowValue.universityStudentUnionReviewStatus = 1
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过社团建立申请成功',
@@ -336,6 +340,7 @@ eventEmitter.on(APIEventEnum.passClubApprovalSuccess, 'passClubApprovalSuccess',
 })
 
 eventEmitter.on(APIEventEnum.unPassClubApprovalSuccess, 'unPassClubApprovalSuccess', () => {
+  rowValue.universityStudentUnionReviewStatus = 0
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团建立申请成功',

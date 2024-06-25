@@ -297,7 +297,6 @@ eventEmitter.on(APIEventEnum.getClubApprovalSuccess, 'getClubApprovalSuccess', (
 })
 
 const passClubApproval = () => {
-  rowValue.collegeReviewStatus = 1
   eventEmitter.emit(APIEventEnum.request, APIEnum.passCollegeClubApproval, {
     recordId: clubInfo.value.recordId,
     collegeReviewOpinion: collegeReviewOpinion.value
@@ -305,7 +304,6 @@ const passClubApproval = () => {
 }
 
 const unPassClubApproval = () => {
-  rowValue.collegeReviewStatus = 0
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassCollegeClubApproval, {
     recordId: clubInfo.value.recordId,
     collegeReviewOpinion: collegeReviewOpinion.value
@@ -318,7 +316,7 @@ const getFile = (file) =>{
 }
 
 eventEmitter.on(APIEventEnum.passCollegeClubApprovalSuccess, 'passClubApprovalSuccess', () => {
-  console.log("success")
+  rowValue.collegeReviewStatus = 1
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过社团建立申请成功',
@@ -327,6 +325,7 @@ eventEmitter.on(APIEventEnum.passCollegeClubApprovalSuccess, 'passClubApprovalSu
 })
 
 eventEmitter.on(APIEventEnum.unPassCollegeClubApprovalSuccess, 'unPassClubApprovalSuccess', () => {
+  rowValue.collegeReviewStatus = 0
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团建立申请成功',
