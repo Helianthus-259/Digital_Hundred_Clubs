@@ -231,7 +231,7 @@
                                     </t-col>
                                     <t-col id="table" :span="4">
                                         <t-select v-model="item.category" style="width: 60%;">
-                                            <t-option label="成员大会" :value="1" />
+                                            <t-option label="全员大会" :value="1" />
                                             <t-option label="骨干例会" :value="0" />
                                         </t-select>
                                     </t-col>
@@ -777,7 +777,8 @@ onMounted(() => {
         clubEvaluation.isFinancialInformationPublic = data.isFinancialInformationPublic
     })
     eventEmitter.on(APIEventEnum.uploadFileSuccess, 'uploadFileSuccess', (data) => {
-        data = data.file
+        //这个loadFile似乎在上传图片时也会触发……
+        data = data.file//data=data.image
         clubEvaluation.clubEducationCaseAttachment = data.url
         MessagePlugin.success('文件上传成功')
     })

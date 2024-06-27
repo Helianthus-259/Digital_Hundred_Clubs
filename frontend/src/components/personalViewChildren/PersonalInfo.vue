@@ -238,6 +238,8 @@ import { MessagePlugin } from 'tdesign-vue-next';
 const dialogRef = ref(null);
 
 const openDialog = () => {
+    //无法在首次点开弹窗时加载用户本人的姓名等信息
+    getLeaderInfo()
     dialogRef.value.openDialog();
 };
 

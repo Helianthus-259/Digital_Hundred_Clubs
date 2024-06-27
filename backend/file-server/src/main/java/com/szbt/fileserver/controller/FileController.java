@@ -110,7 +110,7 @@ public class FileController {
             // 返回相对路径
             // 创建一个HashMap
             HashMap<String, Object> dataMap = new HashMap<>();
-            dataMap.put("code", ResultCode.UPLOAD_FILE.getCode());
+            dataMap.put("code", ResultCode.UPLOAD_IMAGE.getCode());
             dataMap.put("image", new FileVO(relativePath,flag));
             return Result.success(dataMap);
         } catch (IllegalStateException | IOException e) {
