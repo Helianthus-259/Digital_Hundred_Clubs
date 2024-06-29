@@ -69,10 +69,12 @@ export const APIEventEnum = {
     passClubAwardReviewSuccess: 'passClubAwardReviewSuccess',
     unPassClubAwardReviewSuccess: 'unPassClubAwardReviewSuccess',
     getDepartmentListSuccess: 'getDepartmentListSuccess',
+    sendVerifyCodeSuccess:'sendVerifyCodeSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
     registerError: 'registerError',
+    incorrectVerifyCode: 'incorrectVerifyCode',
 }
 
 export const APIEnum = {

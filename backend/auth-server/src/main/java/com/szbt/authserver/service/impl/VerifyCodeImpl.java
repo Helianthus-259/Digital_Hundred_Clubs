@@ -9,10 +9,9 @@ import com.szbt.authserver.util.SessionUtil;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
-import org.example.enums.StatusCode;
-import org.example.util.RedisKeyBuilder;
+import org.example.enums.ResultCode;
 import org.example.util.Result;
-import org.example.vo.SendMsg;
+import org.example.vo.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 
 @Service
@@ -66,27 +64,27 @@ public class VerifyCodeImpl implements VerifyCodeService {
 
     @Override
     public boolean checkImageVerifyCode(String code) {
-//        System.out.println("code："+code);
-//        HttpSession session = SessionUtil.session();
-//        String text = (String) session.getAttribute("key");
-//        System.out.println("text："+text);
-//        if (StringUtils.isBlank(text)) {
-//            return false;
-//            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
-//        }
-//        if (!code.equals(text)) {
-//            return false;
-//            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
-//        }
-//        //从session中移除验证码text
-//        session.removeAttribute("key");
-//        //return Result.success("图形验证码正确！");
+        System.out.println("code："+code);
+        HttpSession session = SessionUtil.session();
+        String text = (String) session.getAttribute("key");
+        System.out.println("text："+text);
+        if (StringUtils.isBlank(text)) {
+            return false;
+            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
+        }
+        if (!code.equals(text)) {
+            return false;
+            //return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,"图形验证码错误！");
+        }
+        //从session中移除验证码text
+        session.removeAttribute("key");
+        //return Result.success("图形验证码正确！");
         return true;
     }
 
     @Override
     public Object sendMailVerifyCode(String email) throws MessagingException {
-        return Result.success(new SendMsg("发送成功"));//先直接成功
+        return Result.success(new DataVO(ResultCode.SEND_VERIFY_CODE, "发送成功"));//先直接成功
 //        String verifyCode = emailUtil.generateCode (6);
 //        if (emailUtil.sendMail(email,"数字百团验证服务",verifyCode))
 //        {
@@ -98,7 +96,7 @@ public class VerifyCodeImpl implements VerifyCodeService {
 //            redisTemplate.opsForValue().set(emailKey, verifyCode, 300000, TimeUnit.MILLISECONDS);
 //            String storedToken = (String) redisTemplate.opsForValue().get(emailKey);
 //            System.out.println(storedToken);
-//            return Result.success(new SendMsg("发送成功"));
+//            return Result.success(new DataVO(ResultCode.SEND_VERIFY_CODE, "发送成功"));
 //        }
 //        return Result.send(StatusCode.SEND_VERIFY_CODE_ERROR,new SendMsg("发送失败"));
     }

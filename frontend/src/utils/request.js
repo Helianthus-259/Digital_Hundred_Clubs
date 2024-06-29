@@ -142,10 +142,11 @@ function successHandler(res) {
             eventEmitter.emit(APIEventEnum.postNewNoticeSuccess)
         } else if (response.data.code === 38) { // 发布新会议成功
             eventEmitter.emit(APIEventEnum.postNewMeetingSuccess)
-        } else if (response.data.code === 39) { // 获取图片验证码
-            const { imageUrl } = response.data
+        } else if (response.data.code === 39 || !response.data.code) { // 获取图片验证码(二进制数据拿不到code)
+            const imageUrl = response.data
             eventEmitter.emit(APIEventEnum.getImageVerifyCodeSuccess, imageUrl)
-        } else if (response.data.code === 40) { // 更新社团简介成功
+        }
+        else if (response.data.code === 40) { // 更新社团简介成功
             eventEmitter.emit(APIEventEnum.postUpdateClubDescriptionSuccess)
         } else if (response.data.code === 41) { // 获取枚举列表成功
             const { data } = response.data
@@ -230,11 +231,17 @@ function successHandler(res) {
             eventEmitter.emit(StoreEventEnum.set, StoreEnum.setDepartmentList, departmentList)
         } else if (response.data.code === 67){  // 注册管理员成功
             eventEmitter.emit(APIEventEnum.postAdminRegisterSuccess)
+        } else if (response.data.code === 68){  // 邮箱验证码发送成功
+            console.log(response.data)
+            eventEmitter.emit(APIEventEnum.sendVerifyCodeSuccess, response.data.data)
         }
         // 错误处理
     } else if (response.status === 2001) {    // 用户名或密码错误
         const msg = response.data.msg
         eventEmitter.emit(APIEventEnum.incorrectInput, msg)
+    } else if (response.status === 2004) {    // 图形验证码错误
+        const msg = response.data.msg
+        eventEmitter.emit(APIEventEnum.incorrectVerifyCode, msg)
     }
 }
 
