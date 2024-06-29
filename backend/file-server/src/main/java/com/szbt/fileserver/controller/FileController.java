@@ -1,7 +1,6 @@
 package com.szbt.fileserver.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -12,9 +11,9 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.example.constants.FileConstants;
 import org.example.enums.ResultCode;
 import org.example.enums.StatusCode;
+import org.example.util.FileRequestUrlBuilder;
 import org.example.util.Result;
 import org.example.vo.FileVO;
 import org.example.vo.SendMsg;
@@ -27,12 +26,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.imageio.ImageIO;
-import javax.print.DocFlavor;
 import java.awt.image.BufferedImage;
 import java.io.*;
-
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.UUID;
@@ -111,7 +107,12 @@ public class FileController {
             // 创建一个HashMap
             HashMap<String, Object> dataMap = new HashMap<>();
             dataMap.put("code", ResultCode.UPLOAD_IMAGE.getCode());
-            dataMap.put("image", new FileVO(relativePath,flag));
+            if(flag.equals("editor")){
+                relativePath = FileRequestUrlBuilder.buildFileRequestUrl(relativePath);
+                dataMap.put("image", new FileVO(relativePath,flag));
+            }else{
+                dataMap.put("image", new FileVO(relativePath,flag));
+            }
             return Result.success(dataMap);
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
