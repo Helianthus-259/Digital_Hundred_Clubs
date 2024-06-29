@@ -436,8 +436,16 @@ onMounted(() => {
     eventEmitter.on(APIEventEnum.registerError, 'registerError', (msg) => {
         MessagePlugin.error(msg)
     })
+    eventEmitter.on(APIEventEnum.sendVerifyCodeSuccess, 'sendVerifyCodeSuccess', (msg) => {
+        MessagePlugin.success(msg)
+    })
     eventEmitter.on(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess', (data) => {
-        imageUrl.value = data
+        imageUrl.value = window.URL.createObjectURL(data)
+    })
+    eventEmitter.on(APIEventEnum.incorrectVerifyCode, 'incorrectVerifyCode', () => {
+        MessagePlugin.warning("验证码错误，请验证后输入!")
+        loginForm.imageVerifyCode = ''
+        getImageVerifyCode()
     })
     // 获取枚举列表
     if (localStorage.getItem('enumList')) {
@@ -453,5 +461,6 @@ onUnmounted(() => {
     eventEmitter.off(APIEventEnum.incorrectInput, 'incorrectInput')
     eventEmitter.off(APIEventEnum.registerError, 'registerError')
     eventEmitter.off(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess')
+    eventEmitter.off(APIEventEnum.incorrectVerifyCode, 'incorrectVerifyCode')
 })
 </script>

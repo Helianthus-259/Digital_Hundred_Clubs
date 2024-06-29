@@ -32,7 +32,7 @@ const api = {
     })),
     'getVerifyCode': (params) => axios.get(path.verifyCode, { // 获取验证码
         params: {
-            email: params.email,
+            email: params,
         },
     }),
     'getClubsInfo': (params) => axios.get(path.clubsInfo, { // 获取社团信息
@@ -317,6 +317,7 @@ const api = {
         }
     })),
     'getImageVerifyCode': () => axios.get(path.getImageVerifyCode, { // 获取图片验证码
+        responseType:'blob'
     }),
     'postUpdateClubDescription': (params) => axios.post(path.updateClubDescription, toFormData({ // 更新社团简介
         params: {
