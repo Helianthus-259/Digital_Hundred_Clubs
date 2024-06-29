@@ -429,6 +429,7 @@ const unPassClubAnnualReview = () => {
 }
 
 eventEmitter.on(APIEventEnum.passClubAnnualReviewSuccess, 'passClubAnnualReviewSuccess', ()=>{
+  clearClubReviewInfo()
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过社团年审成功',
@@ -436,11 +437,51 @@ eventEmitter.on(APIEventEnum.passClubAnnualReviewSuccess, 'passClubAnnualReviewS
 })
 
 eventEmitter.on(APIEventEnum.unPassClubAnnualReviewSuccess, 'unPassClubAnnualReviewSuccess', ()=>{
+  clearClubReviewInfo()
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团年审成功',
   })
 })
+
+function clearClubReviewInfo(){
+  declarations.value = declarations.value.filter(declaration => { 
+    return declaration.declarationId !== choose.value
+  })
+  choose.value=-1
+  clubReviewInfo.value.declarationId= null,
+  clubReviewInfo.value.clubName= '',
+  clubReviewInfo.value.clubCategory= '',
+  clubReviewInfo.value.mainCompus= '',
+  clubReviewInfo.value.clubDescription= '',
+  clubReviewInfo.value.totalMembers= '',
+  clubReviewInfo.value.file= '',
+  clubReviewInfo.value.administrativeGuideTeacherName= '',
+  clubReviewInfo.value.businessGuideTeacherName= '',
+  clubReviewInfo.value.establishmentDate= '',
+  clubReviewInfo.value.contactPerson= '',
+  clubReviewInfo.value.contactPhone= '',
+  clubReviewInfo.value.clubStatus= '',
+  clubReviewInfo.value.responsibleDepartment='',
+  clubReviewInfo.value.politicalStatus= '',
+  clubReviewInfo.value.isFinancialInformationPublic='',
+  clubReviewInfo.value.publicityManagementInfo={
+    WeChatPublicAccount: { name: '', submitCount: '', Auditors: { name1: '', name2: '', name3: '' } },
+    WebSite: { has: '', name: '' },
+    Blog: { has: '', name: '' },
+    BiliBili: { has: '', name: '' },
+    TikTok: { has: '', name: '' },
+    WeChatVideoAccount: { has: '', name: '' },
+    KuaiShou: { has: '', name: '' },
+    Publication: { has: '', name: '' },
+    Other: { has: '', name: '' },
+  },
+  clubReviewInfo.value.meetingActivityListAttachment= '',
+  clubReviewInfo.value.externalSponsorshipAttachment='',
+  clubReviewInfo.value.clubConstitutionAttachment='',
+  clubReviewInfo.value.status=''
+}
+
 
 
 onUnmounted(() => {

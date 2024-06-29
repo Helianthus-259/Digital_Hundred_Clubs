@@ -566,8 +566,8 @@ const unPassClubAwardReview = () => {
   }
   eventEmitter.emit(APIEventEnum.request, APIEnum.unPassClubAwardReview, { recordId: clubEvaluationInfo.value.recordId })
 }
-
 eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuccess', () => {
+  clearClubEvaluationInfo()
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过社团评优成功',
@@ -575,11 +575,85 @@ eventEmitter.on(APIEventEnum.passClubAwardReviewSuccess, 'passClubAwardReviewSuc
 })
 
 eventEmitter.on(APIEventEnum.unPassClubAwardReviewSuccess, 'unPassClubAwardReviewSuccess', () => {
+  clearClubEvaluationInfo()
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回社团评优成功',
   })
 })
+
+function clearClubEvaluationInfo() {
+  evaluations.value = evaluations.value.filter(evaluation => { 
+    return evaluation.recordId !== choose.value
+  })
+  choose.value=-1
+  clubEvaluationInfo.value.recordId= null,
+  clubEvaluationInfo.value.clubName= '',
+  clubEvaluationInfo.value.handoverMethod= '',
+  clubEvaluationInfo.value.handoverParticipantsCount= '',
+  clubEvaluationInfo.value.isFinancialInformationPublic= '',
+  clubEvaluationInfo.value.totalMembers= '',
+  clubEvaluationInfo.value.administrativeGuideTeacherName= '',
+  clubEvaluationInfo.value.businessGuideTeacherName= '',
+  clubEvaluationInfo.value.backboneNumber= '',
+  clubEvaluationInfo.value.communistRelatedBackBoneNumber= '',
+  clubEvaluationInfo.value.declarationYear= '',
+  clubEvaluationInfo.value.guideTeacher= '',
+  clubEvaluationInfo.value.meetings= [
+    {
+      meetingTime: '',
+      location: '',
+      category: '',//0全员大会,1骨干例会
+    }
+  ],
+  clubEvaluationInfo.value.associationAwards= [
+    {
+      awardName: '',
+      awardTime: '',
+      issuingAuthority: ''
+    }
+  ],
+  clubEvaluationInfo.value.publicityManagementEffectiveness= {
+    submissionsCount: '',
+    PublicityAboveSchoolLevel: [
+      {
+        platform: '',
+        content: '',
+      }
+    ],
+  },
+  clubEvaluationInfo.value.hostedSchoolLevelActivities= {
+    schoolLv: [
+      {
+        host: '',
+        activityName: '',
+      }
+    ],
+    municipal: [
+      {
+        host: '',
+        activityName: '',
+      }
+    ],
+    provincial: [
+      {
+        host: '',
+        activityName: '',
+      }
+    ]
+  },
+  clubEvaluationInfo.value.activities= [
+    {
+      activityName: '',
+      activityEndTime: '',
+      activityEffect: '',
+    }
+  ],
+  clubEvaluationInfo.value.imageUrl= '',
+  clubEvaluationInfo.value.clubEducationCaseAttachment= ''
+  clubEvaluationInfo.value.clubWorkIntroduction= ''
+}
+
 
 
 

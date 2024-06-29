@@ -269,6 +269,7 @@ const unPassBackboneAwardsReview = () => {
 }
 
 eventEmitter.on(APIEventEnum.passBackboneAwardsReviewSuccess, 'passBackboneAwardsReviewSuccess', ()=>{
+  clearBackBoneEvaluate()
   NotifyPlugin.success({
     title: '操作成功',
     content: '通过骨干申请成功',
@@ -276,11 +277,43 @@ eventEmitter.on(APIEventEnum.passBackboneAwardsReviewSuccess, 'passBackboneAward
 })
 
 eventEmitter.on(APIEventEnum.unPassBackboneAwardsReviewSuccess, 'unPassBackboneAwardsReviewSuccess', ()=>{
+  clearBackBoneEvaluate()
   NotifyPlugin.info({
     title: '操作成功',
     content: '驳回骨干申请成功',
   })
 })
+
+function clearBackBoneEvaluate(){
+  backBoneEvaluations.value = backBoneEvaluations.value.filter(backBoneEvaluation => { 
+    return backBoneEvaluation.recordId !== choose.value
+  })
+  choose.value=-1
+  backBoneEvaluate.value.recordId=null,
+  backBoneEvaluate.value.stName= '',
+  backBoneEvaluate.value.studentNumber= '',
+  backBoneEvaluate.value.contact= '',
+  backBoneEvaluate.value.college= '',
+  backBoneEvaluate.value.politicalStatus= '',
+  backBoneEvaluate.value.clubName='',
+  backBoneEvaluate.value.position= '',
+  backBoneEvaluate.value.tenurePeriod= '',
+  backBoneEvaluate.value.achievements= {
+    gpa: '',
+    rank: '',
+    rankRatio: '',
+  },
+  backBoneEvaluate.value.trainingParticipation= [
+    { time: '', location: '', organization: '' },
+  ],
+  backBoneEvaluate.value.associationAwards= [
+    { name: '', time: '', organization: '' },
+  ],
+  backBoneEvaluate.value.awards= [
+    { name: '', time: '', organization: '' },
+  ],
+  backBoneEvaluate.value.clubWorkStatus= ''
+}
 
 
 onUnmounted(() => {
