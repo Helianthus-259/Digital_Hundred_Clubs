@@ -10,8 +10,11 @@ import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.example.enums.ResultCode;
+import org.example.enums.StatusCode;
+import org.example.util.RedisKeyBuilder;
 import org.example.util.Result;
 import org.example.vo.DataVO;
+import org.example.vo.SendMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
