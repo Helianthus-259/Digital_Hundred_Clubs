@@ -37,7 +37,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public TokenFilter(JWTUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
         // 初始化绕过路径列表
-        this.bypassPaths = Arrays.asList("/api/monitor");
+        this.bypassPaths = Arrays.asList("/api/club/topTenClubs","api/club/clubsInfo","api/activity/latestActivities");
         this.bypassPathPattern = Pattern.compile("^/api/file/downloadFile/.*");
         // 初始化绕过路径
         this.bypassPathPrefix = "/api/auth";
