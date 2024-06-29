@@ -28,7 +28,7 @@
             <template #item="{ item, index }">
                 <div class="card" @click="handleRouter(item.clubId)">
                     <div style="cursor: pointer;">
-                        <img v-lazy="item.imageUrl" class="lazy-img" />
+                        <img v-lazy="item.imageUrl" class="lazy-img" style="height:300px;" />
                     </div>
                     <p class="text">{{ item.clubName }}</p>
                     <p class="text" v-html="item.clubDescription === null ? item.clubDescription :
