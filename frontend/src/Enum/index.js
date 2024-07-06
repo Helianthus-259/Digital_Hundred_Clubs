@@ -69,7 +69,7 @@ export const APIEventEnum = {
     passClubAwardReviewSuccess: 'passClubAwardReviewSuccess',
     unPassClubAwardReviewSuccess: 'unPassClubAwardReviewSuccess',
     getDepartmentListSuccess: 'getDepartmentListSuccess',
-    sendVerifyCodeSuccess:'sendVerifyCodeSuccess',
+    sendVerifyCodeSuccess: 'sendVerifyCodeSuccess',
 
     // 请求失败事件
     incorrectInput: 'incorrectInput',
@@ -179,4 +179,5 @@ export const StoreEnum = {
 export const TypeEventEnum = {
     addType: 'addType',
     removeType: 'removeType',
+    search: 'search',
 }

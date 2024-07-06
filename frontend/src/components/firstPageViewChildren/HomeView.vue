@@ -23,7 +23,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 10px 0;
+    padding: 0;
 }
 
 .checkBoxes {
@@ -105,15 +105,26 @@
     <!-- 主体内容 -->
     <div class="mainContainer">
         <div class="sideContainer">
+            <img src="@/assets/数字百团logo.png"
+                style="width: 100px; height: auto; margin: 5px auto 0 auto; display: block;" alt="logo">
+            <t-divider style="margin: 0;" />
             <div class="sideBar">
                 <t-menu :value="routerNames" @change="onChange">
                     <t-menu-item v-for="(item, index) in routerlist" :value="item.value" :content="item.label">
                     </t-menu-item>
                 </t-menu>
             </div>
-            <t-divider />
-            <div class="">
-                <div class="checkBoxes" v-if="checkedShow">
+            <t-divider style="margin: 0;" />
+            <div v-if="checkedShow">
+                <div style="margin:5px 0 5px 5px; font-size: 16px;">搜索：</div>
+                <t-input v-model="searchValue" placeholder="输入社团名称" style="width: 90%; margin: 8px;"
+                    :onEnter="onSearch">
+                    <template #suffix-icon>
+                        <t-icon name="search" @click="onSearch" />
+                    </template>
+                </t-input>
+                <div style="margin:5px 0 5px 5px; font-size: 16px;">筛选：</div>
+                <div class="checkBoxes">
                     <t-checkbox v-for="item in enumList" :key="item.code" :label="item.name" default-checked
                         icon="rectangle" @change="(checked) => checkChange(checked, item.code)" />
                 </div>
@@ -177,9 +188,9 @@ const onChange = (value) => {
 }
 
 // 搜索信息
-const onSearch = (value) => {
-    console.log(1111111111111)
-    console.log(sprotChecked.value);
+const searchValue = ref('')
+const onSearch = () => {
+    eventEmitter.emit(TypeEventEnum.search, searchValue.value)
 }
 
 // 复选框被选中后更改clubsView中的社团展示
@@ -189,6 +200,7 @@ const checkChange = (checked, type) => {
     } else {
         eventEmitter.emit(TypeEventEnum.removeType, type);
     }
+    searchValue.value = '';
 }
 
 // 点击轮播图图片跳转到社团详情页

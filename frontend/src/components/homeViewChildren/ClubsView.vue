@@ -42,7 +42,7 @@
 <script setup>
 import { Waterfall } from 'vue-waterfall-plugin-next'
 import 'vue-waterfall-plugin-next/dist/style.css'
-import { onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import eventEmitter from '@/utils/eventEmitter';
 import { APIEnum, APIEventEnum, RouterEventEnum, StoreEnum, StoreEventEnum, TypeEventEnum } from '@/Enum';
 import store from '@/store';
@@ -67,24 +67,32 @@ const handleRouter = (clubId) => {
     eventEmitter.emit(RouterEventEnum.push, `/club/${clubId}/`)
 }
 
-eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
-    clubs.value = data
-    clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null })
-})
 
-eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {
-    const add = clubs.value.filter(item => item.clubCategory === +type)
-    clubsView.value.push(...add)
-})
+onMounted(() => {
+    eventEmitter.on(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess', (data) => {
+        clubs.value = data
+        clubsView.value = clubs.value.filter(club => { return club.clubStatus !== null })
+    })
 
-eventEmitter.on(TypeEventEnum.removeType, 'removeType', (type) => {
-    const remove = clubs.value.filter(item => item.clubCategory === +type)
-    clubsView.value = clubsView.value.filter(item => !remove.includes(item))
+    eventEmitter.on(TypeEventEnum.addType, 'addType', (type) => {
+        const add = clubs.value.filter(item => item.clubCategory === +type)
+        clubsView.value.push(...add)
+    })
+
+    eventEmitter.on(TypeEventEnum.removeType, 'removeType', (type) => {
+        const remove = clubs.value.filter(item => item.clubCategory === +type)
+        clubsView.value = clubsView.value.filter(item => !remove.includes(item))
+    })
+
+    eventEmitter.on(TypeEventEnum.search, 'search', (searchValue) => {
+        clubsView.value = clubs.value.filter(item => item.clubName.includes(searchValue))
+    })
 })
 
 onUnmounted(() => {
     eventEmitter.off(APIEventEnum.getClubsInfoSuccess, 'getClubsInfoSuccess')
     eventEmitter.off(TypeEventEnum.addType, 'addType')
     eventEmitter.off(TypeEventEnum.removeType, 'removeType')
+    eventEmitter.off(TypeEventEnum.search, 'search')
 })
 </script>
