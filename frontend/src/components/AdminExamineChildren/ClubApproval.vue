@@ -111,7 +111,7 @@
                   <div class="text">类别</div>
                 </t-col>
                 <t-col :span="2" id="table">
-                  {{ clubInfo.contactPerson }}
+                  学生
                 </t-col>
                 <t-col :span="2" id="table">
                   <div class="text" id="table">手机</div>

@@ -31,7 +31,7 @@ public class AdministratorServiceImpl extends ServiceImpl<AdministratorMapper, A
     private JWTUtils jwtUtils;
     @Override
     public Object login(String account, String password, boolean ok) {
-        if(!ok) return Result.send(StatusCode.VERIFY_MAIL_CODE_ERROR,new SendMsg("邮箱验证码错误"));
+        if(!ok) return Result.send(StatusCode.VERIFY_IMAGE_CODE_ERROR,new SendMsg("图形验证码错误"));
         QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", account);
         Administrator administrator = administratorMapper.selectOne(queryWrapper,true);
