@@ -68,6 +68,22 @@
             <t-form-item label="密码" name="password">
                 <t-input type="password" placeholder="请输入密码" v-model="adminLoginForm.password"/>
             </t-form-item>
+            <t-form-item name="password">
+              <div
+                  style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                <t-input style="width: 40%;" placeholder="请输入验证码" v-model="adminLoginForm.imageVerifyCode">
+                  <template #prefix-icon>
+                    <t-icon name="check-circle" />
+                  </template>
+                </t-input>
+                <div style="width: 50%;">
+                  <t-popup content="点击刷新" placement="right">
+                    <img style="width: 100%; cursor: pointer;" :src="imageUrl" alt="验证码"
+                         @click="getImageVerifyCode">
+                  </t-popup>
+                </div>
+              </div>
+            </t-form-item>
             <div style="width: 100%; display: flex; justify-content:space-around; margin-top: 5%;">
                 <t-button theme="primary" type="submit" @click="adminHandleLogin">登录</t-button>
             </div>
@@ -78,11 +94,19 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import fixedLabelBar from '../components/FixedLabelBar.vue';
-import {reactive, ref, computed, onUnmounted} from 'vue';
+import {reactive, ref, computed, onUnmounted, onMounted} from 'vue';
 import eventEmitter from '../utils/eventEmitter.js'
 import { APIEnum, APIEventEnum } from '../Enum'
 import store from '@/store';
 import {MessagePlugin} from "tdesign-vue-next";
+
+const imageUrl = ref('')
+const getImageVerifyCode = () => {
+  eventEmitter.emit(APIEventEnum.request, APIEnum.getImageVerifyCode)
+}
+// 获取图形验证码
+eventEmitter.emit(APIEventEnum.request, APIEnum.getImageVerifyCode)
+
 
 // 为了方便测试，每次都初始化一个正确的管理员账号
 const adminLoginForm = reactive({
@@ -109,14 +133,27 @@ const adminHandleLogin = () => {
         eventEmitter.emit(APIEventEnum.request, APIEnum.postAdminLogin, adminLoginForm)
     }
 }
-
-eventEmitter.on(APIEventEnum.postAdminLoginSuccess,'postAdminLoginSuccess',()=>{
-    MessagePlugin.success('登录成功')
-    eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
+onMounted(() => {
+    eventEmitter.on(APIEventEnum.postAdminLoginSuccess,'postAdminLoginSuccess',()=>{
+      MessagePlugin.success('登录成功')
+      eventEmitter.emit(APIEventEnum.request, APIEnum.getAdminInfo, { adminId: store.state.adminId })
+    })
+  eventEmitter.on(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess', (data) => {
+    imageUrl.value = window.URL.createObjectURL(data)
+  })
+  eventEmitter.on(APIEventEnum.incorrectVerifyCode, 'incorrectVerifyCode', () => {
+    MessagePlugin.warning("验证码错误，请验证后输入!")
+    imageUrl.value = ''
+    getImageVerifyCode()
+  })
 })
+
+
 
 onUnmounted(() => {
   eventEmitter.off(APIEventEnum.postAdminLoginSuccess, 'postAdminLoginSuccess')
+  eventEmitter.off(APIEventEnum.getImageVerifyCodeSuccess, 'getImageVerifyCodeSuccess')
+  eventEmitter.off(APIEventEnum.incorrectVerifyCode, 'incorrectVerifyCode')
 })
 
 </script>

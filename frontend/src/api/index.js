@@ -92,6 +92,7 @@ const api = {
         params: {
             account: params.adminId,
             password: params.password,
+            imageVerifyCode: params.imageVerifyCode,
         }
     })),
     'postAdminRegister': (params) => axios.post(path.postAdminRegister, toFormData({ //管理员登录
@@ -225,7 +226,7 @@ const api = {
             administrativeGuideTeacherName: params.administrativeGuideTeacherName,
             businessGuideTeacherName: params.businessGuideTeacherName,
             mainCompus: params.mainCampus,
-            isFinancialInformationPublic: params.isFinancialInformationPublic,
+            isFinancialInformationPublic: params.isFinancialInformationPublic ? '0' : params.isFinancialInformationPublic,
             imageUrl: params.imageUrl,
         }
     })),
