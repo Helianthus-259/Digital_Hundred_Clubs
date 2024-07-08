@@ -23,19 +23,15 @@ import org.example.vo.SendMsg;
 import org.example.vo.SingleCodeVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
 * @author 小壳儿
@@ -168,10 +164,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club>
                 .eq(Club::getClubId,clubId);
         try {
             Object clubDescription = clubMapper.selectOne(wrapper, true).getClubDescription();
-            System.out.println(clubDescription.getClass());
-            System.out.println(clubDescription);
             clubDescription = MyJsonParser.parserJsonText(clubDescription);
-            System.out.println(clubDescription);
             return Result.success(new ClubDescriptionVO(ResultCode.GET_CLUB_INTRODUCTION,clubDescription));
         } catch (Exception e) {
             String exceptionAsString = e.toString();
